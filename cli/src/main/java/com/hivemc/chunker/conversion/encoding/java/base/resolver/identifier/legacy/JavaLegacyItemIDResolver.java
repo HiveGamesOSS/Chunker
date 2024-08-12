@@ -1,0 +1,360 @@
+package com.hivemc.chunker.conversion.encoding.java.base.resolver.identifier.legacy;
+
+import com.hivemc.chunker.conversion.encoding.base.Version;
+import com.hivemc.chunker.resolver.Resolver;
+import com.hivemc.chunker.util.InvertibleMap;
+
+import java.util.Optional;
+
+/**
+ * Resolver to convert between legacy item identifiers and the item ID.
+ */
+public class JavaLegacyItemIDResolver implements Resolver<Integer, String> {
+    private final InvertibleMap<String, Integer> mapping = InvertibleMap.intValues();
+
+    /**
+     * Create a new legacy item ID resolver.
+     *
+     * @param version the java version.
+     */
+    public JavaLegacyItemIDResolver(Version version) {
+        // Items for 1.8 and below
+        mapping.put("minecraft:stone", 1);
+        mapping.put("minecraft:grass", 2);
+        mapping.put("minecraft:dirt", 3);
+        mapping.put("minecraft:cobblestone", 4);
+        mapping.put("minecraft:planks", 5);
+        mapping.put("minecraft:sapling", 6);
+        mapping.put("minecraft:bedrock", 7);
+        mapping.put("minecraft:flowing_water", 8);
+        mapping.put("minecraft:water", 9);
+        mapping.put("minecraft:flowing_lava", 10);
+        mapping.put("minecraft:lava", 11);
+        mapping.put("minecraft:sand", 12);
+        mapping.put("minecraft:gravel", 13);
+        mapping.put("minecraft:gold_ore", 14);
+        mapping.put("minecraft:iron_ore", 15);
+        mapping.put("minecraft:coal_ore", 16);
+        mapping.put("minecraft:log", 17);
+        mapping.put("minecraft:leaves", 18);
+        mapping.put("minecraft:sponge", 19);
+        mapping.put("minecraft:glass", 20);
+        mapping.put("minecraft:lapis_ore", 21);
+        mapping.put("minecraft:lapis_block", 22);
+        mapping.put("minecraft:dispenser", 23);
+        mapping.put("minecraft:sandstone", 24);
+        mapping.put("minecraft:noteblock", 25);
+        mapping.put("minecraft:golden_rail", 27);
+        mapping.put("minecraft:detector_rail", 28);
+        mapping.put("minecraft:sticky_piston", 29);
+        mapping.put("minecraft:web", 30);
+        mapping.put("minecraft:tallgrass", 31);
+        mapping.put("minecraft:deadbush", 32);
+        mapping.put("minecraft:piston", 33);
+        mapping.put("minecraft:wool", 35);
+        mapping.put("minecraft:yellow_flower", 37);
+        mapping.put("minecraft:red_flower", 38);
+        mapping.put("minecraft:brown_mushroom", 39);
+        mapping.put("minecraft:red_mushroom", 40);
+        mapping.put("minecraft:gold_block", 41);
+        mapping.put("minecraft:iron_block", 42);
+        mapping.put("minecraft:double_stone_slab", 43);
+        mapping.put("minecraft:stone_slab", 44);
+        mapping.put("minecraft:brick_block", 45);
+        mapping.put("minecraft:tnt", 46);
+        mapping.put("minecraft:bookshelf", 47);
+        mapping.put("minecraft:mossy_cobblestone", 48);
+        mapping.put("minecraft:obsidian", 49);
+        mapping.put("minecraft:torch", 50);
+        mapping.put("minecraft:fire", 51);
+        mapping.put("minecraft:mob_spawner", 52);
+        mapping.put("minecraft:oak_stairs", 53);
+        mapping.put("minecraft:chest", 54);
+        mapping.put("minecraft:diamond_ore", 56);
+        mapping.put("minecraft:diamond_block", 57);
+        mapping.put("minecraft:crafting_table", 58);
+        mapping.put("minecraft:farmland", 60);
+        mapping.put("minecraft:furnace", 61);
+        mapping.put("minecraft:lit_furnace", 62);
+        mapping.put("minecraft:ladder", 65);
+        mapping.put("minecraft:rail", 66);
+        mapping.put("minecraft:stone_stairs", 67);
+        mapping.put("minecraft:lever", 69);
+        mapping.put("minecraft:stone_pressure_plate", 70);
+        mapping.put("minecraft:wooden_pressure_plate", 72);
+        mapping.put("minecraft:redstone_ore", 73);
+        mapping.put("minecraft:redstone_torch", 76);
+        mapping.put("minecraft:stone_button", 77);
+        mapping.put("minecraft:snow_layer", 78);
+        mapping.put("minecraft:ice", 79);
+        mapping.put("minecraft:snow", 80);
+        mapping.put("minecraft:cactus", 81);
+        mapping.put("minecraft:clay", 82);
+        mapping.put("minecraft:jukebox", 84);
+        mapping.put("minecraft:fence", 85);
+        mapping.put("minecraft:pumpkin", 86);
+        mapping.put("minecraft:netherrack", 87);
+        mapping.put("minecraft:soul_sand", 88);
+        mapping.put("minecraft:glowstone", 89);
+        mapping.put("minecraft:portal", 90);
+        mapping.put("minecraft:lit_pumpkin", 91);
+        mapping.put("minecraft:stained_glass", 95);
+        mapping.put("minecraft:trapdoor", 96);
+        mapping.put("minecraft:monster_egg", 97);
+        mapping.put("minecraft:stonebrick", 98);
+        mapping.put("minecraft:brown_mushroom_block", 99);
+        mapping.put("minecraft:red_mushroom_block", 100);
+        mapping.put("minecraft:iron_bars", 101);
+        mapping.put("minecraft:glass_pane", 102);
+        mapping.put("minecraft:melon_block", 103);
+        mapping.put("minecraft:vine", 106);
+        mapping.put("minecraft:fence_gate", 107);
+        mapping.put("minecraft:brick_stairs", 108);
+        mapping.put("minecraft:stone_brick_stairs", 109);
+        mapping.put("minecraft:mycelium", 110);
+        mapping.put("minecraft:waterlily", 111);
+        mapping.put("minecraft:nether_brick", 112);
+        mapping.put("minecraft:nether_brick_fence", 113);
+        mapping.put("minecraft:nether_brick_stairs", 114);
+        mapping.put("minecraft:enchanting_table", 116);
+        mapping.put("minecraft:end_portal", 119);
+        mapping.put("minecraft:end_portal_frame", 120);
+        mapping.put("minecraft:end_stone", 121);
+        mapping.put("minecraft:dragon_egg", 122);
+        mapping.put("minecraft:redstone_lamp", 123);
+        mapping.put("minecraft:double_wooden_slab", 125);
+        mapping.put("minecraft:wooden_slab", 126);
+        mapping.put("minecraft:cocoa", 127);
+        mapping.put("minecraft:sandstone_stairs", 128);
+        mapping.put("minecraft:emerald_ore", 129);
+        mapping.put("minecraft:ender_chest", 130);
+        mapping.put("minecraft:tripwire_hook", 131);
+        mapping.put("minecraft:emerald_block", 133);
+        mapping.put("minecraft:spruce_stairs", 134);
+        mapping.put("minecraft:birch_stairs", 135);
+        mapping.put("minecraft:jungle_stairs", 136);
+        mapping.put("minecraft:command_block", 137);
+        mapping.put("minecraft:beacon", 138);
+        mapping.put("minecraft:cobblestone_wall", 139);
+        mapping.put("minecraft:carrots", 141);
+        mapping.put("minecraft:potatoes", 142);
+        mapping.put("minecraft:wooden_button", 143);
+        mapping.put("minecraft:anvil", 145);
+        mapping.put("minecraft:trapped_chest", 146);
+        mapping.put("minecraft:light_weighted_pressure_plate", 147);
+        mapping.put("minecraft:heavy_weighted_pressure_plate", 148);
+        mapping.put("minecraft:daylight_detector", 151);
+        mapping.put("minecraft:redstone_block", 152);
+        mapping.put("minecraft:quartz_ore", 153);
+        mapping.put("minecraft:hopper", 154);
+        mapping.put("minecraft:quartz_block", 155);
+        mapping.put("minecraft:quartz_stairs", 156);
+        mapping.put("minecraft:activator_rail", 157);
+        mapping.put("minecraft:dropper", 158);
+        mapping.put("minecraft:stained_hardened_clay", 159);
+        mapping.put("minecraft:stained_glass_pane", 160);
+        mapping.put("minecraft:leaves2", 161);
+        mapping.put("minecraft:log2", 162);
+        mapping.put("minecraft:acacia_stairs", 163);
+        mapping.put("minecraft:dark_oak_stairs", 164);
+        mapping.put("minecraft:hay_block", 170);
+        mapping.put("minecraft:carpet", 171);
+        mapping.put("minecraft:hardened_clay", 172);
+        mapping.put("minecraft:coal_block", 173);
+        mapping.put("minecraft:packed_ice", 174);
+        mapping.put("minecraft:double_plant", 175);
+        mapping.put("minecraft:iron_shovel", 256);
+        mapping.put("minecraft:iron_pickaxe", 257);
+        mapping.put("minecraft:iron_axe", 258);
+        mapping.put("minecraft:flint_and_steel", 259);
+        mapping.put("minecraft:apple", 260);
+        mapping.put("minecraft:bow", 261);
+        mapping.put("minecraft:arrow", 262);
+        mapping.put("minecraft:coal", 263);
+        mapping.put("minecraft:diamond", 264);
+        mapping.put("minecraft:iron_ingot", 265);
+        mapping.put("minecraft:gold_ingot", 266);
+        mapping.put("minecraft:iron_sword", 267);
+        mapping.put("minecraft:wooden_sword", 268);
+        mapping.put("minecraft:wooden_shovel", 269);
+        mapping.put("minecraft:wooden_pickaxe", 270);
+        mapping.put("minecraft:wooden_axe", 271);
+        mapping.put("minecraft:stone_sword", 272);
+        mapping.put("minecraft:stone_shovel", 273);
+        mapping.put("minecraft:stone_pickaxe", 274);
+        mapping.put("minecraft:stone_axe", 275);
+        mapping.put("minecraft:diamond_sword", 276);
+        mapping.put("minecraft:diamond_shovel", 277);
+        mapping.put("minecraft:diamond_pickaxe", 278);
+        mapping.put("minecraft:diamond_axe", 279);
+        mapping.put("minecraft:stick", 280);
+        mapping.put("minecraft:bowl", 281);
+        mapping.put("minecraft:mushroom_stew", 282);
+        mapping.put("minecraft:golden_sword", 283);
+        mapping.put("minecraft:golden_shovel", 284);
+        mapping.put("minecraft:golden_pickaxe", 285);
+        mapping.put("minecraft:golden_axe", 286);
+        mapping.put("minecraft:string", 287);
+        mapping.put("minecraft:feather", 288);
+        mapping.put("minecraft:gunpowder", 289);
+        mapping.put("minecraft:wooden_hoe", 290);
+        mapping.put("minecraft:stone_hoe", 291);
+        mapping.put("minecraft:iron_hoe", 292);
+        mapping.put("minecraft:diamond_hoe", 293);
+        mapping.put("minecraft:golden_hoe", 294);
+        mapping.put("minecraft:wheat_seeds", 295);
+        mapping.put("minecraft:wheat", 296);
+        mapping.put("minecraft:bread", 297);
+        mapping.put("minecraft:leather_helmet", 298);
+        mapping.put("minecraft:leather_chestplate", 299);
+        mapping.put("minecraft:leather_leggings", 300);
+        mapping.put("minecraft:leather_boots", 301);
+        mapping.put("minecraft:chainmail_helmet", 302);
+        mapping.put("minecraft:chainmail_chestplate", 303);
+        mapping.put("minecraft:chainmail_leggings", 304);
+        mapping.put("minecraft:chainmail_boots", 305);
+        mapping.put("minecraft:iron_helmet", 306);
+        mapping.put("minecraft:iron_chestplate", 307);
+        mapping.put("minecraft:iron_leggings", 308);
+        mapping.put("minecraft:iron_boots", 309);
+        mapping.put("minecraft:diamond_helmet", 310);
+        mapping.put("minecraft:diamond_chestplate", 311);
+        mapping.put("minecraft:diamond_leggings", 312);
+        mapping.put("minecraft:diamond_boots", 313);
+        mapping.put("minecraft:golden_helmet", 314);
+        mapping.put("minecraft:golden_chestplate", 315);
+        mapping.put("minecraft:golden_leggings", 316);
+        mapping.put("minecraft:golden_boots", 317);
+        mapping.put("minecraft:flint", 318);
+        mapping.put("minecraft:porkchop", 319);
+        mapping.put("minecraft:cooked_porkchop", 320);
+        mapping.put("minecraft:painting", 321);
+        mapping.put("minecraft:golden_apple", 322);
+        mapping.put("minecraft:sign", 323);
+        mapping.put("minecraft:wooden_door", 324);
+        mapping.put("minecraft:bucket", 325);
+        mapping.put("minecraft:water_bucket", 326);
+        mapping.put("minecraft:lava_bucket", 327);
+        mapping.put("minecraft:minecart", 328);
+        mapping.put("minecraft:saddle", 329);
+        mapping.put("minecraft:iron_door", 330);
+        mapping.put("minecraft:redstone", 331);
+        mapping.put("minecraft:snowball", 332);
+        mapping.put("minecraft:boat", 333);
+        mapping.put("minecraft:leather", 334);
+        mapping.put("minecraft:milk_bucket", 335);
+        mapping.put("minecraft:brick", 336);
+        mapping.put("minecraft:clay_ball", 337);
+        mapping.put("minecraft:reeds", 338);
+        mapping.put("minecraft:paper", 339);
+        mapping.put("minecraft:book", 340);
+        mapping.put("minecraft:slime_ball", 341);
+        mapping.put("minecraft:chest_minecart", 342);
+        mapping.put("minecraft:furnace_minecart", 343);
+        mapping.put("minecraft:egg", 344);
+        mapping.put("minecraft:compass", 345);
+        mapping.put("minecraft:fishing_rod", 346);
+        mapping.put("minecraft:clock", 347);
+        mapping.put("minecraft:glowstone_dust", 348);
+        mapping.put("minecraft:fish", 349);
+        mapping.put("minecraft:cooked_fished", 350);
+        mapping.put("minecraft:dye", 351);
+        mapping.put("minecraft:bone", 352);
+        mapping.put("minecraft:sugar", 353);
+        mapping.put("minecraft:cake", 354);
+        mapping.put("minecraft:bed", 355);
+        mapping.put("minecraft:repeater", 356);
+        mapping.put("minecraft:cookie", 357);
+        mapping.put("minecraft:filled_map", 358);
+        mapping.put("minecraft:shears", 359);
+        mapping.put("minecraft:melon", 360);
+        mapping.put("minecraft:pumpkin_seeds", 361);
+        mapping.put("minecraft:melon_seeds", 362);
+        mapping.put("minecraft:beef", 363);
+        mapping.put("minecraft:cooked_beef", 364);
+        mapping.put("minecraft:chicken", 365);
+        mapping.put("minecraft:cooked_chicken", 366);
+        mapping.put("minecraft:rotten_flesh", 367);
+        mapping.put("minecraft:ender_pearl", 368);
+        mapping.put("minecraft:blaze_rod", 369);
+        mapping.put("minecraft:ghast_tear", 370);
+        mapping.put("minecraft:gold_nugget", 371);
+        mapping.put("minecraft:nether_wart", 372);
+        mapping.put("minecraft:potion", 373);
+        mapping.put("minecraft:glass_bottle", 374);
+        mapping.put("minecraft:spider_eye", 375);
+        mapping.put("minecraft:fermented_spider_eye", 376);
+        mapping.put("minecraft:blaze_powder", 377);
+        mapping.put("minecraft:magma_cream", 378);
+        mapping.put("minecraft:brewing_stand", 379);
+        mapping.put("minecraft:cauldron", 380);
+        mapping.put("minecraft:ender_eye", 381);
+        mapping.put("minecraft:speckled_melon", 382);
+        mapping.put("minecraft:spawn_egg", 383);
+        mapping.put("minecraft:experience_bottle", 384);
+        mapping.put("minecraft:fire_charge", 385);
+        mapping.put("minecraft:writable_book", 386);
+        mapping.put("minecraft:written_book", 387);
+        mapping.put("minecraft:emerald", 388);
+        mapping.put("minecraft:item_frame", 389);
+        mapping.put("minecraft:flower_pot", 390);
+        mapping.put("minecraft:carrot", 391);
+        mapping.put("minecraft:potato", 392);
+        mapping.put("minecraft:baked_potato", 393);
+        mapping.put("minecraft:poisonous_potato", 394);
+        mapping.put("minecraft:map", 395);
+        mapping.put("minecraft:golden_carrot", 396);
+        mapping.put("minecraft:skull", 397);
+        mapping.put("minecraft:carrot_on_a_stick", 398);
+        mapping.put("minecraft:nether_star", 399);
+        mapping.put("minecraft:pumpkin_pie", 400);
+        mapping.put("minecraft:fireworks", 401);
+        mapping.put("minecraft:firework_charge", 402);
+        mapping.put("minecraft:enchanted_book", 403);
+        mapping.put("minecraft:comparator", 404);
+        mapping.put("minecraft:netherbrick", 405);
+        mapping.put("minecraft:quartz", 406);
+        mapping.put("minecraft:tnt_minecart", 407);
+        mapping.put("minecraft:hopper_minecart", 408);
+        mapping.put("minecraft:iron_horse_armor", 417);
+        mapping.put("minecraft:golden_horse_armor", 418);
+        mapping.put("minecraft:diamond_horse_armor", 419);
+        mapping.put("minecraft:lead", 420);
+        mapping.put("minecraft:name_tag", 421);
+        mapping.put("minecraft:command_block_minecart", 422);
+        mapping.put("minecraft:record_13", 2256);
+        mapping.put("minecraft:record_cat", 2257);
+        mapping.put("minecraft:record_blocks", 2258);
+        mapping.put("minecraft:record_chirp", 2259);
+        mapping.put("minecraft:record_far", 2260);
+        mapping.put("minecraft:record_mall", 2261);
+        mapping.put("minecraft:record_mellohi", 2262);
+        mapping.put("minecraft:record_stal", 2263);
+        mapping.put("minecraft:record_strad", 2264);
+        mapping.put("minecraft:record_ward", 2265);
+        mapping.put("minecraft:record_11", 2266);
+        mapping.put("minecraft:record_wait", 2267);
+    }
+
+    @Override
+    public Optional<String> to(Integer input) {
+        return Optional.ofNullable(mapping.inverse().get(input));
+    }
+
+    @Override
+    public Optional<Integer> from(String input) {
+        if (!input.contains(":")) {
+            input = "minecraft:" + input;
+        }
+        return Optional.ofNullable(mapping.forward().get(input));
+    }
+
+    /**
+     * Get the backing map for the resolver.
+     *
+     * @return the bimap of identifier to item ID.
+     */
+    public InvertibleMap<String, Integer> getMapping() {
+        return mapping;
+    }
+}

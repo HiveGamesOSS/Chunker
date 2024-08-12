@@ -1,0 +1,35 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# cli
+cli/
+
+# intellij
+.idea
+
+# UI Builds
+ui/build
+
+# Electron Builds
+electron/dist
+
+# Build version data
+ui/src/version.json
+electron/src/version.json

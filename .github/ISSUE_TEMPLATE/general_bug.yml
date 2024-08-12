@@ -1,0 +1,42 @@
+name: General Bug Report
+description: Report a general bug that is not related to conversion.
+labels: [ Bug Report ]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check you have the latest version from https://github.com/HiveGamesOSS/Chunker/releases before reporting your issue.
+
+  - type: input
+    id: version
+    attributes:
+      label: "Chunker Version"
+      description: |
+        Please copy the version string written in the bottom right of Chunker, e.g. `1.0.0-main-example`.
+      placeholder: |
+        1.0.0-main-example
+    validations:
+      required: true
+
+  - type: input
+    id: platform
+    attributes:
+      label: "Platform / Operating System"
+      description: |
+        What platform / operating system are you running Chunker on?
+      placeholder: |
+        Windows 11
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue Description
+      description: |
+        Describe what happened and any steps which may help us replicate the issue.
+      placeholder: |
+        Example: When I download the Chunker CLI I get an error that states "..."
+    validations:
+      required: true

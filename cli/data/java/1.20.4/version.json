@@ -1,0 +1,16 @@
+{
+    "id": "1.20.4",
+    "name": "1.20.4",
+    "world_version": 3700,
+    "series_id": "main",
+    "protocol_version": 765,
+    "pack_version": {
+        "resource": 22,
+        "data": 26
+    },
+    "build_time": "2023-12-07T12:53:30+00:00",
+    "java_component": "java-runtime-gamma",
+    "java_version": 17,
+    "stable": true,
+    "use_editor": false
+}

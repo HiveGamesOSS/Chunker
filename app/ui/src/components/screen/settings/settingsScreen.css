@@ -1,0 +1,35 @@
+#toolbar {
+    float: right;
+}
+
+.center-table {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Fixed height */
+    height: 300px;
+    text-align: center;
+}
+
+
+.setting-item {
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.dimension-item .input-group {
+    width: 100%;
+}
+
+.dimension-item .input-group-text {
+    width: 130px;
+}
+
+.dimension-item {
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

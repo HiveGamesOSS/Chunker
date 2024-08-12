@@ -1,0 +1,22 @@
+{
+  "name": "chunker-app",
+  "private": true,
+  "description": "Parent package of the Chunker Electron app and user interface.",
+  "scripts": {
+    "start": "concurrently \"cross-env BROWSER=none npm start --prefix ui\" \"npx wait-on http://127.0.0.1:3000 && cross-env DEV_UI_URL=http://localhost:3000 DEV_CLI_EXECUTABLE=../../cli/build/libs/ npm start --prefix electron\"",
+    "build": "npm run build --prefix ui && npm run publish --prefix electron"
+  },
+  "workspaces": {
+    "packages": [
+      "electron",
+      "ui"
+    ]
+  },
+  "author": "Hive Games Limited",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "wait-on": "^7.2.0"
+  }
+}

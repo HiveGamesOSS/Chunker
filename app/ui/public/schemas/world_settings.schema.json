@@ -1,0 +1,961 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://chunker.app/schemas/world_settings.schema.json",
+    "type": "object",
+    "title": "World Settings",
+    "description": "A list of world settings to use for a world.",
+    "default": {
+        "GeneratorType": "FLAT"
+    },
+    "examples": [
+        {
+            "GeneratorType": "FLAT",
+            "Difficulty": 1
+        }
+    ],
+    "properties": {
+        "Difficulty": {
+            "type": "number",
+            "title": "Difficulty",
+            "description": "The difficulty of the world.",
+            "default": 2,
+            "examples": [
+                0,
+                1,
+                2,
+                3
+            ],
+            "enum": [
+                0,
+                1,
+                2,
+                3
+            ],
+            "$comment": "Options: 0 (Peaceful), 1 (Easy), 2 (Normal), 3 (Hard)"
+        },
+        "GameType": {
+            "type": "number",
+            "title": "Gamemode",
+            "description": "The default gamemode for the world.",
+            "default": 1,
+            "examples": [
+                0,
+                2,
+                1,
+                3
+            ],
+            "enum": [
+                0,
+                2,
+                1,
+                3
+            ],
+            "$comment": "Options: 0 (Surv.), 2 (Advent.), 1 (Creat.), 3 (Spec.)"
+        },
+        "GeneratorType": {
+            "type": "string",
+            "title": "Generator",
+            "description": "The generator which is being used for new chunks.",
+            "default": "NORMAL",
+            "examples": [
+                "NORMAL",
+                "FLAT",
+                "VOID"
+            ],
+            "enum": [
+                "NORMAL",
+                "FLAT",
+                "VOID"
+            ],
+            "$comment": "Options: NORMAL (NORMAL), FLAT (FLAT), VOID (VOID)"
+        },
+        "LevelName": {
+            "type": "string",
+            "title": "World Name",
+            "description": "The name of the level shown when on the world selection screen.",
+            "default": "1.17.1 Biomes",
+            "examples": [
+                [
+                    "My World"
+                ]
+            ]
+        },
+        "RandomSeed": {
+            "type": "string",
+            "title": "World Seed",
+            "description": "The seed used to generate the world.",
+            "default": "-380984502",
+            "examples": [
+                "-380984502"
+            ]
+        },
+        "SpawnX": {
+            "type": "integer",
+            "title": "Spawn X",
+            "description": "The X location to use when spawning players.",
+            "default": 48,
+            "examples": [
+                48
+            ]
+        },
+        "SpawnY": {
+            "type": "integer",
+            "title": "Spawn Y",
+            "description": "The Y location to use when spawning players.",
+            "default": 66,
+            "examples": [
+                66
+            ]
+        },
+        "SpawnZ": {
+            "type": "integer",
+            "title": "Spawn Z",
+            "description": "The Z location to use when spawning players.",
+            "default": 240,
+            "examples": [
+                240
+            ]
+        },
+        "Time": {
+            "type": "integer",
+            "title": "Time",
+            "description": "The current time in the world in ticks.",
+            "default": 16361,
+            "examples": [
+                16361
+            ]
+        },
+        "hardcore": {
+            "type": "boolean",
+            "title": "Hardcore Mode",
+            "description": "Enable Hardcore mode for this world. (Java only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "MapFeatures": {
+            "type": "boolean",
+            "title": "Map Features",
+            "description": "Whether generated structures are enabled for world generation. (Java only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "experimentalgameplay": {
+            "type": "boolean",
+            "title": "Experimental Gameplay",
+            "description": "Enable experimental gameplay features. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "initialized": {
+            "type": "boolean",
+            "title": "Initialized",
+            "description": "Whether this world has been initialized. (Java only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "bonusChestEnabled": {
+            "type": "boolean",
+            "title": "Bonus Chest Enabled",
+            "description": "Whether a bonus chest is enabled for the world. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "bonusChestSpawned": {
+            "type": "boolean",
+            "title": "Bonus Chest Spawned",
+            "description": "Whether the bonus chest has already spawned. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "spawnMobs": {
+            "type": "boolean",
+            "title": "Spawn Mobs",
+            "description": "Whether mobs are allowed to spawn. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "NetherScale": {
+            "type": "integer",
+            "title": "Nether Scale",
+            "description": "The scale of the nether compared with overworld (Bedrock only)",
+            "default": 8,
+            "examples": [
+                8
+            ]
+        },
+        "BorderCenterX": {
+            "type": "number",
+            "title": "World Border Center X",
+            "description": "The center X co-ordinate of the world border. (Java only)",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "BorderCenterZ": {
+            "type": "number",
+            "title": "World Border Center Z",
+            "description": "The center Z co-ordinate of the world border. (Java only)",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "BorderDamagePerBlock": {
+            "type": "number",
+            "title": "World Border Damage per Block",
+            "description": "The amount of damage the world border will do when it moves in 1 block. (Java only)",
+            "default": 0.2,
+            "examples": [
+                0.2
+            ]
+        },
+        "BorderSafeZone": {
+            "type": "number",
+            "title": "World Border Safe Zone",
+            "description": "The radius of the world border safe-zone. (Java only)",
+            "default": 5,
+            "examples": [
+                5
+            ]
+        },
+        "BorderSize": {
+            "type": "number",
+            "title": "World Border Size",
+            "description": "The radius of the world border. (Java only)",
+            "default": 60000000,
+            "examples": [
+                60000000
+            ]
+        },
+        "BorderSizeLerpTarget": {
+            "type": "number",
+            "title": "World Border Target Size",
+            "description": "The new size of the world border to transition to. (Java only)",
+            "default": 60000000,
+            "examples": [
+                60000000
+            ]
+        },
+        "BorderSizeLerpTime": {
+            "type": "integer",
+            "title": "World Border Time Left",
+            "description": "The amount of time left in the world border's movement in milliseconds. (Java only)",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "BorderWarningBlocks": {
+            "type": "number",
+            "title": "World Border Warning Size",
+            "description": "The distance which the players will begin to see a visual warning of the world border. (Java only)",
+            "default": 5,
+            "examples": [
+                5
+            ]
+        },
+        "BorderWarningTime": {
+            "type": "number",
+            "title": "World Border Warning Time",
+            "description": "The amount of time before the player will see a visual warning (seconds). (Java only)",
+            "default": 15,
+            "examples": [
+                15
+            ]
+        },
+        "commandblockoutput": {
+            "type": "boolean",
+            "title": "Command Block Output",
+            "description": "Whether command blocks should output in the chat to online operators.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "commandblocksenabled": {
+            "type": "boolean",
+            "title": "Command Blocks Enabled",
+            "description": "Whether command blocks should be enabled for this world. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "commandsEnabled": {
+            "type": "boolean",
+            "title": "Commands Enabled",
+            "description": "Whether commands/cheats are enabled for this world.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "dodaylightcycle": {
+            "type": "boolean",
+            "title": "Do Daylight Cycle",
+            "description": "Whether the time of day should cycle, when disabled the time will stay the same.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "doentitydrops": {
+            "type": "boolean",
+            "title": "Do Entity Drops",
+            "description": "Whether entities should drop items when they are killed.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "dofiretick": {
+            "type": "boolean",
+            "title": "Do Fire Tick",
+            "description": "Whether fire should spread, if disabled fire will not spread.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "doimmediaterespawn": {
+            "type": "boolean",
+            "title": "Do Immediate Respawn",
+            "description": "Whether respawning should immediately happen otherwise the respawn screen will be shown. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "doinsomnia": {
+            "type": "boolean",
+            "title": "Do Insomnia",
+            "description": "Whether phantoms can spawn in the nighttime. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "domobloot": {
+            "type": "boolean",
+            "title": "Do Mob Loot",
+            "description": "Whether entities should drop items when they are killed.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "domobspawning": {
+            "type": "boolean",
+            "title": "Do Mob Spawning",
+            "description": "Whether mobs should spawn naturally in the world.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "dotiledrops": {
+            "type": "boolean",
+            "title": "Do Tile Drops",
+            "description": "Whether blocks should drop items when broken.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "doweathercycle": {
+            "type": "boolean",
+            "title": "Do Weather Cycle",
+            "description": "Whether the weather should cycle, if disabled there will be no weather in the world.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "doLimitedCrafting": {
+            "type": "boolean",
+            "title": "Do Limited Crafting",
+            "description": "Whether players should only be able to craft recipes that they've unlocked. (Java only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "drowningdamage": {
+            "type": "boolean",
+            "title": "Drowning Damage",
+            "description": "Whether drowning damage is enabled in the world. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "falldamage": {
+            "type": "boolean",
+            "title": "Fall Damage",
+            "description": "Whether fall damage is enabled in the world. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "firedamage": {
+            "type": "boolean",
+            "title": "Fire Damage",
+            "description": "Whether fire damage is enabled in the world. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "ForceGameType": {
+            "type": "boolean",
+            "title": "Force Gamemode",
+            "description": "Whether the default gamemode for the world should be enforced on all players. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "functioncommandlimit": {
+            "type": "integer",
+            "title": "Function Command Limit",
+            "description": "The number of commands which can be used in a function file. (Bedrock only)",
+            "default": 10000,
+            "examples": [
+                10000
+            ]
+        },
+        "keepinventory": {
+            "type": "boolean",
+            "title": "Keep Inventory",
+            "description": "Whether the inventory should be kept when a player dies.",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "mobgriefing": {
+            "type": "boolean",
+            "title": "Mob Griefing",
+            "description": "Whether mobs are allowed to grief the world.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "naturalgeneration": {
+            "type": "boolean",
+            "title": "Natural Regeneration",
+            "description": "Whether players can regenerate health naturally if hunger is full.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "randomtickspeed": {
+            "type": "integer",
+            "title": "Random Tick Speed",
+            "description": "The tickspeed to use for the game, 0 disables ticking.",
+            "default": 3,
+            "examples": [
+                3
+            ]
+        },
+        "sendcommandfeedback": {
+            "type": "boolean",
+            "title": "Send Command Feedback",
+            "description": "Whether commands should output in the chat to online operators.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "showcoordinates": {
+            "type": "boolean",
+            "title": "Show Coordinates",
+            "description": "Whether co-ordinates should be accessible to the client. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "showdeathmessages": {
+            "type": "boolean",
+            "title": "Show Death Messages",
+            "description": "Whether death messages should be shown in the chat.",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "tntexplodes": {
+            "type": "boolean",
+            "title": "TNT Explodes",
+            "description": "Whether TNT can explode when lit. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "announceAdvancements": {
+            "type": "boolean",
+            "title": "Announce Advancements",
+            "description": "Whether getting an advancement should be shown in the chat. (Java only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "disableElytraMovementCheck": {
+            "type": "boolean",
+            "title": "Disable Elytra Movement Check",
+            "description": "Whether advanced movement checks should be disabled for elytra. (Java only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "logAdminCommands": {
+            "type": "boolean",
+            "title": "Log Admin Commands",
+            "description": "Whether admin commands should be logged to the server log. (Java only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "reducedDebugInfo": {
+            "type": "boolean",
+            "title": "Reduced Debug Info",
+            "description": "Whether the debug screen (F3) shows reduced information. (Java only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "spectatorsGenerateChunks": {
+            "type": "boolean",
+            "title": "Spectators Generate Chunks",
+            "description": "Whether spectators cause new chunks to be generated. (Java only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "spawnradius": {
+            "type": "integer",
+            "title": "Spawn Radius",
+            "description": "The radius used for picking a location from the Spawn X, Y, Z",
+            "default": 10,
+            "examples": [
+                10
+            ]
+        },
+        "maxEntityCramming": {
+            "type": "integer",
+            "title": "Max Entity Cramming",
+            "description": "The maximum number of entities in one block before taking damage. (Java only)",
+            "default": 24,
+            "examples": [
+                24
+            ]
+        },
+        "maxCommandChainLength": {
+            "type": "integer",
+            "title": "Max Command Chain Length",
+            "description": "The maximum amount of chain command blocks which can be run from a another command block.",
+            "default": 65536,
+            "examples": [
+                65536
+            ]
+        },
+        "gameLoopFunction": {
+            "type": "string",
+            "title": "Game Loop Function",
+            "description": "The function to call from the Minecraft game loop. (Java only)",
+            "default": "-",
+            "examples": [
+                "-"
+            ]
+        },
+        "ConfirmedPlatformLockedContent": {
+            "type": "boolean",
+            "title": "Confirmed Platform Locked Content",
+            "description": "Whether this content is platform locked. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "hasBeenLoadedInCreative": {
+            "type": "boolean",
+            "title": "Has Been Loaded In Creative",
+            "description": "Whether the map has been loaded in creative before. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "hasLockedBehaviorPack": {
+            "type": "boolean",
+            "title": "Has Locked Behavior Pack",
+            "description": "Whether the behaviour pack is locked. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "hasLockedResourcePack": {
+            "type": "boolean",
+            "title": "Has Locked Resource Pack",
+            "description": "Whether the resource pack is locked. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "immutableWorld": {
+            "type": "boolean",
+            "title": "Immutable World",
+            "description": "Indicates whether the world can be modified. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "isFromLockedTemplate": {
+            "type": "boolean",
+            "title": "Is From Locked Template",
+            "description": "Whether the map was created from a locked template. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "isFromWorldTemplate": {
+            "type": "boolean",
+            "title": "Is From World Template",
+            "description": "Whether the map was created from a world template. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "isWorldTemplateOptionLocked": {
+            "type": "boolean",
+            "title": "Is World Template Option Locked",
+            "description": "Whether the world template option is locked. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "LimitedWorldOriginX": {
+            "type": "integer",
+            "title": "Limited World Origin X",
+            "description": "Legacy, used to indicate where limited world generation started. (Bedrock only)",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "LimitedWorldOriginY": {
+            "type": "integer",
+            "title": "Limited World Origin Y",
+            "description": "Legacy, used to indicate where limited world generation started. (Bedrock only)",
+            "default": 32767,
+            "examples": [
+                32767
+            ]
+        },
+        "LimitedWorldOriginZ": {
+            "type": "integer",
+            "title": "Limited World Origin Z",
+            "description": "Legacy, used to indicate where limited world generation started. (Bedrock only)",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "texturePacksRequired": {
+            "type": "boolean",
+            "title": "Texture Packs Required",
+            "description": "Whether texture packs are required for the map. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "DifficultyLocked": {
+            "type": "boolean",
+            "title": "Difficulty Locked",
+            "description": "Whether the difficulty for this world can be modified by the client. (Java only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "lightningLevel": {
+            "type": "string",
+            "title": "Lightning Level",
+            "description": "Determines how heavy the lightning is. (Bedrock only)",
+            "default": 0,
+            "examples": []
+        },
+        "lightningTime": {
+            "type": "integer",
+            "title": "Lightning Time",
+            "description": "The number of ticks until lightning will be triggered. (Bedrock only)",
+            "default": 96000,
+            "examples": [
+                96000
+            ]
+        },
+        "rainLevel": {
+            "type": "string",
+            "title": "Rain Level",
+            "description": "Determines how heavy the rainfall is. (Bedrock only)",
+            "default": 0,
+            "examples": []
+        },
+        "rainTime": {
+            "type": "integer",
+            "title": "Rain Time",
+            "description": "The number of ticks until raining will be triggered.",
+            "default": 108934,
+            "examples": [
+                108934
+            ]
+        },
+        "raining": {
+            "type": "boolean",
+            "title": "Raining",
+            "description": "Whether it is raining in the world. (Java only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "thundering": {
+            "type": "boolean",
+            "title": "Thundering",
+            "description": "Whether is is thundering in the world. (Java only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "thunderTime": {
+            "type": "integer",
+            "title": "Thunder Time",
+            "description": "The number of ticks until thundering will be triggered. (Java only)",
+            "default": 96256,
+            "examples": [
+                96256
+            ]
+        },
+        "clearWeatherTime": {
+            "type": "integer",
+            "title": "Clear Weather Time",
+            "description": "The number of ticks until clear weather will be triggered. (Java only)",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "DayTime": {
+            "type": "integer",
+            "title": "Day Time",
+            "description": "The current time of day, 0 is sunrise, 6000 is mid day, 12000 is sunset (Java only)",
+            "default": 315,
+            "examples": [
+                315
+            ]
+        },
+        "CenterMapsToOrigin": {
+            "type": "boolean",
+            "title": "Center Maps To Origin",
+            "description": "Whether maps should be centered to the origin of the map. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "educationFeaturesEnabled": {
+            "type": "boolean",
+            "title": "Education Features",
+            "description": "Whether this map has education features enabled. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "eduLevel": {
+            "type": "string",
+            "title": "EDU Level",
+            "description": "The level of the EDU features to use. (Bedrock only)",
+            "default": 0,
+            "examples": []
+        },
+        "serverChunkTickRange": {
+            "type": "integer",
+            "title": "Server Chunk Tick Range",
+            "description": "The number of chunks to tick server-side. (Bedrock only)",
+            "default": 10,
+            "examples": [
+                10
+            ]
+        },
+        "startWithMapEnabled": {
+            "type": "boolean",
+            "title": "Start With Map Enabled",
+            "description": "Whether new players start with a map. (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "worldStartCount": {
+            "type": "integer",
+            "title": "World Start Count",
+            "description": "The number of times the world has been started (used for entity ids) (Bedrock only)",
+            "default": 4294967294,
+            "examples": [
+                4294967294
+            ]
+        },
+        "useMsaGamertagsOnly": {
+            "type": "boolean",
+            "title": "Use MSA Gamertags Only",
+            "description": "Whether the world is restricted to Microsoft Accounts only (no local play). (Bedrock only)",
+            "default": false,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "MultiplayerGame": {
+            "type": "boolean",
+            "title": "Multiplayer Game Enabled",
+            "description": "Whether this is a multiplayer game. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "MultiplayerGameIntent": {
+            "type": "boolean",
+            "title": "Visible to Multiplayer",
+            "description": "Whether the world should broadcast multiplayer intents. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "XBLBroadcastIntent": {
+            "type": "number",
+            "title": "MS Visibility",
+            "description": "The visibility of this world via microsoft services. (Bedrock only)",
+            "default": 3,
+            "examples": [
+                1,
+                2,
+                3
+            ],
+            "enum": [
+                1,
+                2,
+                3
+            ],
+            "$comment": "Options: 1 (Invite), 2 (Friends), 3 (Mutual Friends)"
+        },
+        "LANBroadcast": {
+            "type": "boolean",
+            "title": "LAN Broadcast Enabled",
+            "description": "Whether the map will LAN broadcast. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        },
+        "LANBroadcastIntent": {
+            "type": "boolean",
+            "title": "Visible to LAN Players",
+            "description": "Whether the world should broadcast lan intents. (Bedrock only)",
+            "default": true,
+            "examples": [
+                true,
+                false
+            ]
+        }
+    }
+}

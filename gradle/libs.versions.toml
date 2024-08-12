@@ -1,0 +1,40 @@
+# This file indicates the versions of libraries used in the build process
+# https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
+
+[versions]
+picocli = "4.7.6"
+caffeine = "3.1.8"
+gson = "2.11.0"
+guava = "33.2.1-jre"
+leveldb = "1.0.0"
+leveldb-api = "1.0.0"
+fastutil = "8.5.14"
+lz4 = "1.3.0"
+jetbrains-annotations = "24.1.0"
+
+# JUnit
+junit = "5.10.3"
+
+# Plugins
+shadow = "8.1.1"
+gitVersion = "3.1.0"
+jpackage = "1.6.0"
+node = "7.0.2"
+
+[libraries]
+picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+leveldb = { module = "com.hivemc.leveldb:leveldb", version.ref = "leveldb" }
+leveldb-api = { module = "com.hivemc.leveldb:leveldb-api", version.ref = "leveldb-api" }
+fastutil = { module = "it.unimi.dsi:fastutil", version.ref = "fastutil" }
+lz4 = { module = "net.jpountz.lz4:lz4", version.ref = "lz4" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+
+[plugins]
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+gitVersion = { id = "com.palantir.git-version", version.ref = "gitVersion" }
+jpackage = { id = "org.panteleyev.jpackageplugin", version.ref = "jpackage" }
+node = { id = "com.github.node-gradle.node", version.ref = "node" }

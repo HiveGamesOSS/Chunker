@@ -1,0 +1,16 @@
+{
+    "id": "1.18.1",
+    "name": "1.18.1",
+    "release_target": "1.18.1",
+    "world_version": 2865,
+    "series_id": "main",
+    "protocol_version": 757,
+    "pack_version": {
+        "resource": 8,
+        "data": 8
+    },
+    "build_time": "2021-12-10T08:21:01+00:00",
+    "java_component": "java-runtime-beta",
+    "java_version": 17,
+    "stable": true
+}

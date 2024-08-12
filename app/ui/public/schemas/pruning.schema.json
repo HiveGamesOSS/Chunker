@@ -1,0 +1,221 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://chunker.app/schemas/pruning.schema.json",
+    "type": "object",
+    "title": "Pruning configuration",
+    "description": "Provides areas which should be included in the world.",
+    "default": {},
+    "examples": [
+        {
+            "configs": [
+                {
+                    "include": true,
+                    "regions": [
+                        {
+                            "minChunkX": -10,
+                            "minChunkZ": -10,
+                            "maxChunkX": 10,
+                            "maxChunkZ": 10
+                        }
+                    ]
+                },
+                null,
+                null
+            ]
+        }
+    ],
+    "required": [],
+    "properties": {
+        "configs": {
+            "type": "array",
+            "title": "The pruning configs",
+            "description": "A list of pruning configurations for each dimension ordered overworld, nether, end. Providing no configs or null will cause no pruning for the dimension.",
+            "default": [
+                null,
+                null,
+                null
+            ],
+            "examples": [
+                [
+                    {
+                        "include": true,
+                        "regions": [
+                            {
+                                "minChunkX": -10,
+                                "minChunkZ": -10,
+                                "maxChunkX": 10,
+                                "maxChunkZ": 10
+                            }
+                        ]
+                    },
+                    null,
+                    null
+                ]
+            ],
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+                "anyOf": [
+                    {
+                        "type": "object",
+                        "title": "Dimension pruning configuration",
+                        "description": "Provides a list of rules to follow for pruning this dimension.",
+                        "default": {
+                            "include": true,
+                            "regions": [
+                                {
+                                    "minChunkX": -10,
+                                    "minChunkZ": -10,
+                                    "maxChunkX": 10,
+                                    "maxChunkZ": 10
+                                }
+                            ]
+                        },
+                        "examples": [
+                            {
+                                "include": true,
+                                "regions": [
+                                    {
+                                        "minChunkX": -10,
+                                        "minChunkZ": -10,
+                                        "maxChunkX": 10,
+                                        "maxChunkZ": 10
+                                    }
+                                ]
+                            }
+                        ],
+                        "required": [
+                            "include",
+                            "regions"
+                        ],
+                        "properties": {
+                            "include": {
+                                "type": "boolean",
+                                "title": "Whether the regions should be included",
+                                "description": "If true, outside the region is discarded. If false, the inside is discarded.",
+                                "default": true,
+                                "examples": [
+                                    true,
+                                    false
+                                ]
+                            },
+                            "regions": {
+                                "type": "array",
+                                "title": "Pruning region list",
+                                "description": "A list of regions to be included/excluded depending on the include property.",
+                                "default": [
+                                    {
+                                        "minChunkX": -10,
+                                        "minChunkZ": -10,
+                                        "maxChunkX": 10,
+                                        "maxChunkZ": 10
+                                    }
+                                ],
+                                "examples": [
+                                    [
+                                        {
+                                            "minChunkX": -10,
+                                            "minChunkZ": -10,
+                                            "maxChunkX": 10,
+                                            "maxChunkZ": 10
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "minChunkX": 0,
+                                            "minChunkZ": 0,
+                                            "maxChunkX": 100,
+                                            "maxChunkZ": 100
+                                        }
+                                    ]
+                                ],
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "title": "Region",
+                                            "description": "A region of chunks to prune.",
+                                            "default": {
+                                                "minChunkX": -10,
+                                                "minChunkZ": -10,
+                                                "maxChunkX": 10,
+                                                "maxChunkZ": 10
+                                            },
+                                            "examples": [
+                                                {
+                                                    "minChunkX": -10,
+                                                    "minChunkZ": -10,
+                                                    "maxChunkX": 10,
+                                                    "maxChunkZ": 10
+                                                },
+                                                {
+                                                    "minChunkX": 0,
+                                                    "minChunkZ": 0,
+                                                    "maxChunkX": 100,
+                                                    "maxChunkZ": 100
+                                                }
+                                            ],
+                                            "required": [
+                                                "minChunkX",
+                                                "minChunkZ",
+                                                "maxChunkX",
+                                                "maxChunkZ"
+                                            ],
+                                            "properties": {
+                                                "minChunkX": {
+                                                    "type": "integer",
+                                                    "title": "Minimum Chunk X",
+                                                    "description": "The minimum value for the Chunk X of this region (inclusive), which must be less than maximumChunkX.",
+                                                    "default": 0,
+                                                    "examples": [
+                                                        -10
+                                                    ]
+                                                },
+                                                "minChunkZ": {
+                                                    "type": "integer",
+                                                    "title": "Minimum Chunk Z",
+                                                    "description": "The minimum value for the Chunk Z of this region (inclusive), which must be less than maximumChunkZ.",
+                                                    "default": 0,
+                                                    "examples": [
+                                                        -10
+                                                    ]
+                                                },
+                                                "maxChunkX": {
+                                                    "type": "integer",
+                                                    "title": "Maximum Chunk X",
+                                                    "description": "The maximum value for the Chunk X of this region (inclusive), which must be more than minimumChunkX.",
+                                                    "default": 0,
+                                                    "examples": [
+                                                        10
+                                                    ]
+                                                },
+                                                "maxChunkZ": {
+                                                    "type": "integer",
+                                                    "title": "Maximum Chunk Z",
+                                                    "description": "The maximum value for the Chunk Z of this region (inclusive), which must be more than minimumChunkZ.",
+                                                    "default": 0,
+                                                    "examples": [
+                                                        10
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "null",
+                        "title": "No pruning",
+                        "description": "Indicates that there will be no pruning for this dimension.",
+                        "default": null,
+                        "examples": [
+                            null
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

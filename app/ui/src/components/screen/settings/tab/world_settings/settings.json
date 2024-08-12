@@ -1,0 +1,476 @@
+{
+  "World Settings": {
+    "Difficulty": {
+      "display": "Difficulty",
+      "description": "The difficulty of the world.",
+      "type": "Radio",
+      "options": [
+        {
+          "name": "Peaceful",
+          "color": "blue",
+          "value": 0
+        },
+        {
+          "name": "Easy",
+          "color": "green",
+          "value": 1
+        },
+        {
+          "name": "Normal",
+          "color": "yellow",
+          "value": 2
+        },
+        {
+          "name": "Hard",
+          "color": "red",
+          "value": 3
+        }
+      ]
+    },
+    "GameType": {
+      "display": "Gamemode",
+      "description": "The default gamemode for the world.",
+      "type": "Radio",
+      "options": [
+        {
+          "name": "Surv.",
+          "color": "green",
+          "value": 0
+        },
+        {
+          "name": "Advent.",
+          "color": "yellow",
+          "value": 2
+        },
+        {
+          "name": "Creat.",
+          "color": "red",
+          "value": 1
+        },
+        {
+          "name": "Spec.",
+          "color": "blue",
+          "value": 3
+        }
+      ]
+    },
+    "GeneratorType": {
+      "display": "Generator",
+      "description": "The generator which is being used for new chunks."
+    },
+    "LevelName": {
+      "display": "World Name",
+      "description": "The name of the level shown when on the world selection screen."
+    },
+    "RandomSeed": {
+      "display": "World Seed",
+      "type": "Int64",
+      "description": "The seed used to generate the world.",
+      "bigger": true
+    },
+    "SpawnX": {
+      "display": "Spawn X",
+      "description": "The X location to use when spawning players."
+    },
+    "SpawnY": {
+      "display": "Spawn Y",
+      "description": "The Y location to use when spawning players."
+    },
+    "SpawnZ": {
+      "display": "Spawn Z",
+      "description": "The Z location to use when spawning players."
+    },
+    "Time": {
+      "display": "Time",
+      "description": "The current time in the world in ticks.",
+      "min": 0
+    },
+    "hardcore": {
+      "display": "Hardcore Mode",
+      "description": "Enable Hardcore mode for this world."
+    },
+    "MapFeatures": {
+      "display": "Map Features",
+      "description": "Whether generated structures are enabled for world generation."
+    },
+    "experimentalgameplay": {
+      "display": "Experimental Gameplay",
+      "description": "Enable experimental gameplay features."
+    },
+    "initialized": {
+      "display": "Initialized",
+      "description": "Whether this world has been initialized."
+    },
+    "bonusChestEnabled": {
+      "display": "Bonus Chest Enabled",
+      "description": "Whether a bonus chest is enabled for the world."
+    },
+    "bonusChestSpawned": {
+      "display": "Bonus Chest Spawned",
+      "description": "Whether the bonus chest has already spawned."
+    },
+    "spawnMobs": {
+      "display": "Spawn Mobs",
+      "description": "Whether mobs are allowed to spawn."
+    },
+    "NetherScale": {
+      "display": "Nether Scale",
+      "description": "The scale of the nether compared with overworld"
+    },
+    "BorderCenterX": {
+      "display": "World Border Center X",
+      "description": "The center X co-ordinate of the world border."
+    },
+    "BorderCenterZ": {
+      "display": "World Border Center Z",
+      "description": "The center Z co-ordinate of the world border."
+    },
+    "BorderDamagePerBlock": {
+      "display": "World Border Damage per Block",
+      "description": "The amount of damage the world border will do when it moves in 1 block."
+    },
+    "BorderSafeZone": {
+      "display": "World Border Safe Zone",
+      "description": "The radius of the world border safe-zone."
+    },
+    "BorderSize": {
+      "display": "World Border Size",
+      "description": "The radius of the world border."
+    },
+    "BorderSizeLerpTarget": {
+      "display": "World Border Target Size",
+      "description": "The new size of the world border to transition to."
+    },
+    "BorderSizeLerpTime": {
+      "display": "World Border Time Left",
+      "description": "The amount of time left in the world border's movement in milliseconds."
+    },
+    "BorderWarningBlocks": {
+      "display": "World Border Warning Size",
+      "description": "The distance which the players will begin to see a visual warning of the world border."
+    },
+    "BorderWarningTime": {
+      "display": "World Border Warning Time",
+      "description": "The amount of time before the player will see a visual warning (seconds)."
+    }
+  },
+  "Game Rules": {
+    "commandblockoutput": {
+      "display": "Command Block Output",
+      "description": "Whether command blocks should output in the chat to online operators."
+    },
+    "commandblocksenabled": {
+      "display": "Command Blocks Enabled",
+      "description": "Whether command blocks should be enabled for this world."
+    },
+    "commandsEnabled": {
+      "display": "Commands Enabled",
+      "description": "Whether commands/cheats are enabled for this world."
+    },
+    "dodaylightcycle": {
+      "display": "Do Daylight Cycle",
+      "description": "Whether the time of day should cycle, when disabled the time will stay the same."
+    },
+    "doentitydrops": {
+      "display": "Do Entity Drops",
+      "description": "Whether entities should drop items when they are killed."
+    },
+    "dofiretick": {
+      "display": "Do Fire Tick",
+      "description": "Whether fire should spread, if disabled fire will not spread."
+    },
+    "doimmediaterespawn": {
+      "display": "Do Immediate Respawn",
+      "description": "Whether respawning should immediately happen otherwise the respawn screen will be shown."
+    },
+    "doinsomnia": {
+      "display": "Do Insomnia",
+      "description": "Whether phantoms can spawn in the nighttime."
+    },
+    "domobloot": {
+      "display": "Do Mob Loot",
+      "description": "Whether entities should drop items when they are killed."
+    },
+    "domobspawning": {
+      "display": "Do Mob Spawning",
+      "description": "Whether mobs should spawn naturally in the world."
+    },
+    "dotiledrops": {
+      "display": "Do Tile Drops",
+      "description": "Whether blocks should drop items when broken."
+    },
+    "doweathercycle": {
+      "display": "Do Weather Cycle",
+      "description": "Whether the weather should cycle, if disabled there will be no weather in the world."
+    },
+    "doLimitedCrafting": {
+      "display": "Do Limited Crafting",
+      "description": "Whether players should only be able to craft recipes that they've unlocked."
+    },
+    "drowningdamage": {
+      "display": "Drowning Damage",
+      "description": "Whether drowning damage is enabled in the world."
+    },
+    "falldamage": {
+      "display": "Fall Damage",
+      "description": "Whether fall damage is enabled in the world."
+    },
+    "firedamage": {
+      "display": "Fire Damage",
+      "description": "Whether fire damage is enabled in the world."
+    },
+    "ForceGameType": {
+      "display": "Force Gamemode",
+      "description": "Whether the default gamemode for the world should be enforced on all players."
+    },
+    "functioncommandlimit": {
+      "display": "Function Command Limit",
+      "description": "The number of commands which can be used in a function file."
+    },
+    "keepinventory": {
+      "display": "Keep Inventory",
+      "description": "Whether the inventory should be kept when a player dies."
+    },
+    "mobgriefing": {
+      "display": "Mob Griefing",
+      "description": "Whether mobs are allowed to grief the world."
+    },
+    "naturalgeneration": {
+      "display": "Natural Regeneration",
+      "description": "Whether players can regenerate health naturally if hunger is full."
+    },
+    "randomtickspeed": {
+      "display": "Random Tick Speed",
+      "description": "The tickspeed to use for the game, 0 disables ticking.",
+      "min": 0,
+      "max": 4096
+    },
+    "sendcommandfeedback": {
+      "display": "Send Command Feedback",
+      "description": "Whether commands should output in the chat to online operators."
+    },
+    "showcoordinates": {
+      "display": "Show Coordinates",
+      "description": "Whether co-ordinates should be accessible to the client."
+    },
+    "showdeathmessages": {
+      "display": "Show Death Messages",
+      "description": "Whether death messages should be shown in the chat."
+    },
+    "tntexplodes": {
+      "display": "TNT Explodes",
+      "description": "Whether TNT can explode when lit."
+    },
+    "announceAdvancements": {
+      "display": "Announce Advancements",
+      "description": "Whether getting an advancement should be shown in the chat."
+    },
+    "disableElytraMovementCheck": {
+      "display": "Disable Elytra Movement Check",
+      "description": "Whether advanced movement checks should be disabled for elytra."
+    },
+    "logAdminCommands": {
+      "display": "Log Admin Commands",
+      "description": "Whether admin commands should be logged to the server log."
+    },
+    "reducedDebugInfo": {
+      "display": "Reduced Debug Info",
+      "description": "Whether the debug screen (F3) shows reduced information."
+    },
+    "spectatorsGenerateChunks": {
+      "display": "Spectators Generate Chunks",
+      "description": "Whether spectators cause new chunks to be generated."
+    },
+    "spawnradius": {
+      "display": "Spawn Radius",
+      "description": "The radius used for picking a location from the Spawn X, Y, Z",
+      "min": 0
+    },
+    "maxEntityCramming": {
+      "display": "Max Entity Cramming",
+      "description": "The maximum number of entities in one block before taking damage.",
+      "min": 0
+    },
+    "maxCommandChainLength": {
+      "display": "Max Command Chain Length",
+      "description": "The maximum amount of chain command blocks which can be run from a another command block.",
+      "min": 0
+    },
+    "gameLoopFunction": {
+      "display": "Game Loop Function",
+      "description": "The function to call from the Minecraft game loop."
+    }
+  },
+  "Restrictions": {
+    "ConfirmedPlatformLockedContent": {
+      "display": "Confirmed Platform Locked Content",
+      "description": "Whether this content is platform locked."
+    },
+    "hasBeenLoadedInCreative": {
+      "display": "Has Been Loaded In Creative",
+      "description": "Whether the map has been loaded in creative before."
+    },
+    "hasLockedBehaviorPack": {
+      "display": "Has Locked Behavior Pack",
+      "description": "Whether the behaviour pack is locked."
+    },
+    "hasLockedResourcePack": {
+      "display": "Has Locked Resource Pack",
+      "description": "Whether the resource pack is locked."
+    },
+    "immutableWorld": {
+      "display": "Immutable World",
+      "description": "Indicates whether the world can be modified."
+    },
+    "isFromLockedTemplate": {
+      "display": "Is From Locked Template",
+      "description": "Whether the map was created from a locked template."
+    },
+    "isFromWorldTemplate": {
+      "display": "Is From World Template",
+      "description": "Whether the map was created from a world template."
+    },
+    "isWorldTemplateOptionLocked": {
+      "display": "Is World Template Option Locked",
+      "description": "Whether the world template option is locked."
+    },
+    "LimitedWorldOriginX": {
+      "display": "Limited World Origin X",
+      "description": "Legacy, used to indicate where limited world generation started."
+    },
+    "LimitedWorldOriginY": {
+      "display": "Limited World Origin Y",
+      "description": "Legacy, used to indicate where limited world generation started."
+    },
+    "LimitedWorldOriginZ": {
+      "display": "Limited World Origin Z",
+      "description": "Legacy, used to indicate where limited world generation started."
+    },
+    "MultiplayerGame": {
+      "display": "Multiplayer Game",
+      "description": "Whether this is a multiplayer game."
+    },
+    "texturePacksRequired": {
+      "display": "Texture Packs Required",
+      "description": "Whether texture packs are required for the map."
+    },
+    "XBLBroadcastIntent": {
+      "display": "XBLBroadcastIntent",
+      "description": "Xbox broadcast range, 1 for invitation, 2 for friends and 3 for friends of friends."
+    },
+    "DifficultyLocked": {
+      "display": "Difficulty Locked",
+      "description": "Whether the difficulty for this world can be modified by the client."
+    }
+  },
+  "Weather": {
+    "lightningLevel": {
+      "display": "Lightning Level",
+      "description": "Determines how heavy the lightning is."
+    },
+    "lightningTime": {
+      "display": "Lightning Time",
+      "description": "The number of ticks until lightning will be triggered."
+    },
+    "rainLevel": {
+      "display": "Rain Level",
+      "description": "Determines how heavy the rainfall is."
+    },
+    "rainTime": {
+      "display": "Rain Time",
+      "description": "The number of ticks until raining will be triggered."
+    },
+    "raining": {
+      "display": "Raining",
+      "description": "Whether it is raining in the world."
+    },
+    "thundering": {
+      "display": "Thundering",
+      "description": "Whether is is thundering in the world."
+    },
+    "thunderTime": {
+      "display": "Thunder Time",
+      "description": "The number of ticks until thundering will be triggered."
+    },
+    "clearWeatherTime": {
+      "display": "Clear Weather Time",
+      "description": "The number of ticks until clear weather will be triggered."
+    },
+    "DayTime": {
+      "display": "Day Time",
+      "description": "The current time of day, 0 is sunrise, 6000 is mid day, 12000 is sunset"
+    }
+  },
+  "Misc": {
+    "CenterMapsToOrigin": {
+      "display": "Center Maps To Origin",
+      "description": "Whether maps should be centered to the origin of the map."
+    },
+    "educationFeaturesEnabled": {
+      "display": "Education Features",
+      "description": "Whether this map has education features enabled."
+    },
+    "eduLevel": {
+      "display": "EDU Level",
+      "description": "The level of the EDU features to use."
+    },
+    "prid": {
+      "display": "prid",
+      "description": "The product id for this map."
+    },
+    "serverChunkTickRange": {
+      "display": "Server Chunk Tick Range",
+      "description": "The number of chunks to tick server-side."
+    },
+    "startWithMapEnabled": {
+      "display": "Start With Map Enabled",
+      "description": "Whether new players start with a map."
+    },
+    "worldStartCount": {
+      "display": "World Start Count",
+      "description": "The number of times the world has been started (used for entity ids)"
+    },
+    "useMsaGamertagsOnly": {
+      "display": "Use MSA Gamertags Only",
+      "description": "Whether the world is restricted to Microsoft Accounts only (no local play)."
+    },
+    "MultiplayerGame": {
+      "display": "Multiplayer Game Enabled",
+      "description": "Whether this is a multiplayer game."
+    },
+    "MultiplayerGameIntent": {
+      "display": "Visible to Multiplayer",
+      "description": "Whether the world should broadcast multiplayer intents."
+    },
+    "XBLBroadcastIntent": {
+      "display": "MS Visibility",
+      "description": "The visibility of this world via microsoft services.",
+      "type": "Radio",
+      "options": [
+        {
+          "name": "Invite",
+          "color": "red",
+          "value": 1
+        },
+        {
+          "name": "Friends",
+          "color": "yellow",
+          "value": 2
+        },
+        {
+          "name": "Mutual Friends",
+          "color": "green",
+          "value": 3
+        }
+      ]
+    },
+    "LANBroadcast": {
+      "display": "LAN Broadcast Enabled",
+      "description": "Whether the map will LAN broadcast."
+    },
+    "LANBroadcastIntent": {
+      "display": "Visible to LAN Players",
+      "description": "Whether the world should broadcast lan intents."
+    }
+  }
+}

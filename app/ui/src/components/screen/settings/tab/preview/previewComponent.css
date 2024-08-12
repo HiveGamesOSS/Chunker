@@ -1,0 +1,29 @@
+#preview {
+    border: 1px solid black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#map {
+    height: 60vh;
+    width: 100%;
+}
+
+/* Leaflet crispness override (https://github.com/Leaflet/Leaflet/issues/5883) */
+.leaflet-container .leaflet-overlay-pane svg,
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer {
+    max-width: none !important;
+    /* Preserve crisp pixels with scaled up images */
+    image-rendering: optimizeSpeed; /* Legal fallback */
+    image-rendering: -moz-crisp-edges; /* Firefox        */
+    image-rendering: -o-crisp-edges; /* Opera          */
+    image-rendering: -webkit-optimize-contrast; /* Safari         */
+    image-rendering: optimize-contrast; /* CSS3 Proposed  */
+    image-rendering: crisp-edges; /* CSS4 Proposed  */
+    image-rendering: pixelated; /* CSS4 Proposed  */
+    -ms-interpolation-mode: nearest-neighbor; /* IE8+           */
+}

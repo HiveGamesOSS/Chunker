@@ -1,0 +1,16 @@
+{
+    "id": "1.19",
+    "name": "1.19",
+    "release_target": "1.19",
+    "world_version": 3105,
+    "series_id": "main",
+    "protocol_version": 759,
+    "pack_version": {
+        "resource": 9,
+        "data": 10
+    },
+    "build_time": "2022-06-07T09:40:26+00:00",
+    "java_component": "java-runtime-gamma",
+    "java_version": 17,
+    "stable": true
+}

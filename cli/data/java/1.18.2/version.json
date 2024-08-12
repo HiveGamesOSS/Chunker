@@ -1,0 +1,16 @@
+{
+    "id": "1.18.2",
+    "name": "1.18.2",
+    "release_target": "1.18.2",
+    "world_version": 2975,
+    "series_id": "main",
+    "protocol_version": 758,
+    "pack_version": {
+        "resource": 8,
+        "data": 9
+    },
+    "build_time": "2022-02-28T10:40:37+00:00",
+    "java_component": "java-runtime-beta",
+    "java_version": 17,
+    "stable": true
+}

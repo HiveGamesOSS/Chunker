@@ -1,0 +1,14 @@
+name: Feature Request
+description: Create a request for new Chunker functionality.
+labels: [Feature Request]
+
+body:
+  - type: textarea
+    attributes:
+      label: What feature would you like seen in Chunker?
+      description: |
+        Describe the functionality you would like to see in Chunker and what it would allow you to do.
+      placeholder: |
+        Example: It would be great to see ..., this would be useful for ...
+    validations:
+      required: true

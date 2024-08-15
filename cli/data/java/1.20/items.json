@@ -1,0 +1,3767 @@
+{
+  "minecraft:acacia_boat": {
+    "protocol_id": 744
+  },
+  "minecraft:acacia_button": {
+    "protocol_id": 666
+  },
+  "minecraft:acacia_chest_boat": {
+    "protocol_id": 745
+  },
+  "minecraft:acacia_door": {
+    "protocol_id": 693
+  },
+  "minecraft:acacia_fence": {
+    "protocol_id": 293
+  },
+  "minecraft:acacia_fence_gate": {
+    "protocol_id": 716
+  },
+  "minecraft:acacia_hanging_sign": {
+    "protocol_id": 861
+  },
+  "minecraft:acacia_leaves": {
+    "protocol_id": 158
+  },
+  "minecraft:acacia_log": {
+    "protocol_id": 114
+  },
+  "minecraft:acacia_planks": {
+    "protocol_id": 27
+  },
+  "minecraft:acacia_pressure_plate": {
+    "protocol_id": 681
+  },
+  "minecraft:acacia_sapling": {
+    "protocol_id": 39
+  },
+  "minecraft:acacia_sign": {
+    "protocol_id": 850
+  },
+  "minecraft:acacia_slab": {
+    "protocol_id": 234
+  },
+  "minecraft:acacia_stairs": {
+    "protocol_id": 365
+  },
+  "minecraft:acacia_trapdoor": {
+    "protocol_id": 705
+  },
+  "minecraft:acacia_wood": {
+    "protocol_id": 148
+  },
+  "minecraft:activator_rail": {
+    "protocol_id": 726
+  },
+  "minecraft:air": {
+    "protocol_id": 0
+  },
+  "minecraft:allay_spawn_egg": {
+    "protocol_id": 967
+  },
+  "minecraft:allium": {
+    "protocol_id": 199
+  },
+  "minecraft:amethyst_block": {
+    "protocol_id": 72
+  },
+  "minecraft:amethyst_cluster": {
+    "protocol_id": 1210
+  },
+  "minecraft:amethyst_shard": {
+    "protocol_id": 768
+  },
+  "minecraft:ancient_debris": {
+    "protocol_id": 67
+  },
+  "minecraft:andesite": {
+    "protocol_id": 6
+  },
+  "minecraft:andesite_slab": {
+    "protocol_id": 626
+  },
+  "minecraft:andesite_stairs": {
+    "protocol_id": 609
+  },
+  "minecraft:andesite_wall": {
+    "protocol_id": 385
+  },
+  "minecraft:angler_pottery_sherd": {
+    "protocol_id": 1235
+  },
+  "minecraft:anvil": {
+    "protocol_id": 397
+  },
+  "minecraft:apple": {
+    "protocol_id": 759
+  },
+  "minecraft:archer_pottery_sherd": {
+    "protocol_id": 1236
+  },
+  "minecraft:armor_stand": {
+    "protocol_id": 1077
+  },
+  "minecraft:arms_up_pottery_sherd": {
+    "protocol_id": 1237
+  },
+  "minecraft:arrow": {
+    "protocol_id": 761
+  },
+  "minecraft:axolotl_bucket": {
+    "protocol_id": 879
+  },
+  "minecraft:axolotl_spawn_egg": {
+    "protocol_id": 968
+  },
+  "minecraft:azalea": {
+    "protocol_id": 175
+  },
+  "minecraft:azalea_leaves": {
+    "protocol_id": 162
+  },
+  "minecraft:azure_bluet": {
+    "protocol_id": 200
+  },
+  "minecraft:baked_potato": {
+    "protocol_id": 1053
+  },
+  "minecraft:bamboo": {
+    "protocol_id": 229
+  },
+  "minecraft:bamboo_block": {
+    "protocol_id": 122
+  },
+  "minecraft:bamboo_button": {
+    "protocol_id": 670
+  },
+  "minecraft:bamboo_chest_raft": {
+    "protocol_id": 753
+  },
+  "minecraft:bamboo_door": {
+    "protocol_id": 697
+  },
+  "minecraft:bamboo_fence": {
+    "protocol_id": 297
+  },
+  "minecraft:bamboo_fence_gate": {
+    "protocol_id": 720
+  },
+  "minecraft:bamboo_hanging_sign": {
+    "protocol_id": 865
+  },
+  "minecraft:bamboo_mosaic": {
+    "protocol_id": 34
+  },
+  "minecraft:bamboo_mosaic_slab": {
+    "protocol_id": 239
+  },
+  "minecraft:bamboo_mosaic_stairs": {
+    "protocol_id": 370
+  },
+  "minecraft:bamboo_planks": {
+    "protocol_id": 31
+  },
+  "minecraft:bamboo_pressure_plate": {
+    "protocol_id": 685
+  },
+  "minecraft:bamboo_raft": {
+    "protocol_id": 752
+  },
+  "minecraft:bamboo_sign": {
+    "protocol_id": 854
+  },
+  "minecraft:bamboo_slab": {
+    "protocol_id": 238
+  },
+  "minecraft:bamboo_stairs": {
+    "protocol_id": 369
+  },
+  "minecraft:bamboo_trapdoor": {
+    "protocol_id": 709
+  },
+  "minecraft:barrel": {
+    "protocol_id": 1154
+  },
+  "minecraft:barrier": {
+    "protocol_id": 421
+  },
+  "minecraft:basalt": {
+    "protocol_id": 306
+  },
+  "minecraft:bat_spawn_egg": {
+    "protocol_id": 969
+  },
+  "minecraft:beacon": {
+    "protocol_id": 374
+  },
+  "minecraft:bedrock": {
+    "protocol_id": 43
+  },
+  "minecraft:bee_nest": {
+    "protocol_id": 1171
+  },
+  "minecraft:bee_spawn_egg": {
+    "protocol_id": 970
+  },
+  "minecraft:beef": {
+    "protocol_id": 947
+  },
+  "minecraft:beehive": {
+    "protocol_id": 1172
+  },
+  "minecraft:beetroot": {
+    "protocol_id": 1108
+  },
+  "minecraft:beetroot_seeds": {
+    "protocol_id": 1109
+  },
+  "minecraft:beetroot_soup": {
+    "protocol_id": 1110
+  },
+  "minecraft:bell": {
+    "protocol_id": 1162
+  },
+  "minecraft:big_dripleaf": {
+    "protocol_id": 227
+  },
+  "minecraft:birch_boat": {
+    "protocol_id": 740
+  },
+  "minecraft:birch_button": {
+    "protocol_id": 664
+  },
+  "minecraft:birch_chest_boat": {
+    "protocol_id": 741
+  },
+  "minecraft:birch_door": {
+    "protocol_id": 691
+  },
+  "minecraft:birch_fence": {
+    "protocol_id": 291
+  },
+  "minecraft:birch_fence_gate": {
+    "protocol_id": 714
+  },
+  "minecraft:birch_hanging_sign": {
+    "protocol_id": 859
+  },
+  "minecraft:birch_leaves": {
+    "protocol_id": 156
+  },
+  "minecraft:birch_log": {
+    "protocol_id": 112
+  },
+  "minecraft:birch_planks": {
+    "protocol_id": 25
+  },
+  "minecraft:birch_pressure_plate": {
+    "protocol_id": 679
+  },
+  "minecraft:birch_sapling": {
+    "protocol_id": 37
+  },
+  "minecraft:birch_sign": {
+    "protocol_id": 848
+  },
+  "minecraft:birch_slab": {
+    "protocol_id": 232
+  },
+  "minecraft:birch_stairs": {
+    "protocol_id": 363
+  },
+  "minecraft:birch_trapdoor": {
+    "protocol_id": 703
+  },
+  "minecraft:birch_wood": {
+    "protocol_id": 146
+  },
+  "minecraft:black_banner": {
+    "protocol_id": 1102
+  },
+  "minecraft:black_bed": {
+    "protocol_id": 939
+  },
+  "minecraft:black_candle": {
+    "protocol_id": 1206
+  },
+  "minecraft:black_carpet": {
+    "protocol_id": 439
+  },
+  "minecraft:black_concrete": {
+    "protocol_id": 548
+  },
+  "minecraft:black_concrete_powder": {
+    "protocol_id": 564
+  },
+  "minecraft:black_dye": {
+    "protocol_id": 919
+  },
+  "minecraft:black_glazed_terracotta": {
+    "protocol_id": 532
+  },
+  "minecraft:black_shulker_box": {
+    "protocol_id": 516
+  },
+  "minecraft:black_stained_glass": {
+    "protocol_id": 464
+  },
+  "minecraft:black_stained_glass_pane": {
+    "protocol_id": 480
+  },
+  "minecraft:black_terracotta": {
+    "protocol_id": 420
+  },
+  "minecraft:black_wool": {
+    "protocol_id": 195
+  },
+  "minecraft:blackstone": {
+    "protocol_id": 1177
+  },
+  "minecraft:blackstone_slab": {
+    "protocol_id": 1178
+  },
+  "minecraft:blackstone_stairs": {
+    "protocol_id": 1179
+  },
+  "minecraft:blackstone_wall": {
+    "protocol_id": 390
+  },
+  "minecraft:blade_pottery_sherd": {
+    "protocol_id": 1238
+  },
+  "minecraft:blast_furnace": {
+    "protocol_id": 1156
+  },
+  "minecraft:blaze_powder": {
+    "protocol_id": 961
+  },
+  "minecraft:blaze_rod": {
+    "protocol_id": 953
+  },
+  "minecraft:blaze_spawn_egg": {
+    "protocol_id": 971
+  },
+  "minecraft:blue_banner": {
+    "protocol_id": 1098
+  },
+  "minecraft:blue_bed": {
+    "protocol_id": 935
+  },
+  "minecraft:blue_candle": {
+    "protocol_id": 1202
+  },
+  "minecraft:blue_carpet": {
+    "protocol_id": 435
+  },
+  "minecraft:blue_concrete": {
+    "protocol_id": 544
+  },
+  "minecraft:blue_concrete_powder": {
+    "protocol_id": 560
+  },
+  "minecraft:blue_dye": {
+    "protocol_id": 915
+  },
+  "minecraft:blue_glazed_terracotta": {
+    "protocol_id": 528
+  },
+  "minecraft:blue_ice": {
+    "protocol_id": 597
+  },
+  "minecraft:blue_orchid": {
+    "protocol_id": 198
+  },
+  "minecraft:blue_shulker_box": {
+    "protocol_id": 512
+  },
+  "minecraft:blue_stained_glass": {
+    "protocol_id": 460
+  },
+  "minecraft:blue_stained_glass_pane": {
+    "protocol_id": 476
+  },
+  "minecraft:blue_terracotta": {
+    "protocol_id": 416
+  },
+  "minecraft:blue_wool": {
+    "protocol_id": 191
+  },
+  "minecraft:bone": {
+    "protocol_id": 921
+  },
+  "minecraft:bone_block": {
+    "protocol_id": 498
+  },
+  "minecraft:bone_meal": {
+    "protocol_id": 920
+  },
+  "minecraft:book": {
+    "protocol_id": 885
+  },
+  "minecraft:bookshelf": {
+    "protocol_id": 264
+  },
+  "minecraft:bow": {
+    "protocol_id": 760
+  },
+  "minecraft:bowl": {
+    "protocol_id": 808
+  },
+  "minecraft:brain_coral": {
+    "protocol_id": 578
+  },
+  "minecraft:brain_coral_block": {
+    "protocol_id": 573
+  },
+  "minecraft:brain_coral_fan": {
+    "protocol_id": 588
+  },
+  "minecraft:bread": {
+    "protocol_id": 815
+  },
+  "minecraft:brewer_pottery_sherd": {
+    "protocol_id": 1239
+  },
+  "minecraft:brewing_stand": {
+    "protocol_id": 963
+  },
+  "minecraft:brick": {
+    "protocol_id": 881
+  },
+  "minecraft:brick_slab": {
+    "protocol_id": 248
+  },
+  "minecraft:brick_stairs": {
+    "protocol_id": 339
+  },
+  "minecraft:brick_wall": {
+    "protocol_id": 377
+  },
+  "minecraft:bricks": {
+    "protocol_id": 263
+  },
+  "minecraft:brown_banner": {
+    "protocol_id": 1099
+  },
+  "minecraft:brown_bed": {
+    "protocol_id": 936
+  },
+  "minecraft:brown_candle": {
+    "protocol_id": 1203
+  },
+  "minecraft:brown_carpet": {
+    "protocol_id": 436
+  },
+  "minecraft:brown_concrete": {
+    "protocol_id": 545
+  },
+  "minecraft:brown_concrete_powder": {
+    "protocol_id": 561
+  },
+  "minecraft:brown_dye": {
+    "protocol_id": 916
+  },
+  "minecraft:brown_glazed_terracotta": {
+    "protocol_id": 529
+  },
+  "minecraft:brown_mushroom": {
+    "protocol_id": 212
+  },
+  "minecraft:brown_mushroom_block": {
+    "protocol_id": 330
+  },
+  "minecraft:brown_shulker_box": {
+    "protocol_id": 513
+  },
+  "minecraft:brown_stained_glass": {
+    "protocol_id": 461
+  },
+  "minecraft:brown_stained_glass_pane": {
+    "protocol_id": 477
+  },
+  "minecraft:brown_terracotta": {
+    "protocol_id": 417
+  },
+  "minecraft:brown_wool": {
+    "protocol_id": 192
+  },
+  "minecraft:brush": {
+    "protocol_id": 1217
+  },
+  "minecraft:bubble_coral": {
+    "protocol_id": 579
+  },
+  "minecraft:bubble_coral_block": {
+    "protocol_id": 574
+  },
+  "minecraft:bubble_coral_fan": {
+    "protocol_id": 589
+  },
+  "minecraft:bucket": {
+    "protocol_id": 868
+  },
+  "minecraft:budding_amethyst": {
+    "protocol_id": 73
+  },
+  "minecraft:bundle": {
+    "protocol_id": 890
+  },
+  "minecraft:burn_pottery_sherd": {
+    "protocol_id": 1240
+  },
+  "minecraft:cactus": {
+    "protocol_id": 286
+  },
+  "minecraft:cake": {
+    "protocol_id": 923
+  },
+  "minecraft:calcite": {
+    "protocol_id": 11
+  },
+  "minecraft:calibrated_sculk_sensor": {
+    "protocol_id": 654
+  },
+  "minecraft:camel_spawn_egg": {
+    "protocol_id": 973
+  },
+  "minecraft:campfire": {
+    "protocol_id": 1167
+  },
+  "minecraft:candle": {
+    "protocol_id": 1190
+  },
+  "minecraft:carrot": {
+    "protocol_id": 1051
+  },
+  "minecraft:carrot_on_a_stick": {
+    "protocol_id": 733
+  },
+  "minecraft:cartography_table": {
+    "protocol_id": 1157
+  },
+  "minecraft:carved_pumpkin": {
+    "protocol_id": 301
+  },
+  "minecraft:cat_spawn_egg": {
+    "protocol_id": 972
+  },
+  "minecraft:cauldron": {
+    "protocol_id": 964
+  },
+  "minecraft:cave_spider_spawn_egg": {
+    "protocol_id": 974
+  },
+  "minecraft:chain": {
+    "protocol_id": 334
+  },
+  "minecraft:chain_command_block": {
+    "protocol_id": 493
+  },
+  "minecraft:chainmail_boots": {
+    "protocol_id": 823
+  },
+  "minecraft:chainmail_chestplate": {
+    "protocol_id": 821
+  },
+  "minecraft:chainmail_helmet": {
+    "protocol_id": 820
+  },
+  "minecraft:chainmail_leggings": {
+    "protocol_id": 822
+  },
+  "minecraft:charcoal": {
+    "protocol_id": 763
+  },
+  "minecraft:cherry_boat": {
+    "protocol_id": 746
+  },
+  "minecraft:cherry_button": {
+    "protocol_id": 667
+  },
+  "minecraft:cherry_chest_boat": {
+    "protocol_id": 747
+  },
+  "minecraft:cherry_door": {
+    "protocol_id": 694
+  },
+  "minecraft:cherry_fence": {
+    "protocol_id": 294
+  },
+  "minecraft:cherry_fence_gate": {
+    "protocol_id": 717
+  },
+  "minecraft:cherry_hanging_sign": {
+    "protocol_id": 862
+  },
+  "minecraft:cherry_leaves": {
+    "protocol_id": 159
+  },
+  "minecraft:cherry_log": {
+    "protocol_id": 115
+  },
+  "minecraft:cherry_planks": {
+    "protocol_id": 28
+  },
+  "minecraft:cherry_pressure_plate": {
+    "protocol_id": 682
+  },
+  "minecraft:cherry_sapling": {
+    "protocol_id": 40
+  },
+  "minecraft:cherry_sign": {
+    "protocol_id": 851
+  },
+  "minecraft:cherry_slab": {
+    "protocol_id": 235
+  },
+  "minecraft:cherry_stairs": {
+    "protocol_id": 366
+  },
+  "minecraft:cherry_trapdoor": {
+    "protocol_id": 706
+  },
+  "minecraft:cherry_wood": {
+    "protocol_id": 149
+  },
+  "minecraft:chest": {
+    "protocol_id": 277
+  },
+  "minecraft:chest_minecart": {
+    "protocol_id": 729
+  },
+  "minecraft:chicken": {
+    "protocol_id": 949
+  },
+  "minecraft:chicken_spawn_egg": {
+    "protocol_id": 975
+  },
+  "minecraft:chipped_anvil": {
+    "protocol_id": 398
+  },
+  "minecraft:chiseled_bookshelf": {
+    "protocol_id": 265
+  },
+  "minecraft:chiseled_deepslate": {
+    "protocol_id": 328
+  },
+  "minecraft:chiseled_nether_bricks": {
+    "protocol_id": 346
+  },
+  "minecraft:chiseled_polished_blackstone": {
+    "protocol_id": 1184
+  },
+  "minecraft:chiseled_quartz_block": {
+    "protocol_id": 400
+  },
+  "minecraft:chiseled_red_sandstone": {
+    "protocol_id": 489
+  },
+  "minecraft:chiseled_sandstone": {
+    "protocol_id": 170
+  },
+  "minecraft:chiseled_stone_bricks": {
+    "protocol_id": 321
+  },
+  "minecraft:chorus_flower": {
+    "protocol_id": 272
+  },
+  "minecraft:chorus_fruit": {
+    "protocol_id": 1104
+  },
+  "minecraft:chorus_plant": {
+    "protocol_id": 271
+  },
+  "minecraft:clay": {
+    "protocol_id": 287
+  },
+  "minecraft:clay_ball": {
+    "protocol_id": 882
+  },
+  "minecraft:clock": {
+    "protocol_id": 892
+  },
+  "minecraft:coal": {
+    "protocol_id": 762
+  },
+  "minecraft:coal_block": {
+    "protocol_id": 68
+  },
+  "minecraft:coal_ore": {
+    "protocol_id": 49
+  },
+  "minecraft:coarse_dirt": {
+    "protocol_id": 16
+  },
+  "minecraft:coast_armor_trim_smithing_template": {
+    "protocol_id": 1221
+  },
+  "minecraft:cobbled_deepslate": {
+    "protocol_id": 9
+  },
+  "minecraft:cobbled_deepslate_slab": {
+    "protocol_id": 630
+  },
+  "minecraft:cobbled_deepslate_stairs": {
+    "protocol_id": 613
+  },
+  "minecraft:cobbled_deepslate_wall": {
+    "protocol_id": 393
+  },
+  "minecraft:cobblestone": {
+    "protocol_id": 22
+  },
+  "minecraft:cobblestone_slab": {
+    "protocol_id": 247
+  },
+  "minecraft:cobblestone_stairs": {
+    "protocol_id": 282
+  },
+  "minecraft:cobblestone_wall": {
+    "protocol_id": 375
+  },
+  "minecraft:cobweb": {
+    "protocol_id": 172
+  },
+  "minecraft:cocoa_beans": {
+    "protocol_id": 903
+  },
+  "minecraft:cod": {
+    "protocol_id": 895
+  },
+  "minecraft:cod_bucket": {
+    "protocol_id": 877
+  },
+  "minecraft:cod_spawn_egg": {
+    "protocol_id": 976
+  },
+  "minecraft:command_block": {
+    "protocol_id": 373
+  },
+  "minecraft:command_block_minecart": {
+    "protocol_id": 1084
+  },
+  "minecraft:comparator": {
+    "protocol_id": 639
+  },
+  "minecraft:compass": {
+    "protocol_id": 888
+  },
+  "minecraft:composter": {
+    "protocol_id": 1153
+  },
+  "minecraft:conduit": {
+    "protocol_id": 598
+  },
+  "minecraft:cooked_beef": {
+    "protocol_id": 948
+  },
+  "minecraft:cooked_chicken": {
+    "protocol_id": 950
+  },
+  "minecraft:cooked_cod": {
+    "protocol_id": 899
+  },
+  "minecraft:cooked_mutton": {
+    "protocol_id": 1086
+  },
+  "minecraft:cooked_porkchop": {
+    "protocol_id": 842
+  },
+  "minecraft:cooked_rabbit": {
+    "protocol_id": 1073
+  },
+  "minecraft:cooked_salmon": {
+    "protocol_id": 900
+  },
+  "minecraft:cookie": {
+    "protocol_id": 940
+  },
+  "minecraft:copper_block": {
+    "protocol_id": 75
+  },
+  "minecraft:copper_ingot": {
+    "protocol_id": 772
+  },
+  "minecraft:copper_ore": {
+    "protocol_id": 53
+  },
+  "minecraft:cornflower": {
+    "protocol_id": 206
+  },
+  "minecraft:cow_spawn_egg": {
+    "protocol_id": 977
+  },
+  "minecraft:cracked_deepslate_bricks": {
+    "protocol_id": 325
+  },
+  "minecraft:cracked_deepslate_tiles": {
+    "protocol_id": 327
+  },
+  "minecraft:cracked_nether_bricks": {
+    "protocol_id": 345
+  },
+  "minecraft:cracked_polished_blackstone_bricks": {
+    "protocol_id": 1188
+  },
+  "minecraft:cracked_stone_bricks": {
+    "protocol_id": 320
+  },
+  "minecraft:crafting_table": {
+    "protocol_id": 278
+  },
+  "minecraft:creeper_banner_pattern": {
+    "protocol_id": 1147
+  },
+  "minecraft:creeper_head": {
+    "protocol_id": 1061
+  },
+  "minecraft:creeper_spawn_egg": {
+    "protocol_id": 978
+  },
+  "minecraft:crimson_button": {
+    "protocol_id": 671
+  },
+  "minecraft:crimson_door": {
+    "protocol_id": 698
+  },
+  "minecraft:crimson_fence": {
+    "protocol_id": 298
+  },
+  "minecraft:crimson_fence_gate": {
+    "protocol_id": 721
+  },
+  "minecraft:crimson_fungus": {
+    "protocol_id": 214
+  },
+  "minecraft:crimson_hanging_sign": {
+    "protocol_id": 866
+  },
+  "minecraft:crimson_hyphae": {
+    "protocol_id": 152
+  },
+  "minecraft:crimson_nylium": {
+    "protocol_id": 20
+  },
+  "minecraft:crimson_planks": {
+    "protocol_id": 32
+  },
+  "minecraft:crimson_pressure_plate": {
+    "protocol_id": 686
+  },
+  "minecraft:crimson_roots": {
+    "protocol_id": 216
+  },
+  "minecraft:crimson_sign": {
+    "protocol_id": 855
+  },
+  "minecraft:crimson_slab": {
+    "protocol_id": 240
+  },
+  "minecraft:crimson_stairs": {
+    "protocol_id": 371
+  },
+  "minecraft:crimson_stem": {
+    "protocol_id": 120
+  },
+  "minecraft:crimson_trapdoor": {
+    "protocol_id": 710
+  },
+  "minecraft:crossbow": {
+    "protocol_id": 1143
+  },
+  "minecraft:crying_obsidian": {
+    "protocol_id": 1176
+  },
+  "minecraft:cut_copper": {
+    "protocol_id": 82
+  },
+  "minecraft:cut_copper_slab": {
+    "protocol_id": 90
+  },
+  "minecraft:cut_copper_stairs": {
+    "protocol_id": 86
+  },
+  "minecraft:cut_red_sandstone": {
+    "protocol_id": 490
+  },
+  "minecraft:cut_red_sandstone_slab": {
+    "protocol_id": 254
+  },
+  "minecraft:cut_sandstone": {
+    "protocol_id": 171
+  },
+  "minecraft:cut_sandstone_slab": {
+    "protocol_id": 245
+  },
+  "minecraft:cyan_banner": {
+    "protocol_id": 1096
+  },
+  "minecraft:cyan_bed": {
+    "protocol_id": 933
+  },
+  "minecraft:cyan_candle": {
+    "protocol_id": 1200
+  },
+  "minecraft:cyan_carpet": {
+    "protocol_id": 433
+  },
+  "minecraft:cyan_concrete": {
+    "protocol_id": 542
+  },
+  "minecraft:cyan_concrete_powder": {
+    "protocol_id": 558
+  },
+  "minecraft:cyan_dye": {
+    "protocol_id": 913
+  },
+  "minecraft:cyan_glazed_terracotta": {
+    "protocol_id": 526
+  },
+  "minecraft:cyan_shulker_box": {
+    "protocol_id": 510
+  },
+  "minecraft:cyan_stained_glass": {
+    "protocol_id": 458
+  },
+  "minecraft:cyan_stained_glass_pane": {
+    "protocol_id": 474
+  },
+  "minecraft:cyan_terracotta": {
+    "protocol_id": 414
+  },
+  "minecraft:cyan_wool": {
+    "protocol_id": 189
+  },
+  "minecraft:damaged_anvil": {
+    "protocol_id": 399
+  },
+  "minecraft:dandelion": {
+    "protocol_id": 196
+  },
+  "minecraft:danger_pottery_sherd": {
+    "protocol_id": 1241
+  },
+  "minecraft:dark_oak_boat": {
+    "protocol_id": 748
+  },
+  "minecraft:dark_oak_button": {
+    "protocol_id": 668
+  },
+  "minecraft:dark_oak_chest_boat": {
+    "protocol_id": 749
+  },
+  "minecraft:dark_oak_door": {
+    "protocol_id": 695
+  },
+  "minecraft:dark_oak_fence": {
+    "protocol_id": 295
+  },
+  "minecraft:dark_oak_fence_gate": {
+    "protocol_id": 718
+  },
+  "minecraft:dark_oak_hanging_sign": {
+    "protocol_id": 863
+  },
+  "minecraft:dark_oak_leaves": {
+    "protocol_id": 160
+  },
+  "minecraft:dark_oak_log": {
+    "protocol_id": 116
+  },
+  "minecraft:dark_oak_planks": {
+    "protocol_id": 29
+  },
+  "minecraft:dark_oak_pressure_plate": {
+    "protocol_id": 683
+  },
+  "minecraft:dark_oak_sapling": {
+    "protocol_id": 41
+  },
+  "minecraft:dark_oak_sign": {
+    "protocol_id": 852
+  },
+  "minecraft:dark_oak_slab": {
+    "protocol_id": 236
+  },
+  "minecraft:dark_oak_stairs": {
+    "protocol_id": 367
+  },
+  "minecraft:dark_oak_trapdoor": {
+    "protocol_id": 707
+  },
+  "minecraft:dark_oak_wood": {
+    "protocol_id": 150
+  },
+  "minecraft:dark_prismarine": {
+    "protocol_id": 483
+  },
+  "minecraft:dark_prismarine_slab": {
+    "protocol_id": 258
+  },
+  "minecraft:dark_prismarine_stairs": {
+    "protocol_id": 486
+  },
+  "minecraft:daylight_detector": {
+    "protocol_id": 652
+  },
+  "minecraft:dead_brain_coral": {
+    "protocol_id": 582
+  },
+  "minecraft:dead_brain_coral_block": {
+    "protocol_id": 568
+  },
+  "minecraft:dead_brain_coral_fan": {
+    "protocol_id": 593
+  },
+  "minecraft:dead_bubble_coral": {
+    "protocol_id": 583
+  },
+  "minecraft:dead_bubble_coral_block": {
+    "protocol_id": 569
+  },
+  "minecraft:dead_bubble_coral_fan": {
+    "protocol_id": 594
+  },
+  "minecraft:dead_bush": {
+    "protocol_id": 177
+  },
+  "minecraft:dead_fire_coral": {
+    "protocol_id": 584
+  },
+  "minecraft:dead_fire_coral_block": {
+    "protocol_id": 570
+  },
+  "minecraft:dead_fire_coral_fan": {
+    "protocol_id": 595
+  },
+  "minecraft:dead_horn_coral": {
+    "protocol_id": 585
+  },
+  "minecraft:dead_horn_coral_block": {
+    "protocol_id": 571
+  },
+  "minecraft:dead_horn_coral_fan": {
+    "protocol_id": 596
+  },
+  "minecraft:dead_tube_coral": {
+    "protocol_id": 586
+  },
+  "minecraft:dead_tube_coral_block": {
+    "protocol_id": 567
+  },
+  "minecraft:dead_tube_coral_fan": {
+    "protocol_id": 592
+  },
+  "minecraft:debug_stick": {
+    "protocol_id": 1121
+  },
+  "minecraft:decorated_pot": {
+    "protocol_id": 266
+  },
+  "minecraft:deepslate": {
+    "protocol_id": 8
+  },
+  "minecraft:deepslate_brick_slab": {
+    "protocol_id": 632
+  },
+  "minecraft:deepslate_brick_stairs": {
+    "protocol_id": 615
+  },
+  "minecraft:deepslate_brick_wall": {
+    "protocol_id": 395
+  },
+  "minecraft:deepslate_bricks": {
+    "protocol_id": 324
+  },
+  "minecraft:deepslate_coal_ore": {
+    "protocol_id": 50
+  },
+  "minecraft:deepslate_copper_ore": {
+    "protocol_id": 54
+  },
+  "minecraft:deepslate_diamond_ore": {
+    "protocol_id": 64
+  },
+  "minecraft:deepslate_emerald_ore": {
+    "protocol_id": 60
+  },
+  "minecraft:deepslate_gold_ore": {
+    "protocol_id": 56
+  },
+  "minecraft:deepslate_iron_ore": {
+    "protocol_id": 52
+  },
+  "minecraft:deepslate_lapis_ore": {
+    "protocol_id": 62
+  },
+  "minecraft:deepslate_redstone_ore": {
+    "protocol_id": 58
+  },
+  "minecraft:deepslate_tile_slab": {
+    "protocol_id": 633
+  },
+  "minecraft:deepslate_tile_stairs": {
+    "protocol_id": 616
+  },
+  "minecraft:deepslate_tile_wall": {
+    "protocol_id": 396
+  },
+  "minecraft:deepslate_tiles": {
+    "protocol_id": 326
+  },
+  "minecraft:detector_rail": {
+    "protocol_id": 724
+  },
+  "minecraft:diamond": {
+    "protocol_id": 764
+  },
+  "minecraft:diamond_axe": {
+    "protocol_id": 800
+  },
+  "minecraft:diamond_block": {
+    "protocol_id": 77
+  },
+  "minecraft:diamond_boots": {
+    "protocol_id": 831
+  },
+  "minecraft:diamond_chestplate": {
+    "protocol_id": 829
+  },
+  "minecraft:diamond_helmet": {
+    "protocol_id": 828
+  },
+  "minecraft:diamond_hoe": {
+    "protocol_id": 801
+  },
+  "minecraft:diamond_horse_armor": {
+    "protocol_id": 1080
+  },
+  "minecraft:diamond_leggings": {
+    "protocol_id": 830
+  },
+  "minecraft:diamond_ore": {
+    "protocol_id": 63
+  },
+  "minecraft:diamond_pickaxe": {
+    "protocol_id": 799
+  },
+  "minecraft:diamond_shovel": {
+    "protocol_id": 798
+  },
+  "minecraft:diamond_sword": {
+    "protocol_id": 797
+  },
+  "minecraft:diorite": {
+    "protocol_id": 4
+  },
+  "minecraft:diorite_slab": {
+    "protocol_id": 629
+  },
+  "minecraft:diorite_stairs": {
+    "protocol_id": 612
+  },
+  "minecraft:diorite_wall": {
+    "protocol_id": 389
+  },
+  "minecraft:dirt": {
+    "protocol_id": 15
+  },
+  "minecraft:dirt_path": {
+    "protocol_id": 442
+  },
+  "minecraft:disc_fragment_5": {
+    "protocol_id": 1138
+  },
+  "minecraft:dispenser": {
+    "protocol_id": 646
+  },
+  "minecraft:dolphin_spawn_egg": {
+    "protocol_id": 979
+  },
+  "minecraft:donkey_spawn_egg": {
+    "protocol_id": 980
+  },
+  "minecraft:dragon_breath": {
+    "protocol_id": 1111
+  },
+  "minecraft:dragon_egg": {
+    "protocol_id": 357
+  },
+  "minecraft:dragon_head": {
+    "protocol_id": 1062
+  },
+  "minecraft:dried_kelp": {
+    "protocol_id": 944
+  },
+  "minecraft:dried_kelp_block": {
+    "protocol_id": 883
+  },
+  "minecraft:dripstone_block": {
+    "protocol_id": 13
+  },
+  "minecraft:dropper": {
+    "protocol_id": 647
+  },
+  "minecraft:drowned_spawn_egg": {
+    "protocol_id": 981
+  },
+  "minecraft:dune_armor_trim_smithing_template": {
+    "protocol_id": 1220
+  },
+  "minecraft:echo_shard": {
+    "protocol_id": 1216
+  },
+  "minecraft:egg": {
+    "protocol_id": 887
+  },
+  "minecraft:elder_guardian_spawn_egg": {
+    "protocol_id": 982
+  },
+  "minecraft:elytra": {
+    "protocol_id": 735
+  },
+  "minecraft:emerald": {
+    "protocol_id": 765
+  },
+  "minecraft:emerald_block": {
+    "protocol_id": 360
+  },
+  "minecraft:emerald_ore": {
+    "protocol_id": 59
+  },
+  "minecraft:enchanted_book": {
+    "protocol_id": 1068
+  },
+  "minecraft:enchanted_golden_apple": {
+    "protocol_id": 845
+  },
+  "minecraft:enchanting_table": {
+    "protocol_id": 353
+  },
+  "minecraft:end_crystal": {
+    "protocol_id": 1103
+  },
+  "minecraft:end_portal_frame": {
+    "protocol_id": 354
+  },
+  "minecraft:end_rod": {
+    "protocol_id": 270
+  },
+  "minecraft:end_stone": {
+    "protocol_id": 355
+  },
+  "minecraft:end_stone_brick_slab": {
+    "protocol_id": 622
+  },
+  "minecraft:end_stone_brick_stairs": {
+    "protocol_id": 604
+  },
+  "minecraft:end_stone_brick_wall": {
+    "protocol_id": 388
+  },
+  "minecraft:end_stone_bricks": {
+    "protocol_id": 356
+  },
+  "minecraft:ender_chest": {
+    "protocol_id": 359
+  },
+  "minecraft:ender_dragon_spawn_egg": {
+    "protocol_id": 983
+  },
+  "minecraft:ender_eye": {
+    "protocol_id": 965
+  },
+  "minecraft:ender_pearl": {
+    "protocol_id": 952
+  },
+  "minecraft:enderman_spawn_egg": {
+    "protocol_id": 984
+  },
+  "minecraft:endermite_spawn_egg": {
+    "protocol_id": 985
+  },
+  "minecraft:evoker_spawn_egg": {
+    "protocol_id": 986
+  },
+  "minecraft:experience_bottle": {
+    "protocol_id": 1044
+  },
+  "minecraft:explorer_pottery_sherd": {
+    "protocol_id": 1242
+  },
+  "minecraft:exposed_copper": {
+    "protocol_id": 79
+  },
+  "minecraft:exposed_cut_copper": {
+    "protocol_id": 83
+  },
+  "minecraft:exposed_cut_copper_slab": {
+    "protocol_id": 91
+  },
+  "minecraft:exposed_cut_copper_stairs": {
+    "protocol_id": 87
+  },
+  "minecraft:eye_armor_trim_smithing_template": {
+    "protocol_id": 1224
+  },
+  "minecraft:farmland": {
+    "protocol_id": 279
+  },
+  "minecraft:feather": {
+    "protocol_id": 811
+  },
+  "minecraft:fermented_spider_eye": {
+    "protocol_id": 960
+  },
+  "minecraft:fern": {
+    "protocol_id": 174
+  },
+  "minecraft:filled_map": {
+    "protocol_id": 941
+  },
+  "minecraft:fire_charge": {
+    "protocol_id": 1045
+  },
+  "minecraft:fire_coral": {
+    "protocol_id": 580
+  },
+  "minecraft:fire_coral_block": {
+    "protocol_id": 575
+  },
+  "minecraft:fire_coral_fan": {
+    "protocol_id": 590
+  },
+  "minecraft:firework_rocket": {
+    "protocol_id": 1066
+  },
+  "minecraft:firework_star": {
+    "protocol_id": 1067
+  },
+  "minecraft:fishing_rod": {
+    "protocol_id": 891
+  },
+  "minecraft:fletching_table": {
+    "protocol_id": 1158
+  },
+  "minecraft:flint": {
+    "protocol_id": 840
+  },
+  "minecraft:flint_and_steel": {
+    "protocol_id": 758
+  },
+  "minecraft:flower_banner_pattern": {
+    "protocol_id": 1146
+  },
+  "minecraft:flower_pot": {
+    "protocol_id": 1050
+  },
+  "minecraft:flowering_azalea": {
+    "protocol_id": 176
+  },
+  "minecraft:flowering_azalea_leaves": {
+    "protocol_id": 163
+  },
+  "minecraft:fox_spawn_egg": {
+    "protocol_id": 987
+  },
+  "minecraft:friend_pottery_sherd": {
+    "protocol_id": 1243
+  },
+  "minecraft:frog_spawn_egg": {
+    "protocol_id": 988
+  },
+  "minecraft:frogspawn": {
+    "protocol_id": 1215
+  },
+  "minecraft:furnace": {
+    "protocol_id": 280
+  },
+  "minecraft:furnace_minecart": {
+    "protocol_id": 730
+  },
+  "minecraft:ghast_spawn_egg": {
+    "protocol_id": 989
+  },
+  "minecraft:ghast_tear": {
+    "protocol_id": 954
+  },
+  "minecraft:gilded_blackstone": {
+    "protocol_id": 1180
+  },
+  "minecraft:glass": {
+    "protocol_id": 166
+  },
+  "minecraft:glass_bottle": {
+    "protocol_id": 958
+  },
+  "minecraft:glass_pane": {
+    "protocol_id": 335
+  },
+  "minecraft:glistering_melon_slice": {
+    "protocol_id": 966
+  },
+  "minecraft:globe_banner_pattern": {
+    "protocol_id": 1150
+  },
+  "minecraft:glow_berries": {
+    "protocol_id": 1166
+  },
+  "minecraft:glow_ink_sac": {
+    "protocol_id": 902
+  },
+  "minecraft:glow_item_frame": {
+    "protocol_id": 1049
+  },
+  "minecraft:glow_lichen": {
+    "protocol_id": 338
+  },
+  "minecraft:glow_squid_spawn_egg": {
+    "protocol_id": 990
+  },
+  "minecraft:glowstone": {
+    "protocol_id": 310
+  },
+  "minecraft:glowstone_dust": {
+    "protocol_id": 894
+  },
+  "minecraft:goat_horn": {
+    "protocol_id": 1152
+  },
+  "minecraft:goat_spawn_egg": {
+    "protocol_id": 991
+  },
+  "minecraft:gold_block": {
+    "protocol_id": 76
+  },
+  "minecraft:gold_ingot": {
+    "protocol_id": 774
+  },
+  "minecraft:gold_nugget": {
+    "protocol_id": 955
+  },
+  "minecraft:gold_ore": {
+    "protocol_id": 55
+  },
+  "minecraft:golden_apple": {
+    "protocol_id": 844
+  },
+  "minecraft:golden_axe": {
+    "protocol_id": 790
+  },
+  "minecraft:golden_boots": {
+    "protocol_id": 835
+  },
+  "minecraft:golden_carrot": {
+    "protocol_id": 1056
+  },
+  "minecraft:golden_chestplate": {
+    "protocol_id": 833
+  },
+  "minecraft:golden_helmet": {
+    "protocol_id": 832
+  },
+  "minecraft:golden_hoe": {
+    "protocol_id": 791
+  },
+  "minecraft:golden_horse_armor": {
+    "protocol_id": 1079
+  },
+  "minecraft:golden_leggings": {
+    "protocol_id": 834
+  },
+  "minecraft:golden_pickaxe": {
+    "protocol_id": 789
+  },
+  "minecraft:golden_shovel": {
+    "protocol_id": 788
+  },
+  "minecraft:golden_sword": {
+    "protocol_id": 787
+  },
+  "minecraft:granite": {
+    "protocol_id": 2
+  },
+  "minecraft:granite_slab": {
+    "protocol_id": 625
+  },
+  "minecraft:granite_stairs": {
+    "protocol_id": 608
+  },
+  "minecraft:granite_wall": {
+    "protocol_id": 381
+  },
+  "minecraft:grass": {
+    "protocol_id": 173
+  },
+  "minecraft:grass_block": {
+    "protocol_id": 14
+  },
+  "minecraft:gravel": {
+    "protocol_id": 48
+  },
+  "minecraft:gray_banner": {
+    "protocol_id": 1094
+  },
+  "minecraft:gray_bed": {
+    "protocol_id": 931
+  },
+  "minecraft:gray_candle": {
+    "protocol_id": 1198
+  },
+  "minecraft:gray_carpet": {
+    "protocol_id": 431
+  },
+  "minecraft:gray_concrete": {
+    "protocol_id": 540
+  },
+  "minecraft:gray_concrete_powder": {
+    "protocol_id": 556
+  },
+  "minecraft:gray_dye": {
+    "protocol_id": 911
+  },
+  "minecraft:gray_glazed_terracotta": {
+    "protocol_id": 524
+  },
+  "minecraft:gray_shulker_box": {
+    "protocol_id": 508
+  },
+  "minecraft:gray_stained_glass": {
+    "protocol_id": 456
+  },
+  "minecraft:gray_stained_glass_pane": {
+    "protocol_id": 472
+  },
+  "minecraft:gray_terracotta": {
+    "protocol_id": 412
+  },
+  "minecraft:gray_wool": {
+    "protocol_id": 187
+  },
+  "minecraft:green_banner": {
+    "protocol_id": 1100
+  },
+  "minecraft:green_bed": {
+    "protocol_id": 937
+  },
+  "minecraft:green_candle": {
+    "protocol_id": 1204
+  },
+  "minecraft:green_carpet": {
+    "protocol_id": 437
+  },
+  "minecraft:green_concrete": {
+    "protocol_id": 546
+  },
+  "minecraft:green_concrete_powder": {
+    "protocol_id": 562
+  },
+  "minecraft:green_dye": {
+    "protocol_id": 917
+  },
+  "minecraft:green_glazed_terracotta": {
+    "protocol_id": 530
+  },
+  "minecraft:green_shulker_box": {
+    "protocol_id": 514
+  },
+  "minecraft:green_stained_glass": {
+    "protocol_id": 462
+  },
+  "minecraft:green_stained_glass_pane": {
+    "protocol_id": 478
+  },
+  "minecraft:green_terracotta": {
+    "protocol_id": 418
+  },
+  "minecraft:green_wool": {
+    "protocol_id": 193
+  },
+  "minecraft:grindstone": {
+    "protocol_id": 1159
+  },
+  "minecraft:guardian_spawn_egg": {
+    "protocol_id": 992
+  },
+  "minecraft:gunpowder": {
+    "protocol_id": 812
+  },
+  "minecraft:hanging_roots": {
+    "protocol_id": 226
+  },
+  "minecraft:hay_block": {
+    "protocol_id": 423
+  },
+  "minecraft:heart_of_the_sea": {
+    "protocol_id": 1142
+  },
+  "minecraft:heart_pottery_sherd": {
+    "protocol_id": 1244
+  },
+  "minecraft:heartbreak_pottery_sherd": {
+    "protocol_id": 1245
+  },
+  "minecraft:heavy_weighted_pressure_plate": {
+    "protocol_id": 676
+  },
+  "minecraft:hoglin_spawn_egg": {
+    "protocol_id": 993
+  },
+  "minecraft:honey_block": {
+    "protocol_id": 643
+  },
+  "minecraft:honey_bottle": {
+    "protocol_id": 1173
+  },
+  "minecraft:honeycomb": {
+    "protocol_id": 1170
+  },
+  "minecraft:honeycomb_block": {
+    "protocol_id": 1174
+  },
+  "minecraft:hopper": {
+    "protocol_id": 645
+  },
+  "minecraft:hopper_minecart": {
+    "protocol_id": 732
+  },
+  "minecraft:horn_coral": {
+    "protocol_id": 581
+  },
+  "minecraft:horn_coral_block": {
+    "protocol_id": 576
+  },
+  "minecraft:horn_coral_fan": {
+    "protocol_id": 591
+  },
+  "minecraft:horse_spawn_egg": {
+    "protocol_id": 994
+  },
+  "minecraft:host_armor_trim_smithing_template": {
+    "protocol_id": 1234
+  },
+  "minecraft:howl_pottery_sherd": {
+    "protocol_id": 1246
+  },
+  "minecraft:husk_spawn_egg": {
+    "protocol_id": 995
+  },
+  "minecraft:ice": {
+    "protocol_id": 284
+  },
+  "minecraft:infested_chiseled_stone_bricks": {
+    "protocol_id": 316
+  },
+  "minecraft:infested_cobblestone": {
+    "protocol_id": 312
+  },
+  "minecraft:infested_cracked_stone_bricks": {
+    "protocol_id": 315
+  },
+  "minecraft:infested_deepslate": {
+    "protocol_id": 317
+  },
+  "minecraft:infested_mossy_stone_bricks": {
+    "protocol_id": 314
+  },
+  "minecraft:infested_stone": {
+    "protocol_id": 311
+  },
+  "minecraft:infested_stone_bricks": {
+    "protocol_id": 313
+  },
+  "minecraft:ink_sac": {
+    "protocol_id": 901
+  },
+  "minecraft:iron_axe": {
+    "protocol_id": 795
+  },
+  "minecraft:iron_bars": {
+    "protocol_id": 333
+  },
+  "minecraft:iron_block": {
+    "protocol_id": 74
+  },
+  "minecraft:iron_boots": {
+    "protocol_id": 827
+  },
+  "minecraft:iron_chestplate": {
+    "protocol_id": 825
+  },
+  "minecraft:iron_door": {
+    "protocol_id": 688
+  },
+  "minecraft:iron_golem_spawn_egg": {
+    "protocol_id": 996
+  },
+  "minecraft:iron_helmet": {
+    "protocol_id": 824
+  },
+  "minecraft:iron_hoe": {
+    "protocol_id": 796
+  },
+  "minecraft:iron_horse_armor": {
+    "protocol_id": 1078
+  },
+  "minecraft:iron_ingot": {
+    "protocol_id": 770
+  },
+  "minecraft:iron_leggings": {
+    "protocol_id": 826
+  },
+  "minecraft:iron_nugget": {
+    "protocol_id": 1119
+  },
+  "minecraft:iron_ore": {
+    "protocol_id": 51
+  },
+  "minecraft:iron_pickaxe": {
+    "protocol_id": 794
+  },
+  "minecraft:iron_shovel": {
+    "protocol_id": 793
+  },
+  "minecraft:iron_sword": {
+    "protocol_id": 792
+  },
+  "minecraft:iron_trapdoor": {
+    "protocol_id": 700
+  },
+  "minecraft:item_frame": {
+    "protocol_id": 1048
+  },
+  "minecraft:jack_o_lantern": {
+    "protocol_id": 302
+  },
+  "minecraft:jigsaw": {
+    "protocol_id": 755
+  },
+  "minecraft:jukebox": {
+    "protocol_id": 288
+  },
+  "minecraft:jungle_boat": {
+    "protocol_id": 742
+  },
+  "minecraft:jungle_button": {
+    "protocol_id": 665
+  },
+  "minecraft:jungle_chest_boat": {
+    "protocol_id": 743
+  },
+  "minecraft:jungle_door": {
+    "protocol_id": 692
+  },
+  "minecraft:jungle_fence": {
+    "protocol_id": 292
+  },
+  "minecraft:jungle_fence_gate": {
+    "protocol_id": 715
+  },
+  "minecraft:jungle_hanging_sign": {
+    "protocol_id": 860
+  },
+  "minecraft:jungle_leaves": {
+    "protocol_id": 157
+  },
+  "minecraft:jungle_log": {
+    "protocol_id": 113
+  },
+  "minecraft:jungle_planks": {
+    "protocol_id": 26
+  },
+  "minecraft:jungle_pressure_plate": {
+    "protocol_id": 680
+  },
+  "minecraft:jungle_sapling": {
+    "protocol_id": 38
+  },
+  "minecraft:jungle_sign": {
+    "protocol_id": 849
+  },
+  "minecraft:jungle_slab": {
+    "protocol_id": 233
+  },
+  "minecraft:jungle_stairs": {
+    "protocol_id": 364
+  },
+  "minecraft:jungle_trapdoor": {
+    "protocol_id": 704
+  },
+  "minecraft:jungle_wood": {
+    "protocol_id": 147
+  },
+  "minecraft:kelp": {
+    "protocol_id": 222
+  },
+  "minecraft:knowledge_book": {
+    "protocol_id": 1120
+  },
+  "minecraft:ladder": {
+    "protocol_id": 281
+  },
+  "minecraft:lantern": {
+    "protocol_id": 1163
+  },
+  "minecraft:lapis_block": {
+    "protocol_id": 168
+  },
+  "minecraft:lapis_lazuli": {
+    "protocol_id": 766
+  },
+  "minecraft:lapis_ore": {
+    "protocol_id": 61
+  },
+  "minecraft:large_amethyst_bud": {
+    "protocol_id": 1209
+  },
+  "minecraft:large_fern": {
+    "protocol_id": 448
+  },
+  "minecraft:lava_bucket": {
+    "protocol_id": 870
+  },
+  "minecraft:lead": {
+    "protocol_id": 1082
+  },
+  "minecraft:leather": {
+    "protocol_id": 873
+  },
+  "minecraft:leather_boots": {
+    "protocol_id": 819
+  },
+  "minecraft:leather_chestplate": {
+    "protocol_id": 817
+  },
+  "minecraft:leather_helmet": {
+    "protocol_id": 816
+  },
+  "minecraft:leather_horse_armor": {
+    "protocol_id": 1081
+  },
+  "minecraft:leather_leggings": {
+    "protocol_id": 818
+  },
+  "minecraft:lectern": {
+    "protocol_id": 648
+  },
+  "minecraft:lever": {
+    "protocol_id": 650
+  },
+  "minecraft:light": {
+    "protocol_id": 422
+  },
+  "minecraft:light_blue_banner": {
+    "protocol_id": 1090
+  },
+  "minecraft:light_blue_bed": {
+    "protocol_id": 927
+  },
+  "minecraft:light_blue_candle": {
+    "protocol_id": 1194
+  },
+  "minecraft:light_blue_carpet": {
+    "protocol_id": 427
+  },
+  "minecraft:light_blue_concrete": {
+    "protocol_id": 536
+  },
+  "minecraft:light_blue_concrete_powder": {
+    "protocol_id": 552
+  },
+  "minecraft:light_blue_dye": {
+    "protocol_id": 907
+  },
+  "minecraft:light_blue_glazed_terracotta": {
+    "protocol_id": 520
+  },
+  "minecraft:light_blue_shulker_box": {
+    "protocol_id": 504
+  },
+  "minecraft:light_blue_stained_glass": {
+    "protocol_id": 452
+  },
+  "minecraft:light_blue_stained_glass_pane": {
+    "protocol_id": 468
+  },
+  "minecraft:light_blue_terracotta": {
+    "protocol_id": 408
+  },
+  "minecraft:light_blue_wool": {
+    "protocol_id": 183
+  },
+  "minecraft:light_gray_banner": {
+    "protocol_id": 1095
+  },
+  "minecraft:light_gray_bed": {
+    "protocol_id": 932
+  },
+  "minecraft:light_gray_candle": {
+    "protocol_id": 1199
+  },
+  "minecraft:light_gray_carpet": {
+    "protocol_id": 432
+  },
+  "minecraft:light_gray_concrete": {
+    "protocol_id": 541
+  },
+  "minecraft:light_gray_concrete_powder": {
+    "protocol_id": 557
+  },
+  "minecraft:light_gray_dye": {
+    "protocol_id": 912
+  },
+  "minecraft:light_gray_glazed_terracotta": {
+    "protocol_id": 525
+  },
+  "minecraft:light_gray_shulker_box": {
+    "protocol_id": 509
+  },
+  "minecraft:light_gray_stained_glass": {
+    "protocol_id": 457
+  },
+  "minecraft:light_gray_stained_glass_pane": {
+    "protocol_id": 473
+  },
+  "minecraft:light_gray_terracotta": {
+    "protocol_id": 413
+  },
+  "minecraft:light_gray_wool": {
+    "protocol_id": 188
+  },
+  "minecraft:light_weighted_pressure_plate": {
+    "protocol_id": 675
+  },
+  "minecraft:lightning_rod": {
+    "protocol_id": 651
+  },
+  "minecraft:lilac": {
+    "protocol_id": 444
+  },
+  "minecraft:lily_of_the_valley": {
+    "protocol_id": 207
+  },
+  "minecraft:lily_pad": {
+    "protocol_id": 343
+  },
+  "minecraft:lime_banner": {
+    "protocol_id": 1092
+  },
+  "minecraft:lime_bed": {
+    "protocol_id": 929
+  },
+  "minecraft:lime_candle": {
+    "protocol_id": 1196
+  },
+  "minecraft:lime_carpet": {
+    "protocol_id": 429
+  },
+  "minecraft:lime_concrete": {
+    "protocol_id": 538
+  },
+  "minecraft:lime_concrete_powder": {
+    "protocol_id": 554
+  },
+  "minecraft:lime_dye": {
+    "protocol_id": 909
+  },
+  "minecraft:lime_glazed_terracotta": {
+    "protocol_id": 522
+  },
+  "minecraft:lime_shulker_box": {
+    "protocol_id": 506
+  },
+  "minecraft:lime_stained_glass": {
+    "protocol_id": 454
+  },
+  "minecraft:lime_stained_glass_pane": {
+    "protocol_id": 470
+  },
+  "minecraft:lime_terracotta": {
+    "protocol_id": 410
+  },
+  "minecraft:lime_wool": {
+    "protocol_id": 185
+  },
+  "minecraft:lingering_potion": {
+    "protocol_id": 1115
+  },
+  "minecraft:llama_spawn_egg": {
+    "protocol_id": 997
+  },
+  "minecraft:lodestone": {
+    "protocol_id": 1175
+  },
+  "minecraft:loom": {
+    "protocol_id": 1145
+  },
+  "minecraft:magenta_banner": {
+    "protocol_id": 1089
+  },
+  "minecraft:magenta_bed": {
+    "protocol_id": 926
+  },
+  "minecraft:magenta_candle": {
+    "protocol_id": 1193
+  },
+  "minecraft:magenta_carpet": {
+    "protocol_id": 426
+  },
+  "minecraft:magenta_concrete": {
+    "protocol_id": 535
+  },
+  "minecraft:magenta_concrete_powder": {
+    "protocol_id": 551
+  },
+  "minecraft:magenta_dye": {
+    "protocol_id": 906
+  },
+  "minecraft:magenta_glazed_terracotta": {
+    "protocol_id": 519
+  },
+  "minecraft:magenta_shulker_box": {
+    "protocol_id": 503
+  },
+  "minecraft:magenta_stained_glass": {
+    "protocol_id": 451
+  },
+  "minecraft:magenta_stained_glass_pane": {
+    "protocol_id": 467
+  },
+  "minecraft:magenta_terracotta": {
+    "protocol_id": 407
+  },
+  "minecraft:magenta_wool": {
+    "protocol_id": 182
+  },
+  "minecraft:magma_block": {
+    "protocol_id": 494
+  },
+  "minecraft:magma_cream": {
+    "protocol_id": 962
+  },
+  "minecraft:magma_cube_spawn_egg": {
+    "protocol_id": 998
+  },
+  "minecraft:mangrove_boat": {
+    "protocol_id": 750
+  },
+  "minecraft:mangrove_button": {
+    "protocol_id": 669
+  },
+  "minecraft:mangrove_chest_boat": {
+    "protocol_id": 751
+  },
+  "minecraft:mangrove_door": {
+    "protocol_id": 696
+  },
+  "minecraft:mangrove_fence": {
+    "protocol_id": 296
+  },
+  "minecraft:mangrove_fence_gate": {
+    "protocol_id": 719
+  },
+  "minecraft:mangrove_hanging_sign": {
+    "protocol_id": 864
+  },
+  "minecraft:mangrove_leaves": {
+    "protocol_id": 161
+  },
+  "minecraft:mangrove_log": {
+    "protocol_id": 117
+  },
+  "minecraft:mangrove_planks": {
+    "protocol_id": 30
+  },
+  "minecraft:mangrove_pressure_plate": {
+    "protocol_id": 684
+  },
+  "minecraft:mangrove_propagule": {
+    "protocol_id": 42
+  },
+  "minecraft:mangrove_roots": {
+    "protocol_id": 118
+  },
+  "minecraft:mangrove_sign": {
+    "protocol_id": 853
+  },
+  "minecraft:mangrove_slab": {
+    "protocol_id": 237
+  },
+  "minecraft:mangrove_stairs": {
+    "protocol_id": 368
+  },
+  "minecraft:mangrove_trapdoor": {
+    "protocol_id": 708
+  },
+  "minecraft:mangrove_wood": {
+    "protocol_id": 151
+  },
+  "minecraft:map": {
+    "protocol_id": 1055
+  },
+  "minecraft:medium_amethyst_bud": {
+    "protocol_id": 1208
+  },
+  "minecraft:melon": {
+    "protocol_id": 336
+  },
+  "minecraft:melon_seeds": {
+    "protocol_id": 946
+  },
+  "minecraft:melon_slice": {
+    "protocol_id": 943
+  },
+  "minecraft:milk_bucket": {
+    "protocol_id": 874
+  },
+  "minecraft:minecart": {
+    "protocol_id": 728
+  },
+  "minecraft:miner_pottery_sherd": {
+    "protocol_id": 1247
+  },
+  "minecraft:mojang_banner_pattern": {
+    "protocol_id": 1149
+  },
+  "minecraft:mooshroom_spawn_egg": {
+    "protocol_id": 999
+  },
+  "minecraft:moss_block": {
+    "protocol_id": 225
+  },
+  "minecraft:moss_carpet": {
+    "protocol_id": 223
+  },
+  "minecraft:mossy_cobblestone": {
+    "protocol_id": 267
+  },
+  "minecraft:mossy_cobblestone_slab": {
+    "protocol_id": 621
+  },
+  "minecraft:mossy_cobblestone_stairs": {
+    "protocol_id": 603
+  },
+  "minecraft:mossy_cobblestone_wall": {
+    "protocol_id": 376
+  },
+  "minecraft:mossy_stone_brick_slab": {
+    "protocol_id": 619
+  },
+  "minecraft:mossy_stone_brick_stairs": {
+    "protocol_id": 601
+  },
+  "minecraft:mossy_stone_brick_wall": {
+    "protocol_id": 380
+  },
+  "minecraft:mossy_stone_bricks": {
+    "protocol_id": 319
+  },
+  "minecraft:mourner_pottery_sherd": {
+    "protocol_id": 1248
+  },
+  "minecraft:mud": {
+    "protocol_id": 19
+  },
+  "minecraft:mud_brick_slab": {
+    "protocol_id": 250
+  },
+  "minecraft:mud_brick_stairs": {
+    "protocol_id": 341
+  },
+  "minecraft:mud_brick_wall": {
+    "protocol_id": 383
+  },
+  "minecraft:mud_bricks": {
+    "protocol_id": 323
+  },
+  "minecraft:muddy_mangrove_roots": {
+    "protocol_id": 119
+  },
+  "minecraft:mule_spawn_egg": {
+    "protocol_id": 1000
+  },
+  "minecraft:mushroom_stem": {
+    "protocol_id": 332
+  },
+  "minecraft:mushroom_stew": {
+    "protocol_id": 809
+  },
+  "minecraft:music_disc_11": {
+    "protocol_id": 1132
+  },
+  "minecraft:music_disc_13": {
+    "protocol_id": 1122
+  },
+  "minecraft:music_disc_5": {
+    "protocol_id": 1136
+  },
+  "minecraft:music_disc_blocks": {
+    "protocol_id": 1124
+  },
+  "minecraft:music_disc_cat": {
+    "protocol_id": 1123
+  },
+  "minecraft:music_disc_chirp": {
+    "protocol_id": 1125
+  },
+  "minecraft:music_disc_far": {
+    "protocol_id": 1126
+  },
+  "minecraft:music_disc_mall": {
+    "protocol_id": 1127
+  },
+  "minecraft:music_disc_mellohi": {
+    "protocol_id": 1128
+  },
+  "minecraft:music_disc_otherside": {
+    "protocol_id": 1134
+  },
+  "minecraft:music_disc_pigstep": {
+    "protocol_id": 1137
+  },
+  "minecraft:music_disc_relic": {
+    "protocol_id": 1135
+  },
+  "minecraft:music_disc_stal": {
+    "protocol_id": 1129
+  },
+  "minecraft:music_disc_strad": {
+    "protocol_id": 1130
+  },
+  "minecraft:music_disc_wait": {
+    "protocol_id": 1133
+  },
+  "minecraft:music_disc_ward": {
+    "protocol_id": 1131
+  },
+  "minecraft:mutton": {
+    "protocol_id": 1085
+  },
+  "minecraft:mycelium": {
+    "protocol_id": 342
+  },
+  "minecraft:name_tag": {
+    "protocol_id": 1083
+  },
+  "minecraft:nautilus_shell": {
+    "protocol_id": 1141
+  },
+  "minecraft:nether_brick": {
+    "protocol_id": 1069
+  },
+  "minecraft:nether_brick_fence": {
+    "protocol_id": 347
+  },
+  "minecraft:nether_brick_slab": {
+    "protocol_id": 251
+  },
+  "minecraft:nether_brick_stairs": {
+    "protocol_id": 348
+  },
+  "minecraft:nether_brick_wall": {
+    "protocol_id": 384
+  },
+  "minecraft:nether_bricks": {
+    "protocol_id": 344
+  },
+  "minecraft:nether_gold_ore": {
+    "protocol_id": 65
+  },
+  "minecraft:nether_quartz_ore": {
+    "protocol_id": 66
+  },
+  "minecraft:nether_sprouts": {
+    "protocol_id": 218
+  },
+  "minecraft:nether_star": {
+    "protocol_id": 1064
+  },
+  "minecraft:nether_wart": {
+    "protocol_id": 956
+  },
+  "minecraft:nether_wart_block": {
+    "protocol_id": 495
+  },
+  "minecraft:netherite_axe": {
+    "protocol_id": 805
+  },
+  "minecraft:netherite_block": {
+    "protocol_id": 78
+  },
+  "minecraft:netherite_boots": {
+    "protocol_id": 839
+  },
+  "minecraft:netherite_chestplate": {
+    "protocol_id": 837
+  },
+  "minecraft:netherite_helmet": {
+    "protocol_id": 836
+  },
+  "minecraft:netherite_hoe": {
+    "protocol_id": 806
+  },
+  "minecraft:netherite_ingot": {
+    "protocol_id": 775
+  },
+  "minecraft:netherite_leggings": {
+    "protocol_id": 838
+  },
+  "minecraft:netherite_pickaxe": {
+    "protocol_id": 804
+  },
+  "minecraft:netherite_scrap": {
+    "protocol_id": 776
+  },
+  "minecraft:netherite_shovel": {
+    "protocol_id": 803
+  },
+  "minecraft:netherite_sword": {
+    "protocol_id": 802
+  },
+  "minecraft:netherite_upgrade_smithing_template": {
+    "protocol_id": 1218
+  },
+  "minecraft:netherrack": {
+    "protocol_id": 303
+  },
+  "minecraft:note_block": {
+    "protocol_id": 659
+  },
+  "minecraft:oak_boat": {
+    "protocol_id": 736
+  },
+  "minecraft:oak_button": {
+    "protocol_id": 662
+  },
+  "minecraft:oak_chest_boat": {
+    "protocol_id": 737
+  },
+  "minecraft:oak_door": {
+    "protocol_id": 689
+  },
+  "minecraft:oak_fence": {
+    "protocol_id": 289
+  },
+  "minecraft:oak_fence_gate": {
+    "protocol_id": 712
+  },
+  "minecraft:oak_hanging_sign": {
+    "protocol_id": 857
+  },
+  "minecraft:oak_leaves": {
+    "protocol_id": 154
+  },
+  "minecraft:oak_log": {
+    "protocol_id": 110
+  },
+  "minecraft:oak_planks": {
+    "protocol_id": 23
+  },
+  "minecraft:oak_pressure_plate": {
+    "protocol_id": 677
+  },
+  "minecraft:oak_sapling": {
+    "protocol_id": 35
+  },
+  "minecraft:oak_sign": {
+    "protocol_id": 846
+  },
+  "minecraft:oak_slab": {
+    "protocol_id": 230
+  },
+  "minecraft:oak_stairs": {
+    "protocol_id": 361
+  },
+  "minecraft:oak_trapdoor": {
+    "protocol_id": 701
+  },
+  "minecraft:oak_wood": {
+    "protocol_id": 144
+  },
+  "minecraft:observer": {
+    "protocol_id": 644
+  },
+  "minecraft:obsidian": {
+    "protocol_id": 268
+  },
+  "minecraft:ocelot_spawn_egg": {
+    "protocol_id": 1001
+  },
+  "minecraft:ochre_froglight": {
+    "protocol_id": 1212
+  },
+  "minecraft:orange_banner": {
+    "protocol_id": 1088
+  },
+  "minecraft:orange_bed": {
+    "protocol_id": 925
+  },
+  "minecraft:orange_candle": {
+    "protocol_id": 1192
+  },
+  "minecraft:orange_carpet": {
+    "protocol_id": 425
+  },
+  "minecraft:orange_concrete": {
+    "protocol_id": 534
+  },
+  "minecraft:orange_concrete_powder": {
+    "protocol_id": 550
+  },
+  "minecraft:orange_dye": {
+    "protocol_id": 905
+  },
+  "minecraft:orange_glazed_terracotta": {
+    "protocol_id": 518
+  },
+  "minecraft:orange_shulker_box": {
+    "protocol_id": 502
+  },
+  "minecraft:orange_stained_glass": {
+    "protocol_id": 450
+  },
+  "minecraft:orange_stained_glass_pane": {
+    "protocol_id": 466
+  },
+  "minecraft:orange_terracotta": {
+    "protocol_id": 406
+  },
+  "minecraft:orange_tulip": {
+    "protocol_id": 202
+  },
+  "minecraft:orange_wool": {
+    "protocol_id": 181
+  },
+  "minecraft:oxeye_daisy": {
+    "protocol_id": 205
+  },
+  "minecraft:oxidized_copper": {
+    "protocol_id": 81
+  },
+  "minecraft:oxidized_cut_copper": {
+    "protocol_id": 85
+  },
+  "minecraft:oxidized_cut_copper_slab": {
+    "protocol_id": 93
+  },
+  "minecraft:oxidized_cut_copper_stairs": {
+    "protocol_id": 89
+  },
+  "minecraft:packed_ice": {
+    "protocol_id": 441
+  },
+  "minecraft:packed_mud": {
+    "protocol_id": 322
+  },
+  "minecraft:painting": {
+    "protocol_id": 843
+  },
+  "minecraft:panda_spawn_egg": {
+    "protocol_id": 1002
+  },
+  "minecraft:paper": {
+    "protocol_id": 884
+  },
+  "minecraft:parrot_spawn_egg": {
+    "protocol_id": 1003
+  },
+  "minecraft:pearlescent_froglight": {
+    "protocol_id": 1214
+  },
+  "minecraft:peony": {
+    "protocol_id": 446
+  },
+  "minecraft:petrified_oak_slab": {
+    "protocol_id": 246
+  },
+  "minecraft:phantom_membrane": {
+    "protocol_id": 1140
+  },
+  "minecraft:phantom_spawn_egg": {
+    "protocol_id": 1004
+  },
+  "minecraft:pig_spawn_egg": {
+    "protocol_id": 1005
+  },
+  "minecraft:piglin_banner_pattern": {
+    "protocol_id": 1151
+  },
+  "minecraft:piglin_brute_spawn_egg": {
+    "protocol_id": 1007
+  },
+  "minecraft:piglin_head": {
+    "protocol_id": 1063
+  },
+  "minecraft:piglin_spawn_egg": {
+    "protocol_id": 1006
+  },
+  "minecraft:pillager_spawn_egg": {
+    "protocol_id": 1008
+  },
+  "minecraft:pink_banner": {
+    "protocol_id": 1093
+  },
+  "minecraft:pink_bed": {
+    "protocol_id": 930
+  },
+  "minecraft:pink_candle": {
+    "protocol_id": 1197
+  },
+  "minecraft:pink_carpet": {
+    "protocol_id": 430
+  },
+  "minecraft:pink_concrete": {
+    "protocol_id": 539
+  },
+  "minecraft:pink_concrete_powder": {
+    "protocol_id": 555
+  },
+  "minecraft:pink_dye": {
+    "protocol_id": 910
+  },
+  "minecraft:pink_glazed_terracotta": {
+    "protocol_id": 523
+  },
+  "minecraft:pink_petals": {
+    "protocol_id": 224
+  },
+  "minecraft:pink_shulker_box": {
+    "protocol_id": 507
+  },
+  "minecraft:pink_stained_glass": {
+    "protocol_id": 455
+  },
+  "minecraft:pink_stained_glass_pane": {
+    "protocol_id": 471
+  },
+  "minecraft:pink_terracotta": {
+    "protocol_id": 411
+  },
+  "minecraft:pink_tulip": {
+    "protocol_id": 204
+  },
+  "minecraft:pink_wool": {
+    "protocol_id": 186
+  },
+  "minecraft:piston": {
+    "protocol_id": 640
+  },
+  "minecraft:pitcher_plant": {
+    "protocol_id": 210
+  },
+  "minecraft:pitcher_pod": {
+    "protocol_id": 1107
+  },
+  "minecraft:player_head": {
+    "protocol_id": 1059
+  },
+  "minecraft:plenty_pottery_sherd": {
+    "protocol_id": 1249
+  },
+  "minecraft:podzol": {
+    "protocol_id": 17
+  },
+  "minecraft:pointed_dripstone": {
+    "protocol_id": 1211
+  },
+  "minecraft:poisonous_potato": {
+    "protocol_id": 1054
+  },
+  "minecraft:polar_bear_spawn_egg": {
+    "protocol_id": 1009
+  },
+  "minecraft:polished_andesite": {
+    "protocol_id": 7
+  },
+  "minecraft:polished_andesite_slab": {
+    "protocol_id": 628
+  },
+  "minecraft:polished_andesite_stairs": {
+    "protocol_id": 611
+  },
+  "minecraft:polished_basalt": {
+    "protocol_id": 307
+  },
+  "minecraft:polished_blackstone": {
+    "protocol_id": 1181
+  },
+  "minecraft:polished_blackstone_brick_slab": {
+    "protocol_id": 1186
+  },
+  "minecraft:polished_blackstone_brick_stairs": {
+    "protocol_id": 1187
+  },
+  "minecraft:polished_blackstone_brick_wall": {
+    "protocol_id": 392
+  },
+  "minecraft:polished_blackstone_bricks": {
+    "protocol_id": 1185
+  },
+  "minecraft:polished_blackstone_button": {
+    "protocol_id": 661
+  },
+  "minecraft:polished_blackstone_pressure_plate": {
+    "protocol_id": 674
+  },
+  "minecraft:polished_blackstone_slab": {
+    "protocol_id": 1182
+  },
+  "minecraft:polished_blackstone_stairs": {
+    "protocol_id": 1183
+  },
+  "minecraft:polished_blackstone_wall": {
+    "protocol_id": 391
+  },
+  "minecraft:polished_deepslate": {
+    "protocol_id": 10
+  },
+  "minecraft:polished_deepslate_slab": {
+    "protocol_id": 631
+  },
+  "minecraft:polished_deepslate_stairs": {
+    "protocol_id": 614
+  },
+  "minecraft:polished_deepslate_wall": {
+    "protocol_id": 394
+  },
+  "minecraft:polished_diorite": {
+    "protocol_id": 5
+  },
+  "minecraft:polished_diorite_slab": {
+    "protocol_id": 620
+  },
+  "minecraft:polished_diorite_stairs": {
+    "protocol_id": 602
+  },
+  "minecraft:polished_granite": {
+    "protocol_id": 3
+  },
+  "minecraft:polished_granite_slab": {
+    "protocol_id": 617
+  },
+  "minecraft:polished_granite_stairs": {
+    "protocol_id": 599
+  },
+  "minecraft:popped_chorus_fruit": {
+    "protocol_id": 1105
+  },
+  "minecraft:poppy": {
+    "protocol_id": 197
+  },
+  "minecraft:porkchop": {
+    "protocol_id": 841
+  },
+  "minecraft:potato": {
+    "protocol_id": 1052
+  },
+  "minecraft:potion": {
+    "protocol_id": 957
+  },
+  "minecraft:powder_snow_bucket": {
+    "protocol_id": 871
+  },
+  "minecraft:powered_rail": {
+    "protocol_id": 723
+  },
+  "minecraft:prismarine": {
+    "protocol_id": 481
+  },
+  "minecraft:prismarine_brick_slab": {
+    "protocol_id": 257
+  },
+  "minecraft:prismarine_brick_stairs": {
+    "protocol_id": 485
+  },
+  "minecraft:prismarine_bricks": {
+    "protocol_id": 482
+  },
+  "minecraft:prismarine_crystals": {
+    "protocol_id": 1071
+  },
+  "minecraft:prismarine_shard": {
+    "protocol_id": 1070
+  },
+  "minecraft:prismarine_slab": {
+    "protocol_id": 256
+  },
+  "minecraft:prismarine_stairs": {
+    "protocol_id": 484
+  },
+  "minecraft:prismarine_wall": {
+    "protocol_id": 378
+  },
+  "minecraft:prize_pottery_sherd": {
+    "protocol_id": 1250
+  },
+  "minecraft:pufferfish": {
+    "protocol_id": 898
+  },
+  "minecraft:pufferfish_bucket": {
+    "protocol_id": 875
+  },
+  "minecraft:pufferfish_spawn_egg": {
+    "protocol_id": 1010
+  },
+  "minecraft:pumpkin": {
+    "protocol_id": 300
+  },
+  "minecraft:pumpkin_pie": {
+    "protocol_id": 1065
+  },
+  "minecraft:pumpkin_seeds": {
+    "protocol_id": 945
+  },
+  "minecraft:purple_banner": {
+    "protocol_id": 1097
+  },
+  "minecraft:purple_bed": {
+    "protocol_id": 934
+  },
+  "minecraft:purple_candle": {
+    "protocol_id": 1201
+  },
+  "minecraft:purple_carpet": {
+    "protocol_id": 434
+  },
+  "minecraft:purple_concrete": {
+    "protocol_id": 543
+  },
+  "minecraft:purple_concrete_powder": {
+    "protocol_id": 559
+  },
+  "minecraft:purple_dye": {
+    "protocol_id": 914
+  },
+  "minecraft:purple_glazed_terracotta": {
+    "protocol_id": 527
+  },
+  "minecraft:purple_shulker_box": {
+    "protocol_id": 511
+  },
+  "minecraft:purple_stained_glass": {
+    "protocol_id": 459
+  },
+  "minecraft:purple_stained_glass_pane": {
+    "protocol_id": 475
+  },
+  "minecraft:purple_terracotta": {
+    "protocol_id": 415
+  },
+  "minecraft:purple_wool": {
+    "protocol_id": 190
+  },
+  "minecraft:purpur_block": {
+    "protocol_id": 273
+  },
+  "minecraft:purpur_pillar": {
+    "protocol_id": 274
+  },
+  "minecraft:purpur_slab": {
+    "protocol_id": 255
+  },
+  "minecraft:purpur_stairs": {
+    "protocol_id": 275
+  },
+  "minecraft:quartz": {
+    "protocol_id": 767
+  },
+  "minecraft:quartz_block": {
+    "protocol_id": 401
+  },
+  "minecraft:quartz_bricks": {
+    "protocol_id": 402
+  },
+  "minecraft:quartz_pillar": {
+    "protocol_id": 403
+  },
+  "minecraft:quartz_slab": {
+    "protocol_id": 252
+  },
+  "minecraft:quartz_stairs": {
+    "protocol_id": 404
+  },
+  "minecraft:rabbit": {
+    "protocol_id": 1072
+  },
+  "minecraft:rabbit_foot": {
+    "protocol_id": 1075
+  },
+  "minecraft:rabbit_hide": {
+    "protocol_id": 1076
+  },
+  "minecraft:rabbit_spawn_egg": {
+    "protocol_id": 1011
+  },
+  "minecraft:rabbit_stew": {
+    "protocol_id": 1074
+  },
+  "minecraft:rail": {
+    "protocol_id": 725
+  },
+  "minecraft:raiser_armor_trim_smithing_template": {
+    "protocol_id": 1233
+  },
+  "minecraft:ravager_spawn_egg": {
+    "protocol_id": 1012
+  },
+  "minecraft:raw_copper": {
+    "protocol_id": 771
+  },
+  "minecraft:raw_copper_block": {
+    "protocol_id": 70
+  },
+  "minecraft:raw_gold": {
+    "protocol_id": 773
+  },
+  "minecraft:raw_gold_block": {
+    "protocol_id": 71
+  },
+  "minecraft:raw_iron": {
+    "protocol_id": 769
+  },
+  "minecraft:raw_iron_block": {
+    "protocol_id": 69
+  },
+  "minecraft:recovery_compass": {
+    "protocol_id": 889
+  },
+  "minecraft:red_banner": {
+    "protocol_id": 1101
+  },
+  "minecraft:red_bed": {
+    "protocol_id": 938
+  },
+  "minecraft:red_candle": {
+    "protocol_id": 1205
+  },
+  "minecraft:red_carpet": {
+    "protocol_id": 438
+  },
+  "minecraft:red_concrete": {
+    "protocol_id": 547
+  },
+  "minecraft:red_concrete_powder": {
+    "protocol_id": 563
+  },
+  "minecraft:red_dye": {
+    "protocol_id": 918
+  },
+  "minecraft:red_glazed_terracotta": {
+    "protocol_id": 531
+  },
+  "minecraft:red_mushroom": {
+    "protocol_id": 213
+  },
+  "minecraft:red_mushroom_block": {
+    "protocol_id": 331
+  },
+  "minecraft:red_nether_brick_slab": {
+    "protocol_id": 627
+  },
+  "minecraft:red_nether_brick_stairs": {
+    "protocol_id": 610
+  },
+  "minecraft:red_nether_brick_wall": {
+    "protocol_id": 386
+  },
+  "minecraft:red_nether_bricks": {
+    "protocol_id": 497
+  },
+  "minecraft:red_sand": {
+    "protocol_id": 47
+  },
+  "minecraft:red_sandstone": {
+    "protocol_id": 488
+  },
+  "minecraft:red_sandstone_slab": {
+    "protocol_id": 253
+  },
+  "minecraft:red_sandstone_stairs": {
+    "protocol_id": 491
+  },
+  "minecraft:red_sandstone_wall": {
+    "protocol_id": 379
+  },
+  "minecraft:red_shulker_box": {
+    "protocol_id": 515
+  },
+  "minecraft:red_stained_glass": {
+    "protocol_id": 463
+  },
+  "minecraft:red_stained_glass_pane": {
+    "protocol_id": 479
+  },
+  "minecraft:red_terracotta": {
+    "protocol_id": 419
+  },
+  "minecraft:red_tulip": {
+    "protocol_id": 201
+  },
+  "minecraft:red_wool": {
+    "protocol_id": 194
+  },
+  "minecraft:redstone": {
+    "protocol_id": 635
+  },
+  "minecraft:redstone_block": {
+    "protocol_id": 637
+  },
+  "minecraft:redstone_lamp": {
+    "protocol_id": 658
+  },
+  "minecraft:redstone_ore": {
+    "protocol_id": 57
+  },
+  "minecraft:redstone_torch": {
+    "protocol_id": 636
+  },
+  "minecraft:reinforced_deepslate": {
+    "protocol_id": 329
+  },
+  "minecraft:repeater": {
+    "protocol_id": 638
+  },
+  "minecraft:repeating_command_block": {
+    "protocol_id": 492
+  },
+  "minecraft:respawn_anchor": {
+    "protocol_id": 1189
+  },
+  "minecraft:rib_armor_trim_smithing_template": {
+    "protocol_id": 1228
+  },
+  "minecraft:rooted_dirt": {
+    "protocol_id": 18
+  },
+  "minecraft:rose_bush": {
+    "protocol_id": 445
+  },
+  "minecraft:rotten_flesh": {
+    "protocol_id": 951
+  },
+  "minecraft:saddle": {
+    "protocol_id": 727
+  },
+  "minecraft:salmon": {
+    "protocol_id": 896
+  },
+  "minecraft:salmon_bucket": {
+    "protocol_id": 876
+  },
+  "minecraft:salmon_spawn_egg": {
+    "protocol_id": 1013
+  },
+  "minecraft:sand": {
+    "protocol_id": 44
+  },
+  "minecraft:sandstone": {
+    "protocol_id": 169
+  },
+  "minecraft:sandstone_slab": {
+    "protocol_id": 244
+  },
+  "minecraft:sandstone_stairs": {
+    "protocol_id": 358
+  },
+  "minecraft:sandstone_wall": {
+    "protocol_id": 387
+  },
+  "minecraft:scaffolding": {
+    "protocol_id": 634
+  },
+  "minecraft:sculk": {
+    "protocol_id": 349
+  },
+  "minecraft:sculk_catalyst": {
+    "protocol_id": 351
+  },
+  "minecraft:sculk_sensor": {
+    "protocol_id": 653
+  },
+  "minecraft:sculk_shrieker": {
+    "protocol_id": 352
+  },
+  "minecraft:sculk_vein": {
+    "protocol_id": 350
+  },
+  "minecraft:scute": {
+    "protocol_id": 757
+  },
+  "minecraft:sea_lantern": {
+    "protocol_id": 487
+  },
+  "minecraft:sea_pickle": {
+    "protocol_id": 179
+  },
+  "minecraft:seagrass": {
+    "protocol_id": 178
+  },
+  "minecraft:sentry_armor_trim_smithing_template": {
+    "protocol_id": 1219
+  },
+  "minecraft:shaper_armor_trim_smithing_template": {
+    "protocol_id": 1231
+  },
+  "minecraft:sheaf_pottery_sherd": {
+    "protocol_id": 1251
+  },
+  "minecraft:shears": {
+    "protocol_id": 942
+  },
+  "minecraft:sheep_spawn_egg": {
+    "protocol_id": 1014
+  },
+  "minecraft:shelter_pottery_sherd": {
+    "protocol_id": 1252
+  },
+  "minecraft:shield": {
+    "protocol_id": 1116
+  },
+  "minecraft:shroomlight": {
+    "protocol_id": 1169
+  },
+  "minecraft:shulker_box": {
+    "protocol_id": 500
+  },
+  "minecraft:shulker_shell": {
+    "protocol_id": 1118
+  },
+  "minecraft:shulker_spawn_egg": {
+    "protocol_id": 1015
+  },
+  "minecraft:silence_armor_trim_smithing_template": {
+    "protocol_id": 1232
+  },
+  "minecraft:silverfish_spawn_egg": {
+    "protocol_id": 1016
+  },
+  "minecraft:skeleton_horse_spawn_egg": {
+    "protocol_id": 1018
+  },
+  "minecraft:skeleton_skull": {
+    "protocol_id": 1057
+  },
+  "minecraft:skeleton_spawn_egg": {
+    "protocol_id": 1017
+  },
+  "minecraft:skull_banner_pattern": {
+    "protocol_id": 1148
+  },
+  "minecraft:skull_pottery_sherd": {
+    "protocol_id": 1253
+  },
+  "minecraft:slime_ball": {
+    "protocol_id": 886
+  },
+  "minecraft:slime_block": {
+    "protocol_id": 642
+  },
+  "minecraft:slime_spawn_egg": {
+    "protocol_id": 1019
+  },
+  "minecraft:small_amethyst_bud": {
+    "protocol_id": 1207
+  },
+  "minecraft:small_dripleaf": {
+    "protocol_id": 228
+  },
+  "minecraft:smithing_table": {
+    "protocol_id": 1160
+  },
+  "minecraft:smoker": {
+    "protocol_id": 1155
+  },
+  "minecraft:smooth_basalt": {
+    "protocol_id": 308
+  },
+  "minecraft:smooth_quartz": {
+    "protocol_id": 259
+  },
+  "minecraft:smooth_quartz_slab": {
+    "protocol_id": 624
+  },
+  "minecraft:smooth_quartz_stairs": {
+    "protocol_id": 607
+  },
+  "minecraft:smooth_red_sandstone": {
+    "protocol_id": 260
+  },
+  "minecraft:smooth_red_sandstone_slab": {
+    "protocol_id": 618
+  },
+  "minecraft:smooth_red_sandstone_stairs": {
+    "protocol_id": 600
+  },
+  "minecraft:smooth_sandstone": {
+    "protocol_id": 261
+  },
+  "minecraft:smooth_sandstone_slab": {
+    "protocol_id": 623
+  },
+  "minecraft:smooth_sandstone_stairs": {
+    "protocol_id": 606
+  },
+  "minecraft:smooth_stone": {
+    "protocol_id": 262
+  },
+  "minecraft:smooth_stone_slab": {
+    "protocol_id": 243
+  },
+  "minecraft:sniffer_egg": {
+    "protocol_id": 566
+  },
+  "minecraft:sniffer_spawn_egg": {
+    "protocol_id": 1020
+  },
+  "minecraft:snort_pottery_sherd": {
+    "protocol_id": 1254
+  },
+  "minecraft:snout_armor_trim_smithing_template": {
+    "protocol_id": 1227
+  },
+  "minecraft:snow": {
+    "protocol_id": 283
+  },
+  "minecraft:snow_block": {
+    "protocol_id": 285
+  },
+  "minecraft:snow_golem_spawn_egg": {
+    "protocol_id": 1021
+  },
+  "minecraft:snowball": {
+    "protocol_id": 872
+  },
+  "minecraft:soul_campfire": {
+    "protocol_id": 1168
+  },
+  "minecraft:soul_lantern": {
+    "protocol_id": 1164
+  },
+  "minecraft:soul_sand": {
+    "protocol_id": 304
+  },
+  "minecraft:soul_soil": {
+    "protocol_id": 305
+  },
+  "minecraft:soul_torch": {
+    "protocol_id": 309
+  },
+  "minecraft:spawner": {
+    "protocol_id": 276
+  },
+  "minecraft:spectral_arrow": {
+    "protocol_id": 1113
+  },
+  "minecraft:spider_eye": {
+    "protocol_id": 959
+  },
+  "minecraft:spider_spawn_egg": {
+    "protocol_id": 1022
+  },
+  "minecraft:spire_armor_trim_smithing_template": {
+    "protocol_id": 1229
+  },
+  "minecraft:splash_potion": {
+    "protocol_id": 1112
+  },
+  "minecraft:sponge": {
+    "protocol_id": 164
+  },
+  "minecraft:spore_blossom": {
+    "protocol_id": 211
+  },
+  "minecraft:spruce_boat": {
+    "protocol_id": 738
+  },
+  "minecraft:spruce_button": {
+    "protocol_id": 663
+  },
+  "minecraft:spruce_chest_boat": {
+    "protocol_id": 739
+  },
+  "minecraft:spruce_door": {
+    "protocol_id": 690
+  },
+  "minecraft:spruce_fence": {
+    "protocol_id": 290
+  },
+  "minecraft:spruce_fence_gate": {
+    "protocol_id": 713
+  },
+  "minecraft:spruce_hanging_sign": {
+    "protocol_id": 858
+  },
+  "minecraft:spruce_leaves": {
+    "protocol_id": 155
+  },
+  "minecraft:spruce_log": {
+    "protocol_id": 111
+  },
+  "minecraft:spruce_planks": {
+    "protocol_id": 24
+  },
+  "minecraft:spruce_pressure_plate": {
+    "protocol_id": 678
+  },
+  "minecraft:spruce_sapling": {
+    "protocol_id": 36
+  },
+  "minecraft:spruce_sign": {
+    "protocol_id": 847
+  },
+  "minecraft:spruce_slab": {
+    "protocol_id": 231
+  },
+  "minecraft:spruce_stairs": {
+    "protocol_id": 362
+  },
+  "minecraft:spruce_trapdoor": {
+    "protocol_id": 702
+  },
+  "minecraft:spruce_wood": {
+    "protocol_id": 145
+  },
+  "minecraft:spyglass": {
+    "protocol_id": 893
+  },
+  "minecraft:squid_spawn_egg": {
+    "protocol_id": 1023
+  },
+  "minecraft:stick": {
+    "protocol_id": 807
+  },
+  "minecraft:sticky_piston": {
+    "protocol_id": 641
+  },
+  "minecraft:stone": {
+    "protocol_id": 1
+  },
+  "minecraft:stone_axe": {
+    "protocol_id": 785
+  },
+  "minecraft:stone_brick_slab": {
+    "protocol_id": 249
+  },
+  "minecraft:stone_brick_stairs": {
+    "protocol_id": 340
+  },
+  "minecraft:stone_brick_wall": {
+    "protocol_id": 382
+  },
+  "minecraft:stone_bricks": {
+    "protocol_id": 318
+  },
+  "minecraft:stone_button": {
+    "protocol_id": 660
+  },
+  "minecraft:stone_hoe": {
+    "protocol_id": 786
+  },
+  "minecraft:stone_pickaxe": {
+    "protocol_id": 784
+  },
+  "minecraft:stone_pressure_plate": {
+    "protocol_id": 673
+  },
+  "minecraft:stone_shovel": {
+    "protocol_id": 783
+  },
+  "minecraft:stone_slab": {
+    "protocol_id": 242
+  },
+  "minecraft:stone_stairs": {
+    "protocol_id": 605
+  },
+  "minecraft:stone_sword": {
+    "protocol_id": 782
+  },
+  "minecraft:stonecutter": {
+    "protocol_id": 1161
+  },
+  "minecraft:stray_spawn_egg": {
+    "protocol_id": 1024
+  },
+  "minecraft:strider_spawn_egg": {
+    "protocol_id": 1025
+  },
+  "minecraft:string": {
+    "protocol_id": 810
+  },
+  "minecraft:stripped_acacia_log": {
+    "protocol_id": 127
+  },
+  "minecraft:stripped_acacia_wood": {
+    "protocol_id": 137
+  },
+  "minecraft:stripped_bamboo_block": {
+    "protocol_id": 143
+  },
+  "minecraft:stripped_birch_log": {
+    "protocol_id": 125
+  },
+  "minecraft:stripped_birch_wood": {
+    "protocol_id": 135
+  },
+  "minecraft:stripped_cherry_log": {
+    "protocol_id": 128
+  },
+  "minecraft:stripped_cherry_wood": {
+    "protocol_id": 138
+  },
+  "minecraft:stripped_crimson_hyphae": {
+    "protocol_id": 141
+  },
+  "minecraft:stripped_crimson_stem": {
+    "protocol_id": 131
+  },
+  "minecraft:stripped_dark_oak_log": {
+    "protocol_id": 129
+  },
+  "minecraft:stripped_dark_oak_wood": {
+    "protocol_id": 139
+  },
+  "minecraft:stripped_jungle_log": {
+    "protocol_id": 126
+  },
+  "minecraft:stripped_jungle_wood": {
+    "protocol_id": 136
+  },
+  "minecraft:stripped_mangrove_log": {
+    "protocol_id": 130
+  },
+  "minecraft:stripped_mangrove_wood": {
+    "protocol_id": 140
+  },
+  "minecraft:stripped_oak_log": {
+    "protocol_id": 123
+  },
+  "minecraft:stripped_oak_wood": {
+    "protocol_id": 133
+  },
+  "minecraft:stripped_spruce_log": {
+    "protocol_id": 124
+  },
+  "minecraft:stripped_spruce_wood": {
+    "protocol_id": 134
+  },
+  "minecraft:stripped_warped_hyphae": {
+    "protocol_id": 142
+  },
+  "minecraft:stripped_warped_stem": {
+    "protocol_id": 132
+  },
+  "minecraft:structure_block": {
+    "protocol_id": 754
+  },
+  "minecraft:structure_void": {
+    "protocol_id": 499
+  },
+  "minecraft:sugar": {
+    "protocol_id": 922
+  },
+  "minecraft:sugar_cane": {
+    "protocol_id": 221
+  },
+  "minecraft:sunflower": {
+    "protocol_id": 443
+  },
+  "minecraft:suspicious_gravel": {
+    "protocol_id": 46
+  },
+  "minecraft:suspicious_sand": {
+    "protocol_id": 45
+  },
+  "minecraft:suspicious_stew": {
+    "protocol_id": 1144
+  },
+  "minecraft:sweet_berries": {
+    "protocol_id": 1165
+  },
+  "minecraft:tadpole_bucket": {
+    "protocol_id": 880
+  },
+  "minecraft:tadpole_spawn_egg": {
+    "protocol_id": 1026
+  },
+  "minecraft:tall_grass": {
+    "protocol_id": 447
+  },
+  "minecraft:target": {
+    "protocol_id": 649
+  },
+  "minecraft:terracotta": {
+    "protocol_id": 440
+  },
+  "minecraft:tide_armor_trim_smithing_template": {
+    "protocol_id": 1226
+  },
+  "minecraft:tinted_glass": {
+    "protocol_id": 167
+  },
+  "minecraft:tipped_arrow": {
+    "protocol_id": 1114
+  },
+  "minecraft:tnt": {
+    "protocol_id": 657
+  },
+  "minecraft:tnt_minecart": {
+    "protocol_id": 731
+  },
+  "minecraft:torch": {
+    "protocol_id": 269
+  },
+  "minecraft:torchflower": {
+    "protocol_id": 209
+  },
+  "minecraft:torchflower_seeds": {
+    "protocol_id": 1106
+  },
+  "minecraft:totem_of_undying": {
+    "protocol_id": 1117
+  },
+  "minecraft:trader_llama_spawn_egg": {
+    "protocol_id": 1027
+  },
+  "minecraft:trapped_chest": {
+    "protocol_id": 656
+  },
+  "minecraft:trident": {
+    "protocol_id": 1139
+  },
+  "minecraft:tripwire_hook": {
+    "protocol_id": 655
+  },
+  "minecraft:tropical_fish": {
+    "protocol_id": 897
+  },
+  "minecraft:tropical_fish_bucket": {
+    "protocol_id": 878
+  },
+  "minecraft:tropical_fish_spawn_egg": {
+    "protocol_id": 1028
+  },
+  "minecraft:tube_coral": {
+    "protocol_id": 577
+  },
+  "minecraft:tube_coral_block": {
+    "protocol_id": 572
+  },
+  "minecraft:tube_coral_fan": {
+    "protocol_id": 587
+  },
+  "minecraft:tuff": {
+    "protocol_id": 12
+  },
+  "minecraft:turtle_egg": {
+    "protocol_id": 565
+  },
+  "minecraft:turtle_helmet": {
+    "protocol_id": 756
+  },
+  "minecraft:turtle_spawn_egg": {
+    "protocol_id": 1029
+  },
+  "minecraft:twisting_vines": {
+    "protocol_id": 220
+  },
+  "minecraft:verdant_froglight": {
+    "protocol_id": 1213
+  },
+  "minecraft:vex_armor_trim_smithing_template": {
+    "protocol_id": 1225
+  },
+  "minecraft:vex_spawn_egg": {
+    "protocol_id": 1030
+  },
+  "minecraft:villager_spawn_egg": {
+    "protocol_id": 1031
+  },
+  "minecraft:vindicator_spawn_egg": {
+    "protocol_id": 1032
+  },
+  "minecraft:vine": {
+    "protocol_id": 337
+  },
+  "minecraft:wandering_trader_spawn_egg": {
+    "protocol_id": 1033
+  },
+  "minecraft:ward_armor_trim_smithing_template": {
+    "protocol_id": 1223
+  },
+  "minecraft:warden_spawn_egg": {
+    "protocol_id": 1034
+  },
+  "minecraft:warped_button": {
+    "protocol_id": 672
+  },
+  "minecraft:warped_door": {
+    "protocol_id": 699
+  },
+  "minecraft:warped_fence": {
+    "protocol_id": 299
+  },
+  "minecraft:warped_fence_gate": {
+    "protocol_id": 722
+  },
+  "minecraft:warped_fungus": {
+    "protocol_id": 215
+  },
+  "minecraft:warped_fungus_on_a_stick": {
+    "protocol_id": 734
+  },
+  "minecraft:warped_hanging_sign": {
+    "protocol_id": 867
+  },
+  "minecraft:warped_hyphae": {
+    "protocol_id": 153
+  },
+  "minecraft:warped_nylium": {
+    "protocol_id": 21
+  },
+  "minecraft:warped_planks": {
+    "protocol_id": 33
+  },
+  "minecraft:warped_pressure_plate": {
+    "protocol_id": 687
+  },
+  "minecraft:warped_roots": {
+    "protocol_id": 217
+  },
+  "minecraft:warped_sign": {
+    "protocol_id": 856
+  },
+  "minecraft:warped_slab": {
+    "protocol_id": 241
+  },
+  "minecraft:warped_stairs": {
+    "protocol_id": 372
+  },
+  "minecraft:warped_stem": {
+    "protocol_id": 121
+  },
+  "minecraft:warped_trapdoor": {
+    "protocol_id": 711
+  },
+  "minecraft:warped_wart_block": {
+    "protocol_id": 496
+  },
+  "minecraft:water_bucket": {
+    "protocol_id": 869
+  },
+  "minecraft:waxed_copper_block": {
+    "protocol_id": 94
+  },
+  "minecraft:waxed_cut_copper": {
+    "protocol_id": 98
+  },
+  "minecraft:waxed_cut_copper_slab": {
+    "protocol_id": 106
+  },
+  "minecraft:waxed_cut_copper_stairs": {
+    "protocol_id": 102
+  },
+  "minecraft:waxed_exposed_copper": {
+    "protocol_id": 95
+  },
+  "minecraft:waxed_exposed_cut_copper": {
+    "protocol_id": 99
+  },
+  "minecraft:waxed_exposed_cut_copper_slab": {
+    "protocol_id": 107
+  },
+  "minecraft:waxed_exposed_cut_copper_stairs": {
+    "protocol_id": 103
+  },
+  "minecraft:waxed_oxidized_copper": {
+    "protocol_id": 97
+  },
+  "minecraft:waxed_oxidized_cut_copper": {
+    "protocol_id": 101
+  },
+  "minecraft:waxed_oxidized_cut_copper_slab": {
+    "protocol_id": 109
+  },
+  "minecraft:waxed_oxidized_cut_copper_stairs": {
+    "protocol_id": 105
+  },
+  "minecraft:waxed_weathered_copper": {
+    "protocol_id": 96
+  },
+  "minecraft:waxed_weathered_cut_copper": {
+    "protocol_id": 100
+  },
+  "minecraft:waxed_weathered_cut_copper_slab": {
+    "protocol_id": 108
+  },
+  "minecraft:waxed_weathered_cut_copper_stairs": {
+    "protocol_id": 104
+  },
+  "minecraft:wayfinder_armor_trim_smithing_template": {
+    "protocol_id": 1230
+  },
+  "minecraft:weathered_copper": {
+    "protocol_id": 80
+  },
+  "minecraft:weathered_cut_copper": {
+    "protocol_id": 84
+  },
+  "minecraft:weathered_cut_copper_slab": {
+    "protocol_id": 92
+  },
+  "minecraft:weathered_cut_copper_stairs": {
+    "protocol_id": 88
+  },
+  "minecraft:weeping_vines": {
+    "protocol_id": 219
+  },
+  "minecraft:wet_sponge": {
+    "protocol_id": 165
+  },
+  "minecraft:wheat": {
+    "protocol_id": 814
+  },
+  "minecraft:wheat_seeds": {
+    "protocol_id": 813
+  },
+  "minecraft:white_banner": {
+    "protocol_id": 1087
+  },
+  "minecraft:white_bed": {
+    "protocol_id": 924
+  },
+  "minecraft:white_candle": {
+    "protocol_id": 1191
+  },
+  "minecraft:white_carpet": {
+    "protocol_id": 424
+  },
+  "minecraft:white_concrete": {
+    "protocol_id": 533
+  },
+  "minecraft:white_concrete_powder": {
+    "protocol_id": 549
+  },
+  "minecraft:white_dye": {
+    "protocol_id": 904
+  },
+  "minecraft:white_glazed_terracotta": {
+    "protocol_id": 517
+  },
+  "minecraft:white_shulker_box": {
+    "protocol_id": 501
+  },
+  "minecraft:white_stained_glass": {
+    "protocol_id": 449
+  },
+  "minecraft:white_stained_glass_pane": {
+    "protocol_id": 465
+  },
+  "minecraft:white_terracotta": {
+    "protocol_id": 405
+  },
+  "minecraft:white_tulip": {
+    "protocol_id": 203
+  },
+  "minecraft:white_wool": {
+    "protocol_id": 180
+  },
+  "minecraft:wild_armor_trim_smithing_template": {
+    "protocol_id": 1222
+  },
+  "minecraft:witch_spawn_egg": {
+    "protocol_id": 1035
+  },
+  "minecraft:wither_rose": {
+    "protocol_id": 208
+  },
+  "minecraft:wither_skeleton_skull": {
+    "protocol_id": 1058
+  },
+  "minecraft:wither_skeleton_spawn_egg": {
+    "protocol_id": 1037
+  },
+  "minecraft:wither_spawn_egg": {
+    "protocol_id": 1036
+  },
+  "minecraft:wolf_spawn_egg": {
+    "protocol_id": 1038
+  },
+  "minecraft:wooden_axe": {
+    "protocol_id": 780
+  },
+  "minecraft:wooden_hoe": {
+    "protocol_id": 781
+  },
+  "minecraft:wooden_pickaxe": {
+    "protocol_id": 779
+  },
+  "minecraft:wooden_shovel": {
+    "protocol_id": 778
+  },
+  "minecraft:wooden_sword": {
+    "protocol_id": 777
+  },
+  "minecraft:writable_book": {
+    "protocol_id": 1046
+  },
+  "minecraft:written_book": {
+    "protocol_id": 1047
+  },
+  "minecraft:yellow_banner": {
+    "protocol_id": 1091
+  },
+  "minecraft:yellow_bed": {
+    "protocol_id": 928
+  },
+  "minecraft:yellow_candle": {
+    "protocol_id": 1195
+  },
+  "minecraft:yellow_carpet": {
+    "protocol_id": 428
+  },
+  "minecraft:yellow_concrete": {
+    "protocol_id": 537
+  },
+  "minecraft:yellow_concrete_powder": {
+    "protocol_id": 553
+  },
+  "minecraft:yellow_dye": {
+    "protocol_id": 908
+  },
+  "minecraft:yellow_glazed_terracotta": {
+    "protocol_id": 521
+  },
+  "minecraft:yellow_shulker_box": {
+    "protocol_id": 505
+  },
+  "minecraft:yellow_stained_glass": {
+    "protocol_id": 453
+  },
+  "minecraft:yellow_stained_glass_pane": {
+    "protocol_id": 469
+  },
+  "minecraft:yellow_terracotta": {
+    "protocol_id": 409
+  },
+  "minecraft:yellow_wool": {
+    "protocol_id": 184
+  },
+  "minecraft:zoglin_spawn_egg": {
+    "protocol_id": 1039
+  },
+  "minecraft:zombie_head": {
+    "protocol_id": 1060
+  },
+  "minecraft:zombie_horse_spawn_egg": {
+    "protocol_id": 1041
+  },
+  "minecraft:zombie_spawn_egg": {
+    "protocol_id": 1040
+  },
+  "minecraft:zombie_villager_spawn_egg": {
+    "protocol_id": 1042
+  },
+  "minecraft:zombified_piglin_spawn_egg": {
+    "protocol_id": 1043
+  }
+}

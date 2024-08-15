@@ -1,0 +1,257 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/*-------MEDIA QUERIES------*/
+
+img {
+    max-width: 100%;
+    height: auto;
+    width: auto \9; /* ie8 */
+}
+
+@media screen and (max-width: 1400px) {
+
+    .wrapper {
+        width: 960px;
+    }
+
+    .tabs li {
+        max-width: 25%;
+    }
+
+    .tabs li button {
+        font-size: 12px;
+        padding: 15px 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+
+    #content .sidebar ul li button {
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    #content .main_content.settings {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media screen and (max-width: 1100px) {
+
+    .wrapper {
+        width: 730px;
+    }
+
+    #header nav ul {
+        font-size: 11px;
+    }
+
+    #content {
+        flex-direction: column;
+    }
+
+    #content .sidebar {
+        padding: 50px 10px 0;
+        border-radius: 3px 3px 0 0;
+    }
+
+    #content .sidebar ul {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #content .sidebar ul li button {
+        font-size: 13px;
+        margin: 0 1px 0;
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    #content .sidebar ul li button:after {
+        display: none;
+    }
+
+    #content .progress {
+        width: 380px;
+    }
+
+    .select_world .gray_box {
+        width: 50%;
+        box-sizing: border-box;
+    }
+
+    #content .main_content.export {
+        grid-gap: 20px;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .export .gray_box.source:after {
+        content: "Source";
+        font-size: 11px;
+    }
+
+    #footer {
+        text-align: center;
+    }
+
+    #footer .footer_top ul {
+        justify-content: center;
+    }
+
+    #footer .footer_bottom {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 0 10px;
+    }
+
+    #footer .footer_bottom img {
+        margin: 0 0 5px;
+    }
+
+    #footer .footer_bottom .build {
+        padding: 0;
+    }
+
+}
+
+@media screen and (max-width: 860px) {
+
+    .wrapper {
+        width: 460px;
+    }
+
+    .nav_menu {
+        display: block;
+    }
+
+    #header {
+        height: 47px;
+        justify-content: center;
+        margin: 0 0 70px;
+    }
+
+    #header .logo {
+        width: 240px;
+    }
+
+    #header .nav_left {
+        display: none;
+    }
+
+    #header .nav_right {
+        display: none;
+        position: absolute;
+        right: 0;
+        width: auto;
+        top: 19px;
+    }
+
+    #header .nav_right ul {
+        display: block;
+        text-align: right;
+        line-height: 1.4em;
+    }
+
+    #content .sidebar {
+        padding: 40px 7px 0;
+    }
+
+    #content .sidebar ul li button {
+        padding: 6px;
+        font-size: 10px;
+        line-height: 1.2em;
+        margin: 0 1px 0 0;
+    }
+
+    .topbar .tabs {
+        margin: 35px -45px -45px;
+        padding: 0 5px;
+        justify-content: center;
+    }
+
+    .tabs li button {
+        font-size: 11px;
+        font-weight: normal;
+        padding: 10px 6px;
+    }
+
+    #content .progress {
+        width: 300px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .progress_bar {
+        width: 85%;
+    }
+
+    p {
+        text-align: center;
+    }
+
+    .button {
+        font-size: 12px;
+    }
+
+    #content .bottombar {
+        justify-content: center;
+    }
+
+    .select_world {
+        flex-direction: column;
+    }
+
+    .select_world .gray_box {
+        width: 100%;
+        margin: 5px 0;
+        padding: 20px;
+    }
+
+    .export .gray_box .labels span + span {
+        display: none; /* Hide as it looks ugly with multiple */
+    }
+
+    .export .gray_box {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .export .gray_box:before {
+        position: static;
+        margin: 0 auto 10px;
+    }
+
+    .white_box .legend {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .settings input[type="radio"] + label {
+        font-size: 10px;
+        line-height: 36px;
+        padding: 0 8px;
+    }
+
+    .toggle, input[type="text"] {
+        height: 36px;
+    }
+
+    .switch:before {
+        height: 30px;
+    }
+
+    .settings input[type="number"] {
+        width: 70px;
+    }
+
+    #footer .footer_top ul li a {
+        font-size: 14px;
+    }
+
+}

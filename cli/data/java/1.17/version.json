@@ -1,0 +1,15 @@
+{
+    "id": "1.17",
+    "name": "1.17",
+    "release_target": "1.17",
+    "world_version": 2724,
+    "protocol_version": 755,
+    "pack_version": {
+        "resource": 7,
+        "data": 7
+    },
+    "build_time": "2021-06-08T10:58:54+00:00",
+    "java_component": "java-runtime-alpha",
+    "java_version": 16,
+    "stable": true
+}

@@ -1,0 +1,176 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://chunker.app/schemas/block_mappings.schema.json",
+    "type": "object",
+    "title": "Block Mappings",
+    "description": "Provides mappings to turn map one block type to another.",
+    "default": {
+        "identifiers": []
+    },
+    "examples": [
+        {
+            "identifiers": [
+                {
+                    "old_identifier": "minecraft:anvil",
+                    "new_identifier": "minecraft:amethyst_block",
+                    "old_state_values": {
+                        "damage": "undamaged"
+                    },
+                    "new_state_values": {
+                        "waterlogged": true
+                    }
+                },
+                {
+                    "old_identifier": "minecraft:acacia_door",
+                    "new_identifier": "minecraft:dark_oak_door"
+                }
+            ]
+        }
+    ],
+    "required": [
+        "identifiers"
+    ],
+    "properties": {
+        "identifiers": {
+            "type": "array",
+            "title": "Block Mapping Identifiers",
+            "description": "A list of block mappings which convert one identifier to a new identifier with optional states.",
+            "default": [
+                {
+                    "old_identifier": "minecraft:anvil",
+                    "new_identifier": "minecraft:amethyst_block",
+                    "old_state_values": {
+                        "damage": "undamaged"
+                    },
+                    "new_state_values": {
+                        "waterlogged": true
+                    }
+                }
+            ],
+            "examples": [
+                [
+                    {
+                        "old_identifier": "minecraft:anvil",
+                        "new_identifier": "minecraft:amethyst_block",
+                        "old_state_values": {
+                            "damage": "undamaged"
+                        },
+                        "new_state_values": {
+                            "waterlogged": true
+                        }
+                    },
+                    {
+                        "old_identifier": "minecraft:acacia_door",
+                        "new_identifier": "minecraft:acacia_button",
+                        "old_state_values": {},
+                        "new_state_values": {}
+                    }
+                ]
+            ],
+            "items": {
+                "anyOf": [
+                    {
+                        "type": "object",
+                        "title": "Block mapping",
+                        "description": "A mapping which takes an identifier and turns it into another.",
+                        "default": {
+                            "old_identifier": "minecraft:anvil",
+                            "new_identifier": "minecraft:amethyst_block",
+                            "old_state_values": {
+                                "damage": "undamaged"
+                            },
+                            "new_state_values": {
+                                "waterlogged": true
+                            }
+                        },
+                        "examples": [
+                            {
+                                "old_identifier": "minecraft:anvil",
+                                "new_identifier": "minecraft:amethyst_block",
+                                "old_state_values": {
+                                    "damage": "undamaged"
+                                },
+                                "new_state_values": {
+                                    "waterlogged": true
+                                }
+                            }
+                        ],
+                        "required": ["old_identifier", "new_identifier"],
+                        "properties": {
+                            "old_identifier": {
+                                "type": "string",
+                                "title": "Old Identifier",
+                                "description": "The identifier which should be matched to apply this transformation.",
+                                "default": "minecraft:bedrock",
+                                "examples": [
+                                    "minecraft:anvil"
+                                ]
+                            },
+                            "new_identifier": {
+                                "type": "string",
+                                "title": "New Identifier",
+                                "description": "The new identifier to use for the block which is valid in the output format.",
+                                "default": "minecraft:stone",
+                                "examples": [
+                                    "minecraft:amethyst_block"
+                                ]
+                            },
+                            "old_state_values": {
+                                "type": "object",
+                                "title": "Old States",
+                                "description": "The states which should be matched to apply this transformation. Note: Java states only use string values",
+                                "default": {
+                                    "data": 0
+                                },
+                                "examples": [
+                                    {
+                                        "damage": "undamaged"
+                                    }
+                                ],
+                                "additionalProperties": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "integer"
+                                        },
+                                        {
+                                            "type": "boolean"
+                                        }
+                                    ]
+                                }
+                            },
+                            "new_state_values": {
+                                "type": "object",
+                                "title": "New States",
+                                "description": "The new states which should be applied to the resulting object. Note: Java states only use string values",
+                                "default": {
+                                    "data": 0
+                                },
+                                "examples": [
+                                    {
+                                        "waterlogged": true
+                                    }
+                                ],
+                                "additionalProperties": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "integer"
+                                        },
+                                        {
+                                            "type": "boolean"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

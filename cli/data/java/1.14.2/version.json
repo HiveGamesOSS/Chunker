@@ -1,0 +1,10 @@
+{
+    "id": "1.14.2 / f647ba8dc371474797bee24b2b312ff4",
+    "name": "1.14.2",
+    "release_target": "1.14.2",
+    "world_version": 1963,
+    "protocol_version": 485,
+    "pack_version": 4,
+    "build_time": "2019-05-27T11:46:41+00:00",
+    "stable": true
+}

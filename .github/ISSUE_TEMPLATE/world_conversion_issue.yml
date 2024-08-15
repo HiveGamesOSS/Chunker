@@ -1,0 +1,64 @@
+name: World Conversion Issue
+description: Report an issue that occured during using Chunker.
+labels: [ Conversion Bug ]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check you have the latest version from https://github.com/HiveGamesOSS/Chunker/releases before reporting your issue.
+
+  - type: input
+    id: version
+    attributes:
+      label: "Chunker Version"
+      description: |
+        Please copy the version string written in the bottom right of Chunker, e.g. `1.0.0-main-example`.
+      placeholder: |
+        1.0.0-main-example
+    validations:
+      required: true
+
+  - type: input
+    id: input_version
+    attributes:
+      label: "Input World Version"
+      description: |
+        Is your original world Bedrock or Java and what version?
+      placeholder: |
+        Java 1.21.0
+    validations:
+      required: true
+
+  - type: input
+    id: output_version
+    attributes:
+      label: "Output World Version"
+      description: |
+        Is your desired output format Bedrock or Java and what version?
+      placeholder: |
+        Bedrock 1.21.0
+    validations:
+      required: false
+
+  - type: input
+    id: platform
+    attributes:
+      label: "Platform / Operating System"
+      description: |
+        What platform / operating system are you running Chunker on?
+      placeholder: |
+        Windows 11
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue Description
+      description: |
+        Describe what happened and provide your world if possible so that we can reproduce the issue.
+      placeholder: |
+        Example: When I convert my world the signs no longer have colour on them.
+    validations:
+      required: true

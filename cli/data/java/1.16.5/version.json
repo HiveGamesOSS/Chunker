@@ -1,0 +1,10 @@
+{
+    "id": "1.16.5",
+    "name": "1.16.5",
+    "release_target": "1.16.5",
+    "world_version": 2586,
+    "protocol_version": 754,
+    "pack_version": 6,
+    "build_time": "2021-01-14T16:03:41+00:00",
+    "stable": true
+}

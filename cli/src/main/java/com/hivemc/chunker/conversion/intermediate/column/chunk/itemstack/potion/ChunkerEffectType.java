@@ -1,0 +1,47 @@
+package com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion;
+
+/**
+ * Effect types that can be applied by beacons.
+ */
+public enum ChunkerEffectType {
+    EMPTY,
+    SPEED,
+    SLOWNESS,
+    HASTE,
+    MINING_FATIGUE,
+    STRENGTH,
+    INSTANT_HEALTH,
+    INSTANT_DAMAGE,
+    JUMP_BOOST,
+    NAUSEA,
+    REGENERATION,
+    RESISTANCE,
+    FIRE_RESISTANCE,
+    WATER_BREATHING,
+    INVISIBILITY,
+    BLINDNESS,
+    NIGHT_VISION,
+    HUNGER,
+    WEAKNESS,
+    POISON,
+    WITHER,
+    HEALTH_BOOST,
+    ABSORPTION,
+    SATURATION,
+    LEVITATION,
+    FATAL_POISON,
+    CONDUIT_POWER,
+    LUCK,
+    UNLUCK,
+    SLOW_FALLING,
+    DOLPHINS_GRACE,
+    BAD_OMEN,
+    HERO_OF_THE_VILLAGE,
+    DARKNESS,
+    TRIAL_OMEN,
+    WIND_CHARGED,
+    WEAVING,
+    OOZING,
+    INFESTED,
+    RAID_OMEN
+}

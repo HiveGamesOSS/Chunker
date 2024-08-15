@@ -1,0 +1,128 @@
+name: Build Chunker for a specific platform
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_linux:
+        description: "Build and Test Linux"
+        required: false
+        default: true
+        type: boolean
+      build_windows:
+        description: "Build Windows"
+        required: false
+        default: true
+        type: boolean
+      build_mac:
+        description: "Build Mac"
+        required: false
+        default: true
+        type: boolean
+jobs:
+  build_test_linux:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.build_linux == 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          submodules: recursive
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4
+
+      - name: Mark Gradle as Executable
+        run: chmod +x gradlew
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build
+
+      - name: Upload CLI Jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar-builds
+          path: build/libs/*.jar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-builds
+          path: build/libs/linux/
+
+  build_windows:
+    runs-on: windows-latest
+    if: github.event.inputs.build_windows == 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          submodules: recursive
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build -x test
+
+      - name: Sign files with Trusted Signing
+        uses: azure/trusted-signing-action@v0.4.0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: https://weu.codesigning.azure.net/
+          trusted-signing-account-name: hivegames
+          certificate-profile-name: Chunker
+          files-folder: build/libs/windows/
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-builds
+          path: build/libs/windows/
+
+  build_mac:
+    runs-on: macos-latest
+    if: github.event.inputs.build_mac == 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          submodules: recursive
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4
+
+      - name: Mark Gradle as Executable
+        run: chmod +x gradlew
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build -x test
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-builds
+          path: build/libs/mac/

@@ -1,0 +1,73 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://chunker.app/schemas/dimension_mappings.schema.json",
+    "type": "object",
+    "title": "Dimension Mappings",
+    "description": "Provides mappings for mapping one dimension to another or removing a dimension.",
+    "default": {
+        "OVERWORLD": "OVERWORLD",
+        "NETHER": "NETHER",
+        "THE_END": "THE_END"
+    },
+    "examples": [
+        {
+            "OVERWORLD": "OVERWORLD",
+            "NETHER": "NETHER",
+            "THE_END": "THE_END"
+        },
+        {
+            "OVERWORLD": "NETHER",
+            "THE_END": "THE_END"
+        },
+        {
+            "OVERWORLD": "OVERWORLD"
+        }
+    ],
+    "properties": {
+        "OVERWORLD": {
+            "type": "string",
+            "title": "Set the output for the overworld",
+            "description": "Set what dimension the overworld should be converted to. If this field is not present, the dimension won't be written.",
+            "examples": [
+                "OVERWORLD",
+                "NETHER",
+                "THE_END"
+            ],
+            "enum": [
+                "OVERWORLD",
+                "NETHER",
+                "THE_END"
+            ]
+        },
+        "NETHER": {
+            "type": "string",
+            "title": "Set the output for the nether",
+            "description": "Set what dimension the nether should be converted to. If this field is not present, the dimension won't be written.",
+            "examples": [
+                "OVERWORLD",
+                "NETHER",
+                "THE_END"
+            ],
+            "enum": [
+                "OVERWORLD",
+                "NETHER",
+                "THE_END"
+            ]
+        },
+        "THE_END": {
+            "type": "string",
+            "title": "Set the output for the the end",
+            "description": "Set what dimension the end should be converted to. If this field is not present, the dimension won't be written.",
+            "examples": [
+                "OVERWORLD",
+                "NETHER",
+                "THE_END"
+            ],
+            "enum": [
+                "OVERWORLD",
+                "NETHER",
+                "THE_END"
+            ]
+        }
+    }
+}

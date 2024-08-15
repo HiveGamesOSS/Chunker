@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://chunker.app/schemas/converter_settings.schema.json",
+  "type": "object",
+  "title": "Converter Settings",
+  "description": "The schema for the `converter_settings` API parameter.",
+  "examples": [
+    {
+      "customIdentifiers": true,
+      "blockConnections": true,
+      "itemConversion": true,
+      "lootTableConversion": true,
+      "mapConversion": true,
+      "enableCompact": false,
+      "discardEmptyChunks": false,
+      "preventYBiomeBlending": false
+    }
+  ],
+  "required": [],
+  "properties": {
+    "customIdentifiers": {
+      "type": "boolean",
+      "title": "Passthrough Custom Identifiers",
+      "description": "Whether custom identifiers outside the minecraft namespace are allowed to be read / written. This should be disabled if you want to prevent modded blocks from being converted.",
+      "default": false,
+      "examples": [
+        true,
+        false
+      ]
+    },
+    "blockConnections": {
+      "type": "boolean",
+      "title": "Calculate Block Connections Using Neighbours",
+      "description": "When reading legacy/bedrock worlds, block-connections are used to connect chests/fences/panes, this can hold neighbouring chunks from being converted but greatly increases conversion accuracy as blocks on the edge can have data fetched from surrounding chunks.",
+      "default": true,
+      "examples": [
+        true,
+        false
+      ]
+    },
+    "itemConversion": {
+      "type": "boolean",
+      "title": "Convert Items",
+      "description": "Whether converting items should be enabled.",
+      "default": true,
+      "examples": [
+        true,
+        false
+      ]
+    },
+    "lootTableConversion": {
+      "type": "boolean",
+      "title": "Convert Structure Loot Tables",
+      "description": "Whether the converter should attempt to match structure loot table files.",
+      "default": true,
+      "examples": [
+        true,
+        false
+      ]
+    },
+    "mapConversion": {
+      "type": "boolean",
+      "title": "In-Game Map Conversion",
+      "description": "Whether converting in-game maps should be enabled.",
+      "default": true,
+      "examples": [
+        true,
+        false
+      ]
+    },
+    "enableCompact": {
+      "type": "boolean",
+      "title": "Enable LevelDB Compact",
+      "description": "Compacts the database at the end, may cause longer conversion times but lowers file size (Bedrock only).",
+      "default": true,
+      "examples": [
+        false,
+        true
+      ]
+    },
+    "discardEmptyChunks": {
+      "type": "boolean",
+      "title": "Discard Empty Chunks",
+      "description": "Whether empty chunk data should not be written.",
+      "default": false,
+      "examples": [
+        false,
+        true
+      ]
+    },
+    "preventYBiomeBlending": {
+      "type": "boolean",
+      "title": "Prevent Y Biome Blending",
+      "description": "Whether an empty chunk should be required at the top of each column to prevent vertical biome blending (Java only).",
+      "default": false,
+      "examples": [
+        false,
+        true
+      ]
+    }
+  }
+}

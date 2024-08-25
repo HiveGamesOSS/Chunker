@@ -347,6 +347,31 @@ public class CompoundTagTests extends TagTestsBase<CompoundTag, Map<String, Tag<
     }
 
     @Test
+    public void testGetListDefaultLongArray() {
+        // Some versions of Java edition use a LongArray instead of an empty list tag, in this case it should return null
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.put("Test", new LongArrayTag(new long[0]));
+        assertNull(compoundTag.getList("Test", IntTag.class, null));
+    }
+
+    @Test
+    public void testGetListDefaultLongArrayEmpty() {
+        // Some versions of Java edition use a LongArray instead of an empty list tag, in this case it should return null
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.put("Test", new LongArrayTag());
+        assertNull(compoundTag.getList("Test", IntTag.class, null));
+    }
+
+    @Test
+    public void testGetListDefaultLongArrayNotEmpty() {
+        // Some versions of Java edition use a LongArray instead of an empty list tag, in this case it should have an exception
+        // As it's not empty
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.put("Test", new LongArrayTag(new long[]{1}));
+        assertThrowsExactly(IllegalArgumentException.class, () -> compoundTag.getList("Test", IntTag.class, null));
+    }
+
+    @Test
     public void testGetListMismatch() {
         CompoundTag compoundTag = new CompoundTag();
         ListTag<IntTag, Integer> entry = new ListTag<>(TagType.INT, List.of(new IntTag(1)));
@@ -417,6 +442,31 @@ public class CompoundTagTests extends TagTestsBase<CompoundTag, Map<String, Tag<
         ListTag<IntTag, Integer> entry = new ListTag<>(TagType.INT, List.of(new IntTag(1)));
         compoundTag.put("Test", entry);
         assertNull(compoundTag.getListValues("Test2", DoubleTag.class, null));
+    }
+
+    @Test
+    public void testGetListValuesDefaultLongArray() {
+        // Some versions of Java edition use a LongArray instead of an empty list tag, in this case it should return null
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.put("Test", new LongArrayTag(new long[0]));
+        assertNull(compoundTag.getListValues("Test", IntTag.class, null));
+    }
+
+    @Test
+    public void testGetListValuesDefaultLongArrayEmpty() {
+        // Some versions of Java edition use a LongArray instead of an empty list tag, in this case it should return null
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.put("Test", new LongArrayTag());
+        assertNull(compoundTag.getListValues("Test", IntTag.class, null));
+    }
+
+    @Test
+    public void testGetListValuesDefaultLongArrayNotEmpty() {
+        // Some versions of Java edition use a LongArray instead of an empty list tag, in this case it should have an exception
+        // As it's not empty
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.put("Test", new LongArrayTag(new long[]{1}));
+        assertThrowsExactly(IllegalArgumentException.class, () -> compoundTag.getListValues("Test", IntTag.class, null));
     }
 
     @Test

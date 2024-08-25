@@ -17,6 +17,8 @@ import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.array.ByteArrayTag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
+import com.hivemc.chunker.nbt.tags.primitive.ByteTag;
+import com.hivemc.chunker.nbt.tags.primitive.IntTag;
 import com.hivemc.chunker.scheduling.task.Task;
 import com.hivemc.chunker.scheduling.task.TaskWeight;
 
@@ -253,8 +255,19 @@ public class JavaColumnReader implements ColumnReader {
 
         // Loop through each chunk in the column
         for (CompoundTag section : sections) {
-            if (!section.contains("Y") || section.size() <= 1) continue;
-            byte y = section.getByte("Y");
+            Tag<?> tag = section.get("Y");
+            if (tag == null || section.size() <= 1) continue;
+
+            // Get the Y index of the sub-chunk
+            byte y;
+            if (tag instanceof ByteTag byteYTag) {
+                y = byteYTag.getValue();
+            } else if (tag instanceof IntTag intYTag) {
+                // Allow Y to be an int, Minecraft still parses this and some software uses integers
+                y = intYTag.getBoxedValue().byteValue();
+            } else {
+                throw new IllegalArgumentException("Invalid Section Y NBT Tag: " + tag);
+            }
 
             // Create the chunk and add it to the column
             ChunkerChunk chunk = new ChunkerChunk(y);

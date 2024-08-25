@@ -146,7 +146,7 @@ public class ListTag<T extends Tag<V>, V> extends Tag<List<T>> implements Iterab
             throw new IllegalArgumentException("Could not read list with length " + length);
 
         // Start reading
-        if (listType != TagType.END) {
+        if (listType != TagType.END && length > 0) {
             // Allocate array
             value = new ObjectArrayList<>(length);
 
@@ -155,6 +155,10 @@ public class ListTag<T extends Tag<V>, V> extends Tag<List<T>> implements Iterab
                 tag.decodeValue(reader);
                 value.add(tag);
             }
+        } else {
+            // Always use END tag to indicate empty lists
+            // Older versions sometimes use BYTE
+            listType = (TagType<T, V>) TagType.END;
         }
     }
 

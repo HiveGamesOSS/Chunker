@@ -655,7 +655,7 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Ma
         ListTag<T, V> listTag = get(name, ListTag.class);
         if (listTag == null) throw new IllegalArgumentException("Could not access " + name);
         if (listTag.getListType() != TagType.END && listTag.getListType() != null && !Objects.equals(listTag.getListType().getTagClass(), listTagType)) {
-            throw new IllegalArgumentException("Unexpected list type " + name);
+            throw new IllegalArgumentException("Unexpected list type for " + name + " expected " + listTagType + " got " + listTag.getListType().getTagClass());
         }
         return listTag;
     }
@@ -691,7 +691,7 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Ma
         // Check the type of the list tag
         ListTag<T, V> listTag = (ListTag<T, V>) tag;
         if (listTag.getListType() != TagType.END && listTag.getListType() != null && !Objects.equals(listTag.getListType().getTagClass(), listTagType)) {
-            throw new IllegalArgumentException("Unexpected list type " + name);
+            throw new IllegalArgumentException("Unexpected list type for " + name + " expected " + listTagType + " got " + listTag.getListType().getTagClass());
         }
         return listTag;
     }

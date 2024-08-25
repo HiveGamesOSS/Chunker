@@ -1,8 +1,7 @@
 import {spawn} from "child_process"
 import {app} from "electron"
 import path from "path"
-import fs from "fs/promises"
-import fsSync from "fs"
+import fs from "fs-extra"
 import jszip from "jszip"
 import {copyRecursive, countFiles, zipRecursive} from "./util.js";
 import {download} from "electron-dl";
@@ -47,12 +46,12 @@ export class Session {
             let cliDirectory = executable ?? path.join(path.dirname(app.getAppPath()), "chunker-cli");
 
             // Use the bin directory if it's present for the executable
-            if (fsSync.existsSync(path.join(cliDirectory, "bin"))) {
+            if (fs.existsSync(path.join(cliDirectory, "bin"))) {
                 cliDirectory = path.join(cliDirectory, "bin");
             }
 
             // Find the executable for this platform
-            let files = fsSync.readdirSync(cliDirectory, {withFileTypes: true})
+            let files = fs.readdirSync(cliDirectory, {withFileTypes: true})
                 .filter(file => file.isFile() && file.name.startsWith("chunker-cli") && !file.name.endsWith(".ico") && !file.name.endsWith("-unshaded.jar"));
 
             // Close if there is no executable (this is a packaging issue)
@@ -119,7 +118,7 @@ export class Session {
 
         // Setup output path
         this._sessionPath = path.join(app.getPath("temp"), "chunker-electron", this._sessionID);
-        fsSync.mkdirSync(this._sessionPath, {recursive: true});
+        fs.mkdirSync(this._sessionPath, {recursive: true});
     }
 
     close(errorCode) {

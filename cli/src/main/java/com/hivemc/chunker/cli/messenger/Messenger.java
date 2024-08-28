@@ -384,14 +384,19 @@ public class Messenger {
                             throwable.printStackTrace();
                         }
 
-                        // Tell the user there was an error
-                        write(new ErrorResponse(
-                                taskID,
-                                false,
-                                "A fatal error occurred during conversion.",
-                                sessionID.toString(),
-                                exception.get().getMessage()
-                        ));
+                        // Always exit if it's an OOM as the memory may not be recoverable
+                        if (throwable instanceof OutOfMemoryError) {
+                            System.exit(12);
+                        } else {
+                            // Tell the user there was an error
+                            write(new ErrorResponse(
+                                    taskID,
+                                    false,
+                                    "A fatal error occurred during conversion.",
+                                    sessionID.toString(),
+                                    exception.get().getMessage()
+                            ));
+                        }
                     } else if (worldConverter.isCancelled()) {
                         write(new ErrorResponse(taskID, true, "The process was cancelled", null, null));
                     } else {

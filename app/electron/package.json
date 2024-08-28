@@ -1,6 +1,6 @@
 {
   "name": "chunker-electron",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert worlds between Java and Bedrock.",
   "private": true,
   "main": "src/index.js",

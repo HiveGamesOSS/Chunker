@@ -71,8 +71,16 @@ public class BedrockBlockIdentifierValidationTests {
             "minecraft:border_block",
             "minecraft:chemical_heat",
             "minecraft:chemistry_table",
+            "minecraft:lab_table",
+            "minecraft:material_reducer",
+            "minecraft:element_constructor",
+            "minecraft:compound_creator",
             "minecraft:colored_torch_bp",
             "minecraft:colored_torch_rg",
+            "minecraft:colored_torch_blue",
+            "minecraft:colored_torch_green",
+            "minecraft:colored_torch_purple",
+            "minecraft:colored_torch_red",
             "minecraft:hard_glass",
             "minecraft:hard_glass_pane",
             "minecraft:hard_stained_glass",
@@ -428,13 +436,15 @@ public class BedrockBlockIdentifierValidationTests {
                 clonedStates.remove("minecraft:pillar_axis");
             }
         }
-        if (input.getIdentifier().equals("minecraft:purpur_block") && clonedStates.containsKey("chisel_type")) {
-            // Both these states just use the normal block
-            clonedStates.replace("chisel_type", new StateValueString("smooth"), new StateValueString("default"));
-            clonedStates.replace("chisel_type", new StateValueString("chiseled"), new StateValueString("default"));
+        if (input.getIdentifier().equals("minecraft:purpur_block")) {
+            if (clonedStates.containsKey("chisel_type")) {
+                // Both these states just use the normal block
+                clonedStates.replace("chisel_type", new StateValueString("smooth"), new StateValueString("default"));
+                clonedStates.replace("chisel_type", new StateValueString("chiseled"), new StateValueString("default"));
+            }
 
             // Unless the purpur_block is lines then the direction isn't visible
-            if (!clonedStates.get("chisel_type").equals(new StateValueString("lines"))) {
+            if (!clonedStates.containsKey("chisel_type") || !clonedStates.get("chisel_type").equals(new StateValueString("lines"))) {
                 clonedStates.remove("pillar_axis");
                 clonedStates.remove("direction");
             }
@@ -447,6 +457,13 @@ public class BedrockBlockIdentifierValidationTests {
                 clonedStates.remove("pillar_axis");
                 clonedStates.remove("direction");
             }
+        }
+        if (input.getIdentifier().contains("minecraft:deprecated_purpur_block_")) {
+            input = new Identifier("minecraft:purpur_block", input.getStates());
+
+            // Remove rotation
+            clonedStates.remove("pillar_axis");
+            clonedStates.remove("direction");
         }
         if (input.getIdentifier().contains("minecraft:deprecated_anvil")) {
             input = new Identifier("minecraft:damaged_anvil", input.getStates());

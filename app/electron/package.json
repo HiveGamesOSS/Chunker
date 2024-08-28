@@ -28,6 +28,11 @@
         "portable"
       ]
     },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    },
     "extraResources": [
       {
         "from": "../../cli/build/libs/packaged",

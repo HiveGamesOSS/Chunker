@@ -15,6 +15,7 @@ import java.util.function.Consumer;
  */
 public class Environment extends TrackedTask<Void> implements Closeable {
     private final TaskExecutor executor;
+    private CompletableFuture<Void> childFuture;
     private CompletableFuture<Void> future;
     private Runnable onFree;
 
@@ -42,14 +43,14 @@ public class Environment extends TrackedTask<Void> implements Closeable {
 
     @Override
     public void close() {
-        // Record the future
-        future = waitForChildren(null).toCompletableFuture();
+        // Record the child future
+        childFuture = waitForChildren(null).toCompletableFuture();
 
         // Clear executor
         executor.clearCurrentThreadExecutor();
 
-        // Schedule call to free
-        future = future.handle((input, throwable) -> {
+        // Schedule call to free after the child future
+        future = childFuture.handle((input, throwable) -> {
             // Free resources after children have completed
             free();
 
@@ -80,11 +81,11 @@ public class Environment extends TrackedTask<Void> implements Closeable {
             executor.shutdown();
         } finally {
             if (exception != null) {
-                // Complete the future with an exception
-                future.completeExceptionally(exception);
+                // Complete the child future with an exception
+                childFuture.completeExceptionally(exception);
             } else {
                 // Cancel
-                future.cancel(true);
+                childFuture.cancel(true);
             }
         }
     }

@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
@@ -598,13 +599,19 @@ public class WorldConverter implements Converter {
      * Cancel the conversion task.
      *
      * @param fatalException an exception to use as the reason for the future.
+     * @return the environment future which is complete when the environment has fully cancelled.
      */
-    public void cancel(@Nullable Throwable fatalException) {
+    public CompletableFuture<Void> cancel(@Nullable Throwable fatalException) {
         cancelled = true;
 
         // Cancel the environment with the exception
         if (environment != null) {
             environment.cancel(fatalException);
+
+            // Return the future for the environment (useful for waiting)
+            return environment.future();
+        } else {
+            return CompletableFuture.completedFuture(null);
         }
     }
 

@@ -19,7 +19,8 @@ export class SelectWorldScreen extends BaseScreen {
         progress: 0,
         animated: false,
         selected: undefined,
-        fileBlob: undefined,
+        filePath: undefined,
+        filePathDirectory: undefined,
         processing: false,
         processingPercentage: 0,
         dragging: false,
@@ -80,17 +81,19 @@ export class SelectWorldScreen extends BaseScreen {
             for (let i = 0; i < files.length; i++) {
                 let file = files[i];
                 if (file.path.endsWith("level.dat")) {
-                    level = file.file.path.substring(0, file.file.path.lastIndexOf("level.dat"));
+                    let fullPath = window.chunker.getPathForFile(file.file);
+                    level = fullPath.substring(0, fullPath.lastIndexOf("level.dat"));
                 }
             }
             if (level) {
-                self.setState({fileBlob: {path: level}, processing: false});
+                self.setState({filePath: level, filePathDirectory: true, processing: false});
             } else {
                 this.app.showError("Invalid World", "The folder you selected did not contain a level.dat, please ensure you're using a Minecraft world folder.", null, true);
                 this.setState({selected: false, detecting: false, processing: false});
             }
         } else {
-            this.setState({selected: files[0].path.split('/')[1], fileBlob: files[0].file});
+            let fullPath = window.chunker.getPathForFile(files[0].file);
+            this.setState({selected: files[0].path.split('/')[1], filePath: fullPath, filePathDirectory: false});
         }
     };
 
@@ -211,9 +214,9 @@ export class SelectWorldScreen extends BaseScreen {
         // Do request
         let self = this;
 
-        // Check selected type
-        let name = this.state.fileBlob.name;
-        if (name !== undefined && !name.endsWith(".zip") && !name.endsWith(".mcworld")) {
+        // Check selected type (if it's a file)
+        let name = this.state.filePath;
+        if (!this.state.filePathDirectory && !name.endsWith(".zip") && !name.endsWith(".mcworld")) {
             self.app.showError("Failed to load world", "Only .zip and .mcworld files can be used.", undefined, false);
             return;
         }
@@ -223,7 +226,7 @@ export class SelectWorldScreen extends BaseScreen {
             api.send({
                 type: "flow",
                 method: "select_world",
-                path: self.state.fileBlob.path,
+                path: self.state.filePath,
             }, (message) => {
                 if (message.type === "response") {
                     // Update session

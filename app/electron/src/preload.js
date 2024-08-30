@@ -1,7 +1,8 @@
-const {contextBridge, ipcRenderer} = require("electron");
+const {contextBridge, ipcRenderer, webUtils} = require("electron");
 const versionInfo = ipcRenderer.sendSync("versionInfo");
 
 contextBridge.exposeInMainWorld("chunker", {
+    getPathForFile: webUtils.getPathForFile,
     version: versionInfo.version,
     gitVersion: versionInfo.git,
     platform: versionInfo.platform,

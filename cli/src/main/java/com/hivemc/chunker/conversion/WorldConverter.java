@@ -567,19 +567,27 @@ public class WorldConverter implements Converter {
             environment.close(); // Close indicates that we're done scheduling the base tasks
 
             // Ensure free is called for the reader & writer (always)
-            environment.future().whenComplete((output, error) -> {
+            environment.setFreeCallback(() -> {
                 // Free reader
                 try {
                     reader.free();
-                } catch (Exception e) {
-                    logNonFatalException(e);
+                } catch (Throwable e) {
+                    try {
+                        logNonFatalException(e);
+                    } catch (Throwable e2) {
+                        // We tried, this is likely an OOM
+                    }
                 }
 
                 // Free writer
                 try {
                     writer.free();
-                } catch (Exception e) {
-                    logNonFatalException(e);
+                } catch (Throwable e) {
+                    try {
+                        logNonFatalException(e);
+                    } catch (Throwable e2) {
+                        // We tried, this is likely an OOM
+                    }
                 }
             });
         }

@@ -119,4 +119,13 @@ public class LongArrayTag extends Tag<long[]> {
     public void setValue(long @Nullable [] value) {
         this.value = value;
     }
+
+    /**
+     * Get the number of entries in the array.
+     *
+     * @return the number of entries.
+     */
+    public int length() {
+        return value == null ? 0 : value.length;
+    }
 }

@@ -33,20 +33,24 @@ export class ProcessingScreen extends BaseScreen {
     nextScreen = () => this.app.setScreen(SaveScreen);
 
     convert = () => {
+        // Setup conversion
         let self = this;
 
-        // Set world settings (after it chains the next part)
-        api.send({
-            type: "settings",
-            method: "set_world_settings",
-            settings: self.app.state.editedSettings
-        }, function (message) {
-            if (message.type === "error") {
-                console.info("Failed to set settings: " + message.error);
-                self.app.showError("Failed to set world settings", message.error, message.errorId, false);
-            } else {
-                self.convertSetName();
-            }
+        // Cancel any existing tasks, they aren't needed and this ensures all locks are free for the input world
+        this.app.cancelTask(function() {
+            // Set world settings (after it chains the next part)
+            api.send({
+                type: "settings",
+                method: "set_world_settings",
+                settings: self.app.state.editedSettings
+            }, function (message) {
+                if (message.type === "error") {
+                    console.info("Failed to set settings: " + message.error);
+                    self.app.showError("Failed to set world settings", message.error, message.errorId, false);
+                } else {
+                    self.convertSetName();
+                }
+            });
         });
     };
 

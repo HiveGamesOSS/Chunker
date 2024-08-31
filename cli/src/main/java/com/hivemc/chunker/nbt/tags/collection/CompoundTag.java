@@ -655,7 +655,7 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Ma
         ListTag<T, V> listTag = get(name, ListTag.class);
         if (listTag == null) throw new IllegalArgumentException("Could not access " + name);
         if (listTag.getListType() != TagType.END && listTag.getListType() != null && !Objects.equals(listTag.getListType().getTagClass(), listTagType)) {
-            throw new IllegalArgumentException("Unexpected list type " + name);
+            throw new IllegalArgumentException("Unexpected list type for " + name + " expected " + listTagType + " got " + listTag.getListType().getTagClass());
         }
         return listTag;
     }
@@ -663,20 +663,35 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Ma
     /**
      * Get a ListTag from the key-value based storage, if it is not the right type it will throw a ClassCastException and if the
      * listTagType doesn't match it will throw an IllegalArgumentException.
+     * Note: LongArrayTag is used as an empty list in some version of Java edition, this method will return null instead
+     * of throwing an exception for this case.
      *
      * @param name         the name to search for.
      * @param listTagType  the type of the list values to expect.
      * @param defaultValue the value to return if the name wasn't found.
      * @param <T>          the type of each tag in the list.
      * @param <V>          the boxed value type of each tag in the list.
-     * @return the tag if it was found otherwise it will throw an IllegalArgumentException.
+     * @return the tag if it was found otherwise defaultValue, if the type is wrong it will throw an IllegalArgumentException.
      */
     @SuppressWarnings("unchecked")
     public <T extends Tag<V>, V> ListTag<T, V> getList(String name, Class<T> listTagType, ListTag<T, V> defaultValue) {
-        ListTag<T, V> listTag = get(name, ListTag.class);
-        if (listTag == null) return defaultValue;
+        Tag<?> tag = get(name, Tag.class);
+
+        // Check if the tag is a list
+        if (!(tag instanceof ListTag)) {
+            // Check if the tag isn't present or if it's a long tag which we'll also count as not present.
+            if (tag == null || tag instanceof LongArrayTag longArrayTag && longArrayTag.length() == 0){
+                return defaultValue;
+            }
+
+            // Invalid list tag type
+            throw new IllegalArgumentException("Unexpected tag type " + tag + ", expected ListTag.");
+        }
+
+        // Check the type of the list tag
+        ListTag<T, V> listTag = (ListTag<T, V>) tag;
         if (listTag.getListType() != TagType.END && listTag.getListType() != null && !Objects.equals(listTag.getListType().getTagClass(), listTagType)) {
-            throw new IllegalArgumentException("Unexpected list type " + name);
+            throw new IllegalArgumentException("Unexpected list type for " + name + " expected " + listTagType + " got " + listTag.getListType().getTagClass());
         }
         return listTag;
     }
@@ -704,7 +719,7 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Ma
      * @param defaultValue the value to return if the name wasn't found.
      * @param <T>          the type of each tag in the list.
      * @param <V>          the boxed value type of each tag in the list.
-     * @return the tag if it was found otherwise it will throw an IllegalArgumentException.
+     * @return the tag if it was found otherwise defaultValue, if the type is wrong it will throw an IllegalArgumentException.
      */
     public <T extends Tag<V>, V> List<V> getListValues(String name, Class<T> listTagType, List<V> defaultValue) {
         ListTag<T, V> listTag = getList(name, listTagType, null);

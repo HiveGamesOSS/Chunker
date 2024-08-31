@@ -80,6 +80,9 @@ public class BedrockItemIdentifierValidationTests {
             "minecraft:light_block",
             "minecraft:monster_egg",
             "minecraft:stonebrick",
+            "minecraft:colored_torch_bp",
+            "minecraft:colored_torch_rg",
+            "minecraft:chemistry_table",
 
             // Not Used
             "minecraft:firefly_spawn_egg",

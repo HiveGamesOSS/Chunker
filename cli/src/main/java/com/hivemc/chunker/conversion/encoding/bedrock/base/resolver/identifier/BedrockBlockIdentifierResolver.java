@@ -2739,5 +2739,43 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
                     .build()
             ));
         }
+
+        // R21U3
+        if (version.isGreaterThanOrEqual(1, 21, 30)) {
+            // Walls got flattened
+            registerOverrideOutput(BlockMapping.of("minecraft:cobblestone_wall", ChunkerVanillaBlockType.COBBLESTONE_WALL, BedrockStateGroups.WALL));
+            registerOverrideOutput(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:andesite_wall", ChunkerVanillaBlockType.ANDESITE_WALL)
+                            .put("minecraft:brick_wall", ChunkerVanillaBlockType.BRICK_WALL)
+                            .put("minecraft:diorite_wall", ChunkerVanillaBlockType.DIORITE_WALL)
+                            .put("minecraft:end_stone_brick_wall", ChunkerVanillaBlockType.END_STONE_BRICK_WALL)
+                            .put("minecraft:granite_wall", ChunkerVanillaBlockType.GRANITE_WALL)
+                            .put("minecraft:mossy_cobblestone_wall", ChunkerVanillaBlockType.MOSSY_COBBLESTONE_WALL)
+                            .put("minecraft:mossy_stone_brick_wall", ChunkerVanillaBlockType.MOSSY_STONE_BRICK_WALL)
+                            .put("minecraft:nether_brick_wall", ChunkerVanillaBlockType.NETHER_BRICK_WALL)
+                            .put("minecraft:prismarine_wall", ChunkerVanillaBlockType.PRISMARINE_WALL)
+                            .put("minecraft:red_nether_brick_wall", ChunkerVanillaBlockType.RED_NETHER_BRICK_WALL)
+                            .put("minecraft:red_sandstone_wall", ChunkerVanillaBlockType.RED_SANDSTONE_WALL)
+                            .put("minecraft:sandstone_wall", ChunkerVanillaBlockType.SANDSTONE_WALL)
+                            .put("minecraft:stone_brick_wall", ChunkerVanillaBlockType.STONE_BRICK_WALL)
+                            .build(),
+                    BedrockStateGroups.WALL));
+
+            // Sponge got flattened
+            registerOverrideInputOutput(BlockMapping.of("minecraft:sponge", ChunkerVanillaBlockType.SPONGE));
+            registerOverrideOutput(BlockMapping.of("minecraft:wet_sponge", ChunkerVanillaBlockType.WET_SPONGE));
+
+            // TNT got flattened
+            register(BlockMapping.of("minecraft:underwater_tnt", ChunkerVanillaBlockType.TNT, BedrockStateGroups.TNT, VanillaBlockStates.UNDERWATER, Bool.TRUE));
+
+            // Purpur got flattened
+            registerOverrideOutput(BlockMapping.of("minecraft:purpur_block", "pillar_axis", "y", ChunkerVanillaBlockType.PURPUR_BLOCK));
+            registerDuplicateOverrideInput(BlockMapping.of("minecraft:purpur_block", ChunkerVanillaBlockType.PURPUR_BLOCK));
+            registerOverrideOutput(BlockMapping.of("minecraft:purpur_pillar", ChunkerVanillaBlockType.PURPUR_PILLAR, BedrockStateGroups.PILLAR_BLOCK));
+
+            // Deprecated purpur variants
+            registerDuplicateOutput(BlockMapping.of("minecraft:deprecated_purpur_block_1", ChunkerVanillaBlockType.PURPUR_BLOCK));
+            registerDuplicateOutput(BlockMapping.of("minecraft:deprecated_purpur_block_2", ChunkerVanillaBlockType.PURPUR_BLOCK));
+        }
     }
 }

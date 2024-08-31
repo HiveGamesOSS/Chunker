@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 /**
@@ -241,12 +242,19 @@ public class Messenger {
                         // Loop through all the converters under this anonymous ID and cancel them
                         Map<UUID, WorldConverter> converters = SESSION_ID_TO_WORLD_CONVERTERS.get(killRequest.getAnonymousId());
                         if (converters != null) {
+                            List<CompletableFuture<Void>> futures = new ArrayList<>();
                             for (WorldConverter worldConverter : converters.values()) {
-                                worldConverter.cancel(null);
+                                futures.add(worldConverter.cancel(null));
                             }
+
+                            // Ensure all futures have completed
+                            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).whenComplete((ex, result) -> {
+                                write(new OutputResponse(message.getRequestId(), new JsonPrimitive(true)));
+                            });
+                        } else {
+                            // Mark as successful
+                            write(new OutputResponse(message.getRequestId(), new JsonPrimitive(true)));
                         }
-                        // Mark as successful
-                        write(new OutputResponse(message.getRequestId(), new JsonPrimitive(true)));
                     }
                     default -> // Not supported
                             write(new ErrorResponse(
@@ -371,7 +379,7 @@ public class Messenger {
         TaskMonitorThread taskMonitorThread = new TaskMonitorThread(environment,
                 (progress) -> write(new ProgressResponse(taskID, progress)),
                 (exception) -> {
-                    if (exception.isPresent() && !(exception.get() instanceof CancellationException)) {
+                    if (exception.isPresent()) {
                         Throwable throwable = exception.get();
 
                         // Unwrap completion exception
@@ -379,19 +387,29 @@ public class Messenger {
                             throwable = throwable.getCause();
                         }
 
-                        // Report if it wasn't logged
-                        if (!(throwable instanceof LoggedException)) {
-                            throwable.printStackTrace();
-                        }
+                        // Check that it isn't a cancellation
+                        if (throwable instanceof CancellationException) {
+                            write(new ErrorResponse(taskID, true, "The process was cancelled", null, null));
+                        } else {
+                            // Report if it wasn't logged
+                            if (!(throwable instanceof LoggedException)) {
+                                throwable.printStackTrace();
+                            }
 
-                        // Tell the user there was an error
-                        write(new ErrorResponse(
-                                taskID,
-                                false,
-                                "A fatal error occurred during conversion.",
-                                sessionID.toString(),
-                                exception.get().getMessage()
-                        ));
+                            // Always exit if it's an OOM as the memory may not be recoverable
+                            if (throwable instanceof OutOfMemoryError) {
+                                System.exit(12);
+                            } else {
+                                // Tell the user there was an error
+                                write(new ErrorResponse(
+                                        taskID,
+                                        false,
+                                        "A fatal error occurred during conversion.",
+                                        sessionID.toString(),
+                                        exception.get().getMessage()
+                                ));
+                            }
+                        }
                     } else if (worldConverter.isCancelled()) {
                         write(new ErrorResponse(taskID, true, "The process was cancelled", null, null));
                     } else {

@@ -102,9 +102,10 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                     lore = loreString.stream().map(JsonTextUtil::fromJSON).collect(Collectors.toList());
                 }
 
-                // Load color if it's present
-                if (tag.contains("minecraft:dyed_color")) {
-                    color = new Color(tag.getInt("minecraft:dyed_color"));
+                // Load color from the compound if it's present
+                CompoundTag dyedColor = tag.getCompound("minecraft:dyed_color");
+                if (dyedColor != null && dyedColor.contains("rgb")) {
+                    color = new Color(dyedColor.getInt("rgb"));
                 }
 
                 // Build the display if one of the components is present
@@ -134,7 +135,9 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
 
                 // Color
                 if (chunkerItemDisplay.color() != null) {
-                    components.put("minecraft:dyed_color", chunkerItemDisplay.color().getRGB());
+                    CompoundTag dyedColor = new CompoundTag();
+                    dyedColor.put("rgb", chunkerItemDisplay.color().getRGB());
+                    components.put("minecraft:dyed_color", dyedColor);
                 }
             }
         });

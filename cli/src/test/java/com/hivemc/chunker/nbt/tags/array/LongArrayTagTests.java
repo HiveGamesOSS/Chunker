@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for the LongArrayTag.
@@ -45,5 +46,23 @@ public class LongArrayTagTests extends TagTestsBase<LongArrayTag, long[]> {
     protected void testLengthProtectionNamed() throws IOException {
         LongArrayTag tag = new LongArrayTag(new long[LongArrayTag.MAX_ARRAY_LENGTH + 1]);
         assertDecodeException(new TagWithName<>("hello", tag), IllegalArgumentException.class);
+    }
+
+    @Test
+    protected void testLength() throws IOException {
+        LongArrayTag tag = new LongArrayTag(new long[5]);
+        assertEquals(tag.length(), 5);
+    }
+
+    @Test
+    protected void testLengthEmpty() throws IOException {
+        LongArrayTag tag = new LongArrayTag(new long[0]);
+        assertEquals(tag.length(), 0);
+    }
+
+    @Test
+    protected void testLengthNull() throws IOException {
+        LongArrayTag tag = new LongArrayTag();
+        assertEquals(tag.length(), 0);
     }
 }

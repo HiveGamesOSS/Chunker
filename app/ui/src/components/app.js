@@ -216,9 +216,11 @@ export class App extends Component {
         }));
     };
 
-    cancelTask = () => {
+    cancelTask = (callback) => {
         api.send({type: "flow", method: "cancel"}, function (message) {
-            // Ignored
+            if (callback) {
+                callback();
+            }
         });
     };
 

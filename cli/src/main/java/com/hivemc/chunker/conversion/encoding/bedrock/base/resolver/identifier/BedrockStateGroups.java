@@ -810,16 +810,29 @@ public class BedrockStateGroups {
     public static final StateMappingGroup STRUCTURE_BLOCK = new StateMappingGroup.Builder()
             .state("structure_block_type", VanillaBlockStates.STRUCTURE_BLOCK_MODE, BedrockStateTypes.STRUCTURE_BLOCK_MODE)
             .build();
-    public static final StateMappingGroup STRUCTURE_VOID = new StateMappingGroup.Builder()
-            .state("structure_void_type", VanillaBlockStates.STRUCTURE_VOID_TYPE, BedrockStateTypes.STRUCTURE_VOID_TYPE)
+    public static final VersionedStateMappingGroup STRUCTURE_VOID = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("structure_void_type", VanillaBlockStates.STRUCTURE_VOID_TYPE, BedrockStateTypes.STRUCTURE_VOID_TYPE)
+                    .build())
+            // 1.21.30 removed structure_void_type
+            .version(new Version(1, 21, 30), new StateMappingGroup.Builder()
+                    .defaultOutput(VanillaBlockStates.STRUCTURE_VOID_TYPE, StructureVoidType.VOID)
+                    .build())
             .build();
     public static final StateMappingGroup SUSPICIOUS_BLOCK = new StateMappingGroup.Builder()
             .state("brushed_progress", VanillaBlockStates.DUSTED, BedrockStateTypes.BRUSHED_PROGRESS)
             .defaultInput("hanging", false)
             .build();
-    public static final StateMappingGroup TNT = new StateMappingGroup.Builder()
-            .state("explode_bit", VanillaBlockStates.UNSTABLE, BedrockStateTypes.BOOL)
-            .state("allow_underwater_bit", VanillaBlockStates.UNDERWATER, BedrockStateTypes.BOOL)
+    public static final VersionedStateMappingGroup TNT = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("explode_bit", VanillaBlockStates.UNSTABLE, BedrockStateTypes.BOOL)
+                    .state("allow_underwater_bit", VanillaBlockStates.UNDERWATER, BedrockStateTypes.BOOL)
+                    .build())
+            // 1.21.30 moved allow_underwater_bit to an identifier
+            .version(new Version(1, 21, 30), new StateMappingGroup.Builder()
+                    .state("explode_bit", VanillaBlockStates.UNSTABLE, BedrockStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.UNDERWATER, Bool.FALSE)
+                    .build())
             .build();
     public static final StateMappingGroup TORCHFLOWER_CROP = new StateMappingGroup.Builder()
             .state("growth", VanillaBlockStates.AGE_1, BedrockStateTypes.AGE_7_TO_1)

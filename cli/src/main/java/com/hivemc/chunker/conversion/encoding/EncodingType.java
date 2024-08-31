@@ -8,7 +8,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.BedrockEncoders;
 import com.hivemc.chunker.conversion.encoding.java.JavaEncoders;
 import com.hivemc.chunker.conversion.encoding.preview.PreviewLevelWriter;
 import com.hivemc.chunker.conversion.encoding.settings.SettingsLevelWriter;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 
 import java.io.File;
 import java.util.Collection;
@@ -21,9 +21,9 @@ import java.util.Set;
  */
 public class EncodingType {
     // Lookups
-    private static final Set<EncodingType> TYPES = new ObjectOpenHashSet<>();
-    private static final Set<EncodingType> READABLE_TYPES = new ObjectOpenHashSet<>();
-    private static final Set<EncodingType> WRITEABLE_TYPES = new ObjectOpenHashSet<>();
+    private static final Set<EncodingType> TYPES = new ObjectLinkedOpenHashSet<>();
+    private static final Set<EncodingType> READABLE_TYPES = new ObjectLinkedOpenHashSet<>();
+    private static final Set<EncodingType> WRITEABLE_TYPES = new ObjectLinkedOpenHashSet<>();
 
     /**
      * Reader and Writer for the Java Edition format.

@@ -2,6 +2,7 @@ package com.hivemc.chunker.scheduling.task;
 
 import com.google.common.base.Preconditions;
 import com.hivemc.chunker.scheduling.task.executor.TaskExecutor;
+import com.hivemc.chunker.util.SneakyThrows;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Closeable;
@@ -14,7 +15,9 @@ import java.util.function.Consumer;
  */
 public class Environment extends TrackedTask<Void> implements Closeable {
     private final TaskExecutor executor;
+    private CompletableFuture<Void> childFuture;
     private CompletableFuture<Void> future;
+    private Runnable onFree;
 
     /**
      * Create an environment and start threads relating to the environment.
@@ -40,14 +43,26 @@ public class Environment extends TrackedTask<Void> implements Closeable {
 
     @Override
     public void close() {
-        // Record the future
-        future = waitForChildren(null).toCompletableFuture();
+        // Record the child future
+        childFuture = waitForChildren(null).toCompletableFuture();
 
         // Clear executor
         executor.clearCurrentThreadExecutor();
 
-        // Schedule call to free
-        future().thenRun(this::free);
+        // Schedule call to free after the child future
+        future = childFuture.handle((input, throwable) -> {
+            // Free resources after children have completed
+            free();
+
+            // Re-throw any error, we've free'd our resources
+            if (throwable != null) {
+                // Print the exception
+                SneakyThrows.throwException(throwable);
+            }
+
+            // Return the input for the next function
+            return input;
+        });
     }
 
     @Override
@@ -66,11 +81,11 @@ public class Environment extends TrackedTask<Void> implements Closeable {
             executor.shutdown();
         } finally {
             if (exception != null) {
-                // Complete the future with an exception
-                future.completeExceptionally(exception);
+                // Complete the child future with an exception
+                childFuture.completeExceptionally(exception);
             } else {
                 // Cancel
-                future.cancel(true);
+                childFuture.cancel(true);
             }
         }
     }
@@ -92,10 +107,24 @@ public class Environment extends TrackedTask<Void> implements Closeable {
 
     @Override
     protected void free() {
+        // Call onFree
+        if (onFree != null) {
+            onFree.run();
+        }
+
         // Call super
         super.free();
 
         // Close down thread-pool
         executor.shutdown();
+    }
+
+    /**
+     * Set the callback which is used when the environment is closed before returning any result.
+     *
+     * @param onFree the runnable to call in the free() method.
+     */
+    public void setFreeCallback(@Nullable Runnable onFree) {
+        this.onFree = onFree;
     }
 }

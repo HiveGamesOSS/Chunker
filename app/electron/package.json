@@ -15,7 +15,7 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "32.0.1",
-    "electron-builder": "24.13.3",
+    "electron-builder": "25.0.5",
     "git-last-commit": "^1.0.1"
   },
   "build": {

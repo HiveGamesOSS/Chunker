@@ -14,7 +14,7 @@
   "author": "Hive Games Limited",
   "license": "MIT",
   "devDependencies": {
-    "electron": "32.0.1",
+    "electron": "32.0.2",
     "electron-builder": "24.13.3",
     "git-last-commit": "^1.0.1"
   },

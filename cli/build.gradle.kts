@@ -53,6 +53,13 @@ publishing {
     }
 }
 
+tasks.clean {
+    doFirst {
+        // Clear output directory
+        delete(layout.buildDirectory.dir("libs"))
+    }
+}
+
 tasks.build {
     dependsOn(tasks.shadowJar)
 }
@@ -169,6 +176,10 @@ tasks.jpackage {
         winConsole = true
 
         doLast {
+            // Clear the old output
+            delete(rootProject.projectDir.resolve("build").resolve("libs").resolve("windows"))
+
+            // Copy the new output
             copy {
                 from(layout.buildDirectory.dir("libs").get().dir("packaged"))
                 into(rootProject.projectDir.resolve("build").resolve("libs").resolve("windows"))
@@ -178,6 +189,10 @@ tasks.jpackage {
 
     linux {
         doLast {
+            // Clear the old output
+            delete(rootProject.projectDir.resolve("build").resolve("libs").resolve("linux"))
+
+            // Copy the new output
             copy {
                 from(layout.buildDirectory.dir("libs").get().dir("packaged"))
                 into(rootProject.projectDir.resolve("build").resolve("libs").resolve("linux"))
@@ -187,6 +202,10 @@ tasks.jpackage {
 
     mac {
         doLast {
+            // Clear the old output
+            delete(rootProject.projectDir.resolve("build").resolve("libs").resolve("mac"))
+
+            // Copy the new output
             copy {
                 from(layout.buildDirectory.dir("libs").get().dir("packaged"))
                 into(rootProject.projectDir.resolve("build").resolve("libs").resolve("mac"))

@@ -33,6 +33,11 @@ tasks.register<NpmTask>("build") {
     description = "Run npm build"
     args.set(listOf("run", "build"))
 
+    // Clean dist folder
+    doFirst {
+        delete(layout.projectDirectory.dir("electron").dir("dist"))
+    }
+
     // Ensure dependencies are installed and we have a packagedChunker
     val jpackage = project(":cli").tasks.named("jpackage");
     dependsOn("installDependencies", jpackage)

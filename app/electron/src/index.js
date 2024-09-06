@@ -23,6 +23,7 @@ const createWindow = () => {
         minWidth: 560,
         webPreferences: {
             devTools: true,
+            partition: "window-" + crypto.randomUUID(),
             preload: path.join(__dirname, "preload.js")
         }
     });
@@ -300,6 +301,11 @@ app.whenReady().then(() => {
 
     // Create window
     createWindow();
+
+    // Handle creating more windows
+    app.on("activate", function () {
+        createWindow();
+    });
 })
 
 // Quit when all windows are closed.

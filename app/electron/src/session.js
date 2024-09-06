@@ -45,6 +45,11 @@ export class Session {
         if (!executable || executable.endsWith("/")) {
             let cliDirectory = executable ?? path.join(path.dirname(app.getAppPath()), "chunker-cli");
 
+            // If the cli directory isn't found, try using .app on the end
+            if (!fs.existsSync(cliDirectory) && fs.existsSync(cliDirectory + ".app")) {
+                cliDirectory = path.join(cliDirectory + ".app", "Contents", "MacOS");
+            }
+
             // Use the bin directory if it's present for the executable
             if (fs.existsSync(path.join(cliDirectory, "bin"))) {
                 cliDirectory = path.join(cliDirectory, "bin");

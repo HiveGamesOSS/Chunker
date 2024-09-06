@@ -36,7 +36,7 @@ dependencies {
 }
 
 group = "com.hivemc.chunker"
-version = "1.1.0"
+version = "1.1.1"
 description = "chunker"
 base.archivesName = "chunker-cli"
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -50,6 +50,13 @@ java {
 publishing {
     publications.create<MavenPublication>("maven") {
         from(components["java"])
+    }
+}
+
+tasks.clean {
+    doFirst {
+        // Clear output directory
+        delete(layout.buildDirectory.dir("libs"))
     }
 }
 
@@ -169,6 +176,10 @@ tasks.jpackage {
         winConsole = true
 
         doLast {
+            // Clear the old output
+            delete(rootProject.projectDir.resolve("build").resolve("libs").resolve("windows"))
+
+            // Copy the new output
             copy {
                 from(layout.buildDirectory.dir("libs").get().dir("packaged"))
                 into(rootProject.projectDir.resolve("build").resolve("libs").resolve("windows"))
@@ -178,6 +189,10 @@ tasks.jpackage {
 
     linux {
         doLast {
+            // Clear the old output
+            delete(rootProject.projectDir.resolve("build").resolve("libs").resolve("linux"))
+
+            // Copy the new output
             copy {
                 from(layout.buildDirectory.dir("libs").get().dir("packaged"))
                 into(rootProject.projectDir.resolve("build").resolve("libs").resolve("linux"))
@@ -187,6 +202,10 @@ tasks.jpackage {
 
     mac {
         doLast {
+            // Clear the old output
+            delete(rootProject.projectDir.resolve("build").resolve("libs").resolve("mac"))
+
+            // Copy the new output
             copy {
                 from(layout.buildDirectory.dir("libs").get().dir("packaged"))
                 into(rootProject.projectDir.resolve("build").resolve("libs").resolve("mac"))

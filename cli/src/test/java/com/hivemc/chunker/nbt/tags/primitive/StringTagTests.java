@@ -22,6 +22,6 @@ public class StringTagTests extends TagTestsBase<StringTag, String> {
 
     @Override
     public Stream<StringTag> getTestValues() {
-        return Stream.of("", "Hello", "hello", " ", "hello world", "hello world!", "\n").map(StringTag::new);
+        return Stream.of("", "Hello", "hello", " ", "hello world", "hello world!", "😎", "\n").map(StringTag::new);
     }
 }

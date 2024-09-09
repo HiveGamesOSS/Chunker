@@ -114,6 +114,7 @@ public abstract class Tag<T> {
              DataOutputStream writerStream = new DataOutputStream(bufferedOutputStream)) {
             // Encode
             Tag.encodeNamed(Writer.toJavaWriter(writerStream), "", root);
+            writerStream.flush();
         }
     }
 

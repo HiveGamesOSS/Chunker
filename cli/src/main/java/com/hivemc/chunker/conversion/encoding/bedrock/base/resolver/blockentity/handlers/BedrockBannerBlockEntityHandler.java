@@ -139,8 +139,10 @@ public class BedrockBannerBlockEntityHandler extends BlockEntityHandler<BedrockR
             // Get the new block type
             ChunkerBlockType newType = BANNER_TO_WALL_DYE.inverse().getOrDefault(Pair.of(wall, blockEntity.getBase().get()), ChunkerVanillaBlockType.WHITE_BANNER);
 
-            // Set the new block type
-            column.setBlock(x, y, z, new ChunkerBlockIdentifier(newType, blockIdentifier.getPresentStates(), blockIdentifier.getPreservedIdentifier()));
+            // Set the new block type (if the banner is present)
+            if (!blockIdentifier.isAir()) {
+                column.setBlock(x, y, z, new ChunkerBlockIdentifier(newType, blockIdentifier.getPresentStates(), blockIdentifier.getPreservedIdentifier()));
+            }
 
             // Remove the base since it's now in the block
             blockEntity.setBase(Optional.empty());

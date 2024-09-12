@@ -104,6 +104,9 @@ public class BedrockSkullBlockEntityHandler extends BlockEntityHandler<BedrockRe
         if (blockEntity instanceof BedrockSkullBlockEntity bedrockSkullBlockEntity) {
             ChunkerBlockIdentifier blockIdentifier = column.getBlock(x, y, z);
 
+            // Don't update anything if the block is air
+            if (blockIdentifier.isAir()) return blockEntity;
+
             // Grab the skull type
             boolean wallSkull = blockIdentifier.getType().getStates().contains(VanillaBlockStates.FACING_HORIZONTAL);
             ChunkerBlockType newType = SKULL_TO_ID.inverse().get(Pair.of(bedrockSkullBlockEntity.getSkullType(), wallSkull));

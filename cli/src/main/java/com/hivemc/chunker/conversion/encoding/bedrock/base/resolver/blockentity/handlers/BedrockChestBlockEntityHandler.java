@@ -80,7 +80,11 @@ public class BedrockChestBlockEntityHandler extends BlockEntityHandler<BedrockRe
                 // Single chest
                 chestType = ChestType.SINGLE;
             }
-            column.setBlock(x, y, z, blockIdentifier.copyWith(VanillaBlockStates.CHEST_TYPE, chestType));
+
+            // Only update if the block identifier isn't air
+            if (!blockIdentifier.isAir()) {
+                column.setBlock(x, y, z, blockIdentifier.copyWith(VanillaBlockStates.CHEST_TYPE, chestType));
+            }
         }
 
         // Handle trapped chest

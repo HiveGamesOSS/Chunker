@@ -6,6 +6,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.BedrockResol
 import com.hivemc.chunker.conversion.intermediate.column.ChunkerColumn;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.JukeboxBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Bool;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
@@ -37,6 +38,11 @@ public class BedrockJukeboxBlockEntityHandler extends BlockEntityHandler<Bedrock
     @Override
     public JukeboxBlockEntity updateBeforeProcess(@NotNull BedrockResolvers resolvers, ChunkerColumn column, int x, int y, int z, JukeboxBlockEntity blockEntity) {
         ChunkerBlockIdentifier identifier = column.getBlock(x, y, z);
+
+        // Don't update anything if the block isn't a jukebox
+        if (identifier.getType() != ChunkerVanillaBlockType.JUKEBOX) return blockEntity;
+
+        // Check for the record
         boolean hasRecord = blockEntity.getRecord() != null && !blockEntity.getRecord().getIdentifier().isAir();
         column.setBlock(x, y, z, identifier.copyWith(VanillaBlockStates.HAS_RECORD, hasRecord ? Bool.TRUE : Bool.FALSE));
 

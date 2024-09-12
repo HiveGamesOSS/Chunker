@@ -81,8 +81,10 @@ public class BedrockBedBlockEntityHandler extends BlockEntityHandler<BedrockReso
             // Grab the bed type
             ChunkerBlockType newType = BED_TO_DYE.inverse().getOrDefault(bedrockBedBlockEntity.getColor(), ChunkerVanillaBlockType.WHITE_BED);
 
-            // Set the new block type
-            column.setBlock(x, y, z, new ChunkerBlockIdentifier(newType, blockIdentifier.getPresentStates(), blockIdentifier.getPreservedIdentifier()));
+            // Set the new block type (if the bed is present)
+            if (!blockIdentifier.isAir()) {
+                column.setBlock(x, y, z, new ChunkerBlockIdentifier(newType, blockIdentifier.getPresentStates(), blockIdentifier.getPreservedIdentifier()));
+            }
 
             // Return the chunker version
             return bedrockBedBlockEntity.toChunker();

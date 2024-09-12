@@ -6,6 +6,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.BedrockResol
 import com.hivemc.chunker.conversion.intermediate.column.ChunkerColumn;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.LecternBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Bool;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
@@ -49,6 +50,11 @@ public class BedrockLecternBlockEntityHandler extends BlockEntityHandler<Bedrock
     @Override
     public LecternBlockEntity updateBeforeProcess(@NotNull BedrockResolvers resolvers, ChunkerColumn column, int x, int y, int z, LecternBlockEntity blockEntity) {
         ChunkerBlockIdentifier identifier = column.getBlock(x, y, z);
+
+        // Don't update anything if the block isn't a lectern
+        if (identifier.getType() != ChunkerVanillaBlockType.LECTERN) return blockEntity;
+
+        // Check for the book
         boolean hasBook = blockEntity.getBook() != null && !blockEntity.getBook().getIdentifier().isAir();
         column.setBlock(x, y, z, identifier.copyWith(VanillaBlockStates.HAS_BOOK, hasBook ? Bool.TRUE : Bool.FALSE));
 

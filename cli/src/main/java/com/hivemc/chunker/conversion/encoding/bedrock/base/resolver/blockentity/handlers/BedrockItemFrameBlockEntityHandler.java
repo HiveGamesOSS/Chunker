@@ -63,10 +63,10 @@ public class BedrockItemFrameBlockEntityHandler extends BlockEntityHandler<Bedro
         // Only add the item frame if there is a backing item frame block
         if (block.getType() == ChunkerVanillaBlockType.ITEM_FRAME_BEDROCK) {
             column.getEntities().add(blockEntity.toChunker(block));
-        }
 
-        // Replace the block with air
-        column.setBlock(x, y, z, ChunkerBlockIdentifier.AIR);
+            // Replace the block with air
+            column.setBlock(x, y, z, ChunkerBlockIdentifier.AIR);
+        }
 
         // Remove
         return true;

@@ -589,7 +589,7 @@ export class Session {
         await fs.mkdir(worldOutputPath);
 
         if (copyNbt) {
-            await fs.cp(worldInputPath, worldOutputPath, {recursive: true});
+            await fs.copy(worldInputPath, worldOutputPath);
         }
 
         // Process request

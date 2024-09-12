@@ -85,6 +85,9 @@ public class JavaLegacyBedBlockEntityHandler extends BlockEntityHandler<JavaReso
         if (blockEntity instanceof JavaLegacyBedBlockEntity legacyBedBlockEntity) {
             ChunkerBlockIdentifier blockIdentifier = column.getBlock(x, y, z);
 
+            // Don't update anything if the block is air
+            if (blockIdentifier.isAir()) return blockEntity;
+
             // Grab the bed type
             ChunkerBlockType newType = BED_TO_DYE.inverse().getOrDefault(legacyBedBlockEntity.getColor(), ChunkerVanillaBlockType.WHITE_BED);
 

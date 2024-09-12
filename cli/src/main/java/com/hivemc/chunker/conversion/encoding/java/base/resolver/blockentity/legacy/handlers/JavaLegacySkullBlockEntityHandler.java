@@ -81,6 +81,9 @@ public class JavaLegacySkullBlockEntityHandler extends BlockEntityHandler<JavaRe
         if (blockEntity instanceof JavaLegacySkullBlockEntity legacySkullBlockEntity) {
             ChunkerBlockIdentifier blockIdentifier = column.getBlock(x, y, z);
 
+            // Don't update anything if the block is air
+            if (blockIdentifier.isAir()) return blockEntity;
+
             // Grab the skull type
             boolean wallSkull = blockIdentifier.getType().getStates().contains(VanillaBlockStates.FACING_HORIZONTAL);
             ChunkerBlockType newType = BedrockSkullBlockEntityHandler.SKULL_TO_ID.inverse().get(Pair.of(legacySkullBlockEntity.getSkullType(), wallSkull));

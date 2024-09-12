@@ -28,4 +28,11 @@ public class ChunkerCustomBiome implements ChunkerBiome {
     public ChunkerVanillaBiome getFallback() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "ChunkerCustomBiome{" +
+                "identifier='" + getIdentifier() + '\'' +
+                '}';
+    }
 }

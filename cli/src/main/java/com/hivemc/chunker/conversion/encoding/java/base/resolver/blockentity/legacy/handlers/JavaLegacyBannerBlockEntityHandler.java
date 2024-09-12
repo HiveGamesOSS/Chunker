@@ -121,6 +121,9 @@ public class JavaLegacyBannerBlockEntityHandler extends BlockEntityHandler<JavaR
     public BannerBlockEntity updateBeforeProcess(@NotNull JavaResolvers resolvers, ChunkerColumn column, int x, int y, int z, BannerBlockEntity blockEntity) {
         ChunkerBlockIdentifier blockIdentifier = column.getBlock(x, y, z);
 
+        // Don't update anything if the block is air
+        if (blockIdentifier.isAir()) return blockEntity;
+
         // Grab the banner type
         boolean wall = blockIdentifier.getType().getStates().contains(VanillaBlockStates.FACING_HORIZONTAL);
         if (blockEntity.getBase().isPresent()) {

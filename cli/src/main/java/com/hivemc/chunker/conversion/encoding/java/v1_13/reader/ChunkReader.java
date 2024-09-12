@@ -30,8 +30,8 @@ public class ChunkReader extends com.hivemc.chunker.conversion.encoding.java.v1_
         // Get the values
         long[] encodedValues = nbt.getLongArray("BlockStates", null);
 
-        // If it's either is still null then we're unable to read it using the normal methods, it's likely an older chunk
-        if (keysList == null || encodedValues == null) {
+        // If the keys aren't named as Palette then it's likely an older chunk (if the data tag is missing it's likely a single value palette)
+        if (keysList == null) {
             super.readPalette(nbt);
             return;
         }
@@ -46,7 +46,7 @@ public class ChunkReader extends com.hivemc.chunker.conversion.encoding.java.v1_
         if (keys.isEmpty()) {
             chunk.setPalette(EmptyPalette.chunk());
             return;
-        } else if (keys.size() == 1) {
+        } else if (keys.size() == 1 || encodedValues == null) {
             chunk.setPalette(SingleValuePalette.chunk(keys.iterator().next()));
             return;
         }

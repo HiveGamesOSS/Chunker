@@ -57,8 +57,9 @@ public interface Writer {
      * @throws IOException an exception if it failed to write to the underlying buffer.
      */
     default void writeString(@NotNull String value) throws IOException {
-        writeShort((short) value.length());
-        writeBytes(value.getBytes(StandardCharsets.UTF_8));
+        byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
+        writeShort((short) bytes.length);
+        writeBytes(bytes);
     }
 
     /**

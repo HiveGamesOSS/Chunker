@@ -6,6 +6,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.BedrockResol
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.blockentity.type.BedrockItemFrameBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.ChunkerColumn;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.primitive.ByteTag;
@@ -57,10 +58,15 @@ public class BedrockItemFrameBlockEntityHandler extends BlockEntityHandler<Bedro
     @Override
     public boolean shouldRemoveBeforeProcess(ChunkerColumn column, int x, int y, int z, BedrockItemFrameBlockEntity blockEntity) {
         // Turn into an entity
-        column.getEntities().add(blockEntity.toChunker(column.getBlock(x, y, z)));
+        ChunkerBlockIdentifier block = column.getBlock(x, y, z);
 
-        // Replace the block with air
-        column.setBlock(x, y, z, ChunkerBlockIdentifier.AIR);
+        // Only add the item frame if there is a backing item frame block
+        if (block.getType() == ChunkerVanillaBlockType.ITEM_FRAME_BEDROCK) {
+            column.getEntities().add(blockEntity.toChunker(block));
+
+            // Replace the block with air
+            column.setBlock(x, y, z, ChunkerBlockIdentifier.AIR);
+        }
 
         // Remove
         return true;

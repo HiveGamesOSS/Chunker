@@ -10,6 +10,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.blockentity.
 import com.hivemc.chunker.conversion.intermediate.column.ChunkerColumn;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.ShulkerBoxBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.FacingDirection;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
@@ -71,6 +72,9 @@ public class BedrockShulkerBoxBlockEntityHandler extends BlockEntityHandler<Bedr
     public ShulkerBoxBlockEntity updateBeforeProcess(@NotNull BedrockResolvers resolvers, ChunkerColumn column, int x, int y, int z, ShulkerBoxBlockEntity blockEntity) {
         if (blockEntity instanceof BedrockShulkerBlockEntity bedrockShulkerBlockEntity) {
             ChunkerBlockIdentifier blockIdentifier = column.getBlock(x, y, z);
+
+            // Don't update anything if the block is air
+            if (blockIdentifier.isAir()) return blockEntity;
 
             // Apply facing direction
             blockIdentifier = blockIdentifier.copyWith(VanillaBlockStates.FACING_ALL, bedrockShulkerBlockEntity.getFacing());

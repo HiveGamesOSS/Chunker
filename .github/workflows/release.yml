@@ -145,15 +145,6 @@ jobs:
             mv "$file" "${file%.AppImage}-amd64-linux.AppImage"
           done
 
-      - name: Rename snap files
-        run: |
-          for file in artifacts/*.snap; do
-            base_name="${file#artifacts/chunker-electron_}"
-            base_name="${base_name%.snap}"
-            base_name="${base_name//_/-}"
-            mv "$file" "artifacts/Chunker-${base_name}-linux.snap"
-          done
-
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:

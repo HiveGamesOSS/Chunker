@@ -8,6 +8,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.blockentity.
 import com.hivemc.chunker.conversion.intermediate.column.ChunkerColumn;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.BrushableBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.mapping.identifier.Identifier;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.NotNull;
@@ -60,12 +61,26 @@ public class BedrockBrushableBlockEntityHandler extends BlockEntityHandler<Bedro
     }
 
     @Override
+    public BrushableBlockEntity updateBeforeWrite(@NotNull BedrockResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, BrushableBlockEntity blockEntity) {
+        return new BedrockBrushableBlockEntity(blockEntity);
+    }
+
+    @Override
     public Class<BrushableBlockEntity> getAdditionalHandledClass() {
         return BrushableBlockEntity.class;
     }
 
     @Override
     public BrushableBlockEntity updateBeforeProcess(@NotNull BedrockResolvers resolvers, ChunkerColumn column, int x, int y, int z, BrushableBlockEntity blockEntity) {
+        if (blockEntity instanceof BedrockBrushableBlockEntity brushableBlockEntity) {
+            return brushableBlockEntity.toChunker();
+        }
+        return blockEntity;
+    }
+
+    @Override
+    public BrushableBlockEntity updateBeforeProcess(@NotNull BedrockResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, BrushableBlockEntity blockEntity) {
+        // Ensure the item is written as the chunker type (not the bedrock one)
         if (blockEntity instanceof BedrockBrushableBlockEntity brushableBlockEntity) {
             return brushableBlockEntity.toChunker();
         }

@@ -7,6 +7,8 @@ import com.hivemc.chunker.conversion.encoding.base.resolver.itemstack.ItemStackR
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.legacy.JavaLegacyEntityTypeIDResolver;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.BlockEntity;
+import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.ChestBlockEntity;
+import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.TrappedChestBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.item.ChunkerVanillaItemType;
@@ -528,7 +530,6 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
             });
         }
 
-
         // Fireworks
         registerHandler(ChunkerItemProperty.FIREWORKS, new PropertyHandler<>() {
             @Override
@@ -624,7 +625,7 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
                 if (tag == null) return Optional.empty();
 
                 // Check the blockEntity class associated with the chunker block / item
-                Optional<Class<? extends BlockEntity>> blockEntityClass = state.key().getIdentifier().getItemStackType().getBlockEntityClass();
+                Optional<Class<? extends BlockEntity>> blockEntityClass = resolvers.blockEntityResolver().getBlockEntityClass(state.key().getIdentifier().getItemStackType());
                 if (blockEntityClass.isEmpty()) return Optional.empty();
 
                 CompoundTag blockEntityTag = tag.getCompound("BlockEntityTag");
@@ -634,16 +635,30 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
                 }
 
                 // Use the Item NBT block entity generator
-                return resolvers.blockEntityResolver().generateFromItemNBT(
+                generated = resolvers.blockEntityResolver().generateFromItemNBT(
                         blockEntityClass.get(),
                         state.key(),
                         generated.orElse(null),
                         state.value()
                 );
+
+                // Finally apply the before process handler to ensure that we're not using non-intermediate block entities
+                return generated.map(blockEntity -> resolvers.blockEntityResolver().updateBeforeProcess(
+                        state.value(),
+                        state.key(),
+                        blockEntity
+                ));
             }
 
             @Override
             public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull BlockEntity value) {
+                // Apply the before write handler to ensure that we're using the right types
+                value = resolvers.blockEntityResolver().updateBeforeWrite(
+                        state.value(),
+                        state.key(),
+                        value
+                );
+
                 // Use the Item NBT block entity generator
                 boolean writeBlockEntityData = resolvers.blockEntityResolver().writeToItemNBT(
                         state.key(),

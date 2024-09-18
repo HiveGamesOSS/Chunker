@@ -787,7 +787,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                 if (tag == null) return Optional.empty();
 
                 // Check the blockEntity class associated with the chunker block / item
-                Optional<Class<? extends BlockEntity>> blockEntityClass = state.key().getIdentifier().getItemStackType().getBlockEntityClass();
+                Optional<Class<? extends BlockEntity>> blockEntityClass = resolvers.blockEntityResolver().getBlockEntityClass(state.key().getIdentifier().getItemStackType());
                 if (blockEntityClass.isEmpty()) return Optional.empty();
 
                 CompoundTag blockEntityTag = tag.getCompound("minecraft:block_entity_data");
@@ -797,16 +797,30 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                 }
 
                 // Use the Item NBT block entity generator
-                return resolvers.blockEntityResolver().generateFromItemNBT(
+                generated = resolvers.blockEntityResolver().generateFromItemNBT(
                         blockEntityClass.get(),
                         state.key(),
                         generated.orElse(null),
                         state.value()
                 );
+
+                // Finally apply the before process handler to ensure that we're not using non-intermediate block entities
+                return generated.map(blockEntity -> resolvers.blockEntityResolver().updateBeforeProcess(
+                        state.value(),
+                        state.key(),
+                        blockEntity
+                ));
             }
 
             @Override
             public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull BlockEntity value) {
+                // Apply the before write handler to ensure that we're using the right types
+                value = resolvers.blockEntityResolver().updateBeforeWrite(
+                        state.value(),
+                        state.key(),
+                        value
+                );
+
                 // Use the Item NBT block entity generator
                 boolean writeBlockEntityData = resolvers.blockEntityResolver().writeToItemNBT(
                         state.key(),

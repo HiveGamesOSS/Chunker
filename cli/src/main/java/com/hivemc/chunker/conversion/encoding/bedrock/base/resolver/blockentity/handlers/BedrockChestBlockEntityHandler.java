@@ -13,6 +13,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.b
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.ChestType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.FacingDirectionHorizontal;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
@@ -107,6 +108,27 @@ public class BedrockChestBlockEntityHandler extends BlockEntityHandler<BedrockRe
     }
 
     @Override
+    public ChestBlockEntity updateBeforeProcess(@NotNull BedrockResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, ChestBlockEntity blockEntity) {
+        // Ensure the item is written as the chunker type (not the bedrock one)
+        if (chunkerItemStack.getIdentifier().getItemStackType() == ChunkerVanillaBlockType.TRAPPED_CHEST) {
+            // Turn into a trapped chest
+            TrappedChestBlockEntity trappedChestBlockEntity = new TrappedChestBlockEntity();
+            trappedChestBlockEntity.setX(blockEntity.getX());
+            trappedChestBlockEntity.setY(blockEntity.getY());
+            trappedChestBlockEntity.setZ(blockEntity.getZ());
+            trappedChestBlockEntity.setMovable(blockEntity.isMovable());
+            trappedChestBlockEntity.setLootTable(blockEntity.getLootTable());
+            trappedChestBlockEntity.setCustomName(blockEntity.getCustomName());
+            trappedChestBlockEntity.getItems().putAll(blockEntity.getItems());
+            return trappedChestBlockEntity;
+        } else if (blockEntity instanceof BedrockChestBlockEntity bedrockChestBlockEntity) {
+            // Return the chunker version if it wasn't a trapped chest
+            return bedrockChestBlockEntity.toChunker();
+        }
+        return blockEntity;
+    }
+
+    @Override
     public ChestBlockEntity updateBeforeWrite(@NotNull BedrockResolvers resolvers, ChunkerColumn column, int x, int y, int z, ChestBlockEntity blockEntity) {
         // Turn into Bedrock Chest Block Entity (note this also turns trapped chests, as they should be the same type for Bedrock)
         BedrockChestBlockEntity bedrockChestBlockEntity = new BedrockChestBlockEntity(blockEntity);
@@ -128,6 +150,11 @@ public class BedrockChestBlockEntityHandler extends BlockEntityHandler<BedrockRe
         }
         // Return the new block entity
         return bedrockChestBlockEntity;
+    }
+
+    @Override
+    public ChestBlockEntity updateBeforeWrite(@NotNull BedrockResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, ChestBlockEntity blockEntity) {
+        return new BedrockChestBlockEntity(blockEntity);
     }
 
     @Override

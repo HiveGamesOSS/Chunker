@@ -13,6 +13,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.Chunke
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.FacingDirection;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
@@ -63,10 +64,14 @@ public class BedrockShulkerBoxBlockEntityHandler extends BlockEntityHandler<Bedr
     }
 
     @Override
+    public ShulkerBoxBlockEntity updateBeforeWrite(@NotNull BedrockResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, ShulkerBoxBlockEntity blockEntity) {
+        return new BedrockShulkerBlockEntity(blockEntity);
+    }
+
+    @Override
     public Class<ShulkerBoxBlockEntity> getAdditionalHandledClass() {
         return ShulkerBoxBlockEntity.class;
     }
-
 
     @Override
     public ShulkerBoxBlockEntity updateBeforeProcess(@NotNull BedrockResolvers resolvers, ChunkerColumn column, int x, int y, int z, ShulkerBoxBlockEntity blockEntity) {
@@ -83,6 +88,15 @@ public class BedrockShulkerBoxBlockEntityHandler extends BlockEntityHandler<Bedr
             column.setBlock(x, y, z, blockIdentifier);
 
             // Return the chunker version
+            return bedrockShulkerBlockEntity.toChunker();
+        }
+        return blockEntity;
+    }
+
+    @Override
+    public ShulkerBoxBlockEntity updateBeforeProcess(@NotNull BedrockResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, ShulkerBoxBlockEntity blockEntity) {
+        // Ensure the item is written as the chunker type (not the bedrock one)
+        if (blockEntity instanceof BedrockShulkerBlockEntity bedrockShulkerBlockEntity) {
             return bedrockShulkerBlockEntity.toChunker();
         }
         return blockEntity;

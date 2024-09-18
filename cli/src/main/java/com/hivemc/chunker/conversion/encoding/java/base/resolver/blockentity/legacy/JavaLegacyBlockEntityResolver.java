@@ -6,12 +6,15 @@ import com.hivemc.chunker.conversion.encoding.base.resolver.blockentity.BlockEnt
 import com.hivemc.chunker.conversion.encoding.base.resolver.blockentity.EmptyBlockEntityHandler;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.blockentity.legacy.handlers.*;
+import com.hivemc.chunker.conversion.intermediate.column.blockentity.BlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.DaylightDetectorBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.StructureBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.EnderChestBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.HopperBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.*;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.end.EndPortalBlockEntity;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerItemStackIdentifierType;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 
 import java.util.Objects;
@@ -137,5 +140,14 @@ public class JavaLegacyBlockEntityResolver extends BlockEntityResolver<JavaResol
                 return Optional.of(id);
             }
         });
+    }
+
+    @Override
+    public Optional<Class<? extends BlockEntity>> getBlockEntityClass(ChunkerItemStackIdentifierType itemStackType) {
+        // Legacy Java doesn't have trapped chest
+        if (itemStackType == ChunkerVanillaBlockType.TRAPPED_CHEST) {
+            return Optional.of(ChestBlockEntity.class);
+        }
+        return super.getBlockEntityClass(itemStackType);
     }
 }

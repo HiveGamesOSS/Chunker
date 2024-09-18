@@ -415,7 +415,6 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
             }
         });
 
-
         // Trim
         registerHandler(ChunkerItemProperty.TRIM, new PropertyHandler<>() {
             @Override
@@ -573,7 +572,7 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
             @Override
             public Optional<BlockEntity> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
                 // Check the blockEntity class associated with the chunker block / item
-                Optional<Class<? extends BlockEntity>> blockEntityClass = state.key().getIdentifier().getItemStackType().getBlockEntityClass();
+                Optional<Class<? extends BlockEntity>> blockEntityClass = resolvers.blockEntityResolver().getBlockEntityClass(state.key().getIdentifier().getItemStackType());
                 if (blockEntityClass.isEmpty()) return Optional.empty();
 
                 // Attempt to get the tag (used for block entities)
@@ -584,16 +583,30 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
                 }
 
                 // Use the Item NBT block entity generator
-                return resolvers.blockEntityResolver().generateFromItemNBT(
+                generated = resolvers.blockEntityResolver().generateFromItemNBT(
                         blockEntityClass.get(),
                         state.key(),
                         generated.orElse(null),
                         state.value()
                 );
+
+                // Finally apply the before process handler to ensure that we're not using non-intermediate block entities
+                return generated.map(blockEntity -> resolvers.blockEntityResolver().updateBeforeProcess(
+                        state.value(),
+                        state.key(),
+                        blockEntity
+                ));
             }
 
             @Override
             public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull BlockEntity value) {
+                // Apply the before write handler to ensure that we're using the right types
+                value = resolvers.blockEntityResolver().updateBeforeWrite(
+                        state.value(),
+                        state.key(),
+                        value
+                );
+
                 // Use the Item NBT block entity generator
                 boolean writeBlockEntityData = resolvers.blockEntityResolver().writeToItemNBT(
                         state.key(),

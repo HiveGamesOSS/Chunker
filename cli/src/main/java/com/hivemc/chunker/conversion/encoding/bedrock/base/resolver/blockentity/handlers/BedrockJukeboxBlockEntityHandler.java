@@ -9,6 +9,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.Chunke
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Bool;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,5 +49,10 @@ public class BedrockJukeboxBlockEntityHandler extends BlockEntityHandler<Bedrock
 
         // No changes to the block entity
         return blockEntity;
+    }
+
+    @Override
+    public JukeboxBlockEntity updateBeforeProcess(@NotNull BedrockResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, JukeboxBlockEntity blockEntity) {
+        return blockEntity; // This block entity doesn't need any updating when it's an item
     }
 }

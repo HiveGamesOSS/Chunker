@@ -540,6 +540,9 @@ public class BedrockLegacyItemStackResolver extends ItemStackResolver<BedrockRes
                         tag.remove("x");
                         tag.remove("y");
                         tag.remove("z");
+                        tag.remove("facing");
+                        tag.remove("Rotation");
+                        tag.remove("Rot");
                         tag.remove("isMovable");
                         tag.remove("id");
 

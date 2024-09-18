@@ -768,6 +768,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                     tag.remove("Pos");
                     tag.remove("Motion");
                     tag.remove("Rotation");
+                    tag.remove("Rot");
                     tag.remove("facing");
                     tag.remove("Facing");
 
@@ -823,6 +824,10 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                         tag.remove("x");
                         tag.remove("y");
                         tag.remove("z");
+                        tag.remove("Rotation");
+                        tag.remove("Rot");
+                        tag.remove("facing");
+                        tag.remove("Facing");
 
                         // Add the tag
                         state.value().getOrCreateCompound("components").put("minecraft:block_entity_data", tag);

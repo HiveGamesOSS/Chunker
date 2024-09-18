@@ -662,6 +662,10 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
                         tag.remove("y");
                         tag.remove("z");
                         tag.remove("id");
+                        tag.remove("Rotation");
+                        tag.remove("Rot");
+                        tag.remove("facing");
+                        tag.remove("Facing");
 
                         // Add the tag
                         state.value().getOrCreateCompound("tag").put("BlockEntityTag", tag);

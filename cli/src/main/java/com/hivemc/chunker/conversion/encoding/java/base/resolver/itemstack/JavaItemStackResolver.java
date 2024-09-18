@@ -711,6 +711,7 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
                     tag.remove("Pos");
                     tag.remove("Motion");
                     tag.remove("Rotation");
+                    tag.remove("Rot");
                     tag.remove("facing");
                     tag.remove("Facing");
 
@@ -772,6 +773,10 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
                         tag.remove("y");
                         tag.remove("z");
                         tag.remove("id");
+                        tag.remove("Rotation");
+                        tag.remove("Rot");
+                        tag.remove("facing");
+                        tag.remove("Facing");
 
                         // Add the tag
                         state.value().getOrCreateCompound("tag").put("BlockEntityTag", tag);

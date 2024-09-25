@@ -13,7 +13,7 @@ lz4 = "1.3.0"
 jetbrains-annotations = "25.0.0"
 
 # JUnit
-junit = "5.11.0"
+junit = "5.11.1"
 
 # Plugins
 shadow = "8.1.1"

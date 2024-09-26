@@ -34,7 +34,23 @@ public class JavaItemIdentifierValidationTests {
     // Items from future versions
     public static final Set<ChunkerVanillaItemType> FUTURE_ITEMS = ImmutableSet.of(
             ChunkerVanillaItemType.BORDURE_INDENTED_BANNER_PATTERN, // Not in Java
-            ChunkerVanillaItemType.FIELD_MASONED_BANNER_PATTERN // Not in Java
+            ChunkerVanillaItemType.FIELD_MASONED_BANNER_PATTERN, // Not in Java
+            ChunkerVanillaItemType.BLACK_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.BLUE_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.BROWN_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.CYAN_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.GRAY_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.GREEN_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.LIGHT_BLUE_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.LIGHT_GRAY_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.LIME_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.MAGENTA_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.ORANGE_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.PINK_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.PURPLE_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.RED_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.WHITE_BUNDLE, // Not in Java
+            ChunkerVanillaItemType.YELLOW_BUNDLE // Not in Java
     );
     public static final Set<String> UNSUPPORTED_ITEMS = ImmutableSet.of();
     private static final Gson gson = new Gson();

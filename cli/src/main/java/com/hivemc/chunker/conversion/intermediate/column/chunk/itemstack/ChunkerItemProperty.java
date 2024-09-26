@@ -170,6 +170,14 @@ public class ChunkerItemProperty<V> extends Property<ChunkerItemStack, V> implem
             "trim",
             ChunkerTrim.class
     );
+    /**
+     * The inventory for a bundle.
+     */
+    public static final ChunkerItemProperty<List<ChunkerItemStack>> BUNDLE_CONTENTS = new ChunkerItemProperty<>(
+            "bundle_contents",
+            new TypeToken<>() {
+            }
+    );
 
     /**
      * Create a new item property using a type token.

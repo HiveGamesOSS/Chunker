@@ -42,8 +42,10 @@ public class BedrockBlockIdentifierValidationTests {
             .put("minecraft:mangrove_wood", Map.of("stripped_bit", StateValueBoolean.TRUE)) // Remapped to stripped_mangrove_wood
             .put("minecraft:double_stone_block_slab", Map.of("stone_slab_type", new StateValueString("wood"))) // Remapped to oak_slab on some versions
             .put("minecraft:stone_block_slab", Map.of("stone_slab_type", new StateValueString("wood"))) // Remapped to double_oak_slab on some versions
-            .put("minecraft:red_mushroom_block", Map.of("huge_mushroom_bits", new StateValueInt(10))) // Remapped to brown_mushroom_block (stem)
-            .put("minecraft:red_mushroom_block", Map.of("huge_mushroom_bits", new StateValueInt(15))) // Remapped to brown_mushroom_block (stem all faces)
+            .put("minecraft:red_mushroom_block", Map.of("huge_mushroom_bits", new StateValueInt(10))) // Remapped to mushroom_stem (stem)
+            .put("minecraft:red_mushroom_block", Map.of("huge_mushroom_bits", new StateValueInt(15))) // Remapped to mushroom_stem (stem all faces)
+            .put("minecraft:brown_mushroom_block", Map.of("huge_mushroom_bits", new StateValueInt(10))) // Remapped to mushroom_stem (stem)
+            .put("minecraft:brown_mushroom_block", Map.of("huge_mushroom_bits", new StateValueInt(15))) // Remapped to mushroom_stem (stem all faces)
             .put("minecraft:lava_cauldron", Map.of()) // Migrated to :cauldron[cauldron_liquid=lava]
             .put("minecraft:glow_frame", Map.of()) // Becomes a block entity
             .put("minecraft:frame", Map.of()) // Becomes a block entity
@@ -333,6 +335,8 @@ public class BedrockBlockIdentifierValidationTests {
                 input.getIdentifier().contains("ladder") ||
                 input.getIdentifier().contains("wall_") ||
                 input.getIdentifier().equals("minecraft:skull") ||
+                input.getIdentifier().endsWith("_skull") ||
+                input.getIdentifier().endsWith("_head") ||
                 input.getIdentifier().endsWith("_stem") ||
                 input.getIdentifier().endsWith("chest") ||
                 input.getIdentifier().endsWith("furnace") ||
@@ -519,6 +523,13 @@ public class BedrockBlockIdentifierValidationTests {
             clonedStates.replace("huge_mushroom_bits", new StateValueInt(11), new StateValueInt(0));
             clonedStates.replace("huge_mushroom_bits", new StateValueInt(12), new StateValueInt(0));
             clonedStates.replace("huge_mushroom_bits", new StateValueInt(13), new StateValueInt(0));
+        }
+        if (input.getIdentifier().equals("minecraft:mushroom_stem")) {
+            int bits = ((StateValueInt) input.getStates().get("huge_mushroom_bits")).getValue();
+            if (bits != 10 && bits != 15) {
+                // All stems are used for the other faces
+                clonedStates.put("huge_mushroom_bits", new StateValueInt(15));
+            }
         }
         if (input.getIdentifier().equals("minecraft:tallgrass")) {
             // Duplicate textures (which don't seem to be used)

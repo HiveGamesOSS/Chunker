@@ -59,7 +59,8 @@ public class JavaLegacyBasicItemResolverTests {
             ChunkerItemProperty.TRIM,
             ChunkerItemProperty.STEW_EFFECT,
             ChunkerItemProperty.ENTITY,
-            ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER
+            ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER,
+            ChunkerItemProperty.BUNDLE_CONTENTS
     );
     public static final Map<Class<? extends Enum<?>>, Set<?>> UNSUPPORTED_ENUMS = Map.of(
             ChunkerVanillaEntityType.class, Set.of(

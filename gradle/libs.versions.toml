@@ -19,7 +19,7 @@ junit = "5.11.0"
 shadow = "8.1.1"
 gitVersion = "3.1.0"
 jpackage = "1.6.0"
-node = "7.0.2"
+node = "7.1.0"
 
 [libraries]
 picocli = { module = "info.picocli:picocli", version.ref = "picocli" }

@@ -8,6 +8,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.Chunke
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.mapping.identifier.Identifier;
 import com.hivemc.chunker.nbt.TagType;
+import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
 import com.hivemc.chunker.nbt.tags.primitive.StringTag;
@@ -15,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Handler for Decorated Pot Block Entities which also handles item components.
@@ -45,6 +48,12 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
             if (sherds.size() == 3) return;
             value.setFront(items.get(3));
         }
+
+        // Read item
+        CompoundTag item = input.getCompound("item");
+        if (item != null) {
+            value.setItem(resolvers.readItem(item));
+        }
     }
 
     @Override
@@ -56,6 +65,13 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getFront())).getIdentifier()));
 
         output.put(resolvers.dataVersion().getVersion().isLessThan(1, 20, 0) ? "shards" : "sherds", sherds);
+
+        // Write the item stored in the pot (1.20.30 and above)
+        if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 20, 3)) {
+            if (value.getItem() != null && !value.getItem().getIdentifier().isAir()) {
+                resolvers.writeItem(value.getItem()).ifPresent(item -> output.put("item", item));
+            }
+        }
     }
 
     @Override
@@ -82,17 +98,34 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
 
             if (sherds.size() == 3) return true; // Success
             output.setFront(items.get(3));
-
-            return true; // Success
-        } else {
-            return false; // Unsuccessful
         }
+        
+        // Read the item from the container component
+        ListTag<CompoundTag, Map<String, Tag<?>>> containerTag = components.getList("minecraft:container", CompoundTag.class, null);
+        if (containerTag != null) {
+            // Find the first valid item
+            for (CompoundTag itemTag : containerTag) {
+                // Read item
+                itemTag = itemTag.getCompound("item");
+                if (itemTag == null) continue;
+
+                // Read the tag
+                ChunkerItemStack item = resolvers.readItem(itemTag);
+                if (item.getIdentifier().isAir()) continue;
+
+                // Set the item if it's not air
+                output.setItem(item);
+            }
+        }
+        return true; // Success
     }
 
     @Override
     public boolean writeToItemNBT(@NotNull JavaResolvers resolvers, @NotNull ChunkerItemStack itemStack, @NotNull DecoratedPotBlockEntity input, @NotNull CompoundTag output) {
         if (resolvers.dataVersion().getVersion().isLessThan(1, 20, 5))
             return true; // Components not needed (write normally)
+
+        CompoundTag components = output.getOrCreateCompound("components");
 
         // Write the pot decorations
         ListTag<StringTag, String> sherds = new ListTag<>(TagType.STRING);
@@ -102,7 +135,26 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(input.getFront())).getIdentifier()));
 
         // Write to the output
-        output.getOrCreateCompound("components").put("minecraft:pot_decorations", sherds);
+        components.put("minecraft:pot_decorations", sherds);
+
+        // Write item if present (with the container component)
+        if (input.getItem() != null && !input.getItem().getIdentifier().isAir()) {
+            ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(1));
+
+            // Write the item with slot
+            Optional<CompoundTag> item = resolvers.writeItem(input.getItem());
+            if (item.isPresent()) {
+                // Add the slot
+                CompoundTag itemTag = new CompoundTag();
+                itemTag.put("slot", 0);
+                itemTag.put("item", item.get());
+
+                // Add to items
+                items.add(itemTag);
+                components.put("minecraft:container", items);
+            }
+        }
+
         return false; // Block entity not needed
     }
 }

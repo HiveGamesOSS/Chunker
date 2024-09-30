@@ -12,13 +12,12 @@ import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.B
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.EnderChestBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.HopperBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.SmokerBlockEntity;
-import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.BarrelBlockEntity;
-import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.DispenserBlockEntity;
-import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.DropperBlockEntity;
-import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.TrappedChestBlockEntity;
+import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.*;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.end.EndPortalBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.sculksensor.CalibratedSculkSensorBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.sign.HangingSignBlockEntity;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerItemStackIdentifierType;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 
 import java.util.Optional;
@@ -149,5 +148,14 @@ public class BedrockBlockEntityResolver extends BlockEntityResolver<BedrockResol
     @Override
     public Optional<String> getKey(CompoundTag input) {
         return input.getOptionalValue("id", String.class);
+    }
+
+    @Override
+    public Optional<Class<? extends BlockEntity>> getBlockEntityClass(ChunkerItemStackIdentifierType itemStackType) {
+        // Bedrock doesn't have trapped chest
+        if (itemStackType == ChunkerVanillaBlockType.TRAPPED_CHEST) {
+            return Optional.of(ChestBlockEntity.class);
+        }
+        return super.getBlockEntityClass(itemStackType);
     }
 }

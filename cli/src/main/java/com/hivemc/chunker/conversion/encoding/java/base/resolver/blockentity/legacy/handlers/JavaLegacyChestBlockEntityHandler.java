@@ -9,6 +9,7 @@ import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.r
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.TrappedChestBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,6 +52,11 @@ public class JavaLegacyChestBlockEntityHandler extends BlockEntityHandler<JavaRe
     }
 
     @Override
+    public ChestBlockEntity updateBeforeProcess(@NotNull JavaResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, ChestBlockEntity blockEntity) {
+        return blockEntity; // This block entity doesn't need any updating when it's an item
+    }
+
+    @Override
     public ChestBlockEntity updateBeforeWrite(@NotNull JavaResolvers resolvers, ChunkerColumn column, int x, int y, int z, ChestBlockEntity blockEntity) {
         // Turn into a chest
         if (blockEntity instanceof TrappedChestBlockEntity) {
@@ -67,6 +73,11 @@ public class JavaLegacyChestBlockEntityHandler extends BlockEntityHandler<JavaRe
 
         // Return the old block entity
         return blockEntity;
+    }
+
+    @Override
+    public ChestBlockEntity updateBeforeWrite(@NotNull JavaResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, ChestBlockEntity blockEntity) {
+        return blockEntity; // This block entity doesn't need any updating when it's an item
     }
 
     @Override

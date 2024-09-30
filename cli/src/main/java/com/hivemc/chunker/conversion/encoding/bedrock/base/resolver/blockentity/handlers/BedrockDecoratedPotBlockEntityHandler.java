@@ -44,6 +44,12 @@ public class BedrockDecoratedPotBlockEntityHandler extends BlockEntityHandler<Be
             if (sherds.size() == 3) return;
             value.setFront(items.get(3));
         }
+
+        // Read item
+        CompoundTag item = input.getCompound("item");
+        if (item != null) {
+            value.setItem(resolvers.readItem(item));
+        }
     }
 
     @Override
@@ -55,5 +61,12 @@ public class BedrockDecoratedPotBlockEntityHandler extends BlockEntityHandler<Be
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getFront())).getIdentifier()));
 
         output.put(resolvers.dataVersion().getVersion().isLessThan(1, 20, 0) ? "shards" : "sherds", sherds);
+
+        // Write the item stored in the pot (1.20.50 and above)
+        if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 20, 50)) {
+            if (value.getItem() != null && !value.getItem().getIdentifier().isAir()) {
+                resolvers.writeItem(value.getItem()).ifPresent(item -> output.put("item", item));
+            }
+        }
     }
 }

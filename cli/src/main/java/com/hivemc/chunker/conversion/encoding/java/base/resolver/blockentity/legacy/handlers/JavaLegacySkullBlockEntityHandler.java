@@ -14,6 +14,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.b
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.BlockStateValue;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Rotation;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -71,10 +72,14 @@ public class JavaLegacySkullBlockEntityHandler extends BlockEntityHandler<JavaRe
     }
 
     @Override
+    public SkullBlockEntity updateBeforeWrite(@NotNull JavaResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, SkullBlockEntity blockEntity) {
+        return new JavaLegacySkullBlockEntity(blockEntity);
+    }
+
+    @Override
     public Class<SkullBlockEntity> getAdditionalHandledClass() {
         return SkullBlockEntity.class;
     }
-
 
     @Override
     public SkullBlockEntity updateBeforeProcess(@NotNull JavaResolvers resolvers, ChunkerColumn column, int x, int y, int z, SkullBlockEntity blockEntity) {
@@ -101,6 +106,15 @@ public class JavaLegacySkullBlockEntityHandler extends BlockEntityHandler<JavaRe
             column.setBlock(x, y, z, new ChunkerBlockIdentifier(newType, newBlockStates, blockIdentifier.getPreservedIdentifier()));
 
             // Return the chunker version
+            return legacySkullBlockEntity.toChunker();
+        }
+        return blockEntity;
+    }
+
+    @Override
+    public SkullBlockEntity updateBeforeProcess(@NotNull JavaResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, SkullBlockEntity blockEntity) {
+        // Ensure the item is written as the chunker type (not the legacy java one)
+        if (blockEntity instanceof JavaLegacySkullBlockEntity legacySkullBlockEntity) {
             return legacySkullBlockEntity.toChunker();
         }
         return blockEntity;

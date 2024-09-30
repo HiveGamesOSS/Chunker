@@ -11,6 +11,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.Chunke
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerDyeColor;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,10 +76,14 @@ public class JavaLegacyBedBlockEntityHandler extends BlockEntityHandler<JavaReso
     }
 
     @Override
+    public BedBlockEntity updateBeforeWrite(@NotNull JavaResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, BedBlockEntity blockEntity) {
+        return new JavaLegacyBedBlockEntity(blockEntity);
+    }
+
+    @Override
     public Class<BedBlockEntity> getAdditionalHandledClass() {
         return BedBlockEntity.class;
     }
-
 
     @Override
     public BedBlockEntity updateBeforeProcess(@NotNull JavaResolvers resolvers, ChunkerColumn column, int x, int y, int z, BedBlockEntity blockEntity) {
@@ -95,6 +100,15 @@ public class JavaLegacyBedBlockEntityHandler extends BlockEntityHandler<JavaReso
             column.setBlock(x, y, z, new ChunkerBlockIdentifier(newType, blockIdentifier.getPresentStates(), blockIdentifier.getPreservedIdentifier()));
 
             // Return the chunker version
+            return legacyBedBlockEntity.toChunker();
+        }
+        return blockEntity;
+    }
+
+    @Override
+    public BedBlockEntity updateBeforeProcess(@NotNull JavaResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, BedBlockEntity blockEntity) {
+        // Ensure the item is written as the chunker type (not the legacy java one)
+        if (blockEntity instanceof JavaLegacyBedBlockEntity legacyBedBlockEntity) {
             return legacyBedBlockEntity.toChunker();
         }
         return blockEntity;

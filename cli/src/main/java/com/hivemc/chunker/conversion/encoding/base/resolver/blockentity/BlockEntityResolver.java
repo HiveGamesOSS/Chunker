@@ -6,6 +6,7 @@ import com.hivemc.chunker.conversion.intermediate.column.blockentity.BlockEntity
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.UnknownBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.ChunkerChunk;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerItemStackIdentifierType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.Palette;
@@ -189,6 +190,31 @@ public abstract class BlockEntityResolver<R, D> extends KeyedHierarchyBasedResol
     }
 
     /**
+     * Update any block entities which need updating before the item stack is processed.
+     *
+     * @param itemCompoundTag  the compound tag of the item which was used to make the block entity.
+     * @param chunkerItemStack the output item stack.
+     * @param blockEntity      the block entity.
+     * @param <T>              the type of the block entity.
+     * @return the new block entity which should replace the old one.
+     */
+    public <T extends BlockEntity> T updateBeforeProcess(CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, T blockEntity) {
+        Optional<TypeHandler<R, String, D, ? extends BlockEntity>> lastHandler = getFromTypeHandler(blockEntity);
+        if (lastHandler.isEmpty()) return blockEntity; // Don't update
+
+        // Find the handlers to call
+        Collection<UpdateBeforeProcessBlockEntityHandler<R, T>> handlers = getInterfaceHandlers(UpdateBeforeProcessBlockEntityHandler.class, lastHandler.get());
+        if (handlers.isEmpty()) return blockEntity; // Don't update
+
+        // Run each handler
+        for (UpdateBeforeProcessBlockEntityHandler<R, T> handler : handlers) {
+            blockEntity = handler.updateBeforeProcess(resolvers, itemCompoundTag, chunkerItemStack, blockEntity);
+        }
+
+        return blockEntity;
+    }
+
+    /**
      * Update any block entities which need updating before the column is written.
      *
      * @param column      the column holding the block entity.
@@ -210,6 +236,31 @@ public abstract class BlockEntityResolver<R, D> extends KeyedHierarchyBasedResol
         // Run each handler
         for (UpdateBeforeWriteBlockEntityHandler<R, T> handler : handlers) {
             blockEntity = handler.updateBeforeWrite(resolvers, column, x, y, z, blockEntity);
+        }
+
+        return blockEntity;
+    }
+
+    /**
+     * Update any block entities which need updating before an item stack is written.
+     *
+     * @param itemCompoundTag  the output compound tag of the item which is about to be written.
+     * @param chunkerItemStack the input item stack.
+     * @param blockEntity      the block entity.
+     * @param <T>              the type of the block entity.
+     * @return the new block entity which should replace the old one.
+     */
+    public <T extends BlockEntity> T updateBeforeWrite(CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, T blockEntity) {
+        Optional<TypeHandler<R, String, D, ? extends BlockEntity>> lastHandler = getFromTypeHandler(blockEntity);
+        if (lastHandler.isEmpty()) return blockEntity; // Don't update
+
+        // Find the handlers to call
+        Collection<UpdateBeforeWriteBlockEntityHandler<R, T>> handlers = getInterfaceHandlers(UpdateBeforeWriteBlockEntityHandler.class, lastHandler.get());
+        if (handlers.isEmpty()) return blockEntity; // Don't update
+
+        // Run each handler
+        for (UpdateBeforeWriteBlockEntityHandler<R, T> handler : handlers) {
+            blockEntity = handler.updateBeforeWrite(resolvers, itemCompoundTag, chunkerItemStack, blockEntity);
         }
 
         return blockEntity;
@@ -419,5 +470,9 @@ public abstract class BlockEntityResolver<R, D> extends KeyedHierarchyBasedResol
 
         // Otherwise return the original
         return result;
+    }
+
+    public Optional<Class<? extends BlockEntity>> getBlockEntityClass(ChunkerItemStackIdentifierType itemStackType) {
+        return itemStackType.getBlockEntityClass();
     }
 }

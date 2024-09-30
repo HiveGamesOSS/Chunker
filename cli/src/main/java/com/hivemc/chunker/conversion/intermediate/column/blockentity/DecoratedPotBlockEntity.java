@@ -2,6 +2,8 @@ package com.hivemc.chunker.conversion.intermediate.column.blockentity;
 
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerItemStackIdentifier;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.item.ChunkerVanillaItemType;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -13,6 +15,26 @@ public class DecoratedPotBlockEntity extends BlockEntity {
     private ChunkerItemStackIdentifier left = ChunkerVanillaItemType.BRICK;
     private ChunkerItemStackIdentifier right = ChunkerVanillaItemType.BRICK;
     private ChunkerItemStackIdentifier front = ChunkerVanillaItemType.BRICK;
+    @Nullable
+    private ChunkerItemStack item;
+
+    /**
+     * Get the item which is stored inside the decorated pot.
+     *
+     * @return the item or null/air.
+     */
+    public @Nullable ChunkerItemStack getItem() {
+        return item;
+    }
+
+    /**
+     * Set the item stored inside the decorated pot.
+     *
+     * @param item the item or null/air.
+     */
+    public void setItem(@Nullable ChunkerItemStack item) {
+        this.item = item;
+    }
 
     /**
      * Get the sherd used for the back of the pot.

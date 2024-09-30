@@ -12,6 +12,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.b
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerDyeColor;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.banner.ChunkerBannerPattern;
 import com.hivemc.chunker.nbt.TagType;
 import com.hivemc.chunker.nbt.tags.Tag;
@@ -113,6 +114,11 @@ public class JavaLegacyBannerBlockEntityHandler extends BlockEntityHandler<JavaR
     }
 
     @Override
+    public BannerBlockEntity updateBeforeWrite(@NotNull JavaResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, BannerBlockEntity blockEntity) {
+        return blockEntity; // This block entity doesn't need any updating when it's an item
+    }
+
+    @Override
     public Class<BannerBlockEntity> getAdditionalHandledClass() {
         return BannerBlockEntity.class;
     }
@@ -137,5 +143,10 @@ public class JavaLegacyBannerBlockEntityHandler extends BlockEntityHandler<JavaR
             blockEntity.setBase(Optional.empty());
         }
         return blockEntity;
+    }
+
+    @Override
+    public BannerBlockEntity updateBeforeProcess(@NotNull JavaResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, BannerBlockEntity blockEntity) {
+        return blockEntity; // This block entity doesn't need any updating when it's an item
     }
 }

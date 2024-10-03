@@ -19,7 +19,7 @@ import java.util.*;
  * Represents a dictionary of tags which are stored in a key-value storage, using a String as the key.
  */
 public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Map.Entry<String, Tag<?>>> {
-    public static final int MAX_COMPOUND_LENGTH = 32768;
+    public static final int MAX_COMPOUND_LENGTH = 16 * 16 * 4096; // Limit set to an entry per every block in a chunk
     public static final int MAX_NAME_LENGTH = 256;
     @Nullable
     protected Map<String, Tag<?>> value;

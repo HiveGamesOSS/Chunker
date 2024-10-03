@@ -8,6 +8,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.regex.Pattern;
+
 /**
  * Util for converting JSON formatted text.
  */
@@ -16,6 +18,10 @@ public class JsonTextUtil {
      * The color code used in string form for legacy colors.
      */
     public static final char CHAT_COLOR = '§';
+    /**
+     * Pattern which matches legacy formatting using CHAT_COLOR.
+     */
+    public static final Pattern LEGACY_FORMAT_PATTERN = Pattern.compile("(?i)" + CHAT_COLOR + "[0-9A-FK-OR]");
     /**
      * Map containing the color name and the color to use for Bedrock edition.
      */
@@ -158,6 +164,60 @@ public class JsonTextUtil {
 
             if (jsonObject.has("extra")) {
                 output.append(toLegacy(jsonObject.get("extra"), bedrock));
+            }
+
+            return output.toString();
+        }
+        throw new IllegalArgumentException("Unable to turn JSON into legacy " + input);
+    }
+
+    /**
+     * Convert a JSON input to text with no formatting.
+     * Note: Translatable text will throw an IllegalArgumentException.
+     *
+     * @param input the input JSON.
+     * @return the text without any formatting.
+     */
+    public static String toStripped(JsonElement input) {
+        if (input == null || input.isJsonNull()) return "";
+        if (input.isJsonPrimitive()) {
+            JsonPrimitive primitive = input.getAsJsonPrimitive();
+            if (primitive.isString()) {
+                // Remove any legacy formatting
+                return LEGACY_FORMAT_PATTERN.matcher(primitive.getAsString()).replaceAll("");
+            }
+            if (primitive.isBoolean()) {
+                return primitive.getAsBoolean() ? "true" : "false";
+            }
+            if (primitive.isNumber()) {
+                return primitive.getAsNumber().toString();
+            }
+            throw new IllegalArgumentException("Unable to turn JSON into legacy " + input);
+        }
+        if (input.isJsonArray()) {
+            StringBuilder output = new StringBuilder();
+            for (JsonElement element : input.getAsJsonArray()) {
+                output.append(toStripped(element));
+            }
+
+            return output.toString();
+        }
+        if (input.isJsonObject()) {
+            JsonObject jsonObject = input.getAsJsonObject();
+            StringBuilder output = new StringBuilder();
+
+            // Print text
+            if (jsonObject.has("text")) {
+                output.append(toStripped(jsonObject.get("text")));
+            }
+
+            // Print translate key
+            if (jsonObject.has("translate")) {
+                throw new IllegalArgumentException("Unable to turn JSON into legacy " + jsonObject);
+            }
+
+            if (jsonObject.has("extra")) {
+                output.append(toStripped(jsonObject.get("extra")));
             }
 
             return output.toString();

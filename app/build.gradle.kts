@@ -10,8 +10,8 @@ dependencies {
 }
 
 node {
-    version.set("22.8.0")
-    npmVersion.set("10.8.3")
+    version.set("22.9.0")
+    npmVersion.set("10.9.0")
     download.set(true)
 }
 

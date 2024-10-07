@@ -32,14 +32,14 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 public class BedrockItemIdentifierValidationTests {
     // Items from future versions
     public static final Set<ChunkerVanillaItemType> FUTURE_ITEMS = ImmutableSet.of(
-            ChunkerVanillaItemType.BUNDLE
     );
     // Lossy items are items which have are legacy, so it leads to it going to the newer variant
     public static final Set<String> LOSSY_ITEMS = ImmutableSet.of(
             "minecraft:dye",
             "minecraft:banner_pattern",
             "minecraft:boat",
-            "minecraft:chest_boat"
+            "minecraft:chest_boat",
+            "minecraft:skull"
     );
     public static final Set<String> UNSUPPORTED_ITEMS = ImmutableSet.of(
             // Blocks which got flattened (they technically don't have a backing block so get marked as blocks in our auto-gen)

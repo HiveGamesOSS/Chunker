@@ -63,7 +63,8 @@ public class BedrockLegacyBasicItemResolverTests {
             ChunkerItemProperty.STEW_EFFECT, // Inferred from item ID
             ChunkerItemProperty.ENTITY, // Not supported AFAIK
             ChunkerItemProperty.TRIM, // Not supported in 1.12
-            ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER // Not supported in 1.12
+            ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER, // Not supported in 1.12
+            ChunkerItemProperty.BUNDLE_CONTENTS // Not supported in 1.12
     );
     public static final Map<Class<? extends Enum<?>>, Set<?>> UNSUPPORTED_ENUMS = Map.of(
             ChunkerEnchantmentType.class, Set.of(

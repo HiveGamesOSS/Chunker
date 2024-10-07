@@ -205,6 +205,17 @@ public class JavaBasicItemResolverTests {
                     decoratedPotBlockEntity,
                     bannerBlockEntity
             };
+        } else if (property == ChunkerItemProperty.BUNDLE_CONTENTS && asClass.equals(ChunkerItemStack.class)) {
+            // This is used for bundles at the minute, just basic item tests
+            return (T[]) Stream.of(new ChunkerVanillaItemType[]{
+                            ChunkerVanillaItemType.APPLE,
+                            ChunkerVanillaItemType.BLAZE_ROD,
+                            ChunkerVanillaItemType.CHERRY_BOAT
+                    })
+                    .map(a -> new ChunkerItemStack(a, Map.of(
+                            ChunkerItemProperty.AMOUNT, 1
+                    )))
+                    .toArray();
         } else if (asClass.equals(ChunkerBlockIdentifier.class)) {
             return (T[]) new ChunkerBlockIdentifier[]{
                     new ChunkerBlockIdentifier(ChunkerVanillaBlockType.GRANITE),

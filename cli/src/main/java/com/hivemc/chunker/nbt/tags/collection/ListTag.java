@@ -19,7 +19,7 @@ import java.util.function.Function;
  * @param <V> The boxed value type held by the tags in the list.
  */
 public class ListTag<T extends Tag<V>, V> extends Tag<List<T>> implements Iterable<T> {
-    public static final int MAX_LIST_LENGTH = 32768;
+    public static final int MAX_LIST_LENGTH = 16 * 16 * 4096; // Limit set to an entry per every block in a chunk
     @Nullable
     private TagType<T, V> listType;
     @Nullable

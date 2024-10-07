@@ -2706,10 +2706,10 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
 
             // Anvil got flattened
             registerOverrideOutput(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
-                    .put("minecraft:anvil", ChunkerVanillaBlockType.ANVIL)
-                    .put("minecraft:chipped_anvil", ChunkerVanillaBlockType.CHIPPED_ANVIL)
-                    .put("minecraft:damaged_anvil", ChunkerVanillaBlockType.DAMAGED_ANVIL)
-                    .build(),
+                            .put("minecraft:anvil", ChunkerVanillaBlockType.ANVIL)
+                            .put("minecraft:chipped_anvil", ChunkerVanillaBlockType.CHIPPED_ANVIL)
+                            .put("minecraft:damaged_anvil", ChunkerVanillaBlockType.DAMAGED_ANVIL)
+                            .build(),
                     BedrockStateGroups.ANVIL
             ));
             // Deprecated anvil is visually the same
@@ -2776,6 +2776,68 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
             // Deprecated purpur variants
             registerDuplicateOutput(BlockMapping.of("minecraft:deprecated_purpur_block_1", ChunkerVanillaBlockType.PURPUR_BLOCK));
             registerDuplicateOutput(BlockMapping.of("minecraft:deprecated_purpur_block_2", ChunkerVanillaBlockType.PURPUR_BLOCK));
+        }
+
+        // R21U4
+        if (version.isGreaterThanOrEqual(1, 21, 40)) {
+            // Fixed the stripped_bit being present on cherry/mangrove wood
+            registerOverrideOutput(BlockMapping.of("minecraft:cherry_wood", ChunkerVanillaBlockType.CHERRY_WOOD, BedrockStateGroups.PILLAR_BLOCK));
+            registerOverrideOutput(BlockMapping.of("minecraft:mangrove_wood", ChunkerVanillaBlockType.MANGROVE_WOOD, BedrockStateGroups.PILLAR_BLOCK));
+
+            // Flattened - Wall Skulls
+            registerOverrideOutput(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:skeleton_skull", ChunkerVanillaBlockType.SKELETON_WALL_SKULL)
+                            .put("minecraft:zombie_head", ChunkerVanillaBlockType.ZOMBIE_WALL_HEAD)
+                            .put("minecraft:player_head", ChunkerVanillaBlockType.PLAYER_WALL_HEAD)
+                            .put("minecraft:creeper_head", ChunkerVanillaBlockType.CREEPER_WALL_HEAD)
+                            .put("minecraft:wither_skeleton_skull", ChunkerVanillaBlockType.WITHER_SKELETON_WALL_SKULL)
+                            .put("minecraft:dragon_head", ChunkerVanillaBlockType.DRAGON_WALL_HEAD)
+                            .put("minecraft:piglin_head", ChunkerVanillaBlockType.PIGLIN_WALL_HEAD)
+                            .build(),
+                    BedrockStateGroups.WALL_SKULL));
+
+            // Flattened - Skulls
+            registerOverrideOutput(BlockMapping.group("facing_direction", 1, ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:skeleton_skull", ChunkerVanillaBlockType.SKELETON_SKULL)
+                            .put("minecraft:zombie_head", ChunkerVanillaBlockType.ZOMBIE_HEAD)
+                            .put("minecraft:player_head", ChunkerVanillaBlockType.PLAYER_HEAD)
+                            .put("minecraft:creeper_head", ChunkerVanillaBlockType.CREEPER_HEAD)
+                            .put("minecraft:wither_skeleton_skull", ChunkerVanillaBlockType.WITHER_SKELETON_SKULL)
+                            .put("minecraft:dragon_head", ChunkerVanillaBlockType.DRAGON_HEAD)
+                            .put("minecraft:piglin_head", ChunkerVanillaBlockType.PIGLIN_HEAD)
+                            .build(),
+                    BedrockStateGroups.SKULL));
+
+            // Flattened mushroom stem block (only uses huge_mushroom_bits 10 and 15)
+            registerOverrideOutput(BlockMapping.of("minecraft:mushroom_stem", "huge_mushroom_bits", 15, ChunkerVanillaBlockType.MUSHROOM_STEM, Map.of(
+                    VanillaBlockStates.NORTH, Bool.TRUE,
+                    VanillaBlockStates.EAST, Bool.TRUE,
+                    VanillaBlockStates.SOUTH, Bool.TRUE,
+                    VanillaBlockStates.WEST, Bool.TRUE,
+                    VanillaBlockStates.UP, Bool.TRUE,
+                    VanillaBlockStates.DOWN, Bool.TRUE
+            )));
+            registerOverrideOutput(BlockMapping.of("minecraft:mushroom_stem", "huge_mushroom_bits", 10, ChunkerVanillaBlockType.MUSHROOM_STEM, Map.of(
+                    VanillaBlockStates.NORTH, Bool.TRUE,
+                    VanillaBlockStates.EAST, Bool.TRUE,
+                    VanillaBlockStates.SOUTH, Bool.TRUE,
+                    VanillaBlockStates.WEST, Bool.TRUE,
+                    VanillaBlockStates.UP, Bool.FALSE,
+                    VanillaBlockStates.DOWN, Bool.FALSE
+            )));
+
+            // Defaults for all the other chunker states
+            registerDuplicateOverrideOutput(BlockMapping.of("minecraft:mushroom_stem", "huge_mushroom_bits", 15, ChunkerVanillaBlockType.MUSHROOM_STEM));
+
+            // Defaults for all the other huge_mushroom_bits states
+            registerDuplicateOutput(BlockMapping.of("minecraft:mushroom_stem", ChunkerVanillaBlockType.MUSHROOM_STEM, Map.of(
+                    VanillaBlockStates.NORTH, Bool.TRUE,
+                    VanillaBlockStates.EAST, Bool.TRUE,
+                    VanillaBlockStates.SOUTH, Bool.TRUE,
+                    VanillaBlockStates.WEST, Bool.TRUE,
+                    VanillaBlockStates.UP, Bool.TRUE,
+                    VanillaBlockStates.DOWN, Bool.TRUE
+            )));
         }
     }
 }

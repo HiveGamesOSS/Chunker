@@ -567,6 +567,51 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
             }
         });
 
+        // Bundle contents
+        registerHandler(ChunkerItemProperty.BUNDLE_CONTENTS, new PropertyHandler<>() {
+            @Override
+            public Optional<List<ChunkerItemStack>> read(@NotNull CompoundTag value) {
+                Optional<ListTag<CompoundTag, Map<String, Tag<?>>>> component = value.getOptional("tag", CompoundTag.class)
+                        .flatMap(tag -> tag.getOptionalList("storage_item_component_content", CompoundTag.class));
+                if (component.isEmpty()) return Optional.empty();
+
+                // Read the items
+                ListTag<CompoundTag, Map<String, Tag<?>>> items = component.get();
+                List<ChunkerItemStack> bundleContents = new ArrayList<>();
+                for (CompoundTag itemTag : items) {
+                    // Read the tag
+                    ChunkerItemStack item = resolvers.readItem(itemTag);
+                    if (item.getIdentifier().isAir()) continue;
+
+                    // Add the item to the bundle
+                    bundleContents.add(item);
+                }
+                return Optional.of(bundleContents);
+            }
+
+            @Override
+            public void write(@NotNull CompoundTag value, @NotNull List<ChunkerItemStack> bundleContents) {
+                // Write items
+                ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(bundleContents.size()));
+                byte slot = 0;
+                for (ChunkerItemStack item : bundleContents) {
+                    // Don't write air to bundles
+                    if (item.getIdentifier().isAir()) continue;
+
+                    // Write the item with slot
+                    Optional<CompoundTag> itemTag = resolvers.writeItem(item);
+                    if (itemTag.isEmpty()) continue;
+
+                    CompoundTag itemTagCompound = itemTag.get();
+                    itemTagCompound.put("Slot", slot++);
+
+                    // Add to items
+                    items.add(itemTagCompound);
+                }
+                value.getOrCreateCompound("tag").put("storage_item_component_content", items);
+            }
+        });
+
         // Block Entities
         registerContextualHandler(ChunkerItemProperty.BLOCK_ENTITY, new PropertyHandler<>() {
             @Override

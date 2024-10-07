@@ -1036,5 +1036,39 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
 
             register(ItemMapping.of("minecraft:ominous_trial_key", ChunkerVanillaItemType.OMINOUS_TRIAL_KEY));
         }
+
+        // R21U4
+        if (version.isGreaterThanOrEqual(1, 21, 40)) {
+            // Map the skulls as a block (non-wall variant) since they're no longer under minecraft:skull
+            registerOverrideOutput(ItemMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                    .put("minecraft:skeleton_skull", ChunkerVanillaBlockType.SKELETON_SKULL)
+                    .put("minecraft:zombie_head", ChunkerVanillaBlockType.ZOMBIE_HEAD)
+                    .put("minecraft:player_head", ChunkerVanillaBlockType.PLAYER_HEAD)
+                    .put("minecraft:creeper_head", ChunkerVanillaBlockType.CREEPER_HEAD)
+                    .put("minecraft:wither_skeleton_skull", ChunkerVanillaBlockType.WITHER_SKELETON_SKULL)
+                    .put("minecraft:dragon_head", ChunkerVanillaBlockType.DRAGON_HEAD)
+                    .put("minecraft:piglin_head", ChunkerVanillaBlockType.PIGLIN_HEAD)
+                    .build()
+            ));
+
+            // Bundles were added
+            register(ItemMapping.of("minecraft:bundle", ChunkerVanillaItemType.BUNDLE));
+            register(ItemMapping.of("minecraft:black_bundle", ChunkerVanillaItemType.BLACK_BUNDLE));
+            register(ItemMapping.of("minecraft:blue_bundle", ChunkerVanillaItemType.BLUE_BUNDLE));
+            register(ItemMapping.of("minecraft:brown_bundle", ChunkerVanillaItemType.BROWN_BUNDLE));
+            register(ItemMapping.of("minecraft:cyan_bundle", ChunkerVanillaItemType.CYAN_BUNDLE));
+            register(ItemMapping.of("minecraft:gray_bundle", ChunkerVanillaItemType.GRAY_BUNDLE));
+            register(ItemMapping.of("minecraft:green_bundle", ChunkerVanillaItemType.GREEN_BUNDLE));
+            register(ItemMapping.of("minecraft:light_blue_bundle", ChunkerVanillaItemType.LIGHT_BLUE_BUNDLE));
+            register(ItemMapping.of("minecraft:light_gray_bundle", ChunkerVanillaItemType.LIGHT_GRAY_BUNDLE));
+            register(ItemMapping.of("minecraft:lime_bundle", ChunkerVanillaItemType.LIME_BUNDLE));
+            register(ItemMapping.of("minecraft:magenta_bundle", ChunkerVanillaItemType.MAGENTA_BUNDLE));
+            register(ItemMapping.of("minecraft:orange_bundle", ChunkerVanillaItemType.ORANGE_BUNDLE));
+            register(ItemMapping.of("minecraft:pink_bundle", ChunkerVanillaItemType.PINK_BUNDLE));
+            register(ItemMapping.of("minecraft:purple_bundle", ChunkerVanillaItemType.PURPLE_BUNDLE));
+            register(ItemMapping.of("minecraft:red_bundle", ChunkerVanillaItemType.RED_BUNDLE));
+            register(ItemMapping.of("minecraft:white_bundle", ChunkerVanillaItemType.WHITE_BUNDLE));
+            register(ItemMapping.of("minecraft:yellow_bundle", ChunkerVanillaItemType.YELLOW_BUNDLE));
+        }
     }
 }

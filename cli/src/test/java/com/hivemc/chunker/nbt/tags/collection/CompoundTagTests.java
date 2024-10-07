@@ -53,6 +53,20 @@ public class CompoundTagTests extends TagTestsBase<CompoundTag, Map<String, Tag<
     }
 
     @Test
+    public void testGetOptionalListSuccess() {
+        CompoundTag compoundTag = new CompoundTag();
+        ListTag<IntTag, Integer> list = ListTag.fromValues(TagType.INT, List.of(5));
+        compoundTag.put("Test", list);
+        assertEquals(Optional.of(list), compoundTag.getOptionalList("Test", IntTag.class));
+    }
+
+    @Test
+    public void testGetOptionalListEmpty() {
+        CompoundTag compoundTag = new CompoundTag();
+        assertEquals(Optional.empty(), compoundTag.getOptionalList("Test", IntTag.class));
+    }
+
+    @Test
     public void testGetOptionalValueSuccess() {
         CompoundTag compoundTag = new CompoundTag();
         IntTag entry = new IntTag(5);

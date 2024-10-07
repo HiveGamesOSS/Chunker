@@ -19,7 +19,7 @@ import java.util.*;
  * Represents a dictionary of tags which are stored in a key-value storage, using a String as the key.
  */
 public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Map.Entry<String, Tag<?>>> {
-    public static final int MAX_COMPOUND_LENGTH = 32768;
+    public static final int MAX_COMPOUND_LENGTH = 16 * 16 * 4096; // Limit set to an entry per every block in a chunk
     public static final int MAX_NAME_LENGTH = 256;
     @Nullable
     protected Map<String, Tag<?>> value;
@@ -324,7 +324,7 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Ma
      * @param name     the name to search for.
      * @param classTag the class to expect for the tag, if it is not this class a ClassCastException will be thrown.
      * @param <T>      the tag type to be used for the optional.
-     * @return the optional with the value if present (not tag).
+     * @return the optional with the value if present.
      */
     public <T extends Tag<?>> Optional<T> getOptional(String name, Class<T> classTag) {
         Tag<T> tag = get(name);
@@ -332,6 +332,23 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Ma
 
         // Return the tag
         return Optional.of(classTag.cast(tag));
+    }
+
+    /**
+     * Get a list from the key-value based storage as an optional of the tag.
+     *
+     * @param name        the name to search for.
+     * @param listTagType the list tag class to expect for the tag, if it is not this class a ClassCastException will be
+     *                    thrown.
+     * @param <T>         the tag type of each tag in the list.
+     * @param <V>         the boxed value type of each tag in the list.
+     * @return the optional with the list tag if present.
+     */
+    public <T extends Tag<V>, V> Optional<ListTag<T, V>> getOptionalList(String name, Class<T> listTagType) {
+        ListTag<T, V> tag = getList(name, listTagType, null);
+
+        // Return the tag
+        return Optional.ofNullable(tag);
     }
 
     /**
@@ -680,7 +697,7 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Ma
         // Check if the tag is a list
         if (!(tag instanceof ListTag)) {
             // Check if the tag isn't present or if it's a long tag which we'll also count as not present.
-            if (tag == null || tag instanceof LongArrayTag longArrayTag && longArrayTag.length() == 0){
+            if (tag == null || tag instanceof LongArrayTag longArrayTag && longArrayTag.length() == 0) {
                 return defaultValue;
             }
 

@@ -3,6 +3,8 @@ package com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.blockentity
 import com.google.gson.JsonElement;
 import com.hivemc.chunker.conversion.encoding.base.resolver.blockentity.BlockEntityHandler;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.BedrockResolvers;
+import com.hivemc.chunker.conversion.encoding.java.util.FontUtil;
+import com.hivemc.chunker.conversion.intermediate.column.blockentity.sign.HangingSignBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.sign.SignBlockEntity;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.util.JsonTextUtil;
@@ -15,6 +17,9 @@ import java.util.List;
  * Handler for signs.
  */
 public class BedrockSignBlockEntityHandler extends BlockEntityHandler<BedrockResolvers, CompoundTag, SignBlockEntity> {
+    public static final int SIGN_MAX_WIDTH = 88;
+    public static final int HANGING_SIGN_MAX_WIDTH = 60;
+
     public BedrockSignBlockEntityHandler() {
         super("Sign", SignBlockEntity.class, SignBlockEntity::new);
     }
@@ -24,19 +29,24 @@ public class BedrockSignBlockEntityHandler extends BlockEntityHandler<BedrockRes
         value.setWaxed(input.getByte("IsWaxed", (byte) 0) == (byte) 1);
 
         // Use FrontText for the front face, otherwise default to the root
-        readSignFace(input.getCompound("FrontText", input), value.getFront());
+        readSignFace(input.getCompound("FrontText", input), value.getFront(), value instanceof HangingSignBlockEntity);
 
         // Only read back text if it's present
         CompoundTag backText = input.getCompound("BackText");
         if (backText != null) {
-            readSignFace(backText, value.getBack());
+            readSignFace(backText, value.getBack(), value instanceof HangingSignBlockEntity);
         }
     }
 
-    protected void readSignFace(@NotNull CompoundTag input, SignBlockEntity.SignFace face) {
+    protected void readSignFace(@NotNull CompoundTag input, SignBlockEntity.SignFace face, boolean hanging) {
         // Read text
         if (input.contains("Text")) {
             String[] textLines = input.getString("Text", "").split("\n");
+
+            // Split any long lines where possible
+            textLines = FontUtil.split(hanging ? HANGING_SIGN_MAX_WIDTH : SIGN_MAX_WIDTH, 4, textLines);
+
+            // Turn the lines into JSON
             List<JsonElement> lines = new ArrayList<>();
             for (int i = 0; i < 4; i++) {
                 JsonElement text = textLines.length > i ? JsonTextUtil.fromText(textLines[i]) : JsonTextUtil.EMPTY_TEXT_TAG;

@@ -139,6 +139,20 @@ public class ChunkerLevelSettings {
     @Hidden
     public boolean R20Support = false;
 
+    @CustomType
+    @Category(Category.Type.WORLD_SETTINGS)
+    @Bedrock
+    @Java
+    @Hidden
+    public boolean R21Support = false;
+
+    @CustomType
+    @Category(Category.Type.WORLD_SETTINGS)
+    @Bedrock
+    @Java
+    @Hidden
+    public boolean WinterDrop2024 = false;
+
     @Bedrock
     @Category(Category.Type.GAME_RULES)
     public boolean falldamage = true;
@@ -206,15 +220,10 @@ public class ChunkerLevelSettings {
     @Category(Category.Type.MISC)
     public boolean LANBroadcast = true;
 
-    // Removed due to unsafe:
     @Bedrock
     @Category(Category.Type.MISC)
     public boolean LANBroadcastIntent = true;
 
-    /* Setting removed - Crashes game if bad value (as different java -> bedrock)
-    [BedrockName(), JavaName(), Category(MISC)]
-    public long LastPlayed = 0;
-    */
     @Bedrock
     @Java
     @Category(Category.Type.WORLD_SETTINGS)
@@ -245,12 +254,10 @@ public class ChunkerLevelSettings {
     @Category(Category.Type.GAME_RULES)
     public boolean mobgriefing = true;
 
-    // Removed due to unsafe:
     @Bedrock
     @Category(Category.Type.MISC)
     public boolean MultiplayerGame = true;
 
-    // Removed due to unsafe:
     @Bedrock
     @Category(Category.Type.MISC)
     public boolean MultiplayerGameIntent = true;
@@ -821,6 +828,8 @@ public class ChunkerLevelSettings {
                 ", FlatWorldVersion=" + FlatWorldVersion +
                 ", CavesAndCliffs=" + CavesAndCliffs +
                 ", R20Support=" + R20Support +
+                ", R21Support=" + R21Support +
+                ", WinterDrop2024=" + WinterDrop2024 +
                 ", falldamage=" + falldamage +
                 ", firedamage=" + firedamage +
                 ", ForceGameType=" + ForceGameType +

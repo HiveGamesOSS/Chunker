@@ -32,6 +32,10 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 public class BedrockItemIdentifierValidationTests {
     // Items from future versions
     public static final Set<ChunkerVanillaItemType> FUTURE_ITEMS = ImmutableSet.of(
+            ChunkerVanillaItemType.PALE_OAK_BOAT,
+            ChunkerVanillaItemType.PALE_OAK_CHEST_BOAT,
+            ChunkerVanillaItemType.PALE_OAK_SIGN,
+            ChunkerVanillaItemType.PALE_OAK_HANGING_SIGN
     );
     // Lossy items are items which have are legacy, so it leads to it going to the newer variant
     public static final Set<String> LOSSY_ITEMS = ImmutableSet.of(

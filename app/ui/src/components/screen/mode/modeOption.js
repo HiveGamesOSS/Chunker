@@ -18,7 +18,7 @@ export class ModeOption extends Component {
     render() {
         let version = this.props.value.version ? this.props.value.version : getVersionName(this.props.type);
         let java = this.props.type.startsWith("JAVA_");
-        let beta = (!java && version === "1.21.40") || (java && version === "1.21.1"); // Beta label
+        let beta = (!java && version === "1.21.40") || (java && version === "1.21.2"); // Beta label
         return (
             <div>
                 <input type="radio" value={this.props.type} checked={this.props.selected === this.props.type}

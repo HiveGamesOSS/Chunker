@@ -105,6 +105,9 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
         if (version.isGreaterThanOrEqual(1, 20, 5)) {
             register(new EmptyBlockEntityHandler<>("minecraft:vault", VaultBlockEntity.class, VaultBlockEntity::new));
         }
+        if (version.isGreaterThanOrEqual(1, 21, 2)) {
+            register(new EmptyBlockEntityHandler<>("minecraft:creaking_heart", CreakingHeartBlockEntity.class, CreakingHeartBlockEntity::new));
+        }
     }
 
     @Override

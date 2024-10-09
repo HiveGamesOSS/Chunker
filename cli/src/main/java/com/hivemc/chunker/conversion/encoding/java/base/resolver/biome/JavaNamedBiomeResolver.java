@@ -20,10 +20,12 @@ public class JavaNamedBiomeResolver implements Resolver<String, ChunkerBiome> {
      *
      * @param javaVersion                the game version being used, as certain biomes are only available after
      *                                   specific versions.
-     * @param customIdentifiersSupported whether custom identifiers should be passed through as
+     * @param customIdentifierSupported whether custom identifiers should be passed through as
      *                                   ChunkerCustomBiome.
      */
-    public JavaNamedBiomeResolver(Version javaVersion, boolean customIdentifiersSupported) {
+    public JavaNamedBiomeResolver(Version javaVersion, boolean customIdentifierSupported) {
+        this.customIdentifierSupported = customIdentifierSupported;
+
         mapping.put(ChunkerBiome.ChunkerVanillaBiome.OCEAN, "minecraft:ocean");
         mapping.put(ChunkerBiome.ChunkerVanillaBiome.PLAINS, "minecraft:plains");
         mapping.put(ChunkerBiome.ChunkerVanillaBiome.DESERT, "minecraft:desert");
@@ -95,7 +97,9 @@ public class JavaNamedBiomeResolver implements Resolver<String, ChunkerBiome> {
             mapping.put(ChunkerBiome.ChunkerVanillaBiome.CHERRY_GROVE, "minecraft:cherry_grove");
         }
 
-        customIdentifierSupported = customIdentifiersSupported;
+        if (javaVersion.isGreaterThanOrEqual(1, 21, 2)) {
+            mapping.put(ChunkerBiome.ChunkerVanillaBiome.PALE_GARDEN, "minecraft:pale_garden");
+        }
     }
 
     @Override

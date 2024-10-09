@@ -1473,5 +1473,38 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
             register(BlockMapping.of("minecraft:vault", ChunkerVanillaBlockType.VAULT, JavaStateGroups.VAULT));
             register(BlockMapping.of("minecraft:heavy_core", ChunkerVanillaBlockType.HEAVY_CORE, JavaStateGroups.WATERLOGGED));
         }
+
+        // 1.21.2
+        if (version.isGreaterThanOrEqual(1, 21, 2)) {
+            register(BlockMapping.of("minecraft:creaking_heart", ChunkerVanillaBlockType.CREAKING_HEART, JavaStateGroups.CREAKING_HEART));
+            register(BlockMapping.of("minecraft:pale_hanging_moss", ChunkerVanillaBlockType.PALE_HANGING_MOSS, JavaStateGroups.PALE_HANGING_MOSS));
+            register(BlockMapping.of("minecraft:pale_moss_block", ChunkerVanillaBlockType.PALE_MOSS_BLOCK));
+            register(BlockMapping.of("minecraft:pale_moss_carpet", ChunkerVanillaBlockType.PALE_MOSS_CARPET, JavaStateGroups.PALE_MOSS_CARPET));
+
+            // New pale oak blocks
+            register(BlockMapping.of("minecraft:potted_pale_oak_sapling", ChunkerVanillaBlockType.POTTED_PALE_OAK_SAPLING));
+            register(BlockMapping.of("minecraft:pale_oak_sapling", ChunkerVanillaBlockType.PALE_OAK_SAPLING, JavaStateGroups.SAPLING));
+            register(BlockMapping.of("minecraft:pale_oak_leaves", ChunkerVanillaBlockType.PALE_OAK_LEAVES, JavaStateGroups.LEAVES));
+            register(BlockMapping.of("minecraft:pale_oak_log", ChunkerVanillaBlockType.PALE_OAK_LOG, JavaStateGroups.AXIS));
+            register(BlockMapping.of("minecraft:pale_oak_wood", ChunkerVanillaBlockType.PALE_OAK_WOOD, JavaStateGroups.AXIS));
+            register(BlockMapping.of("minecraft:stripped_pale_oak_log", ChunkerVanillaBlockType.STRIPPED_PALE_OAK_LOG, JavaStateGroups.AXIS));
+            register(BlockMapping.of("minecraft:stripped_pale_oak_wood", ChunkerVanillaBlockType.STRIPPED_PALE_OAK_WOOD, JavaStateGroups.AXIS));
+
+            register(BlockMapping.of("minecraft:pale_oak_button", ChunkerVanillaBlockType.PALE_OAK_BUTTON, JavaStateGroups.BUTTON));
+            register(BlockMapping.of("minecraft:pale_oak_door", ChunkerVanillaBlockType.PALE_OAK_DOOR, JavaStateGroups.DOOR));
+            register(BlockMapping.of("minecraft:pale_oak_fence", ChunkerVanillaBlockType.PALE_OAK_FENCE, JavaStateGroups.CONNECTABLE_HORIZONTAL));
+            register(BlockMapping.of("minecraft:pale_oak_fence_gate", ChunkerVanillaBlockType.PALE_OAK_FENCE_GATE, JavaStateGroups.FENCE_GATE));
+            register(BlockMapping.of("minecraft:pale_oak_planks", ChunkerVanillaBlockType.PALE_OAK_PLANKS));
+            register(BlockMapping.of("minecraft:pale_oak_pressure_plate", ChunkerVanillaBlockType.PALE_OAK_PRESSURE_PLATE, JavaStateGroups.POWERED));
+            register(BlockMapping.of("minecraft:pale_oak_slab", ChunkerVanillaBlockType.PALE_OAK_SLAB, JavaStateGroups.SLAB));
+            register(BlockMapping.of("minecraft:pale_oak_stairs", ChunkerVanillaBlockType.PALE_OAK_STAIRS, JavaStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:pale_oak_trapdoor", ChunkerVanillaBlockType.PALE_OAK_TRAPDOOR, JavaStateGroups.TRAPDOOR));
+
+            // New signs
+            register(BlockMapping.of("minecraft:pale_oak_hanging_sign", ChunkerVanillaBlockType.PALE_OAK_HANGING_SIGN, JavaStateGroups.HANGING_SIGN));
+            register(BlockMapping.of("minecraft:pale_oak_wall_hanging_sign", ChunkerVanillaBlockType.PALE_OAK_WALL_HANGING_SIGN, JavaStateGroups.WALL_HANGING_SIGN));
+            register(BlockMapping.of("minecraft:pale_oak_sign", ChunkerVanillaBlockType.PALE_OAK_SIGN, JavaStateGroups.SIGN));
+            register(BlockMapping.of("minecraft:pale_oak_wall_sign", ChunkerVanillaBlockType.PALE_OAK_WALL_SIGN, JavaStateGroups.FACING_HORIZONTAL_WATERLOGGED));
+        }
     }
 }

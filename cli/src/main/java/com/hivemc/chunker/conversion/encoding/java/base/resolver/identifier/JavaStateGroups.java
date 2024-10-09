@@ -223,6 +223,10 @@ public class JavaStateGroups {
             .state("orientation", VanillaBlockStates.ORIENTATION, JavaStateTypes.ORIENTATION)
             .state("triggered", VanillaBlockStates.TRIGGERED, JavaStateTypes.BOOL)
             .build();
+    public static final StateMappingGroup CREAKING_HEART = new StateMappingGroup.Builder()
+            .state("axis", VanillaBlockStates.AXIS, JavaStateTypes.AXIS)
+            .state("creaking", VanillaBlockStates.CREAKING, JavaStateTypes.CREAKING)
+            .build();
     public static final StateMappingGroup DAYLIGHT_DETECTOR = new StateMappingGroup.Builder()
             .state("inverted", VanillaBlockStates.INVERTED, JavaStateTypes.BOOL)
             .state("power", VanillaBlockStates.POWER, JavaStateTypes.POWER)
@@ -416,6 +420,16 @@ public class JavaStateGroups {
     public static final StateMappingGroup OBSERVER = new StateMappingGroup.Builder()
             .state("facing", VanillaBlockStates.FACING_ALL, JavaStateTypes.FACING_ALL)
             .state("powered", VanillaBlockStates.POWERED, JavaStateTypes.BOOL)
+            .build();
+    public static final StateMappingGroup PALE_HANGING_MOSS = new StateMappingGroup.Builder()
+            .state("tip", VanillaBlockStates.TIP, JavaStateTypes.BOOL)
+            .build();
+    public static final StateMappingGroup PALE_MOSS_CARPET = new StateMappingGroup.Builder()
+            .state("north", VanillaBlockStates.WALL_NORTH, JavaStateTypes.WALL_HEIGHT)
+            .state("east", VanillaBlockStates.WALL_EAST, JavaStateTypes.WALL_HEIGHT)
+            .state("south", VanillaBlockStates.WALL_SOUTH, JavaStateTypes.WALL_HEIGHT)
+            .state("west", VanillaBlockStates.WALL_WEST, JavaStateTypes.WALL_HEIGHT)
+            .state("bottom", VanillaBlockStates.BOTTOM, JavaStateTypes.BOOL)
             .build();
     public static final StateMappingGroup PINK_PETALS = new StateMappingGroup.Builder()
             .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)

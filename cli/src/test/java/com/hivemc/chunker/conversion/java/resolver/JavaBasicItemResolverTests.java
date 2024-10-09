@@ -78,7 +78,29 @@ public class JavaBasicItemResolverTests {
                     ChunkerVanillaEntityType.BOGGED,
                     ChunkerVanillaEntityType.BREEZE,
                     ChunkerVanillaEntityType.WIND_CHARGE,
-                    ChunkerVanillaEntityType.BREEZE_WIND_CHARGE_PROJECTILE
+                    ChunkerVanillaEntityType.BREEZE_WIND_CHARGE_PROJECTILE,
+                    ChunkerVanillaEntityType.CREAKING,
+
+                    // Split in 1.21.2
+                    ChunkerVanillaEntityType.SPRUCE_BOAT,
+                    ChunkerVanillaEntityType.BIRCH_BOAT,
+                    ChunkerVanillaEntityType.JUNGLE_BOAT,
+                    ChunkerVanillaEntityType.ACACIA_BOAT,
+                    ChunkerVanillaEntityType.CHERRY_BOAT,
+                    ChunkerVanillaEntityType.DARK_OAK_BOAT,
+                    ChunkerVanillaEntityType.PALE_OAK_BOAT,
+                    ChunkerVanillaEntityType.MANGROVE_BOAT,
+                    ChunkerVanillaEntityType.BAMBOO_RAFT,
+                    ChunkerVanillaEntityType.OAK_CHEST_BOAT,
+                    ChunkerVanillaEntityType.SPRUCE_CHEST_BOAT,
+                    ChunkerVanillaEntityType.BIRCH_CHEST_BOAT,
+                    ChunkerVanillaEntityType.JUNGLE_CHEST_BOAT,
+                    ChunkerVanillaEntityType.ACACIA_CHEST_BOAT,
+                    ChunkerVanillaEntityType.CHERRY_CHEST_BOAT,
+                    ChunkerVanillaEntityType.DARK_OAK_CHEST_BOAT,
+                    ChunkerVanillaEntityType.PALE_OAK_CHEST_BOAT,
+                    ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT,
+                    ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT
             ),
             ChunkerPotionType.class, Set.of(
                     ChunkerPotionType.EMPTY,

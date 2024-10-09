@@ -31,6 +31,7 @@ public class BedrockFlowerPotBlockEntityHandler extends BlockEntityHandler<Bedro
             .put(ChunkerVanillaBlockType.POTTED_ACACIA_SAPLING, ChunkerVanillaBlockType.ACACIA_SAPLING)
             .put(ChunkerVanillaBlockType.POTTED_CHERRY_SAPLING, ChunkerVanillaBlockType.CHERRY_SAPLING)
             .put(ChunkerVanillaBlockType.POTTED_DARK_OAK_SAPLING, ChunkerVanillaBlockType.DARK_OAK_SAPLING)
+            .put(ChunkerVanillaBlockType.POTTED_PALE_OAK_SAPLING, ChunkerVanillaBlockType.PALE_OAK_SAPLING)
             .put(ChunkerVanillaBlockType.POTTED_MANGROVE_PROPAGULE, ChunkerVanillaBlockType.MANGROVE_PROPAGULE)
             .put(ChunkerVanillaBlockType.POTTED_FERN, ChunkerVanillaBlockType.FERN)
             .put(ChunkerVanillaBlockType.POTTED_DANDELION, ChunkerVanillaBlockType.DANDELION)

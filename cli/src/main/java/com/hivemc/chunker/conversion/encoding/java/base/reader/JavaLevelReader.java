@@ -378,13 +378,8 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
 
     @Override
     public @Nullable Object readCustomLevelSetting(@NotNull CompoundTag root, @NotNull String targetName, @NotNull Class<?> type) {
-        if (targetName.equals("CavesAndCliffs")) {
-            // Not in less than 1.17
-            return false;
-        }
-
-        if (targetName.equals("R20Support")) {
-            // Not in less than 1.19.3
+        if (targetName.equals("WinterDrop2024")) {
+            // Not in less than 1.21.2
             return false;
         }
 
@@ -393,6 +388,15 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
             return false;
         }
 
+        if (targetName.equals("R20Support")) {
+            // Not in less than 1.19.3
+            return false;
+        }
+
+        if (targetName.equals("CavesAndCliffs")) {
+            // Not in less than 1.17
+            return false;
+        }
 
         // Old format since less than 1.17
         if (targetName.equals("FlatWorldVersion")) {

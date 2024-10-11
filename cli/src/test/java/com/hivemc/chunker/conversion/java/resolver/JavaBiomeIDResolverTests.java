@@ -30,14 +30,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JavaBiomeIDResolverTests {
     public static Stream<Arguments> biomeList() throws IOException {
         JsonObject biomeIds;
-        try (InputStream stream = Resources.getResource("java//resolver//biome_ids.json").openStream();
+        try (InputStream stream = Resources.getResource("java/resolver/biome_ids.json").openStream();
              InputStreamReader inputStreamReader = new InputStreamReader(stream)) {
             biomeIds = JsonParser.parseReader(inputStreamReader).getAsJsonObject();
         }
 
         // Load the renames which are used for 1.17 -> 1.18 (needed for converting to identifiers)
         JsonObject biomeRenames;
-        try (InputStream stream = Resources.getResource("java//resolver//biome_ids_renames.json").openStream();
+        try (InputStream stream = Resources.getResource("java/resolver/biome_ids_renames.json").openStream();
              InputStreamReader inputStreamReader = new InputStreamReader(stream)) {
             biomeRenames = JsonParser.parseReader(inputStreamReader).getAsJsonObject();
         }

@@ -98,6 +98,10 @@ public class ColumnWriter extends com.hivemc.chunker.conversion.encoding.bedrock
         return 0;
     }
 
+    protected byte getChunkVersion() {
+        return 40;
+    }
+
     @Override
     protected void writeMetadata(ChunkerColumn chunkerColumn) throws Exception {
         try (WriteBatch writeBatch = database.createWriteBatch()) {
@@ -106,7 +110,7 @@ public class ColumnWriter extends com.hivemc.chunker.conversion.encoding.bedrock
                 writeBatch.put(LevelDBKey.key(dimension, chunkerColumn.getPosition(), LevelDBChunkType.GENERATED_PRE_CAVES_AND_CLIFFS_BLENDING), new byte[]{0});
 
                 // Save new version (40) - New entity storage
-                writeBatch.put(LevelDBKey.key(dimension, chunkerColumn.getPosition(), LevelDBChunkType.VERSION), new byte[]{40});
+                writeBatch.put(LevelDBKey.key(dimension, chunkerColumn.getPosition(), LevelDBChunkType.VERSION), new byte[]{getChunkVersion()});
 
                 // Save BlendingVersion (0x40) - If not correctly versioned, this will cause the map to generate badly made edges
                 writeBatch.put(LevelDBKey.key(dimension, chunkerColumn.getPosition(), LevelDBChunkType.BLENDING_DATA), new byte[]{0, getBlendingVersion()});

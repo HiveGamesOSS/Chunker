@@ -783,6 +783,9 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
                         .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_PINK_TULIP)
                         .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_WARPED_ROOTS)
                         .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_BAMBOO)
+                        .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_PALE_OAK_SAPLING)
+                        .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_OPEN_EYEBLOSSOM)
+                        .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_CLOSED_EYEBLOSSOM)
                         .build(),
                 BedrockStateGroups.FLOWER_POT));
 
@@ -2838,6 +2841,53 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
                     VanillaBlockStates.UP, Bool.TRUE,
                     VanillaBlockStates.DOWN, Bool.TRUE
             )));
+        }
+
+        // R21U5
+        if (version.isGreaterThanOrEqual(1, 21, 50)) {
+            register(BlockMapping.of("minecraft:creaking_heart", ChunkerVanillaBlockType.CREAKING_HEART, BedrockStateGroups.CREAKING_HEART));
+            register(BlockMapping.of("minecraft:pale_hanging_moss", ChunkerVanillaBlockType.PALE_HANGING_MOSS, BedrockStateGroups.PALE_HANGING_MOSS));
+            register(BlockMapping.of("minecraft:pale_moss_block", ChunkerVanillaBlockType.PALE_MOSS_BLOCK));
+            register(BlockMapping.of("minecraft:pale_moss_carpet", ChunkerVanillaBlockType.PALE_MOSS_CARPET, BedrockStateGroups.PALE_MOSS_CARPET));
+
+            // New pale oak blocks
+            register(BlockMapping.of("minecraft:pale_oak_sapling", ChunkerVanillaBlockType.PALE_OAK_SAPLING, BedrockStateGroups.SAPLING));
+            register(BlockMapping.of("minecraft:pale_oak_leaves", ChunkerVanillaBlockType.PALE_OAK_LEAVES, BedrockStateGroups.LEAVES));
+            register(BlockMapping.of("minecraft:pale_oak_log", ChunkerVanillaBlockType.PALE_OAK_LOG, BedrockStateGroups.PILLAR_BLOCK));
+            register(BlockMapping.of("minecraft:pale_oak_wood", ChunkerVanillaBlockType.PALE_OAK_WOOD, BedrockStateGroups.PILLAR_BLOCK));
+            register(BlockMapping.of("minecraft:stripped_pale_oak_log", ChunkerVanillaBlockType.STRIPPED_PALE_OAK_LOG, BedrockStateGroups.PILLAR_BLOCK));
+            register(BlockMapping.of("minecraft:stripped_pale_oak_wood", ChunkerVanillaBlockType.STRIPPED_PALE_OAK_WOOD, BedrockStateGroups.PILLAR_BLOCK));
+
+            register(BlockMapping.of("minecraft:pale_oak_button", ChunkerVanillaBlockType.PALE_OAK_BUTTON, BedrockStateGroups.BUTTON));
+            register(BlockMapping.of("minecraft:pale_oak_door", ChunkerVanillaBlockType.PALE_OAK_DOOR, BedrockStateGroups.DOOR));
+            register(BlockMapping.of("minecraft:pale_oak_fence", ChunkerVanillaBlockType.PALE_OAK_FENCE, BedrockStateGroups.CONNECTABLE_HORIZONTAL));
+            register(BlockMapping.of("minecraft:pale_oak_fence_gate", ChunkerVanillaBlockType.PALE_OAK_FENCE_GATE, BedrockStateGroups.FENCE_GATE));
+            register(BlockMapping.of("minecraft:pale_oak_planks", ChunkerVanillaBlockType.PALE_OAK_PLANKS));
+            register(BlockMapping.of("minecraft:pale_oak_pressure_plate", ChunkerVanillaBlockType.PALE_OAK_PRESSURE_PLATE, BedrockStateGroups.PRESSURE_PLATE));
+            register(BlockMapping.of("minecraft:pale_oak_slab", ChunkerVanillaBlockType.PALE_OAK_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:pale_oak_double_slab", ChunkerVanillaBlockType.PALE_OAK_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:pale_oak_stairs", ChunkerVanillaBlockType.PALE_OAK_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:pale_oak_trapdoor", ChunkerVanillaBlockType.PALE_OAK_TRAPDOOR, BedrockStateGroups.TRAPDOOR));
+
+            // New flowers
+            register(BlockMapping.of("minecraft:closed_eyeblossom", ChunkerVanillaBlockType.CLOSED_EYEBLOSSOM));
+            register(BlockMapping.of("minecraft:open_eyeblossom", ChunkerVanillaBlockType.OPEN_EYEBLOSSOM));
+
+            // New signs
+            register(BlockMapping.of("minecraft:pale_oak_hanging_sign", "hanging", false, ChunkerVanillaBlockType.PALE_OAK_WALL_HANGING_SIGN, BedrockStateGroups.HANGING_WALL_SIGN));
+            register(BlockMapping.of("minecraft:pale_oak_hanging_sign", "hanging", true, ChunkerVanillaBlockType.PALE_OAK_HANGING_SIGN, BedrockStateGroups.HANGING_SIGN));
+            register(BlockMapping.of("minecraft:pale_oak_standing_sign", ChunkerVanillaBlockType.PALE_OAK_SIGN, BedrockStateGroups.SIGN));
+            register(BlockMapping.of("minecraft:pale_oak_wall_sign", ChunkerVanillaBlockType.PALE_OAK_WALL_SIGN, BedrockStateGroups.FACING_DIRECTION_HORIZONTAL));
+
+            // New resin blocks
+            register(BlockMapping.of("minecraft:resin_block", ChunkerVanillaBlockType.RESIN_BLOCK));
+            register(BlockMapping.of("minecraft:resin_bricks", ChunkerVanillaBlockType.RESIN_BRICKS));
+            register(BlockMapping.of("minecraft:chiseled_resin_bricks", ChunkerVanillaBlockType.CHISELED_RESIN_BRICKS));
+            register(BlockMapping.of("minecraft:resin_brick_slab", ChunkerVanillaBlockType.RESIN_BRICK_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:resin_brick_double_slab", ChunkerVanillaBlockType.RESIN_BRICK_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:resin_brick_stairs", ChunkerVanillaBlockType.RESIN_BRICK_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:resin_brick_wall", ChunkerVanillaBlockType.RESIN_BRICK_WALL, BedrockStateGroups.WALL));
+            register(BlockMapping.of("minecraft:resin_clump", ChunkerVanillaBlockType.RESIN_CLUMP, BedrockStateGroups.MULTIFACE));
         }
     }
 }

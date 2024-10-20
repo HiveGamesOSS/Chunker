@@ -1070,5 +1070,24 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
             register(ItemMapping.of("minecraft:white_bundle", ChunkerVanillaItemType.WHITE_BUNDLE));
             register(ItemMapping.of("minecraft:yellow_bundle", ChunkerVanillaItemType.YELLOW_BUNDLE));
         }
+
+        // R21U5
+        if (version.isGreaterThanOrEqual(1, 21, 50)) {
+            // New eggs
+            register(ItemMapping.of("minecraft:creaking_spawn_egg", ChunkerVanillaItemType.SPAWN_EGG, ChunkerItemProperty.SPAWN_EGG_MOB, ChunkerVanillaEntityType.CREAKING));
+
+            // New Signs / Door
+            register(ItemMapping.of("minecraft:pale_oak_hanging_sign", ChunkerVanillaItemType.PALE_OAK_HANGING_SIGN));
+            register(ItemMapping.of("minecraft:pale_oak_sign", ChunkerVanillaItemType.PALE_OAK_SIGN));
+            register(ItemMapping.of("minecraft:pale_oak_door", ChunkerVanillaBlockType.PALE_OAK_DOOR));
+
+            // New pale oak boat
+            register(ItemMapping.of("minecraft:pale_oak_boat", ChunkerVanillaItemType.PALE_OAK_BOAT));
+            register(ItemMapping.of("minecraft:pale_oak_chest_boat", ChunkerVanillaItemType.PALE_OAK_CHEST_BOAT));
+
+            // New resin blocks
+            register(ItemMapping.of("minecraft:resin_brick", ChunkerVanillaItemType.RESIN_BRICK));
+
+        }
     }
 }

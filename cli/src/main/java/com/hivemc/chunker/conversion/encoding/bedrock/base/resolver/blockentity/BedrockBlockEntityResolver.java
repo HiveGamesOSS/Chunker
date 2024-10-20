@@ -132,6 +132,11 @@ public class BedrockBlockEntityResolver extends BlockEntityResolver<BedrockResol
             register(new EmptyBlockEntityHandler<>("Vault", VaultBlockEntity.class, VaultBlockEntity::new));
         }
 
+        // R21U5
+        if (version.isGreaterThanOrEqual(1, 21, 50)) {
+            register(new EmptyBlockEntityHandler<>("CreakingHeart", CreakingHeartBlockEntity.class, CreakingHeartBlockEntity::new));
+        }
+
         // Not used: register(new EmptyBlockEntityHandler<>("NetherReactor", NetherReactorBlockEntity.class, NetherReactorBlockEntity::new));
         // EDU: register(new EmptyBlockEntityHandler<>("ChalkboardBlock", ChalkboardBlockEntity.class, ChalkboardBlockEntity::new));
         // EDU: register(new EmptyBlockEntityHandler<>("ChemistryTable", ChemistryTableBlockEntity.class, ChemistryTableBlockEntity::new));

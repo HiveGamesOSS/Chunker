@@ -96,8 +96,7 @@ public class BedrockBasicItemResolverTests {
                     ChunkerVanillaEntityType.DARK_OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.PALE_OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT,
-                    ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT,
-                    ChunkerVanillaEntityType.CREAKING
+                    ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT
             )
     );
     // Mock converter with two mock maps

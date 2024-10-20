@@ -191,6 +191,9 @@ public class BedrockEntityTypeResolver implements Resolver<String, ChunkerEntity
             mapping.put(ChunkerVanillaEntityType.WIND_CHARGE, "minecraft:wind_charge_projectile");
             mapping.put(ChunkerVanillaEntityType.BOGGED, "minecraft:bogged");
         }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 21, 50)) {
+            mapping.put(ChunkerVanillaEntityType.CREAKING, "minecraft:creaking");
+        }
     }
 
     @Override

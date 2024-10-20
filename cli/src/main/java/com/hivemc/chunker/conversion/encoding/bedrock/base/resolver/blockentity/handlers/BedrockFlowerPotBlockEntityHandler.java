@@ -58,6 +58,8 @@ public class BedrockFlowerPotBlockEntityHandler extends BlockEntityHandler<Bedro
             .put(ChunkerVanillaBlockType.POTTED_WARPED_ROOTS, ChunkerVanillaBlockType.WARPED_ROOTS)
             .put(ChunkerVanillaBlockType.POTTED_AZALEA_BUSH, ChunkerVanillaBlockType.AZALEA)
             .put(ChunkerVanillaBlockType.POTTED_FLOWERING_AZALEA_BUSH, ChunkerVanillaBlockType.FLOWERING_AZALEA)
+            .put(ChunkerVanillaBlockType.POTTED_OPEN_EYEBLOSSOM, ChunkerVanillaBlockType.OPEN_EYEBLOSSOM)
+            .put(ChunkerVanillaBlockType.POTTED_CLOSED_EYEBLOSSOM, ChunkerVanillaBlockType.CLOSED_EYEBLOSSOM)
             .build();
 
     public BedrockFlowerPotBlockEntityHandler() {

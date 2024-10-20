@@ -414,7 +414,8 @@ public enum ChunkerVanillaItemType implements ChunkerItemType {
     OMINOUS_BOTTLE,
     WIND_CHARGE,
     BREEZE_ROD,
-    MACE;
+    MACE,
+    RESIN_BRICK;
 
     private final Class<? extends BlockEntity> blockEntityClass;
 

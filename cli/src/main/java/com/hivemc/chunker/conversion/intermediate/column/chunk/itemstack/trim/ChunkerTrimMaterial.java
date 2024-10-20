@@ -13,5 +13,6 @@ public enum ChunkerTrimMaterial {
     LAPIS,
     NETHERITE,
     QUARTZ,
-    REDSTONE
+    REDSTONE,
+    RESIN
 }

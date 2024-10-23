@@ -329,6 +329,12 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
     @Override
     public void writeCustomLevelSetting(ChunkerLevelSettings chunkerLevelSettings, CompoundTag output, String targetName, Object value) {
         // Check for next update
+        if (targetName.equals("WinterDrop2024")) {
+            // Not supported
+            return;
+        }
+
+        // Check for next update
         if (targetName.equals("R21Support")) {
             // Not supported
             return;

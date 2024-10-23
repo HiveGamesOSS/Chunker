@@ -60,7 +60,7 @@ public class JavaLegacyItemIdentifierValidationTests {
     );
 
     static {
-        try (InputStream stream = Resources.getResource("java//resolver//pre_1_13_items.json").openStream();
+        try (InputStream stream = Resources.getResource("java/resolver/pre_1_13_items.json").openStream();
              InputStreamReader inputStreamReader = new InputStreamReader(stream)) {
             ITEMS = JsonParser.parseReader(inputStreamReader).getAsJsonObject();
         } catch (IOException e) {

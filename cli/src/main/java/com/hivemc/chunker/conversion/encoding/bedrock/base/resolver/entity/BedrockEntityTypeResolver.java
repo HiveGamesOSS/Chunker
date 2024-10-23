@@ -99,7 +99,7 @@ public class BedrockEntityTypeResolver implements Resolver<String, ChunkerVanill
         mapping.put(ChunkerVanillaEntityType.ENDER_PEARL, "minecraft:ender_pearl");
         mapping.put(ChunkerVanillaEntityType.LEASH_KNOT, "minecraft:leash_knot");
         mapping.put(ChunkerVanillaEntityType.WITHER_SKULL, "minecraft:wither_skull");
-        mapping.put(ChunkerVanillaEntityType.BOAT, "minecraft:boat");
+        mapping.put(ChunkerVanillaEntityType.OAK_BOAT, "minecraft:boat");
         mapping.put(ChunkerVanillaEntityType.WITHER_SKULL_DANGEROUS, "minecraft:wither_skull_dangerous");
 
         mapping.put(ChunkerVanillaEntityType.LIGHTNING_BOLT, "minecraft:lightning_bolt");
@@ -164,7 +164,7 @@ public class BedrockEntityTypeResolver implements Resolver<String, ChunkerVanill
             mapping.put(ChunkerVanillaEntityType.ALLAY, "minecraft:allay");
         }
         if (bedrockVersion.isGreaterThanOrEqual(1, 19, 0)) {
-            mapping.put(ChunkerVanillaEntityType.CHEST_BOAT, "minecraft:chest_boat");
+            mapping.put(ChunkerVanillaEntityType.OAK_CHEST_BOAT, "minecraft:chest_boat");
         }
         if (bedrockVersion.isGreaterThanOrEqual(1, 19, 10)) {
             mapping.put(ChunkerVanillaEntityType.TRADER_LLAMA, "minecraft:trader_llama");

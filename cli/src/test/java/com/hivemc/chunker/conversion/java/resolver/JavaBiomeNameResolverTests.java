@@ -35,7 +35,7 @@ public class JavaBiomeNameResolverTests {
 
     public static Stream<Arguments> biomeList() throws IOException {
         JsonArray biomeNames;
-        try (InputStream stream = Resources.getResource("java//resolver//biome_names.json").openStream();
+        try (InputStream stream = Resources.getResource("java/resolver/biome_names.json").openStream();
              InputStreamReader inputStreamReader = new InputStreamReader(stream)) {
             biomeNames = JsonParser.parseReader(inputStreamReader).getAsJsonArray();
         }

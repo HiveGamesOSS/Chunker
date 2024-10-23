@@ -54,7 +54,7 @@ public class JavaLegacyBlockIdentifierValidationTests {
     );
 
     static {
-        try (InputStream stream = Resources.getResource("java//resolver//pre_1_13_blocks.json").openStream();
+        try (InputStream stream = Resources.getResource("java/resolver/pre_1_13_blocks.json").openStream();
              InputStreamReader inputStreamReader = new InputStreamReader(stream)) {
             BLOCKS = JsonParser.parseReader(inputStreamReader).getAsJsonObject();
         } catch (IOException e) {

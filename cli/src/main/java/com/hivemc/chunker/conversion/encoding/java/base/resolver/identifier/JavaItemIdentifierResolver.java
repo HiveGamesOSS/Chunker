@@ -607,5 +607,41 @@ public class JavaItemIdentifierResolver extends ChunkerItemIdentifierResolver {
             register(ItemMapping.of("minecraft:music_disc_creator_music_box", ChunkerVanillaItemType.MUSIC_DISC_CREATOR_MUSIC_BOX));
             register(ItemMapping.of("minecraft:music_disc_precipice", ChunkerVanillaItemType.MUSIC_DISC_PRECIPICE));
         }
+
+        // 1.21.2
+        if (version.isGreaterThanOrEqual(1, 21, 2)) {
+            // New eggs
+            register(ItemMapping.of("minecraft:creaking_spawn_egg", ChunkerVanillaItemType.SPAWN_EGG, ChunkerItemProperty.SPAWN_EGG_MOB, ChunkerVanillaEntityType.CREAKING));
+
+            // Banner pattern parity with Bedrock
+            register(ItemMapping.of("minecraft:bordure_indented_banner_pattern", ChunkerVanillaItemType.BORDURE_INDENTED_BANNER_PATTERN));
+            register(ItemMapping.of("minecraft:field_masoned_banner_pattern", ChunkerVanillaItemType.FIELD_MASONED_BANNER_PATTERN));
+
+            // Colored bundles
+            register(ItemMapping.of("minecraft:black_bundle", ChunkerVanillaItemType.BLACK_BUNDLE));
+            register(ItemMapping.of("minecraft:blue_bundle", ChunkerVanillaItemType.BLUE_BUNDLE));
+            register(ItemMapping.of("minecraft:brown_bundle", ChunkerVanillaItemType.BROWN_BUNDLE));
+            register(ItemMapping.of("minecraft:cyan_bundle", ChunkerVanillaItemType.CYAN_BUNDLE));
+            register(ItemMapping.of("minecraft:gray_bundle", ChunkerVanillaItemType.GRAY_BUNDLE));
+            register(ItemMapping.of("minecraft:green_bundle", ChunkerVanillaItemType.GREEN_BUNDLE));
+            register(ItemMapping.of("minecraft:light_blue_bundle", ChunkerVanillaItemType.LIGHT_BLUE_BUNDLE));
+            register(ItemMapping.of("minecraft:light_gray_bundle", ChunkerVanillaItemType.LIGHT_GRAY_BUNDLE));
+            register(ItemMapping.of("minecraft:lime_bundle", ChunkerVanillaItemType.LIME_BUNDLE));
+            register(ItemMapping.of("minecraft:magenta_bundle", ChunkerVanillaItemType.MAGENTA_BUNDLE));
+            register(ItemMapping.of("minecraft:orange_bundle", ChunkerVanillaItemType.ORANGE_BUNDLE));
+            register(ItemMapping.of("minecraft:pink_bundle", ChunkerVanillaItemType.PINK_BUNDLE));
+            register(ItemMapping.of("minecraft:purple_bundle", ChunkerVanillaItemType.PURPLE_BUNDLE));
+            register(ItemMapping.of("minecraft:red_bundle", ChunkerVanillaItemType.RED_BUNDLE));
+            register(ItemMapping.of("minecraft:white_bundle", ChunkerVanillaItemType.WHITE_BUNDLE));
+            register(ItemMapping.of("minecraft:yellow_bundle", ChunkerVanillaItemType.YELLOW_BUNDLE));
+
+            // New pale oak boat
+            register(ItemMapping.of("minecraft:pale_oak_boat", ChunkerVanillaItemType.PALE_OAK_BOAT));
+            register(ItemMapping.of("minecraft:pale_oak_chest_boat", ChunkerVanillaItemType.PALE_OAK_CHEST_BOAT));
+
+            // New Pale Oak signs
+            register(ItemMapping.of("minecraft:pale_oak_sign", ChunkerVanillaItemType.PALE_OAK_SIGN));
+            register(ItemMapping.of("minecraft:pale_oak_hanging_sign", ChunkerVanillaItemType.PALE_OAK_HANGING_SIGN));
+        }
     }
 }

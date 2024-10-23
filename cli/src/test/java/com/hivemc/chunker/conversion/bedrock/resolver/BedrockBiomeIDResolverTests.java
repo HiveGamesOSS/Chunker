@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class BedrockBiomeIDResolverTests {
     public static Stream<Arguments> biomeList() throws IOException {
-        try (InputStream stream = Resources.getResource("bedrock//resolver//biome_ids.json").openStream();
+        try (InputStream stream = Resources.getResource("bedrock/resolver/biome_ids.json").openStream();
              InputStreamReader inputStreamReader = new InputStreamReader(stream)) {
             JsonObject biomeIds = JsonParser.parseReader(inputStreamReader).getAsJsonObject();
 

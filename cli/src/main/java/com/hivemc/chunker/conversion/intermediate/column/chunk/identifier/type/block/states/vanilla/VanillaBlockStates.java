@@ -56,6 +56,7 @@ public class VanillaBlockStates {
     public static final BlockState<CoralFanDirection> CORAL_FAN_DIRECTION = new BlockState<>("coral_fan_direction", CoralFanDirection.NORTH_SOUTH, CoralFanDirection::values);
     public static final BlockState<Bool> CRACKED = new BlockState<>("cracked", Bool.FALSE, Bool::values);
     public static final BlockState<Bool> CRAFTING = new BlockState<>("crafting", Bool.FALSE, Bool::values);
+    public static final BlockState<Creaking> CREAKING = new BlockState<>("creaking", Creaking.DISABLED, Creaking::values);
     public static final BlockState<Bool> DEAD = new BlockState<>("dead", Bool.FALSE, Bool::values);
     public static final BlockState<Delay> DELAY = new BlockState<>("delay", Delay._1, Delay::values);
     public static final BlockState<Bool> DISARMED = new BlockState<>("disarmed", Bool.FALSE, Bool::values);
@@ -130,6 +131,7 @@ public class VanillaBlockStates {
     public static final BlockState<StructureVoidType> STRUCTURE_VOID_TYPE = new BlockState<>("structure_void_type", StructureVoidType.VOID, StructureVoidType::values);
     public static final BlockState<Bool> SUSPENDED = new BlockState<>("suspended", Bool.FALSE, Bool::values);
     public static final BlockState<Tilt> TILT = new BlockState<>("tilt", Tilt.NONE, Tilt::values);
+    public static final BlockState<Bool> TIP = new BlockState<>("tip", Bool.TRUE, Bool::values);
     public static final BlockState<TrialSpawnerState> TRIAL_SPAWNER_STATE = new BlockState<>("trial_spawner_state", TrialSpawnerState.INACTIVE, TrialSpawnerState::values);
     public static final BlockState<Bool> TRIGGERED = new BlockState<>("triggered", Bool.FALSE, Bool::values);
     public static final BlockState<Bool> UNDERWATER = new BlockState<>("underwater", Bool.FALSE, Bool::values);

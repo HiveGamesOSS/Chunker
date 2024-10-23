@@ -23,7 +23,7 @@ public class FontUtil {
 
     static {
         // Load the code point to width map
-        try (InputStream stream = Resources.getResource("java//default_font_width_codepoints.json").openStream();
+        try (InputStream stream = Resources.getResource("java/default_font_width_codepoints.json").openStream();
              InputStreamReader inputStreamReader = new InputStreamReader(stream)) {
             JsonArray nestedCodePoints = JsonParser.parseReader(inputStreamReader).getAsJsonArray();
 

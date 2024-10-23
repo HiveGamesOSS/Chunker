@@ -41,7 +41,7 @@ public class JavaLegacyEntityTypeIDResolver implements Resolver<Integer, Chunker
         mapping.put(ChunkerVanillaEntityType.SHULKER_BULLET, 25);
         mapping.put(ChunkerVanillaEntityType.DRAGON_FIREBALL, 26);
         mapping.put(ChunkerVanillaEntityType.ARMOR_STAND, 30);
-        mapping.put(ChunkerVanillaEntityType.BOAT, 41);
+        mapping.put(ChunkerVanillaEntityType.OAK_BOAT, 41);
         mapping.put(ChunkerVanillaEntityType.MINECART, 42);
         mapping.put(ChunkerVanillaEntityType.CHEST_MINECART, 43);
         mapping.put(ChunkerVanillaEntityType.FURNACE_MINECART, 44);

@@ -24,9 +24,9 @@ public class JavaEntityTypeResolver implements Resolver<String, ChunkerVanillaEn
         mapping.put(ChunkerVanillaEntityType.ARROW, "minecraft:arrow");
         mapping.put(ChunkerVanillaEntityType.BAT, "minecraft:bat");
         mapping.put(ChunkerVanillaEntityType.BLAZE, "minecraft:blaze");
-        mapping.put(ChunkerVanillaEntityType.BOAT, "minecraft:boat");
+        mapping.put(ChunkerVanillaEntityType.OAK_BOAT, "minecraft:boat");
         mapping.put(ChunkerVanillaEntityType.CAVE_SPIDER, "minecraft:cave_spider");
-        mapping.put(ChunkerVanillaEntityType.CHEST_BOAT, "minecraft:chest_boat");
+        mapping.put(ChunkerVanillaEntityType.OAK_CHEST_BOAT, "minecraft:chest_boat");
         mapping.put(ChunkerVanillaEntityType.CHEST_MINECART, "minecraft:chest_minecart");
         mapping.put(ChunkerVanillaEntityType.CHICKEN, "minecraft:chicken");
         mapping.put(ChunkerVanillaEntityType.COMMAND_BLOCK_MINECART, "minecraft:commandblock_minecart");
@@ -194,6 +194,36 @@ public class JavaEntityTypeResolver implements Resolver<String, ChunkerVanillaEn
             mapping.put(ChunkerVanillaEntityType.WIND_CHARGE, "minecraft:wind_charge");
             mapping.put(ChunkerVanillaEntityType.ARMADILLO, "minecraft:armadillo");
             mapping.put(ChunkerVanillaEntityType.BOGGED, "minecraft:bogged");
+        }
+        if (version.isGreaterThanOrEqual(1, 20, 5)) {
+            mapping.put(ChunkerVanillaEntityType.WIND_CHARGE, "minecraft:wind_charge");
+            mapping.put(ChunkerVanillaEntityType.ARMADILLO, "minecraft:armadillo");
+            mapping.put(ChunkerVanillaEntityType.BOGGED, "minecraft:bogged");
+        }
+        if (version.isGreaterThanOrEqual(1, 21, 2)) {
+            mapping.put(ChunkerVanillaEntityType.CREAKING, "minecraft:creaking");
+
+            // Boats were flattened into separate entities
+            mapping.put(ChunkerVanillaEntityType.OAK_BOAT, "minecraft:oak_boat");
+            mapping.put(ChunkerVanillaEntityType.SPRUCE_BOAT, "minecraft:spruce_boat");
+            mapping.put(ChunkerVanillaEntityType.BIRCH_BOAT, "minecraft:birch_boat");
+            mapping.put(ChunkerVanillaEntityType.JUNGLE_BOAT, "minecraft:jungle_boat");
+            mapping.put(ChunkerVanillaEntityType.ACACIA_BOAT, "minecraft:acacia_boat");
+            mapping.put(ChunkerVanillaEntityType.CHERRY_BOAT, "minecraft:cherry_boat");
+            mapping.put(ChunkerVanillaEntityType.DARK_OAK_BOAT, "minecraft:dark_oak_boat");
+            mapping.put(ChunkerVanillaEntityType.PALE_OAK_BOAT, "minecraft:pale_oak_boat");
+            mapping.put(ChunkerVanillaEntityType.MANGROVE_BOAT, "minecraft:mangrove_boat");
+            mapping.put(ChunkerVanillaEntityType.BAMBOO_RAFT, "minecraft:bamboo_raft");
+            mapping.put(ChunkerVanillaEntityType.OAK_CHEST_BOAT, "minecraft:oak_chest_boat");
+            mapping.put(ChunkerVanillaEntityType.SPRUCE_CHEST_BOAT, "minecraft:spruce_chest_boat");
+            mapping.put(ChunkerVanillaEntityType.BIRCH_CHEST_BOAT, "minecraft:birch_chest_boat");
+            mapping.put(ChunkerVanillaEntityType.JUNGLE_CHEST_BOAT, "minecraft:jungle_chest_boat");
+            mapping.put(ChunkerVanillaEntityType.ACACIA_CHEST_BOAT, "minecraft:acacia_chest_boat");
+            mapping.put(ChunkerVanillaEntityType.CHERRY_CHEST_BOAT, "minecraft:cherry_chest_boat");
+            mapping.put(ChunkerVanillaEntityType.DARK_OAK_CHEST_BOAT, "minecraft:dark_oak_chest_boat");
+            mapping.put(ChunkerVanillaEntityType.PALE_OAK_CHEST_BOAT, "minecraft:pale_oak_chest_boat");
+            mapping.put(ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT, "minecraft:mangrove_chest_boat");
+            mapping.put(ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT, "minecraft:bamboo_chest_raft");
         }
     }
 

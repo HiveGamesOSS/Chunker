@@ -24,7 +24,7 @@ public class JavaLegacyEntityTypeResolver implements Resolver<String, ChunkerVan
         mapping.put(ChunkerVanillaEntityType.ARROW, "Arrow");
         mapping.put(ChunkerVanillaEntityType.BAT, "Bat");
         mapping.put(ChunkerVanillaEntityType.BLAZE, "Blaze");
-        mapping.put(ChunkerVanillaEntityType.BOAT, "Boat");
+        mapping.put(ChunkerVanillaEntityType.OAK_BOAT, "Boat");
         mapping.put(ChunkerVanillaEntityType.CAVE_SPIDER, "CaveSpider");
         mapping.put(ChunkerVanillaEntityType.CHICKEN, "Chicken");
         mapping.put(ChunkerVanillaEntityType.COW, "Cow");

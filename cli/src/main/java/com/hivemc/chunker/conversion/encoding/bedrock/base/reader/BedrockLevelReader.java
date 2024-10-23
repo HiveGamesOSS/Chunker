@@ -247,6 +247,11 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
 
     @Override
     public @Nullable Object readCustomLevelSetting(@NotNull CompoundTag root, @NotNull String targetName, @NotNull Class<?> type) {
+        // Check for WinterDrop2024 support
+        if (targetName.equals("WinterDrop2024")) {
+            return false;
+        }
+
         // Check for R21 support
         if (targetName.equals("R21Support")) {
             return false;

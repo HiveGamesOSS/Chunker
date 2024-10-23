@@ -102,7 +102,25 @@ public class BedrockLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.TADPOLE,
                     ChunkerVanillaEntityType.WARDEN,
                     ChunkerVanillaEntityType.ALLAY,
-                    ChunkerVanillaEntityType.CHEST_BOAT,
+                    ChunkerVanillaEntityType.SPRUCE_BOAT,
+                    ChunkerVanillaEntityType.BIRCH_BOAT,
+                    ChunkerVanillaEntityType.JUNGLE_BOAT,
+                    ChunkerVanillaEntityType.ACACIA_BOAT,
+                    ChunkerVanillaEntityType.CHERRY_BOAT,
+                    ChunkerVanillaEntityType.DARK_OAK_BOAT,
+                    ChunkerVanillaEntityType.PALE_OAK_BOAT,
+                    ChunkerVanillaEntityType.MANGROVE_BOAT,
+                    ChunkerVanillaEntityType.BAMBOO_RAFT,
+                    ChunkerVanillaEntityType.OAK_CHEST_BOAT,
+                    ChunkerVanillaEntityType.SPRUCE_CHEST_BOAT,
+                    ChunkerVanillaEntityType.BIRCH_CHEST_BOAT,
+                    ChunkerVanillaEntityType.JUNGLE_CHEST_BOAT,
+                    ChunkerVanillaEntityType.ACACIA_CHEST_BOAT,
+                    ChunkerVanillaEntityType.CHERRY_CHEST_BOAT,
+                    ChunkerVanillaEntityType.DARK_OAK_CHEST_BOAT,
+                    ChunkerVanillaEntityType.PALE_OAK_CHEST_BOAT,
+                    ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT,
+                    ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT,
                     ChunkerVanillaEntityType.TRADER_LLAMA,
                     ChunkerVanillaEntityType.CAMEL,
                     ChunkerVanillaEntityType.SNIFFER,
@@ -110,7 +128,8 @@ public class BedrockLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.BREEZE_WIND_CHARGE_PROJECTILE,
                     ChunkerVanillaEntityType.ARMADILLO,
                     ChunkerVanillaEntityType.WIND_CHARGE,
-                    ChunkerVanillaEntityType.BOGGED
+                    ChunkerVanillaEntityType.BOGGED,
+                    ChunkerVanillaEntityType.CREAKING
             )
     );
     // Mock converter with two mock maps

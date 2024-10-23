@@ -76,7 +76,27 @@ public class BedrockBasicItemResolverTests {
                     ChunkerVanillaEntityType.GLOW_ITEM_FRAME,
                     ChunkerVanillaEntityType.ITEM_FRAME,
                     ChunkerVanillaEntityType.ILLUSIONER,
-                    ChunkerVanillaEntityType.GIANT
+                    ChunkerVanillaEntityType.GIANT,
+                    ChunkerVanillaEntityType.SPRUCE_BOAT,
+                    ChunkerVanillaEntityType.BIRCH_BOAT,
+                    ChunkerVanillaEntityType.JUNGLE_BOAT,
+                    ChunkerVanillaEntityType.ACACIA_BOAT,
+                    ChunkerVanillaEntityType.CHERRY_BOAT,
+                    ChunkerVanillaEntityType.DARK_OAK_BOAT,
+                    ChunkerVanillaEntityType.PALE_OAK_BOAT,
+                    ChunkerVanillaEntityType.MANGROVE_BOAT,
+                    ChunkerVanillaEntityType.BAMBOO_RAFT,
+                    ChunkerVanillaEntityType.OAK_CHEST_BOAT,
+                    ChunkerVanillaEntityType.SPRUCE_CHEST_BOAT,
+                    ChunkerVanillaEntityType.BIRCH_CHEST_BOAT,
+                    ChunkerVanillaEntityType.JUNGLE_CHEST_BOAT,
+                    ChunkerVanillaEntityType.ACACIA_CHEST_BOAT,
+                    ChunkerVanillaEntityType.CHERRY_CHEST_BOAT,
+                    ChunkerVanillaEntityType.DARK_OAK_CHEST_BOAT,
+                    ChunkerVanillaEntityType.PALE_OAK_CHEST_BOAT,
+                    ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT,
+                    ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT,
+                    ChunkerVanillaEntityType.CREAKING
             )
     );
     // Mock converter with two mock maps

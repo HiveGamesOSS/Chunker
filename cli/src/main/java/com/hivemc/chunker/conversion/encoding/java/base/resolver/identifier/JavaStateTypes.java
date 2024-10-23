@@ -197,6 +197,11 @@ public class JavaStateTypes {
             .mapping("7", ComposterLevel._7)
             .mapping("8", ComposterLevel._8)
             .build();
+    public static final TypeMapping<String, Creaking> CREAKING = new TypeMapping.Builder<String, Creaking>()
+            .mapping("disabled", Creaking.DISABLED)
+            .mapping("dormant", Creaking.DORMANT)
+            .mapping("active", Creaking.ACTIVE)
+            .build();
     public static final TypeMapping<String, Delay> DELAY = new TypeMapping.Builder<String, Delay>()
             .mapping("1", Delay._1)
             .mapping("2", Delay._2)

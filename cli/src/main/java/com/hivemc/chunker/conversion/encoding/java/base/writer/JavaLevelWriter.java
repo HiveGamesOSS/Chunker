@@ -164,10 +164,11 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
 
     @Override
     public void writeCustomLevelSetting(ChunkerLevelSettings chunkerLevelSettings, CompoundTag output, String targetName, Object value) {
-        if (targetName.equals("CavesAndCliffs")) {
-            // Not needed in less than 1.17
+        if (targetName.equals("WinterDrop2024")) {
+            // Not needed in less than 1.21.2
             return;
         }
+
         if (targetName.equals("R21Support")) {
             // Not needed in less than 1.20.3
             return;
@@ -175,6 +176,11 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
 
         if (targetName.equals("R20Support")) {
             // Not needed in less than 1.19.3
+            return;
+        }
+
+        if (targetName.equals("CavesAndCliffs")) {
+            // Not needed in less than 1.17
             return;
         }
 
@@ -254,7 +260,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         }
         // Add experiments as features
         for (String experiment : experiments) {
-            if (!enabled.contains(experiment)) {
+            if (!enabledFeatures.contains(experiment)) {
                 enabledFeatures.add(new StringTag(experiment));
             }
         }

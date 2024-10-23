@@ -83,6 +83,7 @@ public interface ChunkerBiome {
         DEEP_DARK,
         MANGROVE_SWAMP,
         CHERRY_GROVE,
+        PALE_GARDEN,
 
         // No longer used in newer versions
         @Deprecated

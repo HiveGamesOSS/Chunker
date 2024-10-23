@@ -32,7 +32,7 @@ Supported Formats:
     - 1.18.0 - 1.18.2
     - 1.19.0 - 1.19.4
     - 1.20.0 - 1.20.6
-    - 1.21.0 - 1.21.1
+    - 1.21.0 - 1.21.2
 
 **Microsoft Creator Docs:**
 https://learn.microsoft.com/en-us/minecraft/creator/documents/chunkeroverview?view=minecraft-bedrock-stable

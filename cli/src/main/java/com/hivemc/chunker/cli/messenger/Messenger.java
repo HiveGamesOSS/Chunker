@@ -488,9 +488,9 @@ public class Messenger {
             encoding.addProperty("id", toEncodedString(encodingType, version));
             encoding.addProperty("version", version.toString());
         } else {
-            encoding.addProperty("id", encodingType.getName().toUpperCase());
+            encoding.addProperty("id", encodingType.getName().toUpperCase(Locale.ROOT));
         }
-        encoding.addProperty("type", encodingType.getName().toUpperCase());
+        encoding.addProperty("type", encodingType.getName().toUpperCase(Locale.ROOT));
         return encoding;
     }
 
@@ -510,7 +510,7 @@ public class Messenger {
         }
 
         // Return the encoded version
-        return encodingType.getName().toUpperCase() + "_" + encodedVersion;
+        return encodingType.getName().toUpperCase(Locale.ROOT) + "_" + encodedVersion;
     }
 
     /**

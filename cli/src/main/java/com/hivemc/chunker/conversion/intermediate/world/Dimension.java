@@ -10,6 +10,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -64,7 +65,7 @@ public enum Dimension {
         // We can either parse it as an identifier or a byte
         try {
             if (tag instanceof StringTag stringTag) {
-                return dimensionByIdentifier.getOrDefault(Objects.requireNonNull(stringTag.getValue()).toLowerCase(), fallback);
+                return dimensionByIdentifier.getOrDefault(Objects.requireNonNull(stringTag.getValue()).toLowerCase(Locale.ROOT), fallback);
             } else if (tag instanceof ByteTag byteTag) {
                 byte value = byteTag.getValue();
                 return fromJava(value, fallback);
@@ -93,7 +94,7 @@ public enum Dimension {
         // We can either parse it as an identifier or a byte
         try {
             if (tag instanceof StringTag stringTag) {
-                return dimensionByIdentifier.getOrDefault(Objects.requireNonNull(stringTag.getValue()).toLowerCase(), fallback);
+                return dimensionByIdentifier.getOrDefault(Objects.requireNonNull(stringTag.getValue()).toLowerCase(Locale.ROOT), fallback);
             } else if (tag instanceof ByteTag byteTag) {
                 byte value = byteTag.getValue();
                 return dimensionByBedrockId.getOrDefault(value, fallback);

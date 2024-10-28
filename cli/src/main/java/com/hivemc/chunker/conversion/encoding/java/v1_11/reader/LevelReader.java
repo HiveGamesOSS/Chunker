@@ -26,6 +26,6 @@ public class LevelReader extends JavaLevelReader {
 
         // Use modern item / block resolvers
         return super.buildResolvers(converter)
-                .entityTypeResolver(new JavaEntityTypeResolver(version));
+                .entityTypeResolver(new JavaEntityTypeResolver(version, converter.shouldAllowCustomIdentifiers()));
     }
 }

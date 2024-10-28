@@ -1,5 +1,6 @@
 package com.hivemc.chunker.conversion.intermediate.column.entity;
 
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
 
 /**
@@ -7,7 +8,7 @@ import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVani
  */
 public class GlowItemFrameEntity extends ItemFrameEntity {
     @Override
-    public ChunkerVanillaEntityType getEntityType() {
+    public ChunkerEntityType getEntityType() {
         return ChunkerVanillaEntityType.GLOW_ITEM_FRAME;
     }
 }

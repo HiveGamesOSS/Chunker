@@ -7,7 +7,7 @@ import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.legacy.h
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.legacy.handlers.JavaLegacyHangingEntityHandler;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.legacy.handlers.JavaLegacyItemFrameEntityHandler;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.legacy.handlers.JavaLegacyPaintingEntityHandler;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 
 import java.util.Optional;
@@ -38,7 +38,7 @@ public class JavaLegacyEntityResolver extends EntityResolver<JavaResolvers, Comp
     }
 
     @Override
-    protected CompoundTag constructDataType(ChunkerVanillaEntityType type) {
+    protected CompoundTag constructDataType(ChunkerEntityType type) {
         Optional<String> key = resolvers.entityTypeResolver().from(type);
         if (key.isEmpty()) return null; // Can't write the type
 
@@ -49,7 +49,7 @@ public class JavaLegacyEntityResolver extends EntityResolver<JavaResolvers, Comp
     }
 
     @Override
-    public Optional<ChunkerVanillaEntityType> getKey(CompoundTag input) {
+    public Optional<ChunkerEntityType> getKey(CompoundTag input) {
         return input.getOptionalValue("id", String.class).flatMap(resolvers.entityTypeResolver()::to);
     }
 }

@@ -1,6 +1,8 @@
 package com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.entity;
 
 import com.hivemc.chunker.conversion.encoding.base.Version;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerCustomEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
 import com.hivemc.chunker.resolver.Resolver;
 import com.hivemc.chunker.util.InvertibleMap;
@@ -10,15 +12,20 @@ import java.util.Optional;
 /**
  * Entity Type resolver, used for Bedrock
  */
-public class BedrockEntityTypeResolver implements Resolver<String, ChunkerVanillaEntityType> {
+public class BedrockEntityTypeResolver implements Resolver<String, ChunkerEntityType> {
     private final InvertibleMap<ChunkerVanillaEntityType, String> mapping = InvertibleMap.enumKeys(ChunkerVanillaEntityType.class);
+    private final boolean customIdentifierSupported;
 
     /**
      * Create a new bedrock entity type resolver.
      *
-     * @param bedrockVersion the game version being used, as certain entities are only available after specific versions.
+     * @param bedrockVersion            the game version being used, as certain entities are only available after specific versions.
+     * @param customIdentifierSupported whether custom identifiers should be passed through as
+     *                                  ChunkerCustomEntityType.
      */
-    public BedrockEntityTypeResolver(Version bedrockVersion) {
+    public BedrockEntityTypeResolver(Version bedrockVersion, boolean customIdentifierSupported) {
+        this.customIdentifierSupported = customIdentifierSupported;
+
         mapping.put(ChunkerVanillaEntityType.CHICKEN, "minecraft:chicken");
         mapping.put(ChunkerVanillaEntityType.COW, "minecraft:cow");
         mapping.put(ChunkerVanillaEntityType.PIG, "minecraft:pig");
@@ -187,14 +194,30 @@ public class BedrockEntityTypeResolver implements Resolver<String, ChunkerVanill
     }
 
     @Override
-    public Optional<String> from(ChunkerVanillaEntityType input) {
-        return Optional.ofNullable(mapping.forward().get(input));
+    public Optional<String> from(ChunkerEntityType input) {
+        if (input instanceof ChunkerCustomEntityType chunkerCustomEntityType) {
+            if (customIdentifierSupported) {
+                return Optional.ofNullable(chunkerCustomEntityType.getIdentifier());
+            } else {
+                // No possible mapping
+                return Optional.empty();
+            }
+        } else if (input instanceof ChunkerVanillaEntityType chunkerVanillaEntityType) {
+            return Optional.ofNullable(mapping.forward().get(chunkerVanillaEntityType));
+        } else {
+            // No possible mapping
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Optional<ChunkerVanillaEntityType> to(String input) {
+    public Optional<ChunkerEntityType> to(String input) {
+        // Ensure namespace is present
         if (!input.contains(":")) {
             input = "minecraft:" + input;
+        } else if (!input.startsWith("minecraft:") && customIdentifierSupported) {
+            // Custom entity type if it's supported
+            return Optional.of(new ChunkerCustomEntityType(input));
         }
         return Optional.ofNullable(mapping.inverse().get(input));
     }

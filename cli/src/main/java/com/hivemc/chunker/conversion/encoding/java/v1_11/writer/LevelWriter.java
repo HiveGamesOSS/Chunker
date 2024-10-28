@@ -25,6 +25,6 @@ public class LevelWriter extends JavaLevelWriter {
 
         // Use modern item / block resolvers
         return super.buildResolvers(converter)
-                .entityTypeResolver(new JavaEntityTypeResolver(version));
+                .entityTypeResolver(new JavaEntityTypeResolver(version, converter.shouldAllowCustomIdentifiers()));
     }
 }

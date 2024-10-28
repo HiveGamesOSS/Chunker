@@ -9,6 +9,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.entity.handl
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.entity.handlers.BedrockItemFrameEntityHandler;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.entity.handlers.BedrockPaintingEntityHandler;
 import com.hivemc.chunker.conversion.intermediate.column.entity.GlowItemFrameEntity;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 
@@ -43,7 +44,7 @@ public class BedrockEntityResolver extends EntityResolver<BedrockResolvers, Comp
     }
 
     @Override
-    protected CompoundTag constructDataType(ChunkerVanillaEntityType type) {
+    protected CompoundTag constructDataType(ChunkerEntityType type) {
         Optional<String> key = resolvers.entityTypeResolver().from(type);
         if (key.isEmpty()) return null; // Can't write the type
 
@@ -54,7 +55,7 @@ public class BedrockEntityResolver extends EntityResolver<BedrockResolvers, Comp
     }
 
     @Override
-    public Optional<ChunkerVanillaEntityType> getKey(CompoundTag input) {
+    public Optional<ChunkerEntityType> getKey(CompoundTag input) {
         return input.getOptionalValue("identifier", String.class).flatMap(resolvers.entityTypeResolver()::to);
     }
 }

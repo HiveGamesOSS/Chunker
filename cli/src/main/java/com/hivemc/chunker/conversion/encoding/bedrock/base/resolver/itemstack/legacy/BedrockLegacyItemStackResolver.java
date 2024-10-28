@@ -18,7 +18,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.enchant
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworkExplosion;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworkShape;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworks;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevel;
 import com.hivemc.chunker.conversion.intermediate.level.map.ChunkerMap;
 import com.hivemc.chunker.mapping.identifier.Identifier;
@@ -314,9 +314,9 @@ public class BedrockLegacyItemStackResolver extends ItemStackResolver<BedrockRes
         // Spawn Eggs
         registerContextualHandler(ChunkerItemProperty.SPAWN_EGG_MOB, new PropertyHandler<>() {
             @Override
-            public Optional<ChunkerVanillaEntityType> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
+            public Optional<ChunkerEntityType> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
                 return state.right().getOptionalValue("ItemIdentifier", String.class).flatMap((identifier) -> {
-                    Optional<ChunkerVanillaEntityType> type = resolvers.entityTypeResolver().to(identifier);
+                    Optional<ChunkerEntityType> type = resolvers.entityTypeResolver().to(identifier);
                     if (type.isEmpty()) {
                         // Report missing mapping
                         resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENTITY_TYPE, identifier);
@@ -331,7 +331,7 @@ public class BedrockLegacyItemStackResolver extends ItemStackResolver<BedrockRes
             }
 
             @Override
-            public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerVanillaEntityType entityType) {
+            public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerEntityType entityType) {
                 Optional<String> type = resolvers.entityTypeResolver().from(entityType);
                 if (type.isPresent()) {
                     state.right().put("ItemIdentifier", type.get());

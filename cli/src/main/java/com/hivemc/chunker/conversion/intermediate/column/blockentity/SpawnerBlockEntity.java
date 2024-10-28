@@ -1,6 +1,6 @@
 package com.hivemc.chunker.conversion.intermediate.column.blockentity;
 
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -17,7 +17,7 @@ public class SpawnerBlockEntity extends BlockEntity {
     private short requiredPlayerRange;
     private short maxNearbyEntities;
     @Nullable
-    private ChunkerVanillaEntityType entityType = null;
+    private ChunkerEntityType entityType = null;
 
     /**
      * Get the delay until the next spawn.
@@ -151,7 +151,7 @@ public class SpawnerBlockEntity extends BlockEntity {
      * @return the entity type or null if it is not set.
      */
     @Nullable
-    public ChunkerVanillaEntityType getEntityType() {
+    public ChunkerEntityType getEntityType() {
         return entityType;
     }
 
@@ -160,7 +160,7 @@ public class SpawnerBlockEntity extends BlockEntity {
      *
      * @param entityType the type this spawner spawns or null if not set.
      */
-    public void setEntityType(@Nullable ChunkerVanillaEntityType entityType) {
+    public void setEntityType(@Nullable ChunkerEntityType entityType) {
         this.entityType = entityType;
     }
 

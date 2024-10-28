@@ -1,6 +1,7 @@
 package com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.legacy;
 
 import com.hivemc.chunker.conversion.encoding.base.Version;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
 import com.hivemc.chunker.resolver.Resolver;
 import com.hivemc.chunker.util.InvertibleMap;
@@ -10,7 +11,7 @@ import java.util.Optional;
 /**
  * Entity Type ID resolver, used for Java
  */
-public class JavaLegacyEntityTypeIDResolver implements Resolver<Integer, ChunkerVanillaEntityType> {
+public class JavaLegacyEntityTypeIDResolver implements Resolver<Integer, ChunkerEntityType> {
     private final InvertibleMap<ChunkerVanillaEntityType, Integer> mapping = InvertibleMap.enumKeys(ChunkerVanillaEntityType.class);
 
     /**
@@ -86,12 +87,17 @@ public class JavaLegacyEntityTypeIDResolver implements Resolver<Integer, Chunker
     }
 
     @Override
-    public Optional<Integer> from(ChunkerVanillaEntityType input) {
-        return Optional.ofNullable(mapping.forward().get(input));
+    public Optional<Integer> from(ChunkerEntityType input) {
+        if (input instanceof ChunkerVanillaEntityType chunkerVanillaEntityType) {
+            return Optional.ofNullable(mapping.forward().get(chunkerVanillaEntityType));
+        } else {
+            // No possible mapping
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Optional<ChunkerVanillaEntityType> to(Integer input) {
+    public Optional<ChunkerEntityType> to(Integer input) {
         return Optional.ofNullable(mapping.inverse().get(input));
     }
 }

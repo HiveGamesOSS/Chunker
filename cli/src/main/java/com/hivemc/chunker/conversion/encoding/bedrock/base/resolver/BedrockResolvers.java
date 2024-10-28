@@ -16,7 +16,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimMaterial;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimPattern;
 import com.hivemc.chunker.conversion.intermediate.column.entity.PaintingEntity;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;
 import com.hivemc.chunker.mapping.identifier.Identifier;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
@@ -224,7 +224,7 @@ public interface BedrockResolvers {
      *
      * @return a resolver from string identifiers to entity type.
      */
-    Resolver<String, ChunkerVanillaEntityType> entityTypeResolver();
+    Resolver<String, ChunkerEntityType> entityTypeResolver();
 
     /**
      * Get the resolver which can turn IDs into enchantment types.

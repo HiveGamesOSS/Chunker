@@ -8,7 +8,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.b
 import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.Palette;
 import com.hivemc.chunker.conversion.intermediate.column.entity.Entity;
 import com.hivemc.chunker.conversion.intermediate.column.entity.UnknownEntity;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.resolver.hierarchy.KeyedHierarchyBasedResolver;
 import com.hivemc.chunker.resolver.hierarchy.TypeHandler;
 
@@ -23,11 +23,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * @param <R> the resolvers used by this format which are provided to this resolver.
  * @param <D> the data class holding the encoded entity (e.g. NBT).
  */
-public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R, ChunkerVanillaEntityType, D, Entity> {
+public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R, ChunkerEntityType, D, Entity> {
     protected final boolean preserveUnknownEntities;
-    protected Map<TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity>, Map<Class<?>, Collection<Object>>> interfaceHandlerCache;
-    protected Map<ChunkerBlockType, TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity>> generateBeforeProcessEntityHandlers;
-    protected Map<ChunkerBlockType, TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity>> generateBeforeWriteEntityHandlers;
+    protected Map<TypeHandler<R, ChunkerEntityType, D, ? extends Entity>, Map<Class<?>, Collection<Object>>> interfaceHandlerCache;
+    protected Map<ChunkerBlockType, TypeHandler<R, ChunkerEntityType, D, ? extends Entity>> generateBeforeProcessEntityHandlers;
+    protected Map<ChunkerBlockType, TypeHandler<R, ChunkerEntityType, D, ? extends Entity>> generateBeforeWriteEntityHandlers;
 
     /**
      * Create a new entity resolver.
@@ -49,7 +49,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
     }
 
     @Override
-    protected void register(TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity> typeHandler) {
+    protected void register(TypeHandler<R, ChunkerEntityType, D, ? extends Entity> typeHandler) {
         super.register(typeHandler);
 
         if (typeHandler instanceof GenerateBeforeWriteEntityHandler<?> handler) {
@@ -72,13 +72,13 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
         interfaceHandlerCache.clear();
     }
 
-    private <T> Collection<Object> generateInterfaceHandlers(Class<T> interfaceClass, TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity> lastHandler) {
-        Collection<TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity>> handlers = getTypeHandlers(lastHandler);
+    private <T> Collection<Object> generateInterfaceHandlers(Class<T> interfaceClass, TypeHandler<R, ChunkerEntityType, D, ? extends Entity> lastHandler) {
+        Collection<TypeHandler<R, ChunkerEntityType, D, ? extends Entity>> handlers = getTypeHandlers(lastHandler);
         if (handlers.isEmpty()) return Collections.emptyList(); // No handlers
 
         // Add entries matching the interface to the list
         List<Object> copy = new ArrayList<>(handlers.size());
-        for (TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity> handler : handlers) {
+        for (TypeHandler<R, ChunkerEntityType, D, ? extends Entity> handler : handlers) {
             if (interfaceClass.isInstance(handler)) {
                 copy.add(interfaceClass.cast(handler));
             }
@@ -96,7 +96,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
      * @return a collection of type handlers implementing the interface class.
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public <T, U extends T> Collection<U> getInterfaceHandlers(Class<T> interfaceClass, TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity> lastHandler) {
+    public <T, U extends T> Collection<U> getInterfaceHandlers(Class<T> interfaceClass, TypeHandler<R, ChunkerEntityType, D, ? extends Entity> lastHandler) {
         Map<Class<?>, Collection<Object>> interfaceLookup = interfaceHandlerCache.computeIfAbsent(lastHandler, (handler) -> new ConcurrentHashMap<>());
         Collection<Object> handlers = interfaceLookup.computeIfAbsent(interfaceClass, (handler) -> generateInterfaceHandlers(interfaceClass, lastHandler));
 
@@ -113,7 +113,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
      * @return true if the entity should be removed.
      */
     public <T extends Entity> boolean shouldRemoveBeforeProcess(ChunkerColumn column, T entity) {
-        Optional<TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity>> lastHandler = getFromTypeHandler(entity);
+        Optional<TypeHandler<R, ChunkerEntityType, D, ? extends Entity>> lastHandler = getFromTypeHandler(entity);
         if (lastHandler.isEmpty()) return false; // Don't remove
 
         // Find the handlers to call
@@ -137,7 +137,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
      * @return true if the entity should be removed.
      */
     public <T extends Entity> boolean shouldRemoveBeforeWrite(ChunkerColumn column, T entity) {
-        Optional<TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity>> lastHandler = getFromTypeHandler(entity);
+        Optional<TypeHandler<R, ChunkerEntityType, D, ? extends Entity>> lastHandler = getFromTypeHandler(entity);
         if (lastHandler.isEmpty()) return false; // Don't remove
 
         // Find the handlers to call
@@ -161,7 +161,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
      * @return the new entity which should replace the old one.
      */
     public <T extends Entity> T updateBeforeProcess(ChunkerColumn column, T entity) {
-        Optional<TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity>> lastHandler = getFromTypeHandler(entity);
+        Optional<TypeHandler<R, ChunkerEntityType, D, ? extends Entity>> lastHandler = getFromTypeHandler(entity);
         if (lastHandler.isEmpty()) return entity; // Don't update
 
         // Find the handlers to call
@@ -185,7 +185,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
      * @return the new entity which should replace the old one.
      */
     public <T extends Entity> T updateBeforeWrite(ChunkerColumn column, T entity) {
-        Optional<TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity>> lastHandler = getFromTypeHandler(entity);
+        Optional<TypeHandler<R, ChunkerEntityType, D, ? extends Entity>> lastHandler = getFromTypeHandler(entity);
         if (lastHandler.isEmpty()) return entity; // Don't update
 
         // Find the handlers to call
@@ -217,7 +217,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
             for (int y = 0; y < 16; y++) {
                 for (int z = 0; z < 16; z++) {
                     ChunkerBlockIdentifier entry = palette.get(x, y, z, ChunkerBlockIdentifier.AIR);
-                    TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity> lastHandler = generateBeforeProcessEntityHandlers.get(entry.getType());
+                    TypeHandler<R, ChunkerEntityType, D, ? extends Entity> lastHandler = generateBeforeProcessEntityHandlers.get(entry.getType());
 
                     // Create the entity
                     if (lastHandler != null) {
@@ -262,7 +262,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
             for (int y = 0; y < 16; y++) {
                 for (int z = 0; z < 16; z++) {
                     ChunkerBlockIdentifier entry = palette.get(x, y, z, ChunkerBlockIdentifier.AIR);
-                    TypeHandler<R, ChunkerVanillaEntityType, D, ? extends Entity> lastHandler = generateBeforeWriteEntityHandlers.get(entry.getType());
+                    TypeHandler<R, ChunkerEntityType, D, ? extends Entity> lastHandler = generateBeforeWriteEntityHandlers.get(entry.getType());
 
                     // Create the entity
                     if (lastHandler != null) {
@@ -295,7 +295,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
         // Special handling for unknown entities
         if (input instanceof UnknownEntity && preserveUnknownEntities) {
             // Use the Entity handler to write the fields for unknown
-            Optional<TypeHandler<R, ChunkerVanillaEntityType, D, Entity>> entityHandler = getFromClassTypeHandler(Entity.class);
+            Optional<TypeHandler<R, ChunkerEntityType, D, Entity>> entityHandler = getFromClassTypeHandler(Entity.class);
             if (entityHandler.isPresent()) {
                 D output = constructDataType(input.getEntityType());
                 if (output != null) {
@@ -316,7 +316,7 @@ public abstract class EntityResolver<R, D> extends KeyedHierarchyBasedResolver<R
             UnknownEntity unknownEntity = new UnknownEntity(getKey(input).orElse(null));
 
             // Use the Entity handler to read the fields for unknown
-            Optional<TypeHandler<R, ChunkerVanillaEntityType, D, Entity>> blockEntityHandler = getFromClassTypeHandler(Entity.class);
+            Optional<TypeHandler<R, ChunkerEntityType, D, Entity>> blockEntityHandler = getFromClassTypeHandler(Entity.class);
             if (blockEntityHandler.isPresent()) {
                 blockEntityHandler.get().read(resolvers, input, unknownEntity);
 

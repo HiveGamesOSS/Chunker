@@ -1,6 +1,7 @@
 package com.hivemc.chunker.conversion.intermediate.column.entity;
 
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.FacingDirectionHorizontal;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
 
 import java.util.Objects;
@@ -49,7 +50,7 @@ public class PaintingEntity extends HangingEntity {
     }
 
     @Override
-    public ChunkerVanillaEntityType getEntityType() {
+    public ChunkerEntityType getEntityType() {
         return ChunkerVanillaEntityType.PAINTING;
     }
 

@@ -1,6 +1,6 @@
 package com.hivemc.chunker.conversion.intermediate.column.entity;
 
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -8,19 +8,19 @@ import org.jetbrains.annotations.Nullable;
  */
 public class UnknownEntity extends Entity {
     @Nullable
-    private final ChunkerVanillaEntityType type;
+    private final ChunkerEntityType type;
 
     /**
      * Create a new unknown entity.
      *
      * @param type the chunker type of the unknown entity.
      */
-    public UnknownEntity(@Nullable ChunkerVanillaEntityType type) {
+    public UnknownEntity(@Nullable ChunkerEntityType type) {
         this.type = type;
     }
 
     @Override
-    public ChunkerVanillaEntityType getEntityType() {
+    public ChunkerEntityType getEntityType() {
         return type;
     }
 }

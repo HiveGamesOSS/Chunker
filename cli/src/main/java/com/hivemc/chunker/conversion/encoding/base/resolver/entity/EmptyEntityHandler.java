@@ -1,7 +1,7 @@
 package com.hivemc.chunker.conversion.encoding.base.resolver.entity;
 
 import com.hivemc.chunker.conversion.intermediate.column.entity.Entity;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +21,7 @@ public class EmptyEntityHandler<R, T extends Entity> extends EntityHandler<R, Co
      * @param entityClass the class which is encoded by this handler.
      * @param constructor the constructor for the entity.
      */
-    public EmptyEntityHandler(ChunkerVanillaEntityType entityType, Class<T> entityClass, Supplier<T> constructor) {
+    public EmptyEntityHandler(ChunkerEntityType entityType, Class<T> entityClass, Supplier<T> constructor) {
         super(entityType, entityClass, constructor);
     }
 

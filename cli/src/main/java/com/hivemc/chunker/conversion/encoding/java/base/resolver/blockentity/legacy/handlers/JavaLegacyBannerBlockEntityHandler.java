@@ -108,7 +108,7 @@ public class JavaLegacyBannerBlockEntityHandler extends BlockEntityHandler<JavaR
 
         // Grab the banner color
         Pair<Boolean, ChunkerDyeColor> color = BedrockBannerBlockEntityHandler.BANNER_TO_WALL_DYE.getOrDefault(blockIdentifier.getType(), null);
-        blockEntity.setBase(Optional.ofNullable(color.value()));
+        blockEntity.setBase(Optional.ofNullable(color).map(Pair::value));
 
         return blockEntity;
     }

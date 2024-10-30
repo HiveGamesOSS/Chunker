@@ -6,9 +6,11 @@ import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.BlockMapping;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.ChunkerBlockIdentifierResolver;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.state.StateMappingGroup;
+import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.identifier.BedrockStateGroups;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Bool;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.SlabType;
 
 /**
  * Resolver to convert between Java block identifiers and ChunkerBlockIdentifier.
@@ -1505,6 +1507,24 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
             register(BlockMapping.of("minecraft:pale_oak_wall_hanging_sign", ChunkerVanillaBlockType.PALE_OAK_WALL_HANGING_SIGN, JavaStateGroups.WALL_HANGING_SIGN));
             register(BlockMapping.of("minecraft:pale_oak_sign", ChunkerVanillaBlockType.PALE_OAK_SIGN, JavaStateGroups.SIGN));
             register(BlockMapping.of("minecraft:pale_oak_wall_sign", ChunkerVanillaBlockType.PALE_OAK_WALL_SIGN, JavaStateGroups.FACING_HORIZONTAL_WATERLOGGED));
+        }
+
+        // 1.21.4
+        if (version.isGreaterThanOrEqual(1, 21, 4)) {
+            // New flowers
+            register(BlockMapping.of("minecraft:closed_eyeblossom", ChunkerVanillaBlockType.CLOSED_EYEBLOSSOM));
+            register(BlockMapping.of("minecraft:open_eyeblossom", ChunkerVanillaBlockType.OPEN_EYEBLOSSOM));
+            register(BlockMapping.of("minecraft:potted_closed_eyeblossom", ChunkerVanillaBlockType.POTTED_CLOSED_EYEBLOSSOM));
+            register(BlockMapping.of("minecraft:potted_open_eyeblossom", ChunkerVanillaBlockType.POTTED_OPEN_EYEBLOSSOM));
+
+            // New resin blocks
+            register(BlockMapping.of("minecraft:resin_block", ChunkerVanillaBlockType.RESIN_BLOCK));
+            register(BlockMapping.of("minecraft:resin_bricks", ChunkerVanillaBlockType.RESIN_BRICKS));
+            register(BlockMapping.of("minecraft:chiseled_resin_bricks", ChunkerVanillaBlockType.CHISELED_RESIN_BRICKS));
+            register(BlockMapping.of("minecraft:resin_brick_slab", ChunkerVanillaBlockType.RESIN_BRICK_SLAB, JavaStateGroups.SLAB));
+            register(BlockMapping.of("minecraft:resin_brick_stairs", ChunkerVanillaBlockType.RESIN_BRICK_STAIRS, JavaStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:resin_brick_wall", ChunkerVanillaBlockType.RESIN_BRICK_WALL, JavaStateGroups.WALL));
+            register(BlockMapping.of("minecraft:resin_clump", ChunkerVanillaBlockType.RESIN_CLUMP, JavaStateGroups.CONNECTABLE_WATERLOGGED));
         }
     }
 }

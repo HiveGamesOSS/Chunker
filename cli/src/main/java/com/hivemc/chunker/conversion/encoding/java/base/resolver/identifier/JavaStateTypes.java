@@ -202,6 +202,11 @@ public class JavaStateTypes {
             .mapping("dormant", Creaking.DORMANT)
             .mapping("active", Creaking.ACTIVE)
             .build();
+    public static final TypeMapping<String, Creaking> CREAKING_BOOL = new TypeMapping.Builder<String, Creaking>()
+            .mapping("false", Creaking.DORMANT)
+            .mapping("false", Creaking.DISABLED)
+            .mapping("true", Creaking.ACTIVE)
+            .build();
     public static final TypeMapping<String, Delay> DELAY = new TypeMapping.Builder<String, Delay>()
             .mapping("1", Delay._1)
             .mapping("2", Delay._2)

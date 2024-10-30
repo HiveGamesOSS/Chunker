@@ -29,6 +29,11 @@ public class JavaTrimMaterialResolver implements Resolver<String, ChunkerTrimMat
         mapping.put(ChunkerTrimMaterial.NETHERITE, "minecraft:netherite");
         mapping.put(ChunkerTrimMaterial.QUARTZ, "minecraft:quartz");
         mapping.put(ChunkerTrimMaterial.REDSTONE, "minecraft:redstone");
+
+        // 1.21.4
+        if (version.isGreaterThanOrEqual(1, 21, 4)) {
+            mapping.put(ChunkerTrimMaterial.RESIN, "minecraft:resin");
+        }
     }
 
     @Override

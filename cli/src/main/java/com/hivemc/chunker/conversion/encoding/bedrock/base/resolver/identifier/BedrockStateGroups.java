@@ -283,7 +283,7 @@ public class BedrockStateGroups {
     public static final StateMappingGroup CREAKING_HEART = new StateMappingGroup.Builder()
             .state("pillar_axis", VanillaBlockStates.AXIS, BedrockStateTypes.AXIS)
             .state("active", VanillaBlockStates.CREAKING, BedrockStateTypes.CREAKING)
-            .defaultInput("natural", false)
+            .state("natural", VanillaBlockStates.NATURAL, BedrockStateTypes.BOOL)
             .build();
     public static final StateMappingGroup CROP = new StateMappingGroup.Builder()
             .state("growth", VanillaBlockStates.AGE_7, BedrockStateTypes.AGE_7)
@@ -614,7 +614,7 @@ public class BedrockStateGroups {
             .state("pale_moss_carpet_side_east", VanillaBlockStates.WALL_EAST, BedrockStateTypes.WALL_CONNECTION)
             .state("pale_moss_carpet_side_south", VanillaBlockStates.WALL_SOUTH, BedrockStateTypes.WALL_CONNECTION)
             .state("pale_moss_carpet_side_west", VanillaBlockStates.WALL_WEST, BedrockStateTypes.WALL_CONNECTION)
-            .state("upper_block_bit", VanillaBlockStates.BOTTOM, BedrockStateTypes.BOOL)
+            .state("upper_block_bit", VanillaBlockStates.BOTTOM, BedrockStateTypes.INVERSE_BOOL)
             .build();
     public static final VersionedStateMappingGroup PILLAR_BLOCK = new VersionedStateMappingGroup.Builder()
             .defaults(new StateMappingGroup.Builder()

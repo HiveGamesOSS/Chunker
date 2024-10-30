@@ -92,6 +92,11 @@ public class JavaEncoders {
                 com.hivemc.chunker.conversion.encoding.java.v1_21_2.reader.LevelReader::new,
                 com.hivemc.chunker.conversion.encoding.java.v1_21_2.writer.LevelWriter::new
         );
+        register(
+                JavaDataVersion.V1_21_4,
+                com.hivemc.chunker.conversion.encoding.java.v1_21_4.reader.LevelReader::new,
+                com.hivemc.chunker.conversion.encoding.java.v1_21_4.writer.LevelWriter::new
+        );
     }
 
     /**

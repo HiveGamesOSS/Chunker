@@ -30,6 +30,7 @@ public class ProgressStateResponse extends BasicMessage {
      *
      * @return the progress name.
      */
+    @Nullable
     public String getName() {
         return name;
     }

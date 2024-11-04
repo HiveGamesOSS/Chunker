@@ -28,6 +28,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firewor
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworkShape;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworks;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerPotionType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevel;
 import com.hivemc.chunker.conversion.intermediate.level.map.ChunkerMap;
@@ -282,6 +283,8 @@ public class JavaLegacyBasicItemResolverTests {
             ).toArray();
         } else if (asClass.equals(ChunkerItemType.class)) {
             return generatePropertyValues(ChunkerVanillaItemType.class, property);
+        } else if (asClass.equals(ChunkerEntityType.class)) {
+            return generatePropertyValues(ChunkerVanillaEntityType.class, property);
         } else if (asClass.equals(ChunkerItemDisplay.class)) {
             return (T[]) new ChunkerItemDisplay[]{
                     new ChunkerItemDisplay(JsonTextUtil.fromText("Hi"), null, null),

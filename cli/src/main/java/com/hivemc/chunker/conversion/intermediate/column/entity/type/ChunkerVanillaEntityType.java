@@ -3,7 +3,7 @@ package com.hivemc.chunker.conversion.intermediate.column.entity.type;
 /**
  * An enum representing every type of entity in the game.
  */
-public enum ChunkerVanillaEntityType {
+public enum ChunkerVanillaEntityType implements ChunkerEntityType {
     ALLAY(true),
     AREA_EFFECT_CLOUD,
     ARMADILLO(true),

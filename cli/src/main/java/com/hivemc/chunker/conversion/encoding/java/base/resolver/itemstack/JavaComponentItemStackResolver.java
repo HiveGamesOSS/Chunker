@@ -24,7 +24,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.Ch
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimMaterial;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimPattern;
 import com.hivemc.chunker.conversion.intermediate.column.entity.Entity;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevel;
 import com.hivemc.chunker.conversion.intermediate.level.map.ChunkerMap;
 import com.hivemc.chunker.mapping.identifier.Identifier;
@@ -37,7 +37,6 @@ import com.hivemc.chunker.nbt.tags.primitive.StringTag;
 import com.hivemc.chunker.resolver.property.PropertyHandler;
 import com.hivemc.chunker.util.JsonTextUtil;
 import it.unimi.dsi.fastutil.Pair;
-import it.unimi.dsi.fastutil.bytes.Byte2ObjectMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -339,7 +338,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
         // Spawn Eggs
         registerContextualHandler(ChunkerItemProperty.SPAWN_EGG_MOB, new PropertyHandler<>() {
             @Override
-            public Optional<ChunkerVanillaEntityType> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
+            public Optional<ChunkerEntityType> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
                 // Check if tag is present
                 CompoundTag tag = state.value().getCompound("components");
                 if (tag == null) return Optional.empty();
@@ -350,7 +349,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
 
                 // Turn the ID into a chunker entity type
                 return entityTag.getOptionalValue("id", String.class).flatMap((identifier) -> {
-                    Optional<ChunkerVanillaEntityType> type = resolvers.entityTypeResolver().to(identifier);
+                    Optional<ChunkerEntityType> type = resolvers.entityTypeResolver().to(identifier);
                     if (type.isEmpty()) {
                         // Report missing mapping
                         resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENTITY_TYPE, identifier);
@@ -365,7 +364,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
             }
 
             @Override
-            public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerVanillaEntityType entityType) {
+            public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerEntityType entityType) {
                 Optional<String> type = resolvers.entityTypeResolver().from(entityType);
                 if (type.isPresent()) {
                     CompoundTag entityTag = state.value().getOrCreateCompound("components")

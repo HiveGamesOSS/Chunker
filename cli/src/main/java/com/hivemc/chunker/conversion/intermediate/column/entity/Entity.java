@@ -1,6 +1,6 @@
 package com.hivemc.chunker.conversion.intermediate.column.entity;
 
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 
@@ -194,7 +194,7 @@ public abstract class Entity {
      *
      * @return the entity type which is represented by the class.
      */
-    public abstract ChunkerVanillaEntityType getEntityType();
+    public abstract ChunkerEntityType getEntityType();
 
     @Override
     public boolean equals(Object o) {

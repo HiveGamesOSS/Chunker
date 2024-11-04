@@ -6,9 +6,6 @@ import com.hivemc.chunker.conversion.encoding.bedrock.base.reader.BedrockWorldRe
 import com.hivemc.chunker.conversion.intermediate.column.chunk.ChunkCoordPair;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.RegionCoordPair;
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;
-import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.Map;

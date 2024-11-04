@@ -26,7 +26,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
     "react-scripts": "^5.0.1",
-    "react-select": "^5.8.1",
+    "react-select": "^5.8.2",
     "react-syntax-highlighter": "^15.6.1",
     "seedrandom": "^3.0.5"
   },

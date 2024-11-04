@@ -17,7 +17,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimMaterial;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimPattern;
 import com.hivemc.chunker.conversion.intermediate.column.entity.PaintingEntity;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;
 import com.hivemc.chunker.mapping.identifier.Identifier;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
@@ -42,7 +42,7 @@ public class JavaResolversBuilder {
     private Resolver<Integer, String> blockIDResolver;
     private Resolver<Identifier, ChunkerItemStack> itemIdentifierResolver;
     private Resolver<Identifier, ChunkerBlockIdentifier> blockIdentifierResolver;
-    private Resolver<String, ChunkerVanillaEntityType> entityTypeResolver;
+    private Resolver<String, ChunkerEntityType> entityTypeResolver;
     private Resolver<String, ChunkerBiome> biomeNameResolver;
     private Resolver<Integer, ChunkerBiome> biomeIDResolver;
     private Resolver<String, ChunkerEffectType> effectResolver;
@@ -398,7 +398,7 @@ public class JavaResolversBuilder {
             }
 
             @Override
-            public Resolver<String, ChunkerVanillaEntityType> entityTypeResolver() {
+            public Resolver<String, ChunkerEntityType> entityTypeResolver() {
                 return entityTypeResolver;
             }
 
@@ -478,7 +478,7 @@ public class JavaResolversBuilder {
         return this;
     }
 
-    public JavaResolversBuilder entityTypeResolver(Resolver<String, ChunkerVanillaEntityType> resolver) {
+    public JavaResolversBuilder entityTypeResolver(Resolver<String, ChunkerEntityType> resolver) {
         entityTypeResolver = resolver;
         return this;
     }

@@ -38,7 +38,7 @@ public interface BedrockReaderWriter extends LevelReaderWriter {
         Version version = getVersion();
         return new BedrockResolversBuilder(converter, version, true)
                 .potionIDResolver(new BedrockPotionIDResolver(version))
-                .entityTypeResolver(new BedrockEntityTypeResolver(version))
+                .entityTypeResolver(new BedrockEntityTypeResolver(version, converter.shouldAllowCustomIdentifiers()))
                 .effectIDResolver(new BedrockEffectIDResolver(version))
                 .nbtBlockIdentifierResolver(new BedrockNBTLegacyBlockIdentifierResolver(version))
                 .blockIdentifierResolver(new BedrockLegacyBlockIdentifierResolver(converter, version, isReader(), converter.shouldAllowCustomIdentifiers()))

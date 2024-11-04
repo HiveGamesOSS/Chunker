@@ -7,8 +7,6 @@ import com.hivemc.chunker.conversion.encoding.base.resolver.itemstack.ItemStackR
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.legacy.JavaLegacyEntityTypeIDResolver;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.BlockEntity;
-import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.ChestBlockEntity;
-import com.hivemc.chunker.conversion.intermediate.column.blockentity.container.randomizable.TrappedChestBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.item.ChunkerVanillaItemType;
@@ -20,7 +18,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firewor
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworkShape;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworks;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerPotionType;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevel;
 import com.hivemc.chunker.conversion.intermediate.level.map.ChunkerMap;
 import com.hivemc.chunker.mapping.identifier.Identifier;
@@ -316,7 +314,7 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
         if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 9, 0)) {
             registerContextualHandler(ChunkerItemProperty.SPAWN_EGG_MOB, new PropertyHandler<>() {
                 @Override
-                public Optional<ChunkerVanillaEntityType> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
+                public Optional<ChunkerEntityType> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
                     // Check if tag is present
                     CompoundTag tag = state.value().getCompound("tag");
                     if (tag == null) return Optional.empty();
@@ -327,7 +325,7 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
 
                     // Turn the ID into a chunker entity type
                     return entityTag.getOptionalValue("id", String.class).flatMap((identifier) -> {
-                        Optional<ChunkerVanillaEntityType> type = resolvers.entityTypeResolver().to(identifier);
+                        Optional<ChunkerEntityType> type = resolvers.entityTypeResolver().to(identifier);
                         if (type.isEmpty()) {
                             // Report missing mapping
                             resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENTITY_TYPE, identifier);
@@ -342,7 +340,7 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
                 }
 
                 @Override
-                public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerVanillaEntityType entityType) {
+                public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerEntityType entityType) {
                     Optional<String> type = resolvers.entityTypeResolver().from(entityType);
                     if (type.isPresent()) {
                         CompoundTag entityTag = state.value().getOrCreateCompound("tag").getOrCreateCompound("EntityTag");
@@ -363,7 +361,7 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
                 private final JavaLegacyEntityTypeIDResolver entityTypeIDResolver = new JavaLegacyEntityTypeIDResolver(resolvers.dataVersion().getVersion());
 
                 @Override
-                public Optional<ChunkerVanillaEntityType> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
+                public Optional<ChunkerEntityType> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
                     if (state.key().getIdentifier().getItemStackType() != ChunkerVanillaItemType.SPAWN_EGG) {
                         return Optional.empty(); // Not an egg
                     }
@@ -373,7 +371,7 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
                 }
 
                 @Override
-                public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerVanillaEntityType value) {
+                public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerEntityType value) {
                     if (state.key().getIdentifier().getItemStackType() != ChunkerVanillaItemType.SPAWN_EGG) {
                         return; // Not possible
                     }

@@ -216,7 +216,7 @@ public class BedrockColumnReader implements ColumnReader {
         if (entity.isPresent()) {
             chunkerColumn.getEntities().add(entity.get());
         } else {
-            String identifier = resolvers.entityResolver().getKey(compoundTag).map(Enum::toString).orElseGet(compoundTag::toString);
+            String identifier = resolvers.entityResolver().getKey(compoundTag).map(Object::toString).orElseGet(compoundTag::toString);
             converter.logMissingMapping(Converter.MissingMappingType.ENTITY, identifier);
         }
     }

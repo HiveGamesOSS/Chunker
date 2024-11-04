@@ -96,7 +96,7 @@ public class BedrockSkullBlockEntityHandler extends BlockEntityHandler<BedrockRe
 
     @Override
     public SkullBlockEntity updateBeforeWrite(@NotNull BedrockResolvers resolvers, CompoundTag itemCompoundTag, ChunkerItemStack chunkerItemStack, SkullBlockEntity blockEntity) {
-        return null;
+        return new BedrockSkullBlockEntity(blockEntity);
     }
 
     @Override

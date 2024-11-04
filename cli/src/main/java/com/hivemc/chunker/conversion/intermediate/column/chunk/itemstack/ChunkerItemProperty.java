@@ -12,7 +12,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.stew.ChunkerStewEffect;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrim;
 import com.hivemc.chunker.conversion.intermediate.column.entity.Entity;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.resolver.property.Property;
 import org.jetbrains.annotations.NotNull;
 
@@ -152,9 +152,9 @@ public class ChunkerItemProperty<V> extends Property<ChunkerItemStack, V> implem
     /**
      * The entity which should be spawned from an egg.
      */
-    public static final ChunkerItemProperty<ChunkerVanillaEntityType> SPAWN_EGG_MOB = new ChunkerItemProperty<>(
+    public static final ChunkerItemProperty<ChunkerEntityType> SPAWN_EGG_MOB = new ChunkerItemProperty<>(
             "spawn_egg_mob",
-            ChunkerVanillaEntityType.class
+            ChunkerEntityType.class
     );
     /**
      * The stew effect which occurs when the item is consumed.

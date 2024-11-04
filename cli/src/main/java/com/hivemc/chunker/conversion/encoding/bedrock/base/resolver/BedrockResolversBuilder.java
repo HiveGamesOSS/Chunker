@@ -17,7 +17,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimMaterial;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimPattern;
 import com.hivemc.chunker.conversion.intermediate.column.entity.PaintingEntity;
-import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;
 import com.hivemc.chunker.mapping.identifier.Identifier;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
@@ -40,7 +40,7 @@ public class BedrockResolversBuilder {
     private Resolver<Identifier, ChunkerItemStack> itemIdentifierResolver;
     private Resolver<Identifier, ChunkerBlockIdentifier> blockIdentifierResolver;
     private Resolver<Identifier, ChunkerBlockIdentifier> itemBlockIdentifierResolver;
-    private Resolver<String, ChunkerVanillaEntityType> entityTypeResolver;
+    private Resolver<String, ChunkerEntityType> entityTypeResolver;
     private Resolver<Integer, ChunkerBiome> biomeIDResolver;
     private Resolver<Integer, ChunkerEffectType> effectIDResolver;
     private Resolver<Integer, ChunkerEnchantmentType> enchantmentIDResolver;
@@ -330,7 +330,7 @@ public class BedrockResolversBuilder {
             }
 
             @Override
-            public Resolver<String, ChunkerVanillaEntityType> entityTypeResolver() {
+            public Resolver<String, ChunkerEntityType> entityTypeResolver() {
                 return entityTypeResolver;
             }
 
@@ -385,7 +385,7 @@ public class BedrockResolversBuilder {
         return this;
     }
 
-    public BedrockResolversBuilder entityTypeResolver(Resolver<String, ChunkerVanillaEntityType> resolver) {
+    public BedrockResolversBuilder entityTypeResolver(Resolver<String, ChunkerEntityType> resolver) {
         entityTypeResolver = resolver;
         return this;
     }

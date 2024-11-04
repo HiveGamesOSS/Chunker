@@ -4,6 +4,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.blockentity.
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.blockentity.type.BedrockItemFrameBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.FacingDirection;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
+import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerEntityType;
 import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
 import org.jetbrains.annotations.Nullable;
 
@@ -110,7 +111,7 @@ public class ItemFrameEntity extends HangingEntity {
     }
 
     @Override
-    public ChunkerVanillaEntityType getEntityType() {
+    public ChunkerEntityType getEntityType() {
         return ChunkerVanillaEntityType.ITEM_FRAME;
     }
 

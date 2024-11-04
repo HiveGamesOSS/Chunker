@@ -6,10 +6,7 @@ import com.hivemc.chunker.conversion.encoding.EncodingType;
 import com.hivemc.chunker.conversion.encoding.base.Version;
 import picocli.CommandLine;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Validator which can validate EncodingType used by the CLI in the format, EDITION_VERSION, e.g.
@@ -30,7 +27,7 @@ public class EncodingTypeValidator implements CommandLine.ITypeConverter<String>
 
             // If the type doesn't have any versions, write just the type
             if (versions == null || versions.isEmpty()) {
-                writers.add(encodingType.getName().toUpperCase());
+                writers.add(encodingType.getName().toUpperCase(Locale.ROOT));
             } else {
                 // Write each version
                 for (Version version : versions) {

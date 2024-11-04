@@ -111,6 +111,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
      * @throws IOException if it failed to remap the database.
      */
     protected void remapExistingDB() throws IOException {
+        List<byte[]> removals = new ArrayList<>();
         try (DBIterator iterator = database.iterator()) {
             while (iterator.hasNext()) {
                 Map.Entry<byte[], byte[]> entry = iterator.next();
@@ -148,7 +149,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
                         // If unknown report an issue
                         if (dimension == null) {
                             converter.logNonFatalException(new Exception("Unknown dimension key " + dimensionID));
-                            iterator.remove();
+                            removals.add(key);
                             continue;
                         }
                     }
@@ -167,7 +168,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
                             byte[] value = entry.getValue();
 
                             // Delete old key
-                            iterator.remove();
+                            removals.add(key);
 
                             // Write new key (with dimension changed)
                             if (containsSubChunk) {
@@ -178,10 +179,19 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
                         }
                     } else {
                         // Remove as the dimension/column has been pruned
-                        iterator.remove();
+                        removals.add(key);
                     }
                 }
             }
+        }
+
+        // Remove any keys marked for removal
+        try (WriteBatch writeBatch = database.createWriteBatch()) {
+            for (byte[] key : removals) {
+                writeBatch.delete(key);
+            }
+            database.write(writeBatch);
+            removals.clear();
         }
     }
 

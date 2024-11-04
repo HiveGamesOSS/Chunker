@@ -136,7 +136,7 @@ public class BedrockChestBlockEntityHandler extends BlockEntityHandler<BedrockRe
         // Handle ChestType field
         ChunkerBlockIdentifier blockIdentifier = column.getBlock(x, y, z);
         ChestType chestType = blockIdentifier.getState(VanillaBlockStates.CHEST_TYPE);
-        if (chestType != ChestType.SINGLE) {
+        if (chestType != null && chestType != ChestType.SINGLE) {
             // If it's not single we need to find the pair
             FacingDirectionHorizontal direction = Objects.requireNonNull(blockIdentifier.getState(VanillaBlockStates.FACING_HORIZONTAL));
             FacingDirectionHorizontal targetDirection = chestType == ChestType.LEFT ? direction.rotateClockwise() : direction.rotateAntiClockwise();

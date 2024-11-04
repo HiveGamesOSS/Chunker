@@ -40,10 +40,10 @@ public class ColumnReader extends com.hivemc.chunker.conversion.encoding.bedrock
 
             byte[] entityKey = new byte[8];
             while (fileInputStream.available() > 0) {
-                // Read the key into our array
-                reader.readBytes(entityKey);
-
                 try {
+                    // Read the key into our array
+                    reader.readBytes(entityKey);
+
                     // Lookup the entity and read it
                     readEntity(column, entityKey);
                 } catch (Exception e) {

@@ -33,4 +33,12 @@ public interface WriteablePalette<T> extends Palette<T> {
      * @param paletteIndex the index of the key which this entry points to.
      */
     void setPaletteIndex(int x, int y, int z, short paletteIndex);
+
+    /**
+     * Copy all the keys and values of the current palette.
+     *
+     * @return create a clone of the writeable palette, which ensures values and keys is a new array.
+     */
+    @Override
+    WriteablePalette<T> copy();
 }

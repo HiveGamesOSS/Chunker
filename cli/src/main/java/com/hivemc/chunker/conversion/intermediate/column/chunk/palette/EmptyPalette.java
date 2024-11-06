@@ -88,4 +88,9 @@ public class EmptyPalette<T> implements Palette<T> {
     public EmptyPalette<T> compact(T defaultValue) {
         return this; // Does nothing
     }
+
+    @Override
+    public Palette<T> copy() {
+        return this; // Does nothing
+    }
 }

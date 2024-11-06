@@ -212,4 +212,17 @@ public class ShortBasedPalette<T> implements WriteablePalette<T> {
         // Otherwise return this
         return this;
     }
+
+    @Override
+    public ShortBasedPalette<T> copy() {
+        // Loop through and copy each array
+        short[][][] copiedValues = new short[values.length][][];
+        for (int x = 0; x < values.length; x++) {
+            copiedValues[x] = new short[values[x].length][];
+            for (int y = 0; y < values[x].length; y++) {
+                copiedValues[x][y] = values[x][y].clone();
+            }
+        }
+        return new ShortBasedPalette<>(new ArrayList<>(keys), copiedValues);
+    }
 }

@@ -15,6 +15,6 @@ public class ColumnReader extends com.hivemc.chunker.conversion.encoding.bedrock
 
     @Override
     public BedrockChunkReader createChunkReader(ChunkerChunk chunk) {
-        return new ChunkReader(resolvers, converter, chunk);
+        return new ChunkReader(resolvers, converter, dimension, chunk);
     }
 }

@@ -10,6 +10,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.b
 import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.Palette;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.ShortBasedPalette;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.WriteablePalette;
+import com.hivemc.chunker.conversion.intermediate.world.Dimension;
 import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.scheduling.task.Task;
@@ -25,6 +26,7 @@ import java.util.Objects;
 public class BedrockChunkReader {
     protected final BedrockResolvers resolvers;
     protected final Converter converter;
+    protected final Dimension dimension;
     protected final ChunkerChunk chunk;
 
     /**
@@ -32,11 +34,13 @@ public class BedrockChunkReader {
      *
      * @param resolvers the resolver to use.
      * @param converter the converter instance.
+     * @param dimension     the dimension of the chunk.
      * @param chunk     the chunk output being read into.
      */
-    public BedrockChunkReader(BedrockResolvers resolvers, Converter converter, ChunkerChunk chunk) {
+    public BedrockChunkReader(BedrockResolvers resolvers, Converter converter, Dimension dimension, ChunkerChunk chunk) {
         this.resolvers = resolvers;
         this.converter = converter;
+        this.dimension = dimension;
         this.chunk = chunk;
     }
 

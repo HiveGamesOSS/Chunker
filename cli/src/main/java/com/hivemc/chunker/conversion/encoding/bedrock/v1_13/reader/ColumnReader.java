@@ -16,6 +16,6 @@ public class ColumnReader extends BedrockColumnReader {
 
     @Override
     public BedrockChunkReader createChunkReader(ChunkerChunk chunk) {
-        return new ChunkReader(resolvers, converter, chunk);
+        return new ChunkReader(resolvers, converter, dimension, chunk);
     }
 }

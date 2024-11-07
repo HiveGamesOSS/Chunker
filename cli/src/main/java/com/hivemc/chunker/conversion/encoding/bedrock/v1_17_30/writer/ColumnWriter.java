@@ -89,7 +89,7 @@ public class ColumnWriter extends com.hivemc.chunker.conversion.encoding.bedrock
                 }
 
                 // If we have extra biome data write it but also ensure we write 24 chunks
-                if (i < biomesChunkList.size() || i < 24) {
+                if (i < biomesChunkList.size() || i < getDimensionBiomeHeight()) {
                     // Write the palette
                     PaletteUtil.writeChunkPalette(
                             writer,
@@ -111,5 +111,19 @@ public class ColumnWriter extends com.hivemc.chunker.conversion.encoding.bedrock
     @Override
     public BedrockChunkWriter createChunkWriter(ChunkerColumn column) {
         return new ChunkWriter(converter, resolvers, database, dimension, column);
+    }
+
+    /**
+     * Get the height that biomes is required to be for the current dimension.
+     *
+     * @return the height in chunks of how many biome palettes should be written.
+     */
+    public int getDimensionBiomeHeight() {
+        return switch (dimension) {
+            case OVERWORLD -> 24;
+            case NETHER -> 8;
+            case THE_END -> 16;
+            default -> 24;
+        };
     }
 }

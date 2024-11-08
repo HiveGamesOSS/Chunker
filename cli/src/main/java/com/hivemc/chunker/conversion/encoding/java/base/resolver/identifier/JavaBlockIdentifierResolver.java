@@ -499,7 +499,7 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
                         .put("minecraft:sandstone_slab", ChunkerVanillaBlockType.SANDSTONE_SLAB)
                         .put("minecraft:spruce_slab", ChunkerVanillaBlockType.SPRUCE_SLAB)
                         .put("minecraft:stone_brick_slab", ChunkerVanillaBlockType.STONE_BRICK_SLAB)
-                        .put("minecraft:stone_slab", ChunkerVanillaBlockType.STONE_SLAB)
+                        .put("minecraft:stone_slab", ChunkerVanillaBlockType.SMOOTH_STONE_SLAB)
                         .build(),
                 JavaStateGroups.SLAB));
         register(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
@@ -928,9 +928,12 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
                             .put("minecraft:smooth_quartz_slab", ChunkerVanillaBlockType.SMOOTH_QUARTZ_SLAB)
                             .put("minecraft:smooth_red_sandstone_slab", ChunkerVanillaBlockType.SMOOTH_RED_SANDSTONE_SLAB)
                             .put("minecraft:smooth_sandstone_slab", ChunkerVanillaBlockType.SMOOTH_SANDSTONE_SLAB)
-                            .put("minecraft:smooth_stone_slab", ChunkerVanillaBlockType.SMOOTH_STONE_SLAB)
                             .build(),
                     JavaStateGroups.SLAB));
+
+            // Stone slab is now just stone (not smooth) with smooth_slab being a new identifier
+            registerOverrideOutput(BlockMapping.of("minecraft:smooth_stone_slab", ChunkerVanillaBlockType.SMOOTH_STONE_SLAB, JavaStateGroups.SLAB));
+            registerOverrideInput(BlockMapping.of("minecraft:stone_slab", ChunkerVanillaBlockType.STONE_SLAB, JavaStateGroups.SLAB));
         }
 
         // 1.15

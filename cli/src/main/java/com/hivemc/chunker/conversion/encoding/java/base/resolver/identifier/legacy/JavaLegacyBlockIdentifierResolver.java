@@ -752,14 +752,14 @@ public class JavaLegacyBlockIdentifierResolver extends ChunkerBlockIdentifierRes
         // Stone slabs
         register(BlockMapping.flatten("minecraft:stone_slab", "data", VanillaBlockStates.SLAB_TYPE,
                 ImmutableMultimap.<Integer, Pair<SlabType, ? extends ChunkerBlockType>>builder()
-                        .put(0, Pair.of(SlabType.BOTTOM, ChunkerVanillaBlockType.STONE_SLAB))
+                        .put(0, Pair.of(SlabType.BOTTOM, ChunkerVanillaBlockType.SMOOTH_STONE_SLAB))
                         .put(1, Pair.of(SlabType.BOTTOM, ChunkerVanillaBlockType.SANDSTONE_SLAB))
                         .put(3, Pair.of(SlabType.BOTTOM, ChunkerVanillaBlockType.COBBLESTONE_SLAB))
                         .put(4, Pair.of(SlabType.BOTTOM, ChunkerVanillaBlockType.BRICK_SLAB))
                         .put(5, Pair.of(SlabType.BOTTOM, ChunkerVanillaBlockType.STONE_BRICK_SLAB))
                         .put(6, Pair.of(SlabType.BOTTOM, ChunkerVanillaBlockType.NETHER_BRICK_SLAB))
                         .put(7, Pair.of(SlabType.BOTTOM, ChunkerVanillaBlockType.QUARTZ_SLAB))
-                        .put(8, Pair.of(SlabType.TOP, ChunkerVanillaBlockType.STONE_SLAB))
+                        .put(8, Pair.of(SlabType.TOP, ChunkerVanillaBlockType.SMOOTH_STONE_SLAB))
                         .put(9, Pair.of(SlabType.TOP, ChunkerVanillaBlockType.SANDSTONE_SLAB))
                         .put(11, Pair.of(SlabType.TOP, ChunkerVanillaBlockType.COBBLESTONE_SLAB))
                         .put(12, Pair.of(SlabType.TOP, ChunkerVanillaBlockType.BRICK_SLAB))
@@ -768,11 +768,11 @@ public class JavaLegacyBlockIdentifierResolver extends ChunkerBlockIdentifierRes
                         .put(15, Pair.of(SlabType.TOP, ChunkerVanillaBlockType.QUARTZ_SLAB))
                         .build()
         ));
-        registerDuplicateOutput(BlockMapping.of("minecraft:stone_slab", ChunkerVanillaBlockType.STONE_SLAB, VanillaBlockStates.HALF, Half.BOTTOM));
+        registerDuplicateOutput(BlockMapping.of("minecraft:stone_slab", ChunkerVanillaBlockType.SMOOTH_STONE_SLAB, VanillaBlockStates.HALF, Half.BOTTOM));
 
         register(BlockMapping.flatten("minecraft:double_stone_slab", "data",
                 ImmutableMultimap.<Integer, ChunkerVanillaBlockType>builder()
-                        .put(0, ChunkerVanillaBlockType.STONE_SLAB)
+                        .put(0, ChunkerVanillaBlockType.SMOOTH_STONE_SLAB)
                         .put(1, ChunkerVanillaBlockType.SANDSTONE_SLAB)
                         .put(3, ChunkerVanillaBlockType.COBBLESTONE_SLAB)
                         .put(4, ChunkerVanillaBlockType.BRICK_SLAB)
@@ -781,7 +781,7 @@ public class JavaLegacyBlockIdentifierResolver extends ChunkerBlockIdentifierRes
                         .put(7, ChunkerVanillaBlockType.QUARTZ_SLAB)
                         .build(),
                 VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
-        registerDuplicateOutput(BlockMapping.of("minecraft:double_stone_slab", ChunkerVanillaBlockType.STONE_SLAB, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+        registerDuplicateOutput(BlockMapping.of("minecraft:double_stone_slab", ChunkerVanillaBlockType.SMOOTH_STONE_SLAB, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
 
         // Mapping for petrified_oak_slab
         register(BlockMapping.of("minecraft:stone_slab", "data", 2, ChunkerVanillaBlockType.PETRIFIED_OAK_SLAB, VanillaBlockStates.SLAB_TYPE, SlabType.BOTTOM));
@@ -803,8 +803,6 @@ public class JavaLegacyBlockIdentifierResolver extends ChunkerBlockIdentifierRes
                         .put(15, ChunkerVanillaBlockType.SMOOTH_QUARTZ)
                         .build()
         ));
-        registerDuplicateInput(BlockMapping.of("minecraft:double_stone_slab", "data", 8, ChunkerVanillaBlockType.SMOOTH_STONE_SLAB, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
-
 
         register(BlockMapping.of("minecraft:stone_slab2", ChunkerVanillaBlockType.RED_SANDSTONE_SLAB, JavaLegacyStateGroups.SLAB_HALF));
         register(BlockMapping.of("minecraft:double_stone_slab2", "data", 0, ChunkerVanillaBlockType.RED_SANDSTONE_SLAB, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));

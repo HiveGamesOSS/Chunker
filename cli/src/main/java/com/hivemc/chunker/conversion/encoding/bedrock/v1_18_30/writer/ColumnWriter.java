@@ -33,7 +33,7 @@ public class ColumnWriter extends com.hivemc.chunker.conversion.encoding.bedrock
         long storageKey = 0x100000000L + (uniqueEntityID ^ 0xFFFFFFFF00000000L);
 
         // Write to a buffer (Bedrock uses little endian)
-        ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
+        ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN);
         buffer.putLong(storageKey);
         return buffer.array();
     }
@@ -73,9 +73,14 @@ public class ColumnWriter extends com.hivemc.chunker.conversion.encoding.bedrock
                 // Process the tag
                 CompoundTag tag = writeEntity(column, entity);
                 if (tag != null) {
-                    // Generate a unique ID for the entity
-                    long uniqueEntityID = parent.generateUniqueEntityID();
-                    tag.put("UniqueID", uniqueEntityID);
+                    // Generate a unique ID for the entity if it doesn't have one
+                    long uniqueEntityID;
+                    if (!tag.contains("UniqueID")) {
+                        uniqueEntityID = parent.generateUniqueEntityID();
+                        tag.put("UniqueID", uniqueEntityID);
+                    } else {
+                        uniqueEntityID = tag.getLong("UniqueID");
+                    }
 
                     // Generate the storage key to be used for lookup (unique for the world start count)
                     key = generateStorageKeyForEntity(uniqueEntityID);

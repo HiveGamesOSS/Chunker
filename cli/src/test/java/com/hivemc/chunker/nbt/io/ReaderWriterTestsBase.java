@@ -2,16 +2,20 @@ package com.hivemc.chunker.nbt.io;
 
 import com.hivemc.chunker.nbt.util.ThrowableBiConsumer;
 import com.hivemc.chunker.nbt.util.ThrowableFunction;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 /**
  * Base class for encoding tests for readers/writers.
@@ -19,6 +23,15 @@ import static org.junit.jupiter.api.Assertions.*;
 public abstract class ReaderWriterTestsBase {
     public static Stream<byte[]> byteInputs() {
         return Stream.of(new byte[]{}, new byte[]{0}, new byte[]{1}, new byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE});
+    }
+
+    public static Stream<byte[]> getByteArrayExamples() {
+        return Stream.of(
+                new byte[]{},
+                new byte[]{0, 0, 0, 1, 0, 0, 0, 39}, // StorageKey example
+                new byte[]{1, 2, 3},
+                "Hello".getBytes(StandardCharsets.UTF_8)
+        );
     }
 
     public abstract Function<DataOutput, Writer> getWriter();
@@ -54,6 +67,38 @@ public abstract class ReaderWriterTestsBase {
 
             // Read the value (should throw exception as it's longer than 5)
             assertThrowsExactly(IllegalArgumentException.class, () -> reader.readString(5));
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("getByteArrayExamples")
+    public void testShortPrefixedByteArrayEncode(byte[] input) throws Exception {
+        assertEncodeDecodeEqual(input, Writer::writeShortPrefixedBytes, (reader) -> reader.readShortPrefixedBytes(1024), getWriter(), getReader(), Assertions::assertArrayEquals);
+    }
+
+    @Test
+    public void testShortPrefixedByteArrayEncodeFail() throws Exception {
+        byte[] output;
+
+        // Writing
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             DataOutputStream dataOutputStream = new DataOutputStream(baos)) {
+            Writer writer = getWriter().apply(dataOutputStream);
+
+            // Write the value
+            writer.writeShortPrefixedBytes(new byte[]{1, 2, 3, 4, 5, 6});
+
+            // Gather the bytes
+            output = baos.toByteArray();
+        }
+
+        // Reading
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(output);
+             DataInputStream dataOutputStream = new DataInputStream(bais)) {
+            Reader reader = getReader().apply(dataOutputStream);
+
+            // Read the value (should throw exception as it's longer than 5)
+            assertThrowsExactly(IllegalArgumentException.class, () -> reader.readShortPrefixedBytes(5));
         }
     }
 
@@ -141,6 +186,10 @@ public abstract class ReaderWriterTestsBase {
     }
 
     protected <T> void assertEncodeDecodeEqual(T input, ThrowableBiConsumer<Writer, T> writeFunction, ThrowableFunction<Reader, T> readFunction, Function<DataOutput, Writer> writerGenerator, Function<DataInput, Reader> readerGenerator) throws Exception {
+        assertEncodeDecodeEqual(input, writeFunction, readFunction, writerGenerator, readerGenerator, Assertions::assertEquals);
+    }
+
+    protected <T> void assertEncodeDecodeEqual(T input, ThrowableBiConsumer<Writer, T> writeFunction, ThrowableFunction<Reader, T> readFunction, Function<DataOutput, Writer> writerGenerator, Function<DataInput, Reader> readerGenerator, BiConsumer<T, T> assertEquals) throws Exception {
         byte[] output;
 
         // Writing
@@ -164,7 +213,7 @@ public abstract class ReaderWriterTestsBase {
             T decodedValue = readFunction.apply(reader);
 
             // Check for equality
-            assertEquals(input, decodedValue);
+            assertEquals.accept(input, decodedValue);
         }
     }
 }

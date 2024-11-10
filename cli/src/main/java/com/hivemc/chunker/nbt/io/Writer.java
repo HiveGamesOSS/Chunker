@@ -51,15 +51,25 @@ public interface Writer {
     }
 
     /**
+     * Write a short-length based byte array to the buffer.
+     *
+     * @param value the value to write to the buffer
+     * @throws IOException an exception if it failed to write to the underlying buffer.
+     */
+    default void writeShortPrefixedBytes(byte[] value) throws IOException {
+        writeShort((short) value.length);
+        writeBytes(value);
+    }
+
+    /**
      * Write a short-length based String to the buffer.
      *
      * @param value the value to write to the buffer
      * @throws IOException an exception if it failed to write to the underlying buffer.
      */
     default void writeString(@NotNull String value) throws IOException {
-        byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
-        writeShort((short) bytes.length);
-        writeBytes(bytes);
+        // Write the string as bytes
+        writeShortPrefixedBytes(value.getBytes(StandardCharsets.UTF_8));
     }
 
     /**

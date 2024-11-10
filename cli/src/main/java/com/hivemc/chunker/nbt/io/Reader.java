@@ -51,14 +51,13 @@ public interface Reader {
     }
 
     /**
-     * Read a short-length based String from the buffer.
+     * Read a short-length based byte[] from the buffer.
      *
-     * @param maxLength the maximum accepting length for the String.
-     * @return the String value which was read.
+     * @param maxLength the maximum accepting length for the byte array.
+     * @return the byte[] array value which was read.
      * @throws IOException an exception if it failed to read from the underlying buffer.
      */
-    @NotNull
-    default String readString(int maxLength) throws IOException {
+    default byte[] readShortPrefixedBytes(int maxLength) throws IOException {
         int length = readShort();
         if (length < 0 || length > maxLength)
             throw new IllegalArgumentException("Could not read String with length " + length);
@@ -67,8 +66,21 @@ public interface Reader {
         byte[] bytes = new byte[length];
         readBytes(bytes);
 
-        // Return a UTF-8 parsed string
-        return new String(bytes, StandardCharsets.UTF_8);
+        // Return the bytes
+        return bytes;
+    }
+
+    /**
+     * Read a short-length based String from the buffer.
+     *
+     * @param maxLength the maximum accepting length for the String.
+     * @return the String value which was read.
+     * @throws IOException an exception if it failed to read from the underlying buffer.
+     */
+    @NotNull
+    default String readString(int maxLength) throws IOException {
+        // Read the string from bytes
+        return new String(readShortPrefixedBytes(maxLength), StandardCharsets.UTF_8);
     }
 
     /**

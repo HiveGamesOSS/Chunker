@@ -27,7 +27,7 @@ export class SaveScreen extends BaseScreen {
                     saving: false,
                     saved: false
                 })
-                self.app.showError("Failed to save", message.error, message.errorId, true);
+                self.app.showError("Failed to save", message.error, message.errorId, message.stackTrace, true);
             } else if (message.type === "response") {
                 self.setState({
                     saving: false,

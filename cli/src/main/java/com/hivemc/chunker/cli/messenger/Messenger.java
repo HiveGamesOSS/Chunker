@@ -29,6 +29,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.*;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -81,6 +83,7 @@ public class Messenger {
                                     false,
                                     "World format is not supported.",
                                     "",
+                                    null,
                                     null
                             ));
                         }
@@ -108,7 +111,14 @@ public class Messenger {
                         // Write an error if it failed to start
                         if (!started) {
                             removeWorldConverter(settingsRequest.getAnonymousId(), settingsRequest.getRequestId());
-                            write(new ErrorResponse(settingsRequest.getRequestId(), false, "Failed to start settings task.", null, null));
+                            write(new ErrorResponse(
+                                    settingsRequest.getRequestId(),
+                                    false,
+                                    "Failed to start settings task.",
+                                    null,
+                                    null,
+                                    null
+                            ));
                         }
                     }
                     case PREVIEW -> {
@@ -146,7 +156,14 @@ public class Messenger {
                         // Write an error if it failed to start
                         if (!started) {
                             removeWorldConverter(previewRequest.getAnonymousId(), previewRequest.getRequestId());
-                            write(new ErrorResponse(previewRequest.getRequestId(), false, "Failed to start preview.", null, null));
+                            write(new ErrorResponse(
+                                    previewRequest.getRequestId(),
+                                    false,
+                                    "Failed to start preview.",
+                                    null,
+                                    null,
+                                    null
+                            ));
                         }
                     }
                     case CONVERT -> {
@@ -157,7 +174,14 @@ public class Messenger {
                                 worldConverter.setBlockMappings(new MappingsFileResolvers(MappingsFile.load(convertRequest.getMappings())));
                             } catch (Exception e) {
                                 removeWorldConverter(convertRequest.getAnonymousId(), convertRequest.getRequestId());
-                                write(new ErrorResponse(convertRequest.getRequestId(), false, "Failed to parse block mappings.", null, e.getMessage()));
+                                write(new ErrorResponse(
+                                        convertRequest.getRequestId(),
+                                        false,
+                                        "Failed to parse block mappings.",
+                                        null,
+                                        e.getMessage(),
+                                        printStackTrace(e)
+                                ));
                                 return;
                             }
                         }
@@ -185,7 +209,14 @@ public class Messenger {
                                         map.loadImage(new File(jsonObject.get("file").getAsString()));
                                     } catch (IOException e) {
                                         removeWorldConverter(convertRequest.getAnonymousId(), convertRequest.getRequestId());
-                                        write(new ErrorResponse(convertRequest.getRequestId(), false, "Failed to parse map " + map.getId() + ".", null, e.getMessage()));
+                                        write(new ErrorResponse(
+                                                convertRequest.getRequestId(),
+                                                false,
+                                                "Failed to parse map " + map.getId() + ".",
+                                                null,
+                                                e.getMessage(),
+                                                printStackTrace(e)
+                                        ));
                                         return;
                                     }
                                 }
@@ -219,7 +250,14 @@ public class Messenger {
                         Optional<? extends LevelWriter> writer = findWriter(convertRequest.getOutputType(), worldConverter, new File(convertRequest.getOutputPath()));
                         if (writer.isEmpty()) {
                             removeWorldConverter(convertRequest.getAnonymousId(), convertRequest.getRequestId());
-                            write(new ErrorResponse(convertRequest.getRequestId(), false, "Failed to find output type.", null, null));
+                            write(new ErrorResponse(
+                                    convertRequest.getRequestId(),
+                                    false,
+                                    "Failed to find output type.",
+                                    null,
+                                    null,
+                                    null
+                            ));
                         } else {
                             boolean started = startConversionRequest(
                                     convertRequest.getAnonymousId(),
@@ -232,7 +270,14 @@ public class Messenger {
                             // Write an error if it failed to start
                             if (!started) {
                                 removeWorldConverter(convertRequest.getAnonymousId(), convertRequest.getRequestId());
-                                write(new ErrorResponse(convertRequest.getRequestId(), false, "Failed to start conversion.", null, null));
+                                write(new ErrorResponse(
+                                        convertRequest.getRequestId(),
+                                        false,
+                                        "Failed to start conversion.",
+                                        null,
+                                        null,
+                                        null
+                                ));
                             }
                         }
                     }
@@ -261,6 +306,7 @@ public class Messenger {
                                     message.getRequestId(),
                                     false,
                                     "Message type does not exist, outdated software?",
+                                    null,
                                     null,
                                     null
                             ));
@@ -389,7 +435,14 @@ public class Messenger {
 
                         // Check that it isn't a cancellation
                         if (throwable instanceof CancellationException) {
-                            write(new ErrorResponse(taskID, true, "The process was cancelled", null, null));
+                            write(new ErrorResponse(
+                                    taskID,
+                                    true,
+                                    "The process was cancelled",
+                                    null,
+                                    null,
+                                    null
+                            ));
                         } else {
                             // Report if it wasn't logged
                             if (!(throwable instanceof LoggedException)) {
@@ -406,12 +459,20 @@ public class Messenger {
                                         false,
                                         "A fatal error occurred during conversion.",
                                         sessionID.toString(),
-                                        exception.get().getMessage()
+                                        exception.get().getMessage(),
+                                        printStackTrace(exception.get())
                                 ));
                             }
                         }
                     } else if (worldConverter.isCancelled()) {
-                        write(new ErrorResponse(taskID, true, "The process was cancelled", null, null));
+                        write(new ErrorResponse(
+                                taskID,
+                                true,
+                                "The process was cancelled",
+                                null,
+                                null,
+                                null
+                        ));
                     } else {
                         JsonObject output = new JsonObject();
 
@@ -520,5 +581,22 @@ public class Messenger {
      */
     public static void write(BasicMessage message) {
         System.out.println(GSON.toJson(message));
+    }
+
+    /**
+     * Convert a throwable into a string using printStackTrace.
+     *
+     * @param throwable the throwable to output.
+     * @return the stack trace as a string or null if it failed to print.
+     */
+    @Nullable
+    public static String printStackTrace(Throwable throwable) {
+        try (StringWriter stringWriter = new StringWriter();
+             PrintWriter printWriter = new PrintWriter(stringWriter)) {
+            throwable.printStackTrace(printWriter);
+            return stringWriter.toString();
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

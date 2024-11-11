@@ -130,13 +130,14 @@ export class App extends Component {
         });
     };
 
-    showError = (title, body, errorId, canClose, ignoreIfErrorShowing = false) => {
+    showError = (title, body, errorId, stackTrace, canClose, ignoreIfErrorShowing = false) => {
         if (ignoreIfErrorShowing && this.state.showError && !this.state.canClose) return; // Ignore (used for websocket errors as they come after)
         this.setState({showError: true}, () => {
             this.errorModal.current.setState({
                 title: title,
                 body: body,
                 errorId: errorId,
+                stackTrace: stackTrace,
                 canClose: canClose
             });
         });
@@ -148,7 +149,7 @@ export class App extends Component {
             if (message.type === "error") {
                 if (!message.cancelled) {
                     console.info("Failed to get settings: " + message.error);
-                    self.showError("Failed to get world settings", message.error, message.errorId, false);
+                    self.showError("Failed to get world settings", message.error, message.errorId, message.stackTrace, false);
                 }
             } else if (message.type === "response") {
                 self.setState({
@@ -171,7 +172,7 @@ export class App extends Component {
             if (message.type === "error") {
                 if (!message.cancelled) {
                     console.info("Failed to preview: " + message.error);
-                    self.showError("Failed to render preview", message.error, message.errorId, true); // Preview isn't required
+                    self.showError("Failed to render preview", message.error, message.errorId, message.stackTrace, true); // Preview isn't required
                 }
             } else if (message.type === "response") {
                 // Doesn't need to do anything, as progress.js will mark as complete :)
@@ -226,7 +227,7 @@ export class App extends Component {
 
     setStage = (stage) => this.setState({stage: stage});
 
-    generateIssueLink = (error) => {
+    generateIssueLink = (error, stackTrace = undefined) => {
         let version = ((window.chunker && window.chunker.version) || "unknown") + "-" + ((window.chunker && window.chunker.gitVersion) || "unknown");
         let platform = (window.chunker && window.chunker.platform) || "";
 
@@ -243,13 +244,14 @@ export class App extends Component {
         } else {
             outputVersion = "N/A";
         }
+        let description = (error ? encodeURIComponent("Error Displayed: `" + error + "`\n" + (stackTrace ? "Stack Trace: \n```\n" + stackTrace + "```\n" : "")) : "");
 
         return "https://github.com/HiveGamesOSS/Chunker/issues/new?assignees=&labels=Conversion+Bug&projects=&template=world_conversion_issue.yml" +
             "&version=" + version +
             "&platform=" + platform +
             "&input_version=" + inputVersion +
             "&output_version=" + outputVersion +
-            "&description=" + (error ? encodeURIComponent("Error Chunker Displayed: " + error + "\n") : "");
+            "&description=" + description;
     };
 
     render() {

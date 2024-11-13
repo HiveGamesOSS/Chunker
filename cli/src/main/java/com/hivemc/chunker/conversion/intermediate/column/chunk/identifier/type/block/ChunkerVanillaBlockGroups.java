@@ -203,7 +203,8 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.COBBLED_DEEPSLATE_STAIRS,
             ChunkerVanillaBlockType.POLISHED_DEEPSLATE_STAIRS,
             ChunkerVanillaBlockType.DEEPSLATE_TILE_STAIRS,
-            ChunkerVanillaBlockType.DEEPSLATE_BRICK_STAIRS
+            ChunkerVanillaBlockType.DEEPSLATE_BRICK_STAIRS,
+            ChunkerVanillaBlockType.RESIN_BRICK_STAIRS
     );
     /**
      * Group of all the wall blocks.
@@ -233,7 +234,8 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.COBBLED_DEEPSLATE_WALL,
             ChunkerVanillaBlockType.POLISHED_DEEPSLATE_WALL,
             ChunkerVanillaBlockType.DEEPSLATE_TILE_WALL,
-            ChunkerVanillaBlockType.DEEPSLATE_BRICK_WALL
+            ChunkerVanillaBlockType.DEEPSLATE_BRICK_WALL,
+            ChunkerVanillaBlockType.RESIN_BRICK_WALL
     );
     /**
      * Group of all the wooden fences (currently just excludes the nether brick fence).

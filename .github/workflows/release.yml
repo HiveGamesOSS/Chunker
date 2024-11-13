@@ -69,6 +69,7 @@ jobs:
 
       - name: Sign files with Trusted Signing
         uses: azure/trusted-signing-action@v0.5.0
+        if: github.repository == 'HiveGamesOSS/Chunker'
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -139,10 +140,24 @@ jobs:
           cd artifacts && zip -r "chunker-cli-linux-amd64.zip" "chunker-cli" && cd ..
           rm -rf "artifacts/chunker-cli"
 
+      - name: Compress Linux Unpacked
+        run: |
+          version="${{ github.event.inputs.version }}"
+          cd artifacts/linux-unpacked && zip -r "../Chunker-$version-amd64-linux.zip" . && cd ../..
+          rm -rf "artifacts/linux-unpacked"
+
       - name: Rename AppImage files
         run: |
           for file in artifacts/*.AppImage; do
             mv "$file" "${file%.AppImage}-amd64-linux.AppImage"
+          done
+
+      - name: Rename deb files
+        run: |
+          for file in artifacts/*.deb; do
+            new_file="${file//chunker-electron_/Chunker-}"
+            new_file="${new_file//_/-}"
+            mv "$file" "${new_file%.deb}-linux.deb"
           done
 
       - name: Download Windows artifact
@@ -155,6 +170,12 @@ jobs:
         run: |
           cd artifacts && zip -r "chunker-cli-windows-x86.zip" "chunker-cli" && cd ..
           rm -rf "artifacts/chunker-cli"
+
+      - name: Compress Windows Unpacked
+        run: |
+          version="${{ github.event.inputs.version }}"
+          cd artifacts/win-unpacked && zip -r "../Chunker-$version-windows-x86.zip" . && cd ../..
+          rm -rf "artifacts/win-unpacked"
 
       - name: Rename exe files
         run: |

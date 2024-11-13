@@ -96,6 +96,7 @@ public class VanillaBlockStates {
     public static final BlockState<Bool> LOCKED = new BlockState<>("locked", Bool.FALSE, Bool::values);
     public static final BlockState<ComparatorMode> MODE_COMPARATOR = new BlockState<>("mode", ComparatorMode.COMPARE, ComparatorMode::values);
     public static final BlockState<Moisture> MOISTURE = new BlockState<>("moisture", Moisture._0, Moisture::values);
+    public static final BlockState<Bool> NATURAL = new BlockState<>("natural", Bool.FALSE, Bool::values);
     public static final BlockState<Bool> NORTH = new BlockState<>("north", Bool.FALSE, Bool::values);
     public static final BlockState<Note> NOTE = new BlockState<>("note", Note._0, Note::values);
     public static final BlockState<NoteBlockInstrument> NOTE_BLOCK_INSTRUMENT = new BlockState<>("instrument", NoteBlockInstrument.HARP, NoteBlockInstrument::values);

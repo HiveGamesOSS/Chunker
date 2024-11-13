@@ -176,13 +176,17 @@ public class BedrockEntityTypeIDResolver implements Resolver<Integer, ChunkerEnt
         if (bedrockVersion.isGreaterThanOrEqual(1, 19, 70)) {
             mapping.put(ChunkerVanillaEntityType.SNIFFER, 139);
         }
-
-        if (bedrockVersion.isGreaterThanOrEqual(1, 19, 80)) {
+        if (bedrockVersion.isGreaterThanOrEqual(1, 20, 60)) {
             mapping.put(ChunkerVanillaEntityType.BREEZE, 140);
             mapping.put(ChunkerVanillaEntityType.BREEZE_WIND_CHARGE_PROJECTILE, 141);
             mapping.put(ChunkerVanillaEntityType.ARMADILLO, 142);
+        }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 20, 70)) {
             mapping.put(ChunkerVanillaEntityType.WIND_CHARGE, 143);
             mapping.put(ChunkerVanillaEntityType.BOGGED, 144);
+        }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 21, 50)) {
+            mapping.put(ChunkerVanillaEntityType.CREAKING, 145);
         }
     }
 

@@ -280,6 +280,11 @@ public class BedrockStateGroups {
             .state("triggered_bit", VanillaBlockStates.TRIGGERED, BedrockStateTypes.BOOL)
             .state("orientation", VanillaBlockStates.ORIENTATION, BedrockStateTypes.ORIENTATION)
             .build();
+    public static final StateMappingGroup CREAKING_HEART = new StateMappingGroup.Builder()
+            .state("pillar_axis", VanillaBlockStates.AXIS, BedrockStateTypes.AXIS)
+            .state("active", VanillaBlockStates.CREAKING, BedrockStateTypes.CREAKING)
+            .state("natural", VanillaBlockStates.NATURAL, BedrockStateTypes.BOOL)
+            .build();
     public static final StateMappingGroup CROP = new StateMappingGroup.Builder()
             .state("growth", VanillaBlockStates.AGE_7, BedrockStateTypes.AGE_7)
             .build();
@@ -601,6 +606,16 @@ public class BedrockStateGroups {
                     .state("powered_bit", VanillaBlockStates.POWERED, BedrockStateTypes.BOOL)
                     .build()
             ).build();
+    public static final StateMappingGroup PALE_HANGING_MOSS = new StateMappingGroup.Builder()
+            .state("tip", VanillaBlockStates.TIP, BedrockStateTypes.BOOL)
+            .build();
+    public static final StateMappingGroup PALE_MOSS_CARPET = new StateMappingGroup.Builder()
+            .state("pale_moss_carpet_side_north", VanillaBlockStates.WALL_NORTH, BedrockStateTypes.WALL_CONNECTION)
+            .state("pale_moss_carpet_side_east", VanillaBlockStates.WALL_EAST, BedrockStateTypes.WALL_CONNECTION)
+            .state("pale_moss_carpet_side_south", VanillaBlockStates.WALL_SOUTH, BedrockStateTypes.WALL_CONNECTION)
+            .state("pale_moss_carpet_side_west", VanillaBlockStates.WALL_WEST, BedrockStateTypes.WALL_CONNECTION)
+            .state("upper_block_bit", VanillaBlockStates.BOTTOM, BedrockStateTypes.INVERSE_BOOL)
+            .build();
     public static final VersionedStateMappingGroup PILLAR_BLOCK = new VersionedStateMappingGroup.Builder()
             .defaults(new StateMappingGroup.Builder()
                     .state("direction", VanillaBlockStates.AXIS, BedrockStateTypes.AXIS_DIRECTION)

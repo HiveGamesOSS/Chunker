@@ -575,7 +575,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         playerTag.put("Offhand", offhand);
 
         // Write dimension / gamemode
-        playerTag.put("DimensionId", player.getDimension().getBedrockID());
+        playerTag.put("DimensionId", (int) player.getDimension().getBedrockID());
 
         // Handle specific game types
         if (player.getGameType() == 3 || player.getGameType() == 4 || player.getGameType() == 6) {

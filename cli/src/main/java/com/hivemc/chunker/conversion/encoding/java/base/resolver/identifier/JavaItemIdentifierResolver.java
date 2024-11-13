@@ -643,5 +643,10 @@ public class JavaItemIdentifierResolver extends ChunkerItemIdentifierResolver {
             register(ItemMapping.of("minecraft:pale_oak_sign", ChunkerVanillaItemType.PALE_OAK_SIGN));
             register(ItemMapping.of("minecraft:pale_oak_hanging_sign", ChunkerVanillaItemType.PALE_OAK_HANGING_SIGN));
         }
+
+        // 1.21.4
+        if (version.isGreaterThanOrEqual(1, 21, 4)) {
+            register(ItemMapping.of("minecraft:resin_brick", ChunkerVanillaItemType.RESIN_BRICK));
+        }
     }
 }

@@ -26,7 +26,9 @@ public class ChunkWriter extends com.hivemc.chunker.conversion.encoding.bedrock.
         byte subChunkY = chunk.getY();
 
         // Only use CaC when the generator is normal as it is only support there
-        if (converter.level().map(level -> level.getSettings().CavesAndCliffs).orElse(true) && converter.level().map(level -> level.getSettings().GeneratorType).orElse(ChunkerGeneratorType.CUSTOM) == ChunkerGeneratorType.NORMAL) {
+        if (converter.level().map(level -> level.getSettings().CavesAndCliffs).orElse(true)
+                && dimension == Dimension.OVERWORLD
+                && converter.level().map(level -> level.getSettings().GeneratorType).orElse(ChunkerGeneratorType.CUSTOM) == ChunkerGeneratorType.NORMAL) {
             subChunkY += 4; // Move up 4 for Caves & Cliffs in older versions
         }
         database.put(LevelDBKey.key(dimension, chunkerColumn.getPosition(), subChunkY, LevelDBChunkType.SUB_CHUNK_PREFIX), bytes);

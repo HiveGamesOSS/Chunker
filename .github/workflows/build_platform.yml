@@ -78,6 +78,7 @@ jobs:
 
       - name: Sign files with Trusted Signing
         uses: azure/trusted-signing-action@v0.5.0
+        if: github.repository == 'HiveGamesOSS/Chunker'
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}

@@ -66,4 +66,9 @@ public class SingleValuePalette<T> implements Palette<T> {
     public SingleValuePalette<T> compact(T defaultValue) {
         return this; // Does nothing
     }
+
+    @Override
+    public Palette<T> copy() {
+        return new SingleValuePalette<>(dimensionSize, value);
+    }
 }

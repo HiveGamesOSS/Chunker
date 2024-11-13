@@ -6,11 +6,12 @@ export class ErrorDisplay extends Component {
         title: "Could not load App",
         body: "Something went wrong trying to load the app :(",
         canClose: true,
+        stackTrace: undefined,
         errorId: undefined
     };
 
     render() {
-        let url = this.props.app.generateIssueLink(this.state.body);
+        let url = this.props.app.generateIssueLink(this.state.body, this.state.stackTrace);
         return (
             <div className="modal_overlay">
                 <div className="modal">

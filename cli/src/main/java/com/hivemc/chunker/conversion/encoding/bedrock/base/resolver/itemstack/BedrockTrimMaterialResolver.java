@@ -29,6 +29,11 @@ public class BedrockTrimMaterialResolver implements Resolver<String, ChunkerTrim
         mapping.put(ChunkerTrimMaterial.NETHERITE, "netherite");
         mapping.put(ChunkerTrimMaterial.QUARTZ, "quartz");
         mapping.put(ChunkerTrimMaterial.REDSTONE, "redstone");
+
+        // R21U5
+        if (version.isGreaterThanOrEqual(1, 21, 50)) {
+            mapping.put(ChunkerTrimMaterial.RESIN, "resin");
+        }
     }
 
     @Override

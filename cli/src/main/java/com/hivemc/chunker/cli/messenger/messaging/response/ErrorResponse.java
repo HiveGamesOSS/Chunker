@@ -15,6 +15,8 @@ public class ErrorResponse extends BasicMessage {
     private final String errorId;
     @Nullable
     private final String internalError;
+    @Nullable
+    private final String stackTrace;
 
     /**
      * Create a new error response to a request.
@@ -24,13 +26,15 @@ public class ErrorResponse extends BasicMessage {
      * @param error         the error to show to the user.
      * @param errorId       the ID which can be provided for context.
      * @param internalError the internal error which can be used by the system.
+     * @param stackTrace    the stackTrace output from the error (e.printStackTrace()).
      */
-    public ErrorResponse(UUID requestId, boolean cancelled, String error, @Nullable String errorId, @Nullable String internalError) {
+    public ErrorResponse(UUID requestId, boolean cancelled, String error, @Nullable String errorId, @Nullable String internalError, @Nullable String stackTrace) {
         super(requestId);
         this.cancelled = cancelled;
         this.error = error;
         this.errorId = errorId;
         this.internalError = internalError;
+        this.stackTrace = stackTrace;
     }
 
     /**
@@ -69,5 +73,15 @@ public class ErrorResponse extends BasicMessage {
     @Nullable
     public String getInternalError() {
         return internalError;
+    }
+
+    /**
+     * Get the stack trace which should be printed for the error.
+     *
+     * @return the java stack trace.
+     */
+    @Nullable
+    public String getStackTrace() {
+        return stackTrace;
     }
 }

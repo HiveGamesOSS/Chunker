@@ -312,6 +312,11 @@ public class BedrockStateTypes {
             .mapping(0, CoralFanDirection.EAST_WEST)
             .mapping(1, CoralFanDirection.NORTH_SOUTH)
             .build();
+    public static final TypeMapping<Boolean, Creaking> CREAKING = new TypeMapping.Builder<Boolean, Creaking>()
+            .mapping(false, Creaking.DORMANT)
+            .mapping(false, Creaking.DISABLED)
+            .mapping(true, Creaking.ACTIVE)
+            .build();
     public static final TypeMapping<Integer, Delay> DELAY = new TypeMapping.Builder<Integer, Delay>()
             .mapping(0, Delay._1)
             .mapping(1, Delay._2)

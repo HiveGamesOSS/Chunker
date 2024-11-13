@@ -646,6 +646,12 @@ public class BedrockNoteBlockPreTransformHandler implements BlockPreTransformHan
             .put(ChunkerVanillaBlockType.REINFORCED_DEEPSLATE, NoteBlockInstrument.BASEDRUM)
             .put(ChunkerVanillaBlockType.TRIAL_SPAWNER, NoteBlockInstrument.BASEDRUM)
             .put(ChunkerVanillaBlockType.CREAKING_HEART, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.RESIN_BLOCK, NoteBlockInstrument.FLUTE)
+            .put(ChunkerVanillaBlockType.RESIN_BRICKS, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.RESIN_BRICK_SLAB, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.RESIN_BRICK_STAIRS, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.RESIN_BRICK_WALL, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.CHISELED_RESIN_BRICKS, NoteBlockInstrument.BASEDRUM)
             .build();
 
     @Override

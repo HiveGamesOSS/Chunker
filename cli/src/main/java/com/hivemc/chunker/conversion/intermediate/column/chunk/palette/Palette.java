@@ -132,4 +132,11 @@ public interface Palette<T> {
      * @return the instance after compaction, it may be the same object or a different one.
      */
     Palette<T> compact(T defaultValue);
+
+    /**
+     * Create a new instance of the current palette with copied keys and values.
+     *
+     * @return create a clone of the palette, which ensures values and keys are new arrays.
+     */
+    Palette<T> copy();
 }

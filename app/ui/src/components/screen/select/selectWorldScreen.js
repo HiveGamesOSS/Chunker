@@ -88,7 +88,7 @@ export class SelectWorldScreen extends BaseScreen {
             if (level) {
                 self.setState({filePath: level, filePathDirectory: true, processing: false});
             } else {
-                this.app.showError("Invalid World", "The folder you selected did not contain a level.dat, please ensure you're using a Minecraft world folder.", null, true);
+                this.app.showError("Invalid World", "The folder you selected did not contain a level.dat, please ensure you're using a Minecraft world folder.", null, undefined, true);
                 this.setState({selected: false, detecting: false, processing: false});
             }
         } else {
@@ -217,7 +217,7 @@ export class SelectWorldScreen extends BaseScreen {
         // Check selected type (if it's a file)
         let name = this.state.filePath;
         if (!this.state.filePathDirectory && !name.endsWith(".zip") && !name.endsWith(".mcworld")) {
-            self.app.showError("Failed to load world", "Only .zip and .mcworld files can be used.", undefined, false);
+            self.app.showError("Failed to load world", "Only .zip and .mcworld files can be used.", undefined, undefined, false);
             return;
         }
 
@@ -253,9 +253,9 @@ export class SelectWorldScreen extends BaseScreen {
                     // Attempt to find the actual error
                     console.info("Could not make request :(", message);
                     if (message?.error) {
-                        self.app.showError("Failed to load world", message.error, message.errorId, false);
+                        self.app.showError("Failed to load world", message.error, message.errorId, message.stackTrace, false);
                     } else {
-                        self.app.showError("Failed to load world", "Something went wrong communicating with the backend process.", undefined, false, true);
+                        self.app.showError("Failed to load world", "Something went wrong communicating with the backend process.", undefined, undefined, false, true);
                     }
                 }
             });
@@ -280,17 +280,17 @@ export class SelectWorldScreen extends BaseScreen {
                 callback();
             } else if (!ignoreError) {
                 if (errorCode === 529) {
-                    self.app.showError("Failed to connect to backend", "Your address is making too many requests, please wait then try again.", null, false, true);
+                    self.app.showError("Failed to connect to backend", "Your address is making too many requests, please wait then try again.", null, undefined, false, true);
                 } else if (errorCode === 408) {
-                    self.app.showError("Failed to connect to backend", "Your connection timed out, please ensure you're on a stable connection.", null, false, true);
+                    self.app.showError("Failed to connect to backend", "Your connection timed out, please ensure you're on a stable connection.", null, undefined, false, true);
                 } else if (errorCode === -100) {
-                    self.app.showError("Failed to connect to backend", "Unable to run chunker-cli backend.", null, false, true);
+                    self.app.showError("Failed to connect to backend", "Unable to run chunker-cli backend.", null, undefined, false, true);
                 } else if (errorCode === 1) {
-                    self.app.showError("Failed to connect to backend", "The backend process was killed unexpectedly.", null, false, true);
+                    self.app.showError("Failed to connect to backend", "The backend process was killed unexpectedly.", null, undefined, false, true);
                 } else if (errorCode === 12) {
-                    self.app.showError("Out of memory", "Your system ran out of memory while converting, please try again, use a smaller world or try a different machine.", null, false, true);
+                    self.app.showError("Out of memory", "Your system ran out of memory while converting, please try again, use a smaller world or try a different machine.", null, undefined, false, true);
                 } else {
-                    self.app.showError("Failed to connect to backend", "Something went wrong communicating with the backend process.", null, false, true);
+                    self.app.showError("Failed to connect to backend", "Something went wrong communicating with the backend process.", null, undefined, false, true);
                 }
 
                 // Remove window listener

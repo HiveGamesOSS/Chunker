@@ -419,7 +419,7 @@ export class Session {
                 this.sendMessage({
                     requestId: requestId,
                     type: "error",
-                    error: "Failed to open selected file."
+                    error: "Failed to open selected file, please ensure you don't have it open anywhere else."
                 });
                 return;
             }
@@ -428,23 +428,35 @@ export class Session {
             let totalFiles = await countFiles(inputPath);
             let filesCopied = 0;
             let lastProgress = 0;
-            await copyRecursive(inputPath, worldInputPath, (file) => {
-                // Update progress
-                filesCopied++;
-                let progress = filesCopied / totalFiles;
+            try {
+                await copyRecursive(inputPath, worldInputPath, (file) => {
+                    // Update progress
+                    filesCopied++;
+                    let progress = filesCopied / totalFiles;
 
-                // Only update the client if the progress differs by 1%
-                if (progress - lastProgress > 0.01) {
-                    // Update client
-                    this.sendMessage({
-                        requestId: requestId,
-                        type: "progress",
-                        percentage: progress,
-                        continue: true
-                    });
-                    lastProgress = progress;
-                }
-            });
+                    // Only update the client if the progress differs by 1%
+                    if (progress - lastProgress > 0.01) {
+                        // Update client
+                        this.sendMessage({
+                            requestId: requestId,
+                            type: "progress",
+                            percentage: progress,
+                            continue: true
+                        });
+                        lastProgress = progress;
+                    }
+                });
+            } catch (e) {
+                log.error("Failed to read input directory", e);
+
+                // Reply with error
+                this.sendMessage({
+                    requestId: requestId,
+                    type: "error",
+                    error: "Failed to open selected folder, please ensure you don't have it open anywhere else."
+                });
+                return;
+            }
         } else {
             // Failed
             log.error("Failed to find input", inputPath);

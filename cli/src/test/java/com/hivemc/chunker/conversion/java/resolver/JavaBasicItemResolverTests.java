@@ -130,6 +130,9 @@ public class JavaBasicItemResolverTests {
                     ChunkerEffectType.OOZING,
                     ChunkerEffectType.INFESTED,
                     ChunkerEffectType.RAID_OMEN
+            ),
+            ChunkerTrimMaterial.class, Set.of(
+                    ChunkerTrimMaterial.RESIN
             )
     );
     public static final JavaDataVersion VERSION = JavaDataVersion.V1_20_4;

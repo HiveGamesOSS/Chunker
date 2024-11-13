@@ -375,6 +375,6 @@ public class BedrockColumnReader implements ColumnReader {
      * @return the newly created chunk reader.
      */
     public BedrockChunkReader createChunkReader(ChunkerChunk chunk) {
-        return new BedrockChunkReader(resolvers, converter, chunk);
+        return new BedrockChunkReader(resolvers, converter, dimension, chunk);
     }
 }

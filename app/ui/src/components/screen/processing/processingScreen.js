@@ -46,7 +46,7 @@ export class ProcessingScreen extends BaseScreen {
             }, function (message) {
                 if (message.type === "error") {
                     console.info("Failed to set settings: " + message.error);
-                    self.app.showError("Failed to set world settings", message.error, message.errorId, false);
+                    self.app.showError("Failed to set world settings", message.error, message.errorId, message.stackTrace, false);
                 } else {
                     self.convertSetName();
                 }
@@ -65,7 +65,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set settings: " + message.error);
-                self.app.showError("Failed to set world settings", message.error, message.errorId, false);
+                self.app.showError("Failed to set world settings", message.error, message.errorId, message.stackTrace, false);
             } else {
                 self.convertSetDimensions();
             }
@@ -83,7 +83,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set dimensions: " + message.error);
-                self.app.showError("Failed to set dimension settings", message.error, message.errorId, false);
+                self.app.showError("Failed to set dimension settings", message.error, message.errorId, message.stackTrace, false);
             } else {
                 self.convertSetPruning();
             }
@@ -105,7 +105,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set pruning: " + message.error);
-                self.app.showError("Failed to set pruning settings", message.error, message.errorId, false);
+                self.app.showError("Failed to set pruning settings", message.error, message.errorId, message.stackTrace, false);
             } else {
                 self.convertSetMappings();
             }
@@ -128,7 +128,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set mappings: " + message.error);
-                self.app.showError("Failed to set mappings", message.error, message.errorId, false);
+                self.app.showError("Failed to set mappings", message.error, message.errorId, message.stackTrace, false);
             } else {
                 // Call convert
                 self.convertStartConversion();
@@ -150,7 +150,7 @@ export class ProcessingScreen extends BaseScreen {
             if (message.type === "error") {
                 console.info("Failed to convert: " + message.error);
                 if (!message.cancelled) {
-                    self.app.showError("Failed to convert world", message.error, message.errorId, false);
+                    self.app.showError("Failed to convert world", message.error, message.errorId, message.stackTrace, false);
                 }
             } else if (message.type === "response") {
                 self.app.setState({convertResult: message.output});

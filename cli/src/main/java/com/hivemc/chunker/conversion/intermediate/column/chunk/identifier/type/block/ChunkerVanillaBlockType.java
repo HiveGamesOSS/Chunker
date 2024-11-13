@@ -207,7 +207,7 @@ public enum ChunkerVanillaBlockType implements ChunkerBlockType {
     FIRE(0xff0000, Set.of(VanillaBlockStates.AGE_15, VanillaBlockStates.EAST, VanillaBlockStates.NORTH, VanillaBlockStates.SOUTH, VanillaBlockStates.UP, VanillaBlockStates.WEST), false),
     SOUL_FIRE(0x6699d8, Set.of(VanillaBlockStates.AGE_15), false),
     SPAWNER(0x707070, SpawnerBlockEntity.class, true),
-    CREAKING_HEART(0xd87f33, Set.of(VanillaBlockStates.CREAKING, VanillaBlockStates.AXIS), CreakingHeartBlockEntity.class, true),
+    CREAKING_HEART(0xd87f33, Set.of(VanillaBlockStates.CREAKING, VanillaBlockStates.AXIS, VanillaBlockStates.NATURAL), CreakingHeartBlockEntity.class, true),
     OAK_STAIRS(0x8f7748, VanillaBlockStateGroups.STAIRS, false),
     CHEST(0x8f7748, VanillaBlockStateGroups.CHEST, ChestBlockEntity.class, false),
     REDSTONE_WIRE(0x0, Set.of(VanillaBlockStates.REDSTONE_EAST, VanillaBlockStates.REDSTONE_NORTH, VanillaBlockStates.POWER, VanillaBlockStates.REDSTONE_SOUTH, VanillaBlockStates.REDSTONE_WEST), false),
@@ -422,6 +422,8 @@ public enum ChunkerVanillaBlockType implements ChunkerBlockType {
     POTTED_BROWN_MUSHROOM(0x0, false),
     POTTED_DEAD_BUSH(0x0, false),
     POTTED_CACTUS(0x0, false),
+    POTTED_OPEN_EYEBLOSSOM(0x0, false),
+    POTTED_CLOSED_EYEBLOSSOM(0x0, false),
     CARROTS(0x7c00, Set.of(VanillaBlockStates.AGE_7), false),
     POTATOES(0x7c00, Set.of(VanillaBlockStates.AGE_7), false),
     OAK_BUTTON(0x0, VanillaBlockStateGroups.POWERED_ATTACHABLE, false),
@@ -1109,6 +1111,15 @@ public enum ChunkerVanillaBlockType implements ChunkerBlockType {
     PALE_MOSS_BLOCK(0x999999, true),
     PALE_MOSS_CARPET(0x999999, Set.of(VanillaBlockStates.WALL_NORTH, VanillaBlockStates.WALL_EAST, VanillaBlockStates.WALL_SOUTH, VanillaBlockStates.WALL_WEST, VanillaBlockStates.BOTTOM), false),
     PALE_HANGING_MOSS(0x999999, Set.of(VanillaBlockStates.TIP), false),
+    CLOSED_EYEBLOSSOM(0x4c522a, false),
+    OPEN_EYEBLOSSOM(0x9f5224, false),
+    RESIN_BLOCK(0x9f5224, false),
+    RESIN_BRICKS(0x9f5224, true),
+    RESIN_BRICK_SLAB(0x9f5224, VanillaBlockStateGroups.SLAB, false),
+    RESIN_BRICK_STAIRS(0x9f5224, VanillaBlockStateGroups.STAIRS, false),
+    RESIN_BRICK_WALL(0x9f5224, VanillaBlockStateGroups.WALL, false),
+    RESIN_CLUMP(0x9f5224, Set.of(VanillaBlockStates.DOWN, VanillaBlockStates.EAST, VanillaBlockStates.NORTH, VanillaBlockStates.SOUTH, VanillaBlockStates.UP, VanillaBlockStates.WEST), false),
+    CHISELED_RESIN_BRICKS(0x9f5224, true),
     ;
 
     private final int rgbColor;

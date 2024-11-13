@@ -223,10 +223,19 @@ public class JavaStateGroups {
             .state("orientation", VanillaBlockStates.ORIENTATION, JavaStateTypes.ORIENTATION)
             .state("triggered", VanillaBlockStates.TRIGGERED, JavaStateTypes.BOOL)
             .build();
-    public static final StateMappingGroup CREAKING_HEART = new StateMappingGroup.Builder()
-            .state("axis", VanillaBlockStates.AXIS, JavaStateTypes.AXIS)
-            .state("creaking", VanillaBlockStates.CREAKING, JavaStateTypes.CREAKING)
-            .build();
+    public static final VersionedStateMappingGroup CREAKING_HEART = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("axis", VanillaBlockStates.AXIS, JavaStateTypes.AXIS)
+                    .state("creaking", VanillaBlockStates.CREAKING, JavaStateTypes.CREAKING)
+                    .defaultOutput(VanillaBlockStates.NATURAL, Bool.FALSE)
+                    .build())
+            // 1.21.4 added the natural field / changed creaking to active
+            .version(new Version(1, 21, 4), new StateMappingGroup.Builder()
+                    .state("axis", VanillaBlockStates.AXIS, JavaStateTypes.AXIS)
+                    .state("active", VanillaBlockStates.CREAKING, JavaStateTypes.CREAKING_BOOL)
+                    .state("natural", VanillaBlockStates.NATURAL, JavaStateTypes.BOOL)
+                    .build()
+            ).build();
     public static final StateMappingGroup DAYLIGHT_DETECTOR = new StateMappingGroup.Builder()
             .state("inverted", VanillaBlockStates.INVERTED, JavaStateTypes.BOOL)
             .state("power", VanillaBlockStates.POWER, JavaStateTypes.POWER)

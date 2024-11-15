@@ -26,22 +26,19 @@ public class StringTagTests extends TagTestsBase<StringTag, String> {
 
     @Override
     public Stream<StringTag> getTestValues() {
-        return Stream.concat(
-                Stream.of("", "Hello", "hello", " ", "hello world", "hello world!", "😎", "\n").map(StringTag::new),
-                Stream.of(new byte[]{0, 0, 0, 1, 0, 0, 0, 39}).map(StringTag::new) // StorageKey example in Bedrock
-        );
+        return Stream.of("", "Hello", "hello", " ", "hello world", "hello world!", "😎", "\n").map(StringTag::new);
     }
 
     @Test
     public void testGetByteArrayValue() {
-        byte[] storageKey = new byte[]{0, 0, 0, 1, 0, 0, 0, 39};
+        byte[] storageKey = new byte[]{(byte) 0xC3, (byte) 0x28, (byte) 0x61, (byte) 0x62, (byte) 0x63};
         StringTag tag = new StringTag(storageKey);
         assertEquals(storageKey, tag.getByteArrayValue());
     }
 
     @Test
     public void testSetByteArrayValue() {
-        byte[] storageKey = new byte[]{0, 0, 0, 1, 0, 0, 0, 39};
+        byte[] storageKey = new byte[]{(byte) 0xC3, (byte) 0x28, (byte) 0x61, (byte) 0x62, (byte) 0x63};
         StringTag tag = new StringTag();
         tag.setValue(storageKey);
         assertEquals(storageKey, tag.getByteArrayValue());

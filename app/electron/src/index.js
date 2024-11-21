@@ -16,6 +16,11 @@ log.transports.file.writeOptions
 log.eventLogger.startLogging();
 
 const createWindow = () => {
+    // Get launch parameters (these are forwarded to the backend process)
+    // Note: these vary based on if launched directly be electron, so we have to check if it's the defaultApp
+    const args = process.argv.slice(process.defaultApp ? 2 : 1);
+
+    // Start the window
     const window = new BrowserWindow({
         title: "Chunker...",
         width: 1280,
@@ -36,7 +41,7 @@ const createWindow = () => {
         let session;
         try {
             // Create a session
-            session = new Session(sessions, sessionID, window, _event.sender);
+            session = new Session(sessions, sessionID, window, _event.sender, args);
         } catch (e) {
             log.warn("Session failed to be made ", e);
 

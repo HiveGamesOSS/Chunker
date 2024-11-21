@@ -77,7 +77,7 @@ jobs:
           endpoint: https://weu.codesigning.azure.net/
           trusted-signing-account-name: hivegames
           certificate-profile-name: Chunker
-          files-folder: build/libs/windows/
+          files-folder: build/libs/windows/,build/libs/windows/win-unpacked/
           files-folder-filter: exe
           file-digest: SHA256
           timestamp-rfc3161: http://timestamp.acs.microsoft.com

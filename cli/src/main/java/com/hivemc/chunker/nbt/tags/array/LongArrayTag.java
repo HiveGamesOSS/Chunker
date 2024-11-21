@@ -15,7 +15,7 @@ import java.util.StringJoiner;
  * Represents a Long array NBT tag.
  */
 public class LongArrayTag extends Tag<long[]> {
-    public static final int MAX_ARRAY_LENGTH = Short.MAX_VALUE;
+    public static final int MAX_ARRAY_LENGTH = 65536; // Unsigned Short MAX
     private long @Nullable [] value;
 
     /**

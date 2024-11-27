@@ -1,7 +1,7 @@
 {
   "name": "chunker-electron",
   "private": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Convert worlds between Java and Bedrock.",
   "main": "src/index.js",
   "type": "module",
@@ -58,7 +58,7 @@
   "dependencies": {
     "archiver": "^7.0.1",
     "electron-dl": "^4.0.0",
-    "electron-log": "^5.2.2",
+    "electron-log": "^5.2.3",
     "fs-extra": "^11.2.0",
     "jszip": "^3.10.1"
   }

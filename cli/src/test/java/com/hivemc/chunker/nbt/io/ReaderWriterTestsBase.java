@@ -28,7 +28,7 @@ public abstract class ReaderWriterTestsBase {
     public static Stream<byte[]> getByteArrayExamples() {
         return Stream.of(
                 new byte[]{},
-                new byte[]{0, 0, 0, 1, 0, 0, 0, 39}, // StorageKey example
+                new byte[]{(byte) 0xC3, (byte) 0x28, (byte) 0x61, (byte) 0x62, (byte) 0x63}, // StorageKey example
                 new byte[]{1, 2, 3},
                 "Hello".getBytes(StandardCharsets.UTF_8)
         );

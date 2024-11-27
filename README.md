@@ -3,7 +3,7 @@
 **Convert Minecraft worlds between Java Edition and Bedrock Edition**
 
 Chunker is a Java application which allows you to convert Java and Bedrock Minecraft worlds. It provides a simple
-interface for converting worlds and allows you to upgrade and downgrade worlds between different versions of the 
+interface for converting worlds and allows you to upgrade and downgrade worlds between different versions of the
 game.
 
 Supported Formats:
@@ -45,6 +45,9 @@ Otherwise, see the building section on how to build Chunker yourself.
 
 Download the appropriate version of the application depending on your operating system and then you will be able to run
 the electron based frontend for Chunker.
+
+Chunker defaults to a maximum of 75% of available memory, you can customise this by specifying the amount when launching Chunker e.g.
+`Chunker.exe -Xmx8G` for 8 gigabytes.
 
 CLI Usage
 --------
@@ -111,7 +114,7 @@ Chunker attempts to do automated testing where possible to validate data, an exa
 validated against the palette of the Bedrock and Java, this allows issues with faulty mappings to be identified in the
 build process. You can skip tests in the build process by appending `-x test` to the `./gradlew build` command.
 
-Some tests have been excluded from the default test suite marked with the "LongRunning" tag, this is because they can 
+Some tests have been excluded from the default test suite marked with the "LongRunning" tag, this is because they can
 take several minutes to fully complete.
 
 
@@ -127,7 +130,7 @@ License and Legal
 
 The project is MIT licensed you can find details in the [LICENSE](LICENSE).
 
-This project is maintained by Hive Games. This project receives funding from Mojang Studios. Mojang Studios and it's 
+This project is maintained by Hive Games. This project receives funding from Mojang Studios. Mojang Studios and it's
 parent company Microsoft assume no responsibility for the contents of this project.
 
 We're hiring!

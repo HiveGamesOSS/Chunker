@@ -846,6 +846,7 @@ input:checked + .switch:before {
     font-weight: bold;
     color: #2f2f2f;
     line-height: 1.2em;
+    min-height: 1.2em;
 }
 
 .export .gray_box:before {

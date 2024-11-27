@@ -1,4 +1,5 @@
 import {spawn} from "child_process"
+import {freemem, totalmem} from "os"
 import {app} from "electron"
 import path from "path"
 import fs from "fs-extra"
@@ -29,7 +30,7 @@ export class Session {
     _asyncResponseMappers = {};
 
     // Constructor
-    constructor(sessions, sessionID, window, webContents) {
+    constructor(sessions, sessionID, window, webContents, jvmOptions) {
         this._sessions = sessions;
         this._sessionID = sessionID;
         this._window = window;
@@ -66,12 +67,44 @@ export class Session {
             executable = path.join(cliDirectory, files[0].name);
         }
 
+        // Attach JVM options (calculate memory if not set)
+        let javaOptions = jvmOptions.join(" ");
+        if (javaOptions.indexOf("-Xm") === -1) {
+            let maximumMB;
+            if (process.platform !== "darwin") {
+                // Use 75% of available memory (but ensure there is at least 1024MB free for the system)
+                const freeMemoryMB = freemem() / (1024 * 1024);
+                const desiredMB = freeMemoryMB * 0.75;
+
+                // Ensure we leave at least 1GB free in memory for the system
+                const reservedMB = 1024;
+                maximumMB = Math.min(freeMemoryMB - reservedMB, desiredMB);
+            } else {
+                // Use 75% of total memory (but ensure there is 4096MB free for the system on mac)
+                // Note: This is because on MacOS freemem() can be lower due to file caching etc
+                const totalMemoryMB = totalmem() / (1024 * 1024);
+                maximumMB = Math.min(totalMemoryMB - 4096, totalMemoryMB * 0.75);
+            }
+
+            let generatedOptions = "-Xmx" + Math.floor(maximumMB) + "M";
+            javaOptions = javaOptions + (javaOptions.length > 0 ? " " : "") + generatedOptions;
+        }
 
         // Execute as process or a jar
         if (executable.endsWith(".jar")) {
-            this._process = spawn("java", ["-jar", executable, "messenger"]);
+            this._process = spawn("java", ["-jar", executable, "messenger"], {
+                env: {
+                    ...process.env,
+                    _JAVA_OPTIONS: javaOptions
+                }
+            });
         } else {
-            this._process = spawn(executable, ["messenger"]);
+            this._process = spawn(executable, ["messenger"], {
+                env: {
+                    ...process.env,
+                    _JAVA_OPTIONS: javaOptions
+                }
+            });
         }
 
         let buffer = "";
@@ -113,7 +146,13 @@ export class Session {
         });
         this._process.stderr.on("data", (data) => {
             let value = data.toString().trim();
-            log.error(`Error from process: ${value}`)
+
+            // Ensure the JVM indicating what options it has is info and not an error
+            if (value.startsWith("Picked up")) {
+                log.info(`Info from process: ${value}`)
+            } else {
+                log.error(`Error from process: ${value}`)
+            }
         });
         this._process.on("close", (code) => {
             // Close the session

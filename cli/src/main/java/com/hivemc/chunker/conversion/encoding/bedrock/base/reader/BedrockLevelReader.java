@@ -293,7 +293,7 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
                     // Flat generator
                     String generatorOptions = root.getString("generatorOptions", null);
                     if (generatorOptions != null && !generatorOptions.isEmpty()) {
-                        if (root.getString("FlatWorldLayers", null).equals(VOID_WORD_STRING)) {
+                        if (VOID_WORD_STRING.equals(root.getString("FlatWorldLayers", null))) {
                             // VOID
                             yield ChunkerGeneratorType.VOID;
                         }

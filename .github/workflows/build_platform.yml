@@ -76,7 +76,7 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build -x test
 
-      - name: Sign files with Trusted Signing
+      - name: Sign exe with Trusted Signing
         uses: azure/trusted-signing-action@v0.5.0
         if: github.repository == 'HiveGamesOSS/Chunker'
         with:
@@ -86,7 +86,23 @@ jobs:
           endpoint: https://weu.codesigning.azure.net/
           trusted-signing-account-name: hivegames
           certificate-profile-name: Chunker
-          files-folder: build/libs/windows/,build/libs/windows/win-unpacked/
+          files-folder: build/libs/windows/
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Sign unpacked with Trusted Signing
+        uses: azure/trusted-signing-action@v0.5.0
+        if: github.repository == 'HiveGamesOSS/Chunker'
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: https://weu.codesigning.azure.net/
+          trusted-signing-account-name: hivegames
+          certificate-profile-name: Chunker
+          files-folder: build/libs/windows/win-unpacked/
           files-folder-filter: exe
           file-digest: SHA256
           timestamp-rfc3161: http://timestamp.acs.microsoft.com

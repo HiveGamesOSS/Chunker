@@ -51,6 +51,20 @@ publishing {
     publications.create<MavenPublication>("maven") {
         from(components["java"])
     }
+
+    // Only define the repositories if the url is present
+    val deployUrl = System.getenv("MAVEN_DEPLOY_URL")
+    if (deployUrl != null) {
+        repositories {
+            maven {
+                url = uri(System.getenv("MAVEN_DEPLOY_URL"))
+                credentials {
+                    username = System.getenv("MAVEN_DEPLOY_USERNAME")
+                    password = System.getenv("MAVEN_DEPLOY_PASSWORD")
+                }
+            }
+        }
+    }
 }
 
 tasks.clean {

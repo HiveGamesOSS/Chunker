@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 jobs:
   build_test_linux:
@@ -34,6 +35,13 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
+
+      - name: Publish to GitHub packages
+        run: ./gradlew publish
+        env:
+          MAVEN_DEPLOY_URL: "https://maven.pkg.github.com/${{github.repository}}"
+          MAVEN_DEPLOY_USERNAME: ${{ github.actor }}
+          MAVEN_DEPLOY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload CLI Jar
         uses: actions/upload-artifact@v4

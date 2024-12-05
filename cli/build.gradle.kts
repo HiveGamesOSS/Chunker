@@ -50,6 +50,10 @@ java {
 publishing {
     publications.create<MavenPublication>("maven") {
         from(components["java"])
+
+        pom {
+            description.set("Convert Minecraft worlds between Java Edition and Bedrock Edition CLI/API.")
+        }
     }
 
     // Only define the repositories if the url is present

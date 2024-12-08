@@ -78,12 +78,18 @@ export class Session {
 
                 // Ensure we leave at least 1GB free in memory for the system
                 const reservedMB = 1024;
-                maximumMB = Math.min(freeMemoryMB - reservedMB, desiredMB);
+
+                // Ensure the VM gets at least 512MB of ram
+                const requiredMB = 512;
+                maximumMB = Math.max(Math.min(freeMemoryMB - reservedMB, desiredMB), requiredMB);
             } else {
                 // Use 75% of total memory (but ensure there is 4096MB free for the system on mac)
                 // Note: This is because on MacOS freemem() can be lower due to file caching etc
                 const totalMemoryMB = totalmem() / (1024 * 1024);
-                maximumMB = Math.min(totalMemoryMB - 4096, totalMemoryMB * 0.75);
+
+                // Ensure the VM gets at least 512MB of ram
+                const requiredMB = 512;
+                maximumMB = Math.max(Math.min(totalMemoryMB - 4096, totalMemoryMB * 0.75), requiredMB);
             }
 
             let generatedOptions = "-Xmx" + Math.floor(maximumMB) + "M";

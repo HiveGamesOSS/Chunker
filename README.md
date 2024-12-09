@@ -130,7 +130,7 @@ License and Legal
 
 The project is MIT licensed you can find details in the [LICENSE](LICENSE).
 
-This project is maintained by Hive Games. This project receives funding from Mojang Studios. Mojang Studios and it's
+This project is maintained by Hive Games. This project receives funding from Mojang Studios. Mojang Studios and its
 parent company Microsoft assume no responsibility for the contents of this project.
 
 We're hiring!

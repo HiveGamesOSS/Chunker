@@ -128,7 +128,7 @@
         "hardcore": {
             "type": "boolean",
             "title": "Hardcore Mode",
-            "description": "Enable Hardcore mode for this world. (Java only)",
+            "description": "Enable Hardcore mode for this world.",
             "default": false,
             "examples": [
                 true,

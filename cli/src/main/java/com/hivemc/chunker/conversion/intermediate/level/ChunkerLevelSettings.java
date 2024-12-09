@@ -438,6 +438,7 @@ public class ChunkerLevelSettings {
     public double BorderWarningTime = 15;
 
     @Java
+    @Bedrock("IsHardcore")
     @Category(Category.Type.WORLD_SETTINGS)
     public boolean hardcore = false;
 

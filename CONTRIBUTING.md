@@ -21,7 +21,7 @@ provided by the bot. You will only need to do this once across all repos using o
 
 This project has adopted the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/).
 
-This project is maintained by Hive Games. This project receives funding from Mojang Studios. Mojang Studios and it's parent company Microsoft assume no responsibility for the contents of this project.
+This project is maintained by Hive Games. This project receives funding from Mojang Studios. Mojang Studios and its parent company Microsoft assume no responsibility for the contents of this project.
 
 # Out of Scope Changes / Features
 We are unable to accept/merge changes that add features which are considered out of scope for the Chunker project, due to the commercial support contract that funds the ongoing in-time development of Chunker. If you are interested in adding/maintaining out of scope features, we suggest creating a fork of this project instead.

@@ -3,7 +3,7 @@ import React, {Component} from "react";
 export function getVersionName(inputVersionName) {
     // Filter the version name and extract the actual version for display
     let type = inputVersionName.split("_")[0];
-    let version = inputVersionName.replace(type, "");
+    let version = inputVersionName.replace(type + "_", "").replace(type, "");
     version = version.replace(/^R(.*)$/g, "1.$1").replace(/_/g, ".");
 
     // Ensure it's in the form 1.0.0

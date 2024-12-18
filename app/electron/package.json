@@ -61,5 +61,8 @@
     "electron-log": "^5.2.4",
     "fs-extra": "^11.2.0",
     "jszip": "^3.10.1"
+  },
+  "optionalDependencies": {
+    "dmg-license": "^1.0.11"
   }
 }

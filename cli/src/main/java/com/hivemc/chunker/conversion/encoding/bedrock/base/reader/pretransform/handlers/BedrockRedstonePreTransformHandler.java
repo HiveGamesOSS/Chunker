@@ -41,6 +41,28 @@ public class BedrockRedstonePreTransformHandler implements BlockPreTransformHand
             blockIdentifier = blockIdentifier.copyWith(state, redstoneConnection);
         }
 
+        // Get the states which were applied
+        boolean north = blockIdentifier.getState(VanillaBlockStates.REDSTONE_NORTH) != RedstoneConnection.NONE;
+        boolean east = blockIdentifier.getState(VanillaBlockStates.REDSTONE_EAST) != RedstoneConnection.NONE;
+        boolean south = blockIdentifier.getState(VanillaBlockStates.REDSTONE_SOUTH) != RedstoneConnection.NONE;
+        boolean west = blockIdentifier.getState(VanillaBlockStates.REDSTONE_WEST) != RedstoneConnection.NONE;
+        boolean northSouthNone = !north && !south;
+        boolean eastWestNone = !east && !west;
+
+        // Apply any additional connections (based on Java edition logic)
+        if (!north && eastWestNone) {
+            blockIdentifier = blockIdentifier.copyWith(VanillaBlockStates.REDSTONE_NORTH, RedstoneConnection.SIDE);
+        }
+        if (!east && northSouthNone) {
+            blockIdentifier = blockIdentifier.copyWith(VanillaBlockStates.REDSTONE_EAST, RedstoneConnection.SIDE);
+        }
+        if (!south && eastWestNone) {
+            blockIdentifier = blockIdentifier.copyWith(VanillaBlockStates.REDSTONE_SOUTH, RedstoneConnection.SIDE);
+        }
+        if (!west && northSouthNone) {
+            blockIdentifier = blockIdentifier.copyWith(VanillaBlockStates.REDSTONE_WEST, RedstoneConnection.SIDE);
+        }
+
         // Return the block identifier to be updated
         return blockIdentifier;
     }

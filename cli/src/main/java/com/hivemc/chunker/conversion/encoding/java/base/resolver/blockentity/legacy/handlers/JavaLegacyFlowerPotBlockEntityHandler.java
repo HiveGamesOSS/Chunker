@@ -9,13 +9,12 @@ import com.hivemc.chunker.conversion.encoding.java.base.resolver.blockentity.leg
 import com.hivemc.chunker.conversion.intermediate.column.ChunkerColumn;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerBlockType;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.mapping.identifier.Identifier;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Handler for the Java only block entity for flower pots which converts the NBT identifier to the potted block type.
@@ -58,7 +57,13 @@ public class JavaLegacyFlowerPotBlockEntityHandler extends BlockEntityHandler<Ja
     public void generateBeforeWrite(ChunkerColumn column, int x, int y, int z, JavaLegacyFlowerPotBlockEntity blockEntity, ChunkerBlockIdentifier blockIdentifier) {
         ChunkerBlockType newPlantType = BedrockFlowerPotBlockEntityHandler.POTTED_TO_PLANT.get(blockIdentifier.getType());
         if (newPlantType != null) {
-            blockEntity.setPlant(new ChunkerBlockIdentifier(newPlantType));
+            blockEntity.setPlant(new ChunkerBlockIdentifier(
+                    newPlantType,
+                    Map.of(
+                            VanillaBlockStates.WATERLOGGED,
+                            Objects.requireNonNull(blockIdentifier.getState(VanillaBlockStates.WATERLOGGED))
+                    )
+            ));
         }
     }
 
@@ -67,8 +72,16 @@ public class JavaLegacyFlowerPotBlockEntityHandler extends BlockEntityHandler<Ja
         if (blockEntity.getPlant() != null && !blockEntity.getPlant().isAir()) {
             ChunkerBlockType potType = BedrockFlowerPotBlockEntityHandler.POTTED_TO_PLANT.inverse().get(blockEntity.getPlant().getType());
             if (potType != null) {
+                ChunkerBlockIdentifier oldBlockIdentifier = column.getBlock(x, y, z);
+
                 // Set the block in the column to the potted identifier
-                column.setBlock(x, y, z, new ChunkerBlockIdentifier(potType));
+                column.setBlock(x, y, z, new ChunkerBlockIdentifier(
+                        potType,
+                        Map.of(
+                                VanillaBlockStates.WATERLOGGED,
+                                Objects.requireNonNull(oldBlockIdentifier.getState(VanillaBlockStates.WATERLOGGED))
+                        )
+                ));
             }
         }
 

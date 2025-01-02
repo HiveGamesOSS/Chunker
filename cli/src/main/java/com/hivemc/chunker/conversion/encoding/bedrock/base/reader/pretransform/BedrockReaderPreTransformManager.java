@@ -150,7 +150,13 @@ public class BedrockReaderPreTransformManager extends PreTransformManager {
         // Kelp (needs plants below the top)
         registerHandler(new BedrockHangingPlantPreTransformHandler(
                 false,
-                (identifier) -> new ChunkerBlockIdentifier(ChunkerVanillaBlockType.KELP_PLANT),
+                (identifier) -> new ChunkerBlockIdentifier(
+                        ChunkerVanillaBlockType.KELP_PLANT,
+                        Map.of(
+                                VanillaBlockStates.WATERLOGGED,
+                                Objects.requireNonNull(identifier.getState(VanillaBlockStates.WATERLOGGED))
+                        )
+                ),
                 Set.of(
                         ChunkerVanillaBlockType.KELP,
                         ChunkerVanillaBlockType.KELP_PLANT
@@ -174,7 +180,13 @@ public class BedrockReaderPreTransformManager extends PreTransformManager {
         // Twisting vines (needs plants below the top)
         registerHandler(new BedrockHangingPlantPreTransformHandler(
                 false,
-                (identifier) -> new ChunkerBlockIdentifier(ChunkerVanillaBlockType.TWISTING_VINES_PLANT),
+                (identifier) -> new ChunkerBlockIdentifier(
+                        ChunkerVanillaBlockType.TWISTING_VINES_PLANT,
+                        Map.of(
+                                VanillaBlockStates.WATERLOGGED,
+                                Objects.requireNonNull(identifier.getState(VanillaBlockStates.WATERLOGGED))
+                        )
+                ),
                 Set.of(
                         ChunkerVanillaBlockType.TWISTING_VINES,
                         ChunkerVanillaBlockType.TWISTING_VINES_PLANT
@@ -184,7 +196,13 @@ public class BedrockReaderPreTransformManager extends PreTransformManager {
         // Weeping vines (needs plants above the top)
         registerHandler(new BedrockHangingPlantPreTransformHandler(
                 true,
-                (identifier) -> new ChunkerBlockIdentifier(ChunkerVanillaBlockType.WEEPING_VINES_PLANT),
+                (identifier) -> new ChunkerBlockIdentifier(
+                        ChunkerVanillaBlockType.WEEPING_VINES_PLANT,
+                        Map.of(
+                                VanillaBlockStates.WATERLOGGED,
+                                Objects.requireNonNull(identifier.getState(VanillaBlockStates.WATERLOGGED))
+                        )
+                ),
                 Set.of(
                         ChunkerVanillaBlockType.WEEPING_VINES,
                         ChunkerVanillaBlockType.WEEPING_VINES_PLANT

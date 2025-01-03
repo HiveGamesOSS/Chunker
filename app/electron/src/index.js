@@ -10,6 +10,12 @@ import * as os from "node:os";
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// List of arguments which aren't forwarded to the backend java process
+const IGNORED_ARGUMENTS = [
+    "--no-sandbox",
+    "--enable-logging",
+];
+
 // Start logging
 log.transports.file.level = "info";
 log.transports.file.writeOptions
@@ -18,7 +24,7 @@ log.eventLogger.startLogging();
 const createWindow = () => {
     // Get launch parameters (these are forwarded to the backend process)
     // Note: these vary based on if launched directly be electron, so we have to check if it's the defaultApp
-    const args = process.argv.slice(process.defaultApp ? 2 : 1);
+    const args = process.argv.slice(process.defaultApp ? 2 : 1).filter(arg => !IGNORED_ARGUMENTS.includes(arg));
 
     // Start the window
     const window = new BrowserWindow({

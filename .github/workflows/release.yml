@@ -114,7 +114,10 @@ jobs:
           path: build/libs/windows/
 
   build_mac:
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        os: [macos-latest, macos-13]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -139,7 +142,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: macos-builds
+          name: macos-builds-${{ matrix.os }}
           path: build/libs/mac/
 
   publish:
@@ -212,13 +215,33 @@ jobs:
       - name: Download Mac artifact
         uses: actions/download-artifact@v4
         with:
-          name: macos-builds
+          name: macos-builds-macos-latest
           path: artifacts
 
       - name: Compress Mac CLI
         run: |
           cd artifacts && zip -r "chunker-cli-mac-arm64.app.zip" "chunker-cli.app" && cd ..
           rm -rf "artifacts/chunker-cli.app"
+
+      - name: Download Mac artifact (legacy)
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-builds-macos-13
+          path: artifacts
+
+      - name: Compress Mac CLI (legacy)
+        run: |
+          cd artifacts && zip -r "chunker-cli-mac-amd64.app.zip" "chunker-cli.app" && cd ..
+          rm -rf "artifacts/chunker-cli.app"
+
+      - name: Rename Mac artifacts (legacy)
+        run: |
+          find artifacts -type f -name "Chunker-*" ! -name "*-amd64*" ! -name "*arm64*" ! -name "*x86*" -exec bash -c '
+            for file; do 
+              new_name=$(echo "$file" | sed -E "s/(Chunker-[^-]+)(.*)(\.[a-zA-Z0-9]+)$/\1-amd64\2\3/");
+              mv "$file" "$new_name";
+            done
+          ' _ {} +
 
       - name: Remove blockmap files
         run: |

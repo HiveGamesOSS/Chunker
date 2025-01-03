@@ -326,7 +326,8 @@ export class Session {
                 this.sendMessage({
                     requestId: requestId,
                     type: "error",
-                    error: "Failed to save file."
+                    error: "Failed to save file.",
+                    stackTrace: e.stack.toString() + "\n"
                 });
                 responded = true;
             }
@@ -460,11 +461,23 @@ export class Session {
             } catch (e) {
                 log.error("Failed to read input zip", e);
 
+                // Specific handling for file too large
+                if (e.code === "ERR_FS_FILE_TOO_LARGE") {
+                    this.sendMessage({
+                        requestId: requestId,
+                        type: "error",
+                        error: "This zip file is too large to open, please unzip the file and try opening it as a folder.",
+                        stackTrace: e.stack.toString() + "\n"
+                    });
+                    return;
+                }
+
                 // Reply with error
                 this.sendMessage({
                     requestId: requestId,
                     type: "error",
-                    error: "Failed to open selected file, please ensure you don't have it open anywhere else."
+                    error: "Failed to open selected file, please ensure you don't have it open anywhere else.",
+                    stackTrace: e.stack.toString() + "\n"
                 });
                 return;
             }
@@ -498,7 +511,8 @@ export class Session {
                 this.sendMessage({
                     requestId: requestId,
                     type: "error",
-                    error: "Failed to open selected folder, please ensure you don't have it open anywhere else."
+                    error: "Failed to open selected folder, please ensure you don't have it open anywhere else.",
+                    stackTrace: e.stack.toString() + "\n"
                 });
                 return;
             }
@@ -548,7 +562,8 @@ export class Session {
                     this.sendMessage({
                         requestId: requestId,
                         type: "error",
-                        error: "Failed to parse " + file.name + " as preloaded data."
+                        error: "Failed to parse " + file.name + " as preloaded data.",
+                        stackTrace: err.stack.toString() + "\n"
                     });
                     return;
                 }
@@ -708,7 +723,8 @@ export class Session {
                 return {
                     requestId: response.requestId,
                     type: "error",
-                    error: "Failed to create output ZIP."
+                    error: "Failed to create output ZIP.",
+                    stackTrace: e.stack.toString() + "\n"
                 };
             }
         });

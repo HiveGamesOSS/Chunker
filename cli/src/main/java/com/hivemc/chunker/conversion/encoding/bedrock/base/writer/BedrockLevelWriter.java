@@ -267,12 +267,24 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
      * @throws Exception if it failed to write the map.
      */
     protected CompoundTag prepareMap(ChunkerMap chunkerMap) throws Exception {
-        CompoundTag mapData = new CompoundTag();
-
+        // Use the original map NBT as a base if it's present
+        CompoundTag mapData = chunkerMap.getOriginalNBT() != null ? chunkerMap.getOriginalNBT() : new CompoundTag();
         mapData.put("mapId", chunkerMap.getId());
-        mapData.put("parentMapId", -1L);
-        mapData.put("decorations", new ListTag<>(TagType.COMPOUND));
-        mapData.put("scale", (byte) 4);// Requires 4 for some reason when it's not the parent map
+
+        // Set the parentMapId to -1 if it's not present
+        if (!mapData.contains("parentMapId")) {
+            mapData.put("parentMapId", -1L);
+        }
+
+        // Add the decorations if they're not present
+        if (!mapData.contains("decorations")) {
+            mapData.put("decorations", new ListTag<>(TagType.COMPOUND));
+        }
+
+        // Scale requires 4 when it's not the parent map
+        mapData.put("scale", mapData.getLong("parentMapId", -1L) == -1L ? (byte) 4 : chunkerMap.getScale());
+
+        // Copy over the other settings
         mapData.put("dimension", chunkerMap.getDimension().getBedrockID());
         mapData.put("width", (short) chunkerMap.getWidth());
         mapData.put("height", (short) chunkerMap.getHeight());

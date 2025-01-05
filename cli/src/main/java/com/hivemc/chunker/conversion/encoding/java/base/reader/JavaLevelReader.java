@@ -504,7 +504,8 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
                     mapCompound.getInt("zCenter", 0),
                     mapCompound.getByte("unlimitedTracking", (byte) 0) != 0,
                     mapCompound.getByte("locked", (byte) 0) != 0,
-                    null
+                    null,
+                    resolvers.converter().shouldAllowNBTCopying() ? mapCompound : null
             );
 
             // Read the bytes for the map

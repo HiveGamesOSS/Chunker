@@ -1,6 +1,7 @@
 package com.hivemc.chunker.conversion.intermediate.level.map;
 
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;
+import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
@@ -31,6 +32,9 @@ public class ChunkerMap {
     private boolean locked;
     private transient byte @Nullable [] bytes;
 
+    @Nullable
+    private transient CompoundTag originalNBT;
+
     /**
      * Create a new map.
      *
@@ -45,8 +49,9 @@ public class ChunkerMap {
      * @param unlimitedTracking whether player tracking on the edges of the map is enabled.
      * @param locked            whether the map is locked and can't be changed.
      * @param bytes             the image bytes of the map in RGBA.
+     * @param originalNBT       the original map data used for copying (null if not present).
      */
-    public ChunkerMap(long originalId, long id, int width, int height, byte scale, Dimension dimension, int xCenter, int zCenter, boolean unlimitedTracking, boolean locked, byte @Nullable [] bytes) {
+    public ChunkerMap(long originalId, long id, int width, int height, byte scale, Dimension dimension, int xCenter, int zCenter, boolean unlimitedTracking, boolean locked, byte @Nullable [] bytes, @Nullable CompoundTag originalNBT) {
         this.originalId = originalId;
         this.id = id;
         this.width = width;
@@ -58,6 +63,7 @@ public class ChunkerMap {
         this.unlimitedTracking = unlimitedTracking;
         this.locked = locked;
         this.bytes = bytes;
+        this.originalNBT = originalNBT;
     }
 
     /**
@@ -319,5 +325,24 @@ public class ChunkerMap {
         }
 
         bytes = rgba;
+    }
+
+    /**
+     * Get the original map data (used for NBT copying).
+     *
+     * @return the original data, null if not present.
+     */
+    @Nullable
+    public CompoundTag getOriginalNBT() {
+        return originalNBT;
+    }
+
+    /**
+     * Set the original map data NBT, used for if NBT copying is enabled.
+     *
+     * @param originalNBT the original data.
+     */
+    public void setOriginalNBT(@Nullable CompoundTag originalNBT) {
+        this.originalNBT = originalNBT;
     }
 }

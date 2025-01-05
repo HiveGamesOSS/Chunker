@@ -149,6 +149,7 @@ public class JavaBasicItemResolverTests {
                     0,
                     true,
                     true,
+                    null,
                     null
             ),
             new ChunkerMap(
@@ -162,6 +163,7 @@ public class JavaBasicItemResolverTests {
                     0,
                     true,
                     true,
+                    null,
                     null
             )
 

@@ -146,6 +146,7 @@ public class BedrockLegacyBasicItemResolverTests {
                     0,
                     true,
                     true,
+                    null,
                     null
             ),
             new ChunkerMap(
@@ -159,6 +160,7 @@ public class BedrockLegacyBasicItemResolverTests {
                     0,
                     true,
                     true,
+                    null,
                     null
             )
 

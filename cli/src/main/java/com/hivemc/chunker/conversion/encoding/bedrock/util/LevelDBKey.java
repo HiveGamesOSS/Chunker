@@ -44,7 +44,7 @@ public class LevelDBKey {
      * @return the string as UTF-8 with the prefix removed.
      */
     public static String extractSuffix(byte[] input, byte[] prefix) {
-        return new String(input, prefix.length, input.length - prefix.length, Charsets.UTF_8);
+        return new String(input, prefix.length, input.length - prefix.length, StandardCharsets.UTF_8);
     }
 
     /**

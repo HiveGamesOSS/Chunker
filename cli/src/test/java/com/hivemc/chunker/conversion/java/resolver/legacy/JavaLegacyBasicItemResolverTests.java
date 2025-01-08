@@ -183,6 +183,7 @@ public class JavaLegacyBasicItemResolverTests {
                     0,
                     true,
                     true,
+                    null,
                     null
             ),
             new ChunkerMap(
@@ -196,6 +197,7 @@ public class JavaLegacyBasicItemResolverTests {
                     0,
                     true,
                     true,
+                    null,
                     null
             )
 

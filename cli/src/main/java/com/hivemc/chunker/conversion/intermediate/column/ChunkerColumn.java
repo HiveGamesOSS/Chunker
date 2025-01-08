@@ -32,6 +32,7 @@ public class ChunkerColumn {
     private final List<BlockEntity> blockEntities = new ArrayList<>(0);
     private final Byte2ObjectSortedMap<ChunkerChunk> chunks = new Byte2ObjectAVLTreeMap<>();
     private final Set<Edge> requiredPreTransformEdges = EnumSet.noneOf(Edge.class);
+    @Nullable
     private ChunkerBiomes biomes;
     @Nullable
     private HeightMap heightMap;
@@ -61,6 +62,7 @@ public class ChunkerColumn {
      *
      * @return the biomes for this column.
      */
+    @Nullable
     public ChunkerBiomes getBiomes() {
         return biomes;
     }
@@ -70,7 +72,7 @@ public class ChunkerColumn {
      *
      * @param biomes the new biomes to use for the column.
      */
-    public void setBiomes(ChunkerBiomes biomes) {
+    public void setBiomes(@Nullable ChunkerBiomes biomes) {
         this.biomes = biomes;
     }
 

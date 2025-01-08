@@ -15,6 +15,7 @@ import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Handler which turns Chunker item frames into block entities.
@@ -41,6 +42,9 @@ public class BedrockItemFrameEntityHandler extends EntityHandler<BedrockResolver
         // Turn into a block entity
         column.getBlockEntities().add(entity.toBedrockBlockEntity());
 
+        // Fetch the original block which is turned into an item frame
+        ChunkerBlockIdentifier oldBlock = column.getBlock(entity.getTileX(), entity.getTileY(), entity.getTileZ());
+
         // Replace the block with the bedrock item frame block type
         ChunkerBlockIdentifier blockIdentifier = new ChunkerBlockIdentifier(
                 ChunkerVanillaBlockType.ITEM_FRAME_BEDROCK,
@@ -48,7 +52,8 @@ public class BedrockItemFrameEntityHandler extends EntityHandler<BedrockResolver
                         VanillaBlockStates.FACING_ALL, entity.getDirection(),
                         VanillaBlockStates.BEDROCK_FRAME_PHOTO_BIT, entity.isPhoto() ? Bool.TRUE : Bool.FALSE,
                         VanillaBlockStates.BEDROCK_FRAME_MAP_BIT, entity.isMap() ? Bool.TRUE : Bool.FALSE,
-                        VanillaBlockStates.LIT, entity instanceof GlowItemFrameEntity ? Bool.TRUE : Bool.FALSE
+                        VanillaBlockStates.LIT, entity instanceof GlowItemFrameEntity ? Bool.TRUE : Bool.FALSE,
+                        VanillaBlockStates.WATERLOGGED, Objects.requireNonNull(oldBlock.getState(VanillaBlockStates.WATERLOGGED))
                 )
         );
         column.setBlock(entity.getTileX(), entity.getTileY(), entity.getTileZ(), blockIdentifier);

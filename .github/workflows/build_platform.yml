@@ -115,7 +115,10 @@ jobs:
           path: build/libs/windows/
 
   build_mac:
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        os: [macos-latest, macos-13]
+    runs-on: ${{ matrix.os }}
     if: github.event.inputs.build_mac == 'true'
     steps:
       - uses: actions/checkout@v4
@@ -141,5 +144,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: macos-builds
+          name: macos-builds-${{ matrix.os }}
           path: build/libs/mac/

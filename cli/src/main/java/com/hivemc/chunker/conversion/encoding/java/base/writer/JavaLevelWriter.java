@@ -126,8 +126,10 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
      * @throws Exception if it failed to turn the map to NBT.
      */
     protected CompoundTag prepareMap(ChunkerMap chunkerMap) throws Exception {
-        CompoundTag mapData = new CompoundTag();
+        // Use the original map NBT as a base if it's present
+        CompoundTag mapData = chunkerMap.getOriginalNBT() != null ? chunkerMap.getOriginalNBT() : new CompoundTag();
 
+        // Copy over the other settings
         mapData.put("dimension", chunkerMap.getDimension().getJavaID());
         mapData.put("width", (short) chunkerMap.getWidth());
         mapData.put("height", (short) chunkerMap.getHeight());

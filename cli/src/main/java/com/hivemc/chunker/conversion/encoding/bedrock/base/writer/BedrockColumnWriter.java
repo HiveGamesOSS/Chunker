@@ -241,10 +241,18 @@ public class BedrockColumnWriter implements ColumnWriter {
                 }
             }
 
-            // Write biome ids (byte)
-            ChunkerBiome[] biomes = column.getBiomes().asColumn(resolvers.getFallbackBiome(dimension));
-            for (ChunkerBiome chunkerBiome : biomes) {
-                writer.writeByte(resolvers.writeBiomeID(chunkerBiome, dimension));
+            // Write biome ids (byte) if present
+            if (column.getBiomes() != null) {
+                ChunkerBiome[] biomes = column.getBiomes().asColumn(resolvers.getFallbackBiome(dimension));
+                for (ChunkerBiome chunkerBiome : biomes) {
+                    writer.writeByte(resolvers.writeBiomeID(chunkerBiome, dimension));
+                }
+            } else {
+                // Use the fallback biome
+                ChunkerBiome fallbackBiome = resolvers.getFallbackBiome(dimension);
+                for (int i = 0; i < 256; i++) {
+                    writer.writeByte(resolvers.writeBiomeID(fallbackBiome, dimension));
+                }
             }
 
             bytes = byteArrayOutputStream.toByteArray();

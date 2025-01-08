@@ -477,7 +477,8 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
                     mapCompound.getInt("zCenter", 0),
                     mapCompound.getByte("unlimitedTracking", (byte) 0) != 0,
                     mapCompound.getByte("mapLocked", (byte) 0) != 0,
-                    mapCompound.getByteArray("colors", null)
+                    mapCompound.getByteArray("colors", null),
+                    resolvers.converter().shouldAllowNBTCopying() ? mapCompound : null
             );
 
         } catch (Exception e) {

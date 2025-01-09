@@ -35,6 +35,12 @@ class JavaNBTFileTests {
     }
 
     @Test
+    void testJavaLevelDatWithPossibly() throws IOException {
+        File input = getTempFileForResource("nbt/java_level.dat");
+        assertNotNull(Tag.readPossibleGZipJavaNBT(input));
+    }
+
+    @Test
     void testJavaLevelDatTypeByte() throws IOException {
         File input = getTempFileForResource("nbt/java_level.dat");
         CompoundTag nbt = Tag.readGZipJavaNBT(input);
@@ -187,6 +193,20 @@ class JavaNBTFileTests {
     }
 
     @Test
+    void testJavaDecodePossiblyEncodeGZIP() throws IOException {
+        File input = getTempFileForResource("nbt/java_level.dat");
+        CompoundTag nbt = Tag.readPossibleGZipJavaNBT(input);
+
+        // Write to temp file
+        File tempFile = tempFile();
+        Tag.writeGZipJavaNBT(tempFile, nbt);
+
+        // Read it back
+        CompoundTag readNBT = Tag.readGZipJavaNBT(tempFile);
+        assertEquals(nbt, readNBT);
+    }
+
+    @Test
     void testJavaDecodeEncodeBytesGZIP() throws IOException {
         File input = getTempFileForResource("nbt/java_level.dat");
         CompoundTag nbt = Tag.readGZipJavaNBT(input);
@@ -250,6 +270,20 @@ class JavaNBTFileTests {
 
         // Read it back
         CompoundTag readNBT = Tag.readUncompressedJavaNBT(tempFile);
+        assertEquals(nbt, readNBT);
+    }
+
+    @Test
+    void testJavaDecodePossiblyEncodeUncompressed() throws IOException {
+        File input = getTempFileForResource("nbt/java_level.dat");
+        CompoundTag nbt = Tag.readGZipJavaNBT(input);
+
+        // Write to temp file
+        File tempFile = tempFile();
+        Tag.writeUncompressedJavaNBT(tempFile, nbt);
+
+        // Read it back
+        CompoundTag readNBT = Tag.readPossibleGZipJavaNBT(tempFile);
         assertEquals(nbt, readNBT);
     }
 

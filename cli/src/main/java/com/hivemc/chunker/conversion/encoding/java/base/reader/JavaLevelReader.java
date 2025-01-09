@@ -485,7 +485,7 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
     protected ChunkerMap parseMap(File mapFile) {
         try {
             // Read the file
-            CompoundTag mapCompound = Tag.readGZipJavaNBT(mapFile);
+            CompoundTag mapCompound = Tag.readPossibleGZipJavaNBT(mapFile);
             if (mapCompound == null) return null; // Failed to parse
 
             // Remove the map_ prefix and the .dat suffix
@@ -515,7 +515,7 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
             return map;
 
         } catch (Exception e) {
-            converter.logNonFatalException(e);
+            converter.logNonFatalException(new Exception("Could not read map " + mapFile.getName(), e));
             return null;
         }
     }

@@ -3,7 +3,7 @@
 
 [versions]
 picocli = "4.7.6"
-caffeine = "3.1.8"
+caffeine = "3.2.0"
 gson = "2.11.0"
 guava = "33.4.0-jre"
 leveldb = "1.0.1"

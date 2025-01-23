@@ -661,7 +661,34 @@ export class Session {
         await fs.mkdir(worldOutputPath);
 
         if (copyNbt) {
-            await fs.copy(worldInputPath, worldOutputPath);
+            // Copy all the files but exclude level.dat, region, entities, data/map_.dat/idcounts.dat
+            await fs.copy(worldInputPath, worldOutputPath, {
+                filter: (src) => {
+                    let relativePath = path.relative(worldInputPath, src);
+                    let parts = relativePath.split(path.sep);
+
+                    // Don't include any block data / entities (these are passed through Chunker)
+                    if (parts.includes("region") || parts.includes("entities")) {
+                        return false;
+                    }
+
+                    // Don't include in-game map data
+                    if (parts.includes("data") && parts.length === 2) {
+                        let fileName = parts[1];
+                        if (fileName === "idcounts.dat" || fileName.startsWith("map_") && fileName.endsWith(".dat")) {
+                            return false;
+                        }
+                    }
+
+                    // Don't include level.dat / session.lock
+                    if (parts.length === 1 && (parts[0] === "level.dat" || parts[0] === "session.lock")) {
+                        return false;
+                    }
+
+                    // Otherwise include the file
+                    return true;
+                }
+            });
         }
 
         // Process request

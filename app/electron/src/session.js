@@ -732,7 +732,12 @@ export class Session {
             try {
                 // Use the user provided file name
                 let outputFileName = (this._finalName ?? "output").replaceAll(/[^A-Za-z0-9_\-@]/g, "_");
-                if (outputFileName.length === 0) {
+
+                // Ensure that there are not too many underscores from replacement
+                outputFileName = outputFileName.replace(/_{2,}/g, '_');
+
+                // If the filename is empty or over 128 characters use "output"
+                if (outputFileName.length === 0 || outputFileName.length >= 128) {
                     outputFileName = "output";
                 }
                 outputFileName = outputFileName + (outputType.startsWith("BEDROCK") ? ".mcworld" : ".zip");

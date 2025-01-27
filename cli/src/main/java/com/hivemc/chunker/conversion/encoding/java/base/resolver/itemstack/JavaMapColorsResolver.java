@@ -148,10 +148,10 @@ public class JavaMapColorsResolver implements Resolver<byte[], byte[]> {
     public Optional<byte[]> to(byte[] javaMapColors) {
         byte[] outputBytes = new byte[javaMapColors.length << 2]; // 4 bytes per color instead of 1
         for (int i = 0; i < javaMapColors.length; i++) {
-            byte value = javaMapColors[i];
+            int value = javaMapColors[i] & 0xFF;
 
             // Convert to RGB
-            if (value >= 0 && value < mapColorsShaded.length) {
+            if (value < mapColorsShaded.length) {
                 Color rgba = mapColorsShaded[value];
 
                 int newIndex = i << 2;

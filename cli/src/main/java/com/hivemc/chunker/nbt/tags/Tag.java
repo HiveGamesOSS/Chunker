@@ -467,6 +467,36 @@ public abstract class Tag<T> {
     }
 
     /**
+     * Read a Java edition based NBT file which may use GZip (likely ending with .dat) automatically removing the nested "data" tag if
+     * present.
+     *
+     * @param file the input file to read from.
+     * @return the parsed CompoundTag or null if there isn't any data to read.
+     * @throws IOException if it failed to read the file or compound.
+     */
+    @Nullable
+    public static CompoundTag readPossibleGZipJavaNBT(File file) throws IOException {
+        // Check the first two bytes of the file
+        boolean gzip = false;
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            byte[] firstBytes = new byte[2];
+
+            // If the bytes were read, check if the header matches the gzip magic
+            if (fileInputStream.read(firstBytes) == firstBytes.length) {
+                int header = ((firstBytes[1] & 0xFF) << 8) | (firstBytes[0] & 0xFF);
+                gzip = header == GZIPInputStream.GZIP_MAGIC;
+            }
+        }
+
+        // If the header is present, read it as gzipped NBT
+        if (gzip) {
+            return Tag.readGZipJavaNBT(file);
+        } else {
+            return Tag.readUncompressedJavaNBT(file);
+        }
+    }
+
+    /**
      * Read a Java edition based ZLIB NBT bytes automatically removing the nested "data" tag if
      * present.
      *

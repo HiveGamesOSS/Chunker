@@ -457,7 +457,7 @@ public class Messenger {
                                 write(new ErrorResponse(
                                         taskID,
                                         false,
-                                        "A fatal error occurred during conversion.",
+                                        getFriendlyErrorMessage(exception.get()),
                                         sessionID.toString(),
                                         exception.get().getMessage(),
                                         printStackTrace(exception.get())
@@ -598,5 +598,29 @@ public class Messenger {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    /**
+     * Get a friendly error message to show to the user as the main message when conversion fails.
+     *
+     * @param throwable the throwable which caused the error.
+     * @return a user-friendly error message, if one doesn't exist it will just state "A fatal error occurred during
+     * conversion."
+     */
+    public static String getFriendlyErrorMessage(Throwable throwable) {
+        // Unwrap CompletionException
+        if (throwable instanceof CompletionException) {
+            throwable = throwable.getCause();
+        }
+
+        // Handle the case that LevelDB fails to read a marketplace world
+        if (throwable instanceof IllegalStateException &&
+                throwable.getMessage().equals("CURRENT file does not end with newline")) {
+            return "The world is either encrypted or corrupted. Chunker is unable to read " +
+                    "marketplace worlds as they are encrypted.";
+        }
+
+        // Return the default
+        return "A fatal error occurred during conversion.";
     }
 }

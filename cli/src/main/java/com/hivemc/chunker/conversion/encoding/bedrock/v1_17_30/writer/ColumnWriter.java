@@ -54,7 +54,8 @@ public class ColumnWriter extends com.hivemc.chunker.conversion.encoding.bedrock
             List<Palette<ChunkerBiome>> biomesChunkList = column.getBiomes() == null ? Collections.emptyList() : column.getBiomes().asPalette();
 
             // If the input world wasn't caves and cliffs, we need to pad the chunks at the bottom
-            if (!converter.level().map(level -> level.getSettings().CavesAndCliffs).orElse(true)) {
+            // If the chunks are empty, it doesn't need padding
+            if (!biomesChunkList.isEmpty() && !converter.level().map(level -> level.getSettings().CavesAndCliffs).orElse(true)) {
                 Palette<ChunkerBiome> palette = biomesChunkList.get(0);
                 if (palette.isEmpty()) {
                     // Empty palettes are only allowed in Bedrock at the end of a column

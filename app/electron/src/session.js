@@ -661,7 +661,34 @@ export class Session {
         await fs.mkdir(worldOutputPath);
 
         if (copyNbt) {
-            await fs.copy(worldInputPath, worldOutputPath);
+            // Copy all the files but exclude level.dat, region, entities, data/map_.dat/idcounts.dat
+            await fs.copy(worldInputPath, worldOutputPath, {
+                filter: (src) => {
+                    let relativePath = path.relative(worldInputPath, src);
+                    let parts = relativePath.split(path.sep);
+
+                    // Don't include any block data / entities (these are passed through Chunker)
+                    if (parts.includes("region") || parts.includes("entities")) {
+                        return false;
+                    }
+
+                    // Don't include in-game map data
+                    if (parts.includes("data") && parts.length === 2) {
+                        let fileName = parts[1];
+                        if (fileName === "idcounts.dat" || fileName.startsWith("map_") && fileName.endsWith(".dat")) {
+                            return false;
+                        }
+                    }
+
+                    // Don't include level.dat / session.lock
+                    if (parts.length === 1 && (parts[0] === "level.dat" || parts[0] === "session.lock")) {
+                        return false;
+                    }
+
+                    // Otherwise include the file
+                    return true;
+                }
+            });
         }
 
         // Process request
@@ -705,7 +732,12 @@ export class Session {
             try {
                 // Use the user provided file name
                 let outputFileName = (this._finalName ?? "output").replaceAll(/[^A-Za-z0-9_\-@]/g, "_");
-                if (outputFileName.length === 0) {
+
+                // Ensure that there are not too many underscores from replacement
+                outputFileName = outputFileName.replace(/_{2,}/g, '_');
+
+                // If the filename is empty or over 128 characters use "output"
+                if (outputFileName.length === 0 || outputFileName.length >= 128) {
                     outputFileName = "output";
                 }
                 outputFileName = outputFileName + (outputType.startsWith("BEDROCK") ? ".mcworld" : ".zip");

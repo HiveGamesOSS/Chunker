@@ -94,31 +94,36 @@ public class MCAReader implements AutoCloseable {
         return Task.async(
                 "Decompressing column data",
                 TaskWeight.HIGH,
-                () -> decompressColumn(compressionType, compressedColumn)
+                () -> decompressColumn(columnCoordPair, compressionType, compressedColumn)
         );
     }
 
     /**
      * Decompress a column.
      *
+     * @param chunkCoordPair   the co-ordinates of the chunk being decompressed (used for exceptions).
      * @param compressionType  the compression type.
      * @param compressedColumn the column to be decompressed.
      * @return the decompressed compound tag.
      * @throws IOException if it failed to decompress / read.
      */
-    protected CompoundTag decompressColumn(byte compressionType, byte[] compressedColumn) throws IOException {
-        // LZ4 was added in 1.20.5, but there is no harm supporting it here
-        return switch (compressionType) {
-            case 0 -> null; // Empty
-            case 1 -> Tag.readGZipJavaNBT(compressedColumn); // GZip
-            case 2 -> Tag.readZLibJavaNBT(compressedColumn); // Deflate - Default
-            case 3 -> Tag.readUncompressedJavaNBT(compressedColumn);// Uncompressed
-            case 4 -> Tag.readLZ4JavaNBT(compressedColumn); // LZ4
-            default -> {
-                converter.logNonFatalException(new Exception("Unsupported Chunk Compression Type " + compressionType));
-                yield null;
-            }
-        };
+    protected CompoundTag decompressColumn(ChunkCoordPair chunkCoordPair, byte compressionType, byte[] compressedColumn) throws IOException {
+        try {
+            // LZ4 was added in 1.20.5, but there is no harm supporting it here
+            return switch (compressionType) {
+                case 0 -> null; // Empty
+                case 1 -> Tag.readGZipJavaNBT(compressedColumn); // GZip
+                case 2 -> Tag.readZLibJavaNBT(compressedColumn); // Deflate - Default
+                case 3 -> Tag.readUncompressedJavaNBT(compressedColumn);// Uncompressed
+                case 4 -> Tag.readLZ4JavaNBT(compressedColumn); // LZ4
+                default -> {
+                    converter.logNonFatalException(new Exception("Unsupported Chunk Compression Type " + compressionType));
+                    yield null;
+                }
+            };
+        } catch (Exception e) {
+            throw new IOException("Failed to decompress column %s inside %s".formatted(chunkCoordPair, chunkCoordPair.getRegion()), e);
+        }
     }
 
     @Override

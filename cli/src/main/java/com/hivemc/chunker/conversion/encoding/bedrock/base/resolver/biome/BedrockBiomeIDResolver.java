@@ -135,27 +135,28 @@ public class BedrockBiomeIDResolver implements Resolver<Integer, ChunkerBiome> {
     @Override
     public Optional<Integer> from(ChunkerBiome input) {
         // Custom biomes aren't supported in this version since they are IDs
-        ChunkerBiome.ChunkerVanillaBiome ChunkerVanillaBiome;
+        ChunkerBiome.ChunkerVanillaBiome chunkerVanillaBiome;
 
         // Resolve it to a vanilla biome
         if (input instanceof ChunkerBiome.ChunkerVanillaBiome biome) {
-            ChunkerVanillaBiome = biome;
+            chunkerVanillaBiome = biome;
         } else {
-            // Custom identifiers aren't supported, so use the fallback
-            ChunkerVanillaBiome = input.getFallback();
-        }
-
-        // First null check
-        if (ChunkerVanillaBiome == null) {
-            return Optional.empty(); // Unable to resolve a vanilla biome
+            // If they're not supported check for a fallback
+            ChunkerBiome.ChunkerVanillaBiome fallback = input.getFallback();
+            if (fallback != null) {
+                return from(fallback);
+            } else {
+                // No possible mapping
+                return Optional.empty();
+            }
         }
 
         // Try to map it
-        Integer mapped = mapping.forward().get(ChunkerVanillaBiome);
+        Integer mapped = mapping.forward().get(chunkerVanillaBiome);
 
         // It wasn't found, so first we should use the built-in fallbacks
         if (mapped == null) {
-            ChunkerBiome.ChunkerVanillaBiome fallback = ChunkerVanillaBiome.getFallback();
+            ChunkerBiome.ChunkerVanillaBiome fallback = chunkerVanillaBiome.getFallback();
 
             // Use the fallback if it's present
             if (fallback != null) {

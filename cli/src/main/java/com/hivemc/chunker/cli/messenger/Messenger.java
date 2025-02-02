@@ -1,5 +1,6 @@
 package com.hivemc.chunker.cli.messenger;
 
+import com.google.common.util.concurrent.ExecutionError;
 import com.google.gson.*;
 import com.hivemc.chunker.cli.messenger.messaging.BasicMessage;
 import com.hivemc.chunker.cli.messenger.messaging.BasicMessageTypeAdapter;
@@ -430,6 +431,11 @@ public class Messenger {
 
                         // Unwrap completion exception
                         if (throwable instanceof CompletionException) {
+                            throwable = throwable.getCause();
+                        }
+
+                        // Unwrap execution error
+                        if (throwable instanceof ExecutionError) {
                             throwable = throwable.getCause();
                         }
 

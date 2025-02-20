@@ -36,7 +36,7 @@ dependencies {
 }
 
 group = "com.hivemc.chunker"
-version = "1.4.5"
+version = "1.4.6"
 description = "chunker"
 base.archivesName = "chunker-cli"
 java.sourceCompatibility = JavaVersion.VERSION_17

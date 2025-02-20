@@ -79,8 +79,13 @@ public class ChunkerPaletteBasedBiomes implements ChunkerBiomes {
 
     @Override
     public Palette<ChunkerBiome> as4X4Palette(int chunkY) {
-        Palette<ChunkerBiome> oldPalette = chunkY < 0 || chunkY >= chunks.size() ? chunks.get(chunks.size() - 1) : chunks.get(chunkY);
+        // If there are no chunks return an empty palette
+        if (chunks.isEmpty()) {
+            return EmptyPalette.instance(4);
+        }
 
+        // Use the top palette if chunkY is outside the range of chunks
+        Palette<ChunkerBiome> oldPalette = chunkY < 0 || chunkY >= chunks.size() ? chunks.get(chunks.size() - 1) : chunks.get(chunkY);
         if (oldPalette.isEmpty()) {
             return EmptyPalette.instance(4);
         } else if (oldPalette.getKeyCount() == 1) {

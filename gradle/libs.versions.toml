@@ -4,7 +4,7 @@
 [versions]
 picocli = "4.7.6"
 caffeine = "3.2.0"
-gson = "2.11.0"
+gson = "2.12.1"
 guava = "33.4.0-jre"
 leveldb = "1.0.1"
 leveldb-api = "1.0.1"
@@ -18,7 +18,7 @@ junit = "5.11.4"
 # Plugins
 shadow = "8.1.1"
 gitVersion = "3.1.0"
-jpackage = "1.6.0"
+jpackage = "1.6.1"
 node = "7.1.0"
 
 [libraries]

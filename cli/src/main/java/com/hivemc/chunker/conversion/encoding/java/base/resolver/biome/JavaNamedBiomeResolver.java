@@ -104,8 +104,8 @@ public class JavaNamedBiomeResolver implements Resolver<String, ChunkerBiome> {
 
     @Override
     public Optional<String> from(ChunkerBiome input) {
-        if (input instanceof ChunkerBiome.ChunkerVanillaBiome ChunkerVanillaBiome) {
-            return from(ChunkerVanillaBiome);
+        if (input instanceof ChunkerBiome.ChunkerVanillaBiome chunkerVanillaBiome) {
+            return from(chunkerVanillaBiome);
         } else if (input instanceof ChunkerCustomBiome customIdentifierBiome) {
             if (customIdentifierSupported) {
                 return Optional.ofNullable(customIdentifierBiome.getIdentifier());

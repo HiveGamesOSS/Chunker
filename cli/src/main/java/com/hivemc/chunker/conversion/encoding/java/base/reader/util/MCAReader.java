@@ -49,7 +49,7 @@ public class MCAReader implements AutoCloseable {
         // Read the header which contains the chunk offsets
         for (int i = 0; i < 1024; i++) {
             int offset = reader.readUnsignedInt24();
-            reader.readByte(); // Read sector count (unused, we can validate without it)
+            reader.readUnsignedByte(); // Read sector count (unused, we can validate without it)
 
             // Only record the offset if it's more than 0, the first 4096 is the header, so it's invalid to be there
             if (offset > 0) {

@@ -66,7 +66,6 @@ public class JavaBasicComponentItemResolverTests {
     public static final Map<Class<? extends Enum<?>>, Set<?>> UNSUPPORTED_ENUMS = Map.of(
             ChunkerVanillaEntityType.class, Set.of(
                     ChunkerVanillaEntityType.ELDER_GUARDIAN_GHOST,
-                    ChunkerVanillaEntityType.LINGERING_POTION,
                     ChunkerVanillaEntityType.MOVING_BLOCK,
                     ChunkerVanillaEntityType.SHIELD,
                     ChunkerVanillaEntityType.WITHER_SKULL_DANGEROUS

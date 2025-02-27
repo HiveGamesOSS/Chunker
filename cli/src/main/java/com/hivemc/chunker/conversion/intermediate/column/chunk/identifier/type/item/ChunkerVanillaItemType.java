@@ -175,6 +175,8 @@ public enum ChunkerVanillaItemType implements ChunkerItemType {
     BOOK,
     SLIME_BALL,
     EGG,
+    BLUE_EGG,
+    BROWN_EGG,
     COMPASS,
     LODESTONE_COMPASS,
     RECOVERY_COMPASS,

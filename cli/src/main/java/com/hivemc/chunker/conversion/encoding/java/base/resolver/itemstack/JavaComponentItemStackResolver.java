@@ -94,23 +94,26 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                 List<JsonElement> lore = null;
                 Color color = null;
 
-                String name = tag.getString("minecraft:custom_name", null);
-                List<String> loreString = tag.getListValues("minecraft:lore", StringTag.class, null);
+                Tag<?> nameTag = tag.get("minecraft:custom_name");
+                Tag<?> loreTag = tag.get("minecraft:lore");
 
                 // Convert string lore to JSON
-                if (loreString != null) {
-                    lore = loreString.stream().map(JsonTextUtil::fromJSON).collect(Collectors.toList());
+                if (loreTag instanceof ListTag<?, ?> loreTagList) {
+                    lore = loreTagList.getValue().stream().map(JsonTextUtil::fromNBT).collect(Collectors.toList());
                 }
 
-                // Load color from the compound if it's present
-                CompoundTag dyedColor = tag.getCompound("minecraft:dyed_color");
-                if (dyedColor != null && dyedColor.contains("rgb")) {
-                    color = new Color(dyedColor.getInt("rgb"));
+                // Load color from the compound/int if it's present
+                Tag<?> dyedColor = tag.get("minecraft:dyed_color");
+                if (dyedColor instanceof CompoundTag compoundTag && compoundTag.contains("rgb")) {
+                    color = new Color(compoundTag.getInt("rgb"));
+                } else if (dyedColor instanceof IntTag intTag) {
+                    // Used on 1.21.5+
+                    color = new Color(intTag.getValue());
                 }
 
                 // Build the display if one of the components is present
-                return name != null || lore != null || color != null ? Optional.of(new ChunkerItemDisplay(
-                        name != null ? JsonTextUtil.fromJSON(name) : null,
+                return nameTag != null || lore != null || color != null ? Optional.of(new ChunkerItemDisplay(
+                        nameTag != null ? JsonTextUtil.fromNBT(nameTag) : null,
                         lore,
                         color
                 )) : Optional.empty();
@@ -122,22 +125,28 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
 
                 // Display Name
                 if (chunkerItemDisplay.displayName() != null) {
-                    components.put("minecraft:custom_name", JsonTextUtil.toJSON(chunkerItemDisplay.displayName()));
+                    components.put("minecraft:custom_name", JsonTextUtil.toNBT(chunkerItemDisplay.displayName(), resolvers.dataVersion()));
                 }
 
                 // Lore
                 if (chunkerItemDisplay.lore() != null) {
                     components.put(
                             "minecraft:lore",
-                            ListTag.fromValues(TagType.STRING, Lists.transform(chunkerItemDisplay.lore(), JsonTextUtil::toJSON))
+                            JsonTextUtil.toNBT(chunkerItemDisplay.lore(), 0, resolvers.dataVersion())
                     );
                 }
 
                 // Color
                 if (chunkerItemDisplay.color() != null) {
-                    CompoundTag dyedColor = new CompoundTag();
-                    dyedColor.put("rgb", chunkerItemDisplay.color().getRGB());
-                    components.put("minecraft:dyed_color", dyedColor);
+                    if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 21, 5)) {
+                        // Direct color tag
+                        components.put("minecraft:dyed_color", chunkerItemDisplay.color().getRGB());
+                    } else {
+                        // Nested in older versions
+                        CompoundTag dyedColor = new CompoundTag();
+                        dyedColor.put("rgb", chunkerItemDisplay.color().getRGB());
+                        components.put("minecraft:dyed_color", dyedColor);
+                    }
                 }
             }
         });
@@ -265,9 +274,16 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                 CompoundTag component = tag.getCompound(name);
                 if (component == null) return Optional.empty();
 
-                // Check for the enchantments
+                // Unwrap the levels tag (used on lower than 1.21.5)
                 CompoundTag enchantmentTags = component.getCompound("levels");
-                if (enchantmentTags == null) return Optional.empty();
+                if (enchantmentTags == null) {
+                    if (resolvers.dataVersion().getVersion().isLessThan(1, 21, 5)) {
+                        return Optional.empty();
+                    } else {
+                        // In 1.21.5 the component has the levels
+                        enchantmentTags = component;
+                    }
+                }
 
                 // Create the new map and resolve each enchantment
                 Map<ChunkerEnchantmentType, Integer> enchantments = new EnumMap<>(ChunkerEnchantmentType.class);
@@ -305,7 +321,13 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
 
                 // Finally add the tag
                 String name = state.key().getIdentifier().getItemStackType() == ChunkerVanillaItemType.ENCHANTED_BOOK ? "minecraft:stored_enchantments" : "minecraft:enchantments";
-                state.value().getOrCreateCompound("components").getOrCreateCompound(name).put("levels", enchantments);
+
+                // In 1.21.5 the enchantments aren't wrapped with a levels tag, older needs this
+                if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 21, 5)) {
+                    state.value().getOrCreateCompound("components").put(name, enchantments);
+                } else {
+                    state.value().getOrCreateCompound("components").getOrCreateCompound(name).put("levels", enchantments);
+                }
             }
         });
 
@@ -449,13 +471,17 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                 // Loop through each page and extract the text
                 List<JsonElement> pagesJSON = new ArrayList<>(pages.size());
                 for (CompoundTag page : pages) {
-                    String rawText = page.getString("raw", null);
+                    Tag<?> rawTag = page.get("raw");
 
                     // If it's a writable book it's not json
                     if (state.key().getIdentifier().getItemStackType() == ChunkerVanillaItemType.WRITABLE_BOOK) {
-                        pagesJSON.add(JsonTextUtil.fromText(rawText));
+                        if (rawTag instanceof StringTag stringTag) {
+                            pagesJSON.add(JsonTextUtil.fromText(stringTag.getValue()));
+                        } else {
+                            pagesJSON.add(JsonTextUtil.EMPTY_TEXT_TAG);
+                        }
                     } else {
-                        pagesJSON.add(JsonTextUtil.fromJSON(rawText));
+                        pagesJSON.add(JsonTextUtil.fromNBT(rawTag));
                     }
                 }
                 return Optional.of(pagesJSON);
@@ -477,7 +503,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                     if (state.key().getIdentifier().getItemStackType() == ChunkerVanillaItemType.WRITABLE_BOOK) {
                         page.put("raw", new StringTag(JsonTextUtil.toLegacy(pageJSON, false)));
                     } else {
-                        page.put("raw", new StringTag(JsonTextUtil.toJSON(pageJSON)));
+                        page.put("raw", JsonTextUtil.toNBT(pageJSON, resolvers.dataVersion()));
                     }
                     pages.add(page);
                 }
@@ -798,6 +824,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                     CompoundTag tag = entityTag.get();
 
                     // Remove any position based data
+                    tag.remove("block_pos");
                     tag.remove("TileX");
                     tag.remove("TileY");
                     tag.remove("TileZ");

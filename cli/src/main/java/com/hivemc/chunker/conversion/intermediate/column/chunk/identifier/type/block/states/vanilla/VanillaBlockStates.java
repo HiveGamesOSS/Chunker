@@ -119,6 +119,7 @@ public class VanillaBlockStates {
     public static final BlockState<RespawnAnchorCharges> RESPAWN_ANCHOR_CHARGES = new BlockState<>("charges", RespawnAnchorCharges._0, RespawnAnchorCharges::values);
     public static final BlockState<Rotation> ROTATION = new BlockState<>("rotation", Rotation._0, Rotation::values);
     public static final BlockState<SculkSensorPhase> SCULK_SENSOR_PHASE = new BlockState<>("sculk_sensor_phase", SculkSensorPhase.INACTIVE, SculkSensorPhase::values);
+    public static final BlockState<Segments> SEGMENT_AMOUNT = new BlockState<>("segment_amount", Segments._1, Segments::values);
     public static final BlockState<Bool> SHORT = new BlockState<>("short", Bool.FALSE, Bool::values);
     public static final BlockState<Bool> SHRIEKING = new BlockState<>("shrieking", Bool.FALSE, Bool::values);
     public static final BlockState<Bool> SIGNAL_FIRE = new BlockState<>("signal_fire", Bool.FALSE, Bool::values);
@@ -131,6 +132,7 @@ public class VanillaBlockStates {
     public static final BlockState<StructureBlockMode> STRUCTURE_BLOCK_MODE = new BlockState<>("mode", StructureBlockMode.LOAD, StructureBlockMode::values);
     public static final BlockState<StructureVoidType> STRUCTURE_VOID_TYPE = new BlockState<>("structure_void_type", StructureVoidType.VOID, StructureVoidType::values);
     public static final BlockState<Bool> SUSPENDED = new BlockState<>("suspended", Bool.FALSE, Bool::values);
+    public static final BlockState<TestBlockMode> TEST_BLOCK_MODE = new BlockState<>("mode", TestBlockMode.START, TestBlockMode::values);
     public static final BlockState<Tilt> TILT = new BlockState<>("tilt", Tilt.NONE, Tilt::values);
     public static final BlockState<Bool> TIP = new BlockState<>("tip", Bool.TRUE, Bool::values);
     public static final BlockState<TrialSpawnerState> TRIAL_SPAWNER_STATE = new BlockState<>("trial_spawner_state", TrialSpawnerState.INACTIVE, TrialSpawnerState::values);

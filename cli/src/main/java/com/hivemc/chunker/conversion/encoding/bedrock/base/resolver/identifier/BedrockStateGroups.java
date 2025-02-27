@@ -493,6 +493,10 @@ public class BedrockStateGroups {
     public static final StateMappingGroup LAYER_BLOCK = new StateMappingGroup.Builder()
             .state("height", VanillaBlockStates.LAYERS, BedrockStateTypes.LAYERS)
             .build();
+    public static final VersionedStateMappingGroup LEAF_LITTER = new StateMappingGroup.Builder()
+            .state("minecraft:cardinal_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.CARDINAL_DIRECTION)
+            .state("growth", VanillaBlockStates.SEGMENT_AMOUNT, BedrockStateTypes.SEGMENT_COUNT)
+            .build();
     public static final StateMappingGroup LEAVES = new StateMappingGroup.Builder()
             .state("persistent_bit", VanillaBlockStates.PERSISTENT, BedrockStateTypes.BOOL)
             .state("update_bit", VanillaBlockStates.UPDATE, BedrockStateTypes.BOOL)
@@ -981,6 +985,10 @@ public class BedrockStateGroups {
             .build();
     public static final StateMappingGroup WEIGHTED_PRESSURE_PLATE = new StateMappingGroup.Builder()
             .state("redstone_signal", VanillaBlockStates.POWER, BedrockStateTypes.POWER)
+            .build();
+    public static final VersionedStateMappingGroup WILDFLOWERS = new StateMappingGroup.Builder()
+            .state("minecraft:cardinal_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.CARDINAL_DIRECTION)
+            .state("growth", VanillaBlockStates.FLOWER_AMOUNT, BedrockStateTypes.FLOWER_COUNT)
             .build();
     public static final StateMappingGroup WIRE = new StateMappingGroup.Builder()
             .state("redstone_signal", VanillaBlockStates.POWER, BedrockStateTypes.POWER)

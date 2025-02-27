@@ -232,6 +232,11 @@ public class JavaEntityTypeResolver implements Resolver<String, ChunkerEntityTyp
             mapping.put(ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT, "minecraft:mangrove_chest_boat");
             mapping.put(ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT, "minecraft:bamboo_chest_raft");
         }
+        if (version.isGreaterThanOrEqual(1, 21, 5)) {
+            // Potion was flattened
+            mapping.put(ChunkerVanillaEntityType.LINGERING_POTION, "minecraft:lingering_potion");
+            mapping.put(ChunkerVanillaEntityType.POTION, "minecraft:splash_potion");
+        }
     }
 
     @Override

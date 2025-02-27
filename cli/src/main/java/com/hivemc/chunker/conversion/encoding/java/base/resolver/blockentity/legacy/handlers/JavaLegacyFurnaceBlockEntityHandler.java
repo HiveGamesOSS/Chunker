@@ -17,20 +17,6 @@ public class JavaLegacyFurnaceBlockEntityHandler extends BlockEntityHandler<Java
         super("Furnace", FurnaceBlockEntity.class, FurnaceBlockEntity::new);
     }
 
-    @Override
-    public void read(@NotNull JavaResolvers resolvers, @NotNull CompoundTag input, @NotNull FurnaceBlockEntity value) {
-        value.setBurnTime(getShortOrInt(input, "BurnTime", (short) 0));
-        value.setCookTime(getShortOrInt(input, "CookTime", (short) 0));
-        value.setCookTimeTotal(getShortOrInt(input, "CookTimeTotal", (short) 0));
-    }
-
-    @Override
-    public void write(@NotNull JavaResolvers resolvers, @NotNull CompoundTag output, @NotNull FurnaceBlockEntity value) {
-        output.put("BurnTime", value.getBurnTime());
-        output.put("CookTime", value.getCookTime());
-        output.put("CookTimeTotal", value.getCookTimeTotal());
-    }
-
     /**
      * Get a key from a NBT compound tag which can be either a short or an integer as a short.
      * Note: This is used because some tools seem to output integer for these tags when it should be a short.
@@ -51,5 +37,19 @@ public class JavaLegacyFurnaceBlockEntityHandler extends BlockEntityHandler<Java
         }
 
         throw new IllegalArgumentException(value.getClass().getName() + " is not of type ShortTag / IntTag");
+    }
+
+    @Override
+    public void read(@NotNull JavaResolvers resolvers, @NotNull CompoundTag input, @NotNull FurnaceBlockEntity value) {
+        value.setBurnTime(getShortOrInt(input, "BurnTime", (short) 0));
+        value.setCookTime(getShortOrInt(input, "CookTime", (short) 0));
+        value.setCookTimeTotal(getShortOrInt(input, "CookTimeTotal", (short) 0));
+    }
+
+    @Override
+    public void write(@NotNull JavaResolvers resolvers, @NotNull CompoundTag output, @NotNull FurnaceBlockEntity value) {
+        output.put("BurnTime", value.getBurnTime());
+        output.put("CookTime", value.getCookTime());
+        output.put("CookTimeTotal", value.getCookTimeTotal());
     }
 }

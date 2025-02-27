@@ -5,6 +5,7 @@ import com.hivemc.chunker.conversion.encoding.base.resolver.blockentity.BlockEnt
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.sign.SignBlockEntity;
 import com.hivemc.chunker.nbt.TagType;
+import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
 import com.hivemc.chunker.nbt.tags.primitive.StringTag;
@@ -39,18 +40,20 @@ public class JavaSignBlockEntityHandler extends BlockEntityHandler<JavaResolvers
     protected void readSignFace(@NotNull CompoundTag input, SignBlockEntity.SignFace face) {
         // Read text
         if (input.contains("messages")) {
-            List<String> textLines = input.getListValues("messages", StringTag.class);
-            List<JsonElement> lines = new ArrayList<>();
-            for (int i = 0; i < 4; i++) {
-                JsonElement text = textLines.size() > i ? JsonTextUtil.fromJSON(textLines.get(i)) : JsonTextUtil.EMPTY_TEXT_TAG;
-                lines.add(text);
+            ListTag<?, ?> textLines = input.get("messages", ListTag.class);
+            if (textLines != null) {
+                List<JsonElement> lines = new ArrayList<>();
+                for (int i = 0; i < 4; i++) {
+                    JsonElement text = textLines.size() > i ? JsonTextUtil.fromNBT(textLines.get(i)) : JsonTextUtil.EMPTY_TEXT_TAG;
+                    lines.add(text);
+                }
+                face.setLines(lines);
             }
-            face.setLines(lines);
         } else {
             List<JsonElement> lines = new ArrayList<>();
             for (int i = 1; i <= 4; i++) {
-                lines.add(input.getOptionalValue("Text" + i, String.class)
-                        .map(JsonTextUtil::fromJSON)
+                lines.add(input.getOptional("Text" + i, Tag.class)
+                        .map(JsonTextUtil::fromNBT)
                         .orElse(JsonTextUtil.EMPTY_TEXT_TAG));
             }
             face.setLines(lines);
@@ -87,11 +90,7 @@ public class JavaSignBlockEntityHandler extends BlockEntityHandler<JavaResolvers
 
     protected void writeSignFace(@NotNull JavaResolvers resolvers, @NotNull CompoundTag output, SignBlockEntity.SignFace face) {
         if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 20, 0)) {
-            ListTag<StringTag, String> messages = new ListTag<>(TagType.STRING);
-            for (int i = 0; i < 4; i++) {
-                messages.add(new StringTag(JsonTextUtil.toJSON(face.getLines().size() > i ? face.getLines().get(i) : JsonTextUtil.EMPTY_TEXT_TAG)));
-            }
-            output.put("messages", messages);
+            output.put("messages", JsonTextUtil.toNBT(face.getLines(), 4, resolvers.dataVersion()));
 
             // Write lit
             output.put("has_glowing_text", face.isLit() ? (byte) 1 : (byte) 0);
@@ -100,7 +99,10 @@ public class JavaSignBlockEntityHandler extends BlockEntityHandler<JavaResolvers
             output.put("color", JsonTextUtil.COLOR_TO_BEDROCK_HEX.inverse().getOrDefault(face.getColor(), "black"));
         } else {
             for (int i = 0; i < 4; i++) {
-                output.put("Text" + (i + 1), JsonTextUtil.toJSON(face.getLines().size() > i ? face.getLines().get(i) : JsonTextUtil.EMPTY_TEXT_TAG));
+                output.put("Text" + (i + 1), JsonTextUtil.toNBT(
+                        face.getLines().size() > i ? face.getLines().get(i) : JsonTextUtil.EMPTY_TEXT_TAG,
+                        resolvers.dataVersion()
+                ));
             }
 
             // Write lit

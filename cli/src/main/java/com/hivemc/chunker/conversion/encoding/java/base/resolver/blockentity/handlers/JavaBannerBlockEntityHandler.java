@@ -64,8 +64,8 @@ public class JavaBannerBlockEntityHandler extends BlockEntityHandler<JavaResolve
             }
         }
 
-        value.setCustomName(input.getOptionalValue("CustomName", String.class)
-                .map(JsonTextUtil::fromJSON)
+        value.setCustomName(input.getOptional("CustomName", Tag.class)
+                .map(JsonTextUtil::fromNBT)
                 .orElse(null));
     }
 
@@ -100,7 +100,7 @@ public class JavaBannerBlockEntityHandler extends BlockEntityHandler<JavaResolve
         output.put(resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 20, 5) ? "patterns" : "Patterns", patternTags);
 
         if (value.getCustomName() != null) {
-            output.put("CustomName", JsonTextUtil.toJSON(value.getCustomName()));
+            output.put("CustomName", JsonTextUtil.toNBT(value.getCustomName(), resolvers.dataVersion()));
         }
     }
 

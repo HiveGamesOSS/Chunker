@@ -741,6 +741,7 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
                     CompoundTag tag = entityTag.get();
 
                     // Remove any position based data
+                    tag.remove("block_pos");
                     tag.remove("TileX");
                     tag.remove("TileY");
                     tag.remove("TileZ");

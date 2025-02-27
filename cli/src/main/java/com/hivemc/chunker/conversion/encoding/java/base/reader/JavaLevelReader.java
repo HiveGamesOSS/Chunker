@@ -35,6 +35,16 @@ import java.util.*;
  * A reader for Java levels.
  */
 public class JavaLevelReader implements LevelReader, JavaReaderWriter {
+    /**
+     * Map of slot ID to equipment name (used for 1.21.5 Java).
+     */
+    public static final Map<Byte, String> SLOT_TO_EQUIPMENT = Map.of(
+            (byte) -106, "offhand",
+            (byte) 100, "feet",
+            (byte) 101, "legs",
+            (byte) 102, "chest",
+            (byte) 103, "head"
+    );
     protected final File inputDirectory;
     protected final Version inputVersion;
     protected final Converter converter;
@@ -357,6 +367,19 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
 
                 // Increment index
                 index++;
+            }
+        }
+
+        // Parse the equipment if there is an equipment tag
+        CompoundTag equipment = player.getCompound("equipment");
+        if (equipment != null) {
+            for (Map.Entry<Byte, String> slot : SLOT_TO_EQUIPMENT.entrySet()) {
+                CompoundTag itemTag = equipment.getCompound(slot.getValue());
+                if (itemTag == null) continue;
+
+                // Read item
+                ChunkerItemStack item = resolvers.readItem(itemTag);
+                inventory.put(slot.getKey().byteValue(), item);
             }
         }
 

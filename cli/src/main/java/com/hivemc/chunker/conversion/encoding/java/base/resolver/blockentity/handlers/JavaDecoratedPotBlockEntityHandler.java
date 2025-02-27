@@ -99,7 +99,7 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
             if (sherds.size() == 3) return true; // Success
             output.setFront(items.get(3));
         }
-        
+
         // Read the item from the container component
         ListTag<CompoundTag, Map<String, Tag<?>>> containerTag = components.getList("minecraft:container", CompoundTag.class, null);
         if (containerTag != null) {

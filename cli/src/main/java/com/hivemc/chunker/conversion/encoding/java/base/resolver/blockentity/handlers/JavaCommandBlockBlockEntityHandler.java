@@ -3,6 +3,7 @@ package com.hivemc.chunker.conversion.encoding.java.base.resolver.blockentity.ha
 import com.hivemc.chunker.conversion.encoding.base.resolver.blockentity.BlockEntityHandler;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.CommandBlockEntity;
+import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.util.JsonTextUtil;
 import org.jetbrains.annotations.NotNull;
@@ -21,8 +22,8 @@ public class JavaCommandBlockBlockEntityHandler extends BlockEntityHandler<JavaR
         value.setAuto(input.getByte("auto", (byte) 0) == (byte) 1);
         value.setTrackOutput(input.getByte("TrackOutput", (byte) 1) == (byte) 1);
 
-        value.setCustomName(input.getOptionalValue("CustomName", String.class)
-                .map(JsonTextUtil::fromJSON)
+        value.setCustomName(input.getOptional("CustomName", Tag.class)
+                .map(JsonTextUtil::fromNBT)
                 .orElse(null));
     }
 
@@ -33,7 +34,7 @@ public class JavaCommandBlockBlockEntityHandler extends BlockEntityHandler<JavaR
         output.put("TrackOutput", value.isTrackOutput() ? (byte) 1 : (byte) 0);
 
         if (value.getCustomName() != null) {
-            output.put("CustomName", JsonTextUtil.toJSON(value.getCustomName()));
+            output.put("CustomName", JsonTextUtil.toNBT(value.getCustomName(), resolvers.dataVersion()));
         }
     }
 }

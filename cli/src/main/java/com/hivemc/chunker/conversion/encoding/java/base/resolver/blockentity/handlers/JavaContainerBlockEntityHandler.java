@@ -44,8 +44,8 @@ public class JavaContainerBlockEntityHandler extends BlockEntityHandler<JavaReso
             }
         }
 
-        value.setCustomName(input.getOptionalValue("CustomName", String.class)
-                .map(JsonTextUtil::fromJSON)
+        value.setCustomName(input.getOptional("CustomName", Tag.class)
+                .map(JsonTextUtil::fromNBT)
                 .orElse(null));
     }
 
@@ -69,7 +69,7 @@ public class JavaContainerBlockEntityHandler extends BlockEntityHandler<JavaReso
         output.put("Items", items);
 
         if (value.getCustomName() != null) {
-            output.put("CustomName", JsonTextUtil.toJSON(value.getCustomName()));
+            output.put("CustomName", JsonTextUtil.toNBT(value.getCustomName(), resolvers.dataVersion()));
         }
     }
 
@@ -100,8 +100,8 @@ public class JavaContainerBlockEntityHandler extends BlockEntityHandler<JavaReso
         }
 
         // Get the name component
-        output.setCustomName(components.getOptionalValue("minecraft:custom_name", String.class)
-                .map(JsonTextUtil::fromJSON)
+        output.setCustomName(components.getOptional("minecraft:custom_name", Tag.class)
+                .map(JsonTextUtil::fromNBT)
                 .orElse(null));
 
         return true; // Don't read other data
@@ -135,7 +135,7 @@ public class JavaContainerBlockEntityHandler extends BlockEntityHandler<JavaReso
 
         // Write name if present
         if (input.getCustomName() != null) {
-            components.put("minecraft:custom_name", JsonTextUtil.toJSON(input.getCustomName()));
+            components.put("minecraft:custom_name", JsonTextUtil.toNBT(input.getCustomName(), resolvers.dataVersion()));
         }
 
         return false; // No other output needed

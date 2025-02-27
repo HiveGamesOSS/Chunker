@@ -516,7 +516,7 @@ public class BedrockBlockIdentifierValidationTests {
             // Looks the same after state 1
             clonedStates.replace("growth", new StateValueInt(7));
         }
-        if (input.getIdentifier().equals("minecraft:pink_petals") && input.getStates().containsKey("growth") && ((StateValueInt) input.getStates().get("growth")).getValue() >= 4) {
+        if ((input.getIdentifier().equals("minecraft:pink_petals") || input.getIdentifier().equals("minecraft:wildflowers") || input.getIdentifier().equals("minecraft:leaf_litter")) && input.getStates().containsKey("growth") && ((StateValueInt) input.getStates().get("growth")).getValue() >= 4) {
             // Looks the same after state 4
             clonedStates.replace("growth", new StateValueInt(3));
         }

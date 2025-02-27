@@ -6,11 +6,9 @@ import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.BlockMapping;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.ChunkerBlockIdentifierResolver;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.state.StateMappingGroup;
-import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.identifier.BedrockStateGroups;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Bool;
-import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.SlabType;
 
 /**
  * Resolver to convert between Java block identifiers and ChunkerBlockIdentifier.
@@ -1528,6 +1526,22 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
             register(BlockMapping.of("minecraft:resin_brick_stairs", ChunkerVanillaBlockType.RESIN_BRICK_STAIRS, JavaStateGroups.STAIRS));
             register(BlockMapping.of("minecraft:resin_brick_wall", ChunkerVanillaBlockType.RESIN_BRICK_WALL, JavaStateGroups.WALL));
             register(BlockMapping.of("minecraft:resin_clump", ChunkerVanillaBlockType.RESIN_CLUMP, JavaStateGroups.CONNECTABLE_WATERLOGGED));
+        }
+
+        // 1.21.5
+        if (version.isGreaterThanOrEqual(1, 21, 5)) {
+            // New testing blocks
+            register(BlockMapping.of("minecraft:test_block", ChunkerVanillaBlockType.TEST_BLOCK, JavaStateGroups.TEST_BLOCK));
+            register(BlockMapping.of("minecraft:test_instance_block", ChunkerVanillaBlockType.TEST_INSTANCE_BLOCK));
+
+            // Spring drop
+            register(BlockMapping.of("minecraft:bush", ChunkerVanillaBlockType.BUSH));
+            register(BlockMapping.of("minecraft:cactus_flower", ChunkerVanillaBlockType.CACTUS_FLOWER));
+            register(BlockMapping.of("minecraft:firefly_bush", ChunkerVanillaBlockType.FIREFLY_BUSH));
+            register(BlockMapping.of("minecraft:leaf_litter", ChunkerVanillaBlockType.LEAF_LITTER, JavaStateGroups.LEAF_LITTER));
+            register(BlockMapping.of("minecraft:short_dry_grass", ChunkerVanillaBlockType.SHORT_DRY_GRASS));
+            register(BlockMapping.of("minecraft:tall_dry_grass", ChunkerVanillaBlockType.TALL_DRY_GRASS));
+            register(BlockMapping.of("minecraft:wildflowers", ChunkerVanillaBlockType.WILDFLOWERS, JavaStateGroups.WILDFLOWERS));
         }
     }
 }

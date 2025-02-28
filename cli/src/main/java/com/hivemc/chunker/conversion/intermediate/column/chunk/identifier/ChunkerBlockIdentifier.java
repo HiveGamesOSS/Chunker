@@ -5,6 +5,8 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.b
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.BlockState;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.BlockStateValue;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Bool;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.Palette;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.SingleValuePalette;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -67,17 +69,34 @@ public class ChunkerBlockIdentifier implements ChunkerItemStackIdentifier {
     public static ChunkerBlockIdentifier custom(String identifier, Map<String, Object> states) {
         Map<BlockState<?>, BlockStateValue> customStates = new Object2ObjectOpenHashMap<>(states.size());
         for (Map.Entry<String, Object> entry : states.entrySet()) {
-            // Create a wrapper for the value
-            ChunkerCustomBlockType.CustomBlockStateValue<?> value = new ChunkerCustomBlockType.CustomBlockStateValue<>(
-                    entry.getValue()
-            );
+            BlockState<?> state;
+            BlockStateValue value;
 
-            // Create a single block state with the key and value
-            BlockState<?> state = new BlockState<>(
-                    entry.getKey(),
-                    value,
-                    new BlockStateValue[]{value}
-            );
+            // If the state is named waterlogged, we accept that as the vanilla waterlogged state
+            // This allows custom blocks to persist the waterlogging state from Java -> Bedrock
+            if (entry.getKey().equals("waterlogged")) {
+                // We accept a boolean, string or integer for indicating it is true, otherwise false
+                if (entry.getValue().equals("true") || entry.getValue().equals(true) || entry.getValue().equals(1)) {
+                    value = Bool.TRUE;
+                } else {
+                    value = Bool.FALSE;
+                }
+                state = VanillaBlockStates.WATERLOGGED;
+            } else {
+                // Create a wrapper for the value
+                value = new ChunkerCustomBlockType.CustomBlockStateValue<>(
+                        entry.getValue()
+                );
+
+                // Create a single block state with the key and value
+                state = new BlockState<>(
+                        entry.getKey(),
+                        value,
+                        new BlockStateValue[]{value}
+                );
+            }
+
+            // Add the custom state
             customStates.put(state, value);
         }
 

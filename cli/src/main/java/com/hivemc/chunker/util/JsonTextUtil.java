@@ -229,21 +229,27 @@ public class JsonTextUtil {
      * Convert a JSON string to an element.
      *
      * @param jsonString the input JSON string.
-     * @return the json element that was parsed.
+     * @return the json element that was parsed or the original string if it failed to parse.
      */
     public static JsonElement fromJSON(@Nullable String jsonString) {
-        JsonElement jsonElement = GSON.fromJson(jsonString, JsonElement.class);
+        if (jsonString == null) return EMPTY_TEXT_TAG;
+        try {
+            JsonElement jsonElement = GSON.fromJson(jsonString, JsonElement.class);
 
-        // Handle null
-        if (jsonString == null || jsonElement.isJsonNull()) return EMPTY_TEXT_TAG;
+            // Handle null
+            if (jsonElement.isJsonNull()) return EMPTY_TEXT_TAG;
 
-        // Ensure strings are turned into json objects
-        if (jsonElement.isJsonPrimitive() && jsonElement.getAsJsonPrimitive().isString()) {
-            return fromText(jsonElement.getAsJsonPrimitive().getAsString());
+            // Ensure strings are turned into json objects
+            if (jsonElement.isJsonPrimitive() && jsonElement.getAsJsonPrimitive().isString()) {
+                return fromText(jsonElement.getAsJsonPrimitive().getAsString());
+            }
+
+            // Otherwise return the JSON element
+            return jsonElement;
+        } catch (Exception e) {
+            // Fallback to basic text
+            return fromText(jsonString);
         }
-
-        // Otherwise return the JSON element
-        return jsonElement;
     }
 
     /**

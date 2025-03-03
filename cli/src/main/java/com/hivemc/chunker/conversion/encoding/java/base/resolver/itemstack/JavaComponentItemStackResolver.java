@@ -455,12 +455,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                     if (state.key().getIdentifier().getItemStackType() == ChunkerVanillaItemType.WRITABLE_BOOK) {
                         pagesJSON.add(JsonTextUtil.fromText(rawText));
                     } else {
-                        try {
-                            pagesJSON.add(JsonTextUtil.fromJSON(rawText));
-                        } catch (Exception e) {
-                            // Fallback to literal parsing
-                            pagesJSON.add(JsonTextUtil.fromText(rawText));
-                        }
+                        pagesJSON.add(JsonTextUtil.fromJSON(rawText));
                     }
                 }
                 return Optional.of(pagesJSON);

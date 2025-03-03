@@ -429,12 +429,7 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
                     if (state.key().getIdentifier().getItemStackType() == ChunkerVanillaItemType.WRITABLE_BOOK) {
                         pagesJSON.add(JsonTextUtil.fromText(page));
                     } else {
-                        try {
-                            pagesJSON.add(JsonTextUtil.fromJSON(page));
-                        } catch (Exception e) {
-                            // Fallback to literal parsing
-                            pagesJSON.add(JsonTextUtil.fromText(page));
-                        }
+                        pagesJSON.add(JsonTextUtil.fromJSON(page));
                     }
                 }
                 return Optional.of(pagesJSON);

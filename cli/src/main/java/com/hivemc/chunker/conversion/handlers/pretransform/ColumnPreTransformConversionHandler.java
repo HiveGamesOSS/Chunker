@@ -6,6 +6,8 @@ import com.hivemc.chunker.conversion.intermediate.column.ChunkerColumn;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.ChunkCoordPair;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.RegionCoordPair;
 import com.hivemc.chunker.conversion.intermediate.world.ChunkerWorld;
+import com.hivemc.chunker.scheduling.task.Task;
+import com.hivemc.chunker.scheduling.task.TaskWeight;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -374,19 +376,18 @@ public class ColumnPreTransformConversionHandler implements ColumnConversionHand
 
     @Override
     public void flushColumns() {
-        // This flush should ideally yield no transforms, but if a region has chunks which were actually empty, and we didn't know, they'll flush here
-        synchronized (this) {
-            for (Map.Entry<RegionCoordPair, Map<ChunkCoordPair, ColumnData>> region : pending.entrySet()) {
-                // Transform columns
-                transformCluster(region.getValue().values());
+        Task.async("Submitting remaining columns", TaskWeight.NORMAL, () -> {
+            // This flush should ideally yield no transforms, but if a region has chunks which were actually empty, and we didn't know, they'll flush here
+            synchronized (this) {
+                for (Map.Entry<RegionCoordPair, Map<ChunkCoordPair, ColumnData>> region : pending.entrySet()) {
+                    // Transform columns
+                    transformCluster(region.getValue().values());
+                }
+
+                // Clear
+                pending.clear();
             }
-
-            // Clear
-            pending.clear();
-        }
-
-        // Call delegate
-        delegate.flushColumns();
+        }).then("Calling delegate flushColumns", TaskWeight.NORMAL, delegate::flushColumns);
     }
 
     /**

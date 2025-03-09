@@ -34,7 +34,7 @@ public class BedrockChunkReader {
      *
      * @param resolvers the resolver to use.
      * @param converter the converter instance.
-     * @param dimension     the dimension of the chunk.
+     * @param dimension the dimension of the chunk.
      * @param chunk     the chunk output being read into.
      */
     public BedrockChunkReader(BedrockResolvers resolvers, Converter converter, Dimension dimension, ChunkerChunk chunk) {

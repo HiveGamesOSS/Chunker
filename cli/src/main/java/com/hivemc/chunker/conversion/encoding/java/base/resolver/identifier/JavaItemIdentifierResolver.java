@@ -648,5 +648,11 @@ public class JavaItemIdentifierResolver extends ChunkerItemIdentifierResolver {
         if (version.isGreaterThanOrEqual(1, 21, 4)) {
             register(ItemMapping.of("minecraft:resin_brick", ChunkerVanillaItemType.RESIN_BRICK));
         }
+
+        // 1.21.5
+        if (version.isGreaterThanOrEqual(1, 21, 5)) {
+            register(ItemMapping.of("minecraft:blue_egg", ChunkerVanillaItemType.BLUE_EGG));
+            register(ItemMapping.of("minecraft:brown_egg", ChunkerVanillaItemType.BROWN_EGG));
+        }
     }
 }

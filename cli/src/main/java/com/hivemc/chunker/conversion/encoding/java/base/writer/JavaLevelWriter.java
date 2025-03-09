@@ -6,6 +6,7 @@ import com.hivemc.chunker.conversion.encoding.base.writer.LevelWriter;
 import com.hivemc.chunker.conversion.encoding.base.writer.WorldWriter;
 import com.hivemc.chunker.conversion.encoding.java.JavaDataVersion;
 import com.hivemc.chunker.conversion.encoding.java.base.JavaReaderWriter;
+import com.hivemc.chunker.conversion.encoding.java.base.reader.JavaLevelReader;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.handlers.pretransform.manager.PreTransformManager;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
@@ -341,11 +342,16 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         }
         playerTag.put("playerGameType", gameType);
 
+        boolean splitEquipment = resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 21, 5);
+
         // Write the inventory
         ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(player.getInventory().size()));
         for (Byte2ObjectMap.Entry<ChunkerItemStack> tag : player.getInventory().byte2ObjectEntrySet()) {
             // Don't write air to inventories
             if (tag.getValue().getIdentifier().isAir()) continue;
+
+            // Don't write equipment if it's split into the equipment tag
+            if (splitEquipment && JavaLevelReader.SLOT_TO_EQUIPMENT.containsKey(tag.getByteKey())) continue;
 
             // Write the item with slot
             Optional<CompoundTag> item = resolvers.writeItem(tag.getValue());
@@ -358,6 +364,25 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
             items.add(item.get());
         }
         playerTag.put("Inventory", items);
+
+        // Write the equipment (1.21.5+)
+        if (splitEquipment) {
+            CompoundTag equipment = new CompoundTag();
+            for (Map.Entry<Byte, String> slot : JavaLevelReader.SLOT_TO_EQUIPMENT.entrySet()) {
+                ChunkerItemStack tag = player.getInventory().get(slot.getKey().byteValue());
+
+                // Don't write air to equipment
+                if (tag == null || tag.getIdentifier().isAir()) continue;
+
+                // Write the item
+                Optional<CompoundTag> item = resolvers.writeItem(tag);
+                if (item.isEmpty()) continue;
+
+                // Add to equipment
+                equipment.put(slot.getValue(), item.get());
+            }
+            playerTag.put("equipment", equipment);
+        }
     }
 
     /**

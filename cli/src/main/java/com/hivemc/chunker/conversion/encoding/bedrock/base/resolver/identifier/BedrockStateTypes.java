@@ -817,6 +817,16 @@ public class BedrockStateTypes {
             .mapping(1, SculkSensorPhase.ACTIVE)
             .mapping(2, SculkSensorPhase.COOLDOWN)
             .build();
+    public static final TypeMapping<Integer, Segments> SEGMENT_COUNT = new TypeMapping.Builder<Integer, Segments>()
+            .mapping(0, Segments._1)
+            .mapping(1, Segments._2)
+            .mapping(2, Segments._3)
+            .mapping(3, Segments._4)
+            .mapping(4, Segments._4)
+            .mapping(5, Segments._4)
+            .mapping(6, Segments._4)
+            .mapping(7, Segments._4)
+            .build();
     public static final TypeMapping<String, SlabType> SLAB_TYPE = new TypeMapping.Builder<String, SlabType>()
             .mapping("top", SlabType.TOP)
             .mapping("bottom", SlabType.BOTTOM)

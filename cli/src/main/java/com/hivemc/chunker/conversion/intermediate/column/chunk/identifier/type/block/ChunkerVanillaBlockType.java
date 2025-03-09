@@ -1120,6 +1120,16 @@ public enum ChunkerVanillaBlockType implements ChunkerBlockType {
     RESIN_BRICK_WALL(0x9f5224, VanillaBlockStateGroups.WALL, false),
     RESIN_CLUMP(0x9f5224, Set.of(VanillaBlockStates.DOWN, VanillaBlockStates.EAST, VanillaBlockStates.NORTH, VanillaBlockStates.SOUTH, VanillaBlockStates.UP, VanillaBlockStates.WEST), false),
     CHISELED_RESIN_BRICKS(0x9f5224, true),
+    BUSH(0x7c00, false),
+    CACTUS_FLOWER(0xf27fa5, false),
+    FIREFLY_BUSH(0x7c00, false),
+    LEAF_LITTER(0x664c33, Set.of(VanillaBlockStates.FACING_HORIZONTAL, VanillaBlockStates.SEGMENT_AMOUNT), false),
+    SHORT_DRY_GRASS(0xe5e533, false),
+    TALL_DRY_GRASS(0xe5e533, false),
+    WILDFLOWERS(0x7c00, Set.of(VanillaBlockStates.FACING_HORIZONTAL, VanillaBlockStates.FLOWER_AMOUNT), false),
+    TEST_BLOCK(0x999999, Set.of(VanillaBlockStates.TEST_BLOCK_MODE), TestBlockEntity.class, true),
+    TEST_INSTANCE_BLOCK(0x0, TestInstanceBlockEntity.class, true),
+
     ;
 
     private final int rgbColor;

@@ -2889,5 +2889,16 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
             register(BlockMapping.of("minecraft:resin_brick_wall", ChunkerVanillaBlockType.RESIN_BRICK_WALL, BedrockStateGroups.WALL));
             register(BlockMapping.of("minecraft:resin_clump", ChunkerVanillaBlockType.RESIN_CLUMP, BedrockStateGroups.MULTIFACE));
         }
+
+        // R21U7
+        if (version.isGreaterThanOrEqual(1, 21, 70)) {
+            register(BlockMapping.of("minecraft:bush", ChunkerVanillaBlockType.BUSH));
+            register(BlockMapping.of("minecraft:cactus_flower", ChunkerVanillaBlockType.CACTUS_FLOWER));
+            register(BlockMapping.of("minecraft:firefly_bush", ChunkerVanillaBlockType.FIREFLY_BUSH));
+            register(BlockMapping.of("minecraft:leaf_litter", ChunkerVanillaBlockType.LEAF_LITTER, BedrockStateGroups.LEAF_LITTER));
+            register(BlockMapping.of("minecraft:short_dry_grass", ChunkerVanillaBlockType.SHORT_DRY_GRASS));
+            register(BlockMapping.of("minecraft:tall_dry_grass", ChunkerVanillaBlockType.TALL_DRY_GRASS));
+            register(BlockMapping.of("minecraft:wildflowers", ChunkerVanillaBlockType.WILDFLOWERS, BedrockStateGroups.WILDFLOWERS));
+        }
     }
 }

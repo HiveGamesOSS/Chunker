@@ -3,6 +3,7 @@ package com.hivemc.chunker.conversion.encoding.java.base.resolver.blockentity.ha
 import com.hivemc.chunker.conversion.encoding.base.resolver.blockentity.BlockEntityHandler;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.EnchantmentTableBlockEntity;
+import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.util.JsonTextUtil;
 import org.jetbrains.annotations.NotNull;
@@ -17,15 +18,15 @@ public class JavaEnchantmentBlockEntityHandler extends BlockEntityHandler<JavaRe
 
     @Override
     public void read(@NotNull JavaResolvers resolvers, @NotNull CompoundTag input, @NotNull EnchantmentTableBlockEntity value) {
-        value.setCustomName(input.getOptionalValue("CustomName", String.class)
-                .map(JsonTextUtil::fromJSON)
+        value.setCustomName(input.getOptional("CustomName", Tag.class)
+                .map(JsonTextUtil::fromNBT)
                 .orElse(null));
     }
 
     @Override
     public void write(@NotNull JavaResolvers resolvers, @NotNull CompoundTag output, @NotNull EnchantmentTableBlockEntity value) {
         if (value.getCustomName() != null) {
-            output.put("CustomName", JsonTextUtil.toJSON(value.getCustomName()));
+            output.put("CustomName", JsonTextUtil.toNBT(value.getCustomName(), resolvers.dataVersion()));
         }
     }
 }

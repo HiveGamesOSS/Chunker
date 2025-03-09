@@ -1087,7 +1087,12 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
 
             // New resin blocks
             register(ItemMapping.of("minecraft:resin_brick", ChunkerVanillaItemType.RESIN_BRICK));
+        }
 
+        // R21U7
+        if (version.isGreaterThanOrEqual(1, 21, 70)) {
+            register(ItemMapping.of("minecraft:blue_egg", ChunkerVanillaItemType.BLUE_EGG));
+            register(ItemMapping.of("minecraft:brown_egg", ChunkerVanillaItemType.BROWN_EGG));
         }
     }
 }

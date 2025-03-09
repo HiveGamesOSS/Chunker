@@ -4,6 +4,7 @@ import com.hivemc.chunker.conversion.encoding.base.resolver.blockentity.BlockEnt
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.BeaconBlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerEffectType;
+import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.util.JsonTextUtil;
 import org.jetbrains.annotations.NotNull;
@@ -29,8 +30,8 @@ public class JavaBeaconBlockEntityHandler extends BlockEntityHandler<JavaResolve
             value.setSecondaryEffect(resolvers.readEffectID(input.getInt("Secondary", 0)));
         }
 
-        value.setCustomName(input.getOptionalValue("CustomName", String.class)
-                .map(JsonTextUtil::fromJSON)
+        value.setCustomName(input.getOptional("CustomName", Tag.class)
+                .map(JsonTextUtil::fromNBT)
                 .orElse(null));
     }
 
@@ -53,7 +54,7 @@ public class JavaBeaconBlockEntityHandler extends BlockEntityHandler<JavaResolve
         }
 
         if (value.getCustomName() != null) {
-            output.put("CustomName", JsonTextUtil.toJSON(value.getCustomName()));
+            output.put("CustomName", JsonTextUtil.toNBT(value.getCustomName(), resolvers.dataVersion()));
         }
     }
 }

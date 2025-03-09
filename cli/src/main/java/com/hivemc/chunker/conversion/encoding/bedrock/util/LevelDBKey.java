@@ -1,6 +1,5 @@
 package com.hivemc.chunker.conversion.encoding.bedrock.util;
 
-import com.google.common.base.Charsets;
 import com.google.common.primitives.Bytes;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.ChunkCoordPair;
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;

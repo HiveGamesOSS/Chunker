@@ -1,8 +1,10 @@
 package com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block;
 
+import com.google.common.collect.Sets;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.BlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.BlockState;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.BlockStateValue;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -24,7 +26,10 @@ public class ChunkerCustomBlockType implements ChunkerBlockType {
      */
     public ChunkerCustomBlockType(String identifier, Set<BlockState<?>> blockStates) {
         this.identifier = identifier;
-        this.blockStates = blockStates;
+
+        // All custom blocks should also have the default block states used for every block
+        // This allows waterlogging to correctly be stored and default to false
+        this.blockStates = Sets.union(VanillaBlockStates.DEFAULT_BLOCK_STATES, blockStates);
     }
 
     /**

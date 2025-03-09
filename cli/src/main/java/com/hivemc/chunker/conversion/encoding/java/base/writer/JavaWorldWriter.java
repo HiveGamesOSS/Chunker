@@ -130,7 +130,7 @@ public class JavaWorldWriter implements WorldWriter {
 
         // Sectors are 4KB blocks
         // sectorCount = bytes.length + length header + compression type
-        byte sectorCount = oversized ? 1 : (byte) Math.ceil((bytes.length + 5) / 4096D);
+        int sectorCount = oversized ? 1 : (int) Math.ceil((bytes.length + 5) / 4096D);
 
         // Compute the file
         RandomAccessFile randomAccessFile = mcaFiles.computeIfAbsent(file, (target) -> {

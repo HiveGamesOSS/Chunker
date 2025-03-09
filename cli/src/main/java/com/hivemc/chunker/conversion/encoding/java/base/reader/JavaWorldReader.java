@@ -66,11 +66,15 @@ public class JavaWorldReader implements WorldReader {
                 for (File regionFile : regionFiles) {
                     String[] parts = regionFile.getName().split("\\.");
                     if (parts.length != 4 || regionFile.length() < 4096) continue;
-                    int x = Integer.parseInt(parts[1]);
-                    int z = Integer.parseInt(parts[2]);
+                    try {
+                        int x = Integer.parseInt(parts[1]);
+                        int z = Integer.parseInt(parts[2]);
 
-                    // Add to the list of regions
-                    regions.add(new RegionCoordPair(x, z));
+                        // Add to the list of regions
+                        regions.add(new RegionCoordPair(x, z));
+                    } catch (NumberFormatException e) {
+                        // Ignore the region file
+                    }
                 }
             }
         }

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Chunker
+Exec=app.chunker.chunker
+Icon=app.chunker.chunker
+Type=Application
+Categories=Utility

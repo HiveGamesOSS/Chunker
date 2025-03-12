@@ -137,7 +137,12 @@ public class JavaLegacyBlockEntityResolver extends BlockEntityResolver<JavaResol
                 }
                 return Optional.ofNullable(OLD_TO_NEW_ID.inverse().get(id));
             } else {
-                return Optional.of(id);
+                // In rare occasions worlds contain semi-upgraded block-entity names, so if we know it's a newer name
+                // Use the older name
+                id = OLD_TO_NEW_ID.inverse().getOrDefault(id, id);
+
+                // Return the ID
+                return Optional.ofNullable(id);
             }
         });
     }

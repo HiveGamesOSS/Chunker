@@ -6,7 +6,7 @@ import com.hivemc.chunker.conversion.encoding.base.LevelReaderWriter;
 import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.java.base.reader.pretransform.legacy.JavaLegacyReaderPreTransformManager;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolversBuilder;
-import com.hivemc.chunker.conversion.encoding.java.base.resolver.biome.JavaIDBiomeResolver;
+import com.hivemc.chunker.conversion.encoding.java.base.resolver.biome.JavaBiomeIDResolver;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.biome.JavaNamedBiomeResolver;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.blockentity.legacy.JavaLegacyBlockEntityResolver;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.legacy.JavaLegacyEntityResolver;
@@ -44,7 +44,7 @@ public interface JavaReaderWriter extends LevelReaderWriter {
                 .blockIdentifierResolver(new JavaLegacyBlockIdentifierResolver(converter, version, isReader(), converter.shouldAllowCustomIdentifiers()))
                 .entityTypeResolver(new JavaLegacyEntityTypeResolver(version))
                 .biomeNameResolver(new JavaNamedBiomeResolver(version, converter.shouldAllowCustomIdentifiers()))
-                .biomeIDResolver(new JavaIDBiomeResolver(version))
+                .biomeIDResolver(new JavaBiomeIDResolver(version))
                 .effectResolver(new JavaEffectResolver(version))
                 .effectIDResolver(new JavaEffectIDResolver(version))
                 .enchantmentResolver(new JavaEnchantmentResolver(version))

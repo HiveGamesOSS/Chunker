@@ -4,7 +4,7 @@ import com.google.common.io.Resources;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hivemc.chunker.conversion.encoding.base.Version;
-import com.hivemc.chunker.conversion.encoding.java.base.resolver.biome.JavaIDBiomeResolver;
+import com.hivemc.chunker.conversion.encoding.java.base.resolver.biome.JavaBiomeIDResolver;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.biome.JavaNamedBiomeResolver;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -53,7 +53,7 @@ public class JavaBiomeIDResolverTests {
     @Test
     public void checkBiomeObjectUniqueness() throws IOException {
         List<Arguments> biomeIds = biomeList().toList();
-        JavaIDBiomeResolver biomeResolver = new JavaIDBiomeResolver(Version.LATEST);
+        JavaBiomeIDResolver biomeResolver = new JavaBiomeIDResolver(Version.LATEST);
         Set<ChunkerBiome> loadedBiomes = new ObjectOpenHashSet<>();
         Set<Integer> loadedBiomeIDs = new ObjectOpenHashSet<>();
 
@@ -75,7 +75,7 @@ public class JavaBiomeIDResolverTests {
     @MethodSource("biomeList")
     public void checkBiome(String biome, String biomeRenamed, int biomeId) {
         // Use a high version to ensure every biome is used
-        JavaIDBiomeResolver biomeResolver = new JavaIDBiomeResolver(Version.LATEST);
+        JavaBiomeIDResolver biomeResolver = new JavaBiomeIDResolver(Version.LATEST);
 
         // Convert value
         Optional<ChunkerBiome> mappedValue = biomeResolver.to(biomeId);
@@ -92,7 +92,7 @@ public class JavaBiomeIDResolverTests {
     @MethodSource("biomeList")
     public void checkBiomeMatchesNamed(String biome, String biomeRenamed, int biomeId) {
         // Use a high version to ensure every biome is used
-        JavaIDBiomeResolver biomeIDResolver = new JavaIDBiomeResolver(Version.LATEST);
+        JavaBiomeIDResolver biomeIDResolver = new JavaBiomeIDResolver(Version.LATEST);
         JavaNamedBiomeResolver biomeNameResolver = new JavaNamedBiomeResolver(Version.LATEST, false);
 
         // Convert value

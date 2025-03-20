@@ -5,7 +5,7 @@
 picocli = "4.7.6"
 caffeine = "3.2.0"
 gson = "2.12.1"
-guava = "33.4.0-jre"
+guava = "33.4.5-jre"
 leveldb = "1.0.1"
 leveldb-api = "1.0.1"
 fastutil = "8.5.15"

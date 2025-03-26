@@ -121,22 +121,18 @@ tasks.jar {
     archiveClassifier.set("unshaded")
 
     val gitVersion: () -> String = {
-        val stdout = ByteArrayOutputStream()
-
         // Get the current branch
-        project.exec {
+        val branch = providers.exec {
             commandLine("git", "branch", "--show-current")
-            standardOutput = stdout
-        }
+        }.standardOutput.asText.getOrElse("unknown");
 
         // Get the current commit
-        project.exec {
+        val commit = providers.exec {
             commandLine("git", "describe", "--tags", "--always")
-            standardOutput = stdout
-        }
+        }.standardOutput.asText.getOrElse("unknown")
 
         // Replace newlines with dashes and trim it
-        stdout.toString().trim().replace("\n", "-").replace("\r", "")
+        branch.plus(commit).trim().replace("\n", "-").replace("\r", "")
     }
 
     // Set attributes for running the jar

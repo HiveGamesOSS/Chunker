@@ -15,7 +15,7 @@
   "homepage": "https://github.com/HiveGamesOSS/Chunker",
   "license": "MIT",
   "devDependencies": {
-    "electron": "34.2.0",
+    "electron": "35.1.0",
     "electron-builder": "25.0.5",
     "git-last-commit": "^1.0.1"
   },

@@ -2,8 +2,8 @@ package com.hivemc.chunker.conversion.bedrock.resolver;
 
 import com.hivemc.chunker.conversion.WorldConverter;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevel;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 /**

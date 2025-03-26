@@ -258,10 +258,16 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
         if (parts.length != 4 || file.length() < 4096)
             return; // Skip if it doesn't have the right parts or isn't the right size
 
-        // Parse region co-ordinates
-        int regionX = Integer.parseInt(parts[1]);
-        int regionZ = Integer.parseInt(parts[2]);
-        RegionCoordPair regionCoordPair = new RegionCoordPair(regionX, regionZ);
+        RegionCoordPair regionCoordPair;
+        try {
+            // Parse region co-ordinates
+            int regionX = Integer.parseInt(parts[1]);
+            int regionZ = Integer.parseInt(parts[2]);
+            regionCoordPair = new RegionCoordPair(regionX, regionZ);
+        } catch (NumberFormatException e) {
+            // Ignore if the region co-ordinates didn't parse properly
+            return;
+        }
 
         // Read the MCA file
         try (MCAReader mcaReader = new MCAReader(converter, file)) {

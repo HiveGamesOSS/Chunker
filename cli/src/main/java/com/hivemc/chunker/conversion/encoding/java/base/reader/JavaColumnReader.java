@@ -159,7 +159,7 @@ public class JavaColumnReader implements ColumnReader {
 
             // Read each byte and convert it to a chunker biome
             for (int i = 0; i < chunkerBiomeArray.length; i++) {
-                chunkerBiomeArray[i] = resolvers.readBiome(value[i], dimension);
+                chunkerBiomeArray[i] = resolvers.readBiome(value[i] & 0xFF, dimension);
             }
             column.setBiomes(new ChunkerColumnBasedBiomes(chunkerBiomeArray));
         }

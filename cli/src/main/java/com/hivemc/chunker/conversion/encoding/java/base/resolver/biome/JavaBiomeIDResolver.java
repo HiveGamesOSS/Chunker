@@ -11,7 +11,7 @@ import java.util.Optional;
  * Biome ID resolver, used for Java less than 1.18
  */
 @SuppressWarnings("deprecation")
-public class JavaIDBiomeResolver implements Resolver<Integer, ChunkerBiome> {
+public class JavaBiomeIDResolver implements Resolver<Integer, ChunkerBiome> {
     private final InvertibleMap<ChunkerBiome.ChunkerVanillaBiome, Integer> mapping = InvertibleMap.enumKeys(ChunkerBiome.ChunkerVanillaBiome.class);
 
     /**
@@ -19,7 +19,7 @@ public class JavaIDBiomeResolver implements Resolver<Integer, ChunkerBiome> {
      *
      * @param javaVersion the game version being used, as certain biomes are only available after specific versions.
      */
-    public JavaIDBiomeResolver(Version javaVersion) {
+    public JavaBiomeIDResolver(Version javaVersion) {
         mapping.put(ChunkerBiome.ChunkerVanillaBiome.OCEAN, 0);
         mapping.put(ChunkerBiome.ChunkerVanillaBiome.PLAINS, 1);
         mapping.put(ChunkerBiome.ChunkerVanillaBiome.DESERT, 2);

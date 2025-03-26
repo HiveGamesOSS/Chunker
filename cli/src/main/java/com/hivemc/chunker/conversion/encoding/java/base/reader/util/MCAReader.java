@@ -46,10 +46,17 @@ public class MCAReader implements AutoCloseable {
     public int[] readOffsetTable() throws IOException {
         int[] offsets = new int[1024];
 
+        // Read into temporary buffer
+        byte[] temp = new byte[4096];
+        reader.readBytes(temp);
+
         // Read the header which contains the chunk offsets
         for (int i = 0; i < 1024; i++) {
-            int offset = reader.readUnsignedInt24();
-            reader.readUnsignedByte(); // Read sector count (unused, we can validate without it)
+            int tempIndex = i << 2;
+            int offset = ((temp[tempIndex] & 0xFF) << 16) |
+                    ((temp[tempIndex + 1] & 0xFF) << 8) |
+                    (temp[tempIndex + 2] & 0xFF);
+            // Skip sector count byte (unused, we can validate without it)
 
             // Only record the offset if it's more than 0, the first 4096 is the header, so it's invalid to be there
             if (offset > 0) {

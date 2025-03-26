@@ -17,6 +17,7 @@ import com.hivemc.chunker.scheduling.task.TaskWeight;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -60,17 +61,28 @@ public class JavaWorldReader implements WorldReader {
 
         // Get each region file and loop through
         File[] folders = getMCAFolders();
+        Set<String> knownRegionFiles = new ObjectOpenHashSet<>();
+
         for (File folder : folders) {
             File[] regionFiles = folder.listFiles((parent, fileName) -> fileName.endsWith(".mca"));
             if (regionFiles != null) {
                 for (File regionFile : regionFiles) {
                     String[] parts = regionFile.getName().split("\\.");
                     if (parts.length != 4 || regionFile.length() < 4096) continue;
-                    int x = Integer.parseInt(parts[1]);
-                    int z = Integer.parseInt(parts[2]);
 
-                    // Add to the list of regions
-                    regions.add(new RegionCoordPair(x, z));
+                    // Add to the known files
+                    knownRegionFiles.add(regionFile.getAbsolutePath());
+
+                    // Parse and add the region
+                    try {
+                        int x = Integer.parseInt(parts[1]);
+                        int z = Integer.parseInt(parts[2]);
+
+                        // Add to the list of regions
+                        regions.add(new RegionCoordPair(x, z));
+                    } catch (NumberFormatException e) {
+                        // Ignore the region file
+                    }
                 }
             }
         }
@@ -86,7 +98,7 @@ public class JavaWorldReader implements WorldReader {
             if (columnConversionHandler == null) return; // This can be null if the columns aren't handled by the reader
 
             // Read the regions
-            ProgressiveTask<Void> readingRegionFiles = Task.async("Reading region files", TaskWeight.HIGHER, () -> readRegionFiles(regionsCopy, columnConversionHandler));
+            ProgressiveTask<Void> readingRegionFiles = Task.async("Reading region files", TaskWeight.HIGHER, () -> readRegionFiles(regionsCopy, knownRegionFiles, columnConversionHandler));
 
             // Call the flush task after all the region files have been read
             readingRegionFiles.then("Flushing columns", TaskWeight.MEDIUM, columnConversionHandler::flushColumns);
@@ -100,13 +112,15 @@ public class JavaWorldReader implements WorldReader {
      * Read all the region files and submit the columns.
      *
      * @param regions                 the region co-ordinates to read.
+     * @param knownRegionFiles        a set of files which can be valid .mca files (exist and are bigger than 4096 bytes)
      * @param columnConversionHandler the handler to submit the columns to.
      */
-    protected void readRegionFiles(Set<RegionCoordPair> regions, ColumnConversionHandler columnConversionHandler) {
+    protected void readRegionFiles(Set<RegionCoordPair> regions, Set<String> knownRegionFiles, ColumnConversionHandler columnConversionHandler) {
+        // Process regions
         for (RegionCoordPair region : regions) {
             if (converter.shouldProcessRegion(dimension, region)) {
                 // Multiple region files can be handled by later versions, so it's abstracted here
-                File[] regionFiles = getRegionFiles(region);
+                File[] regionFiles = getRegionFiles(region, knownRegionFiles);
 
                 // Read the region file then perform GC, this ensures in systems where the Java process is not bound
                 // we do not consume too much memory and keep it fair to other processes
@@ -128,12 +142,13 @@ public class JavaWorldReader implements WorldReader {
     }
 
     /**
-     * Get a list of all the MCA files for a region.
+     * Get a list of all the valid MCA files for a region.
      *
-     * @param region the region co-ordinates.
-     * @return an array of all the matching .mca files.
+     * @param region     the region co-ordinates.
+     * @param knownFiles a hashset of absolute paths to known files within the MCAFolders.
+     * @return an array of all the matching .mca files, null entries are used when the file isn't present.
      */
-    protected File[] getRegionFiles(RegionCoordPair region) {
+    protected @Nullable File[] getRegionFiles(RegionCoordPair region, Set<String> knownFiles) {
         File[] folders = getMCAFolders();
         File[] files = new File[folders.length];
 
@@ -141,7 +156,12 @@ public class JavaWorldReader implements WorldReader {
         File[] mcaFolders = getMCAFolders();
         for (int i = 0; i < mcaFolders.length; i++) {
             File folder = mcaFolders[i];
-            files[i] = new File(folder, "r." + region.regionX() + "." + region.regionZ() + ".mca");
+            File temp = new File(folder, "r." + region.regionX() + "." + region.regionZ() + ".mca");
+
+            // Only add the file if it's known to exist
+            if (knownFiles.contains(temp.getAbsolutePath())) {
+                files[i] = temp;
+            }
         }
 
         // Return the files
@@ -157,7 +177,7 @@ public class JavaWorldReader implements WorldReader {
      * @param columnConversionHandler the conversion handler to submit the read columns to.
      */
     @SuppressWarnings("resource")
-    protected void readRegion(File[] regionFiles, RegionCoordPair region, ColumnConversionHandler columnConversionHandler) {
+    protected void readRegion(@Nullable File[] regionFiles, RegionCoordPair region, ColumnConversionHandler columnConversionHandler) {
         int regionFilesCount = regionFiles.length;
         MCAReader[] mcaReaders = new MCAReader[regionFilesCount];
         try {
@@ -166,8 +186,8 @@ public class JavaWorldReader implements WorldReader {
             for (int i = 0; i < regionFilesCount; i++) {
                 File file = regionFiles[i];
 
-                // Skip if the file doesn't exist or isn't big enough to be a valid region file
-                if (!file.exists() || file.length() < 4096) continue;
+                // Skip if the file doesn't exist / is invalid
+                if (file == null) continue;
 
                 // Otherwise open a random access file
                 try {

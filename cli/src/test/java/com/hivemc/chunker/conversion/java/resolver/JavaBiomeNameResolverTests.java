@@ -4,7 +4,7 @@ import com.google.common.io.Resources;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.hivemc.chunker.conversion.encoding.base.Version;
-import com.hivemc.chunker.conversion.encoding.java.base.resolver.biome.JavaIDBiomeResolver;
+import com.hivemc.chunker.conversion.encoding.java.base.resolver.biome.JavaBiomeIDResolver;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.biome.JavaNamedBiomeResolver;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -88,7 +88,7 @@ public class JavaBiomeNameResolverTests {
     @MethodSource("biomeList")
     public void checkBiomeIDsExist(String biome) {
         // Use a high version to ensure every biome is used
-        JavaIDBiomeResolver biomeIDResolver = new JavaIDBiomeResolver(Version.LATEST);
+        JavaBiomeIDResolver biomeIDResolver = new JavaBiomeIDResolver(Version.LATEST);
         JavaNamedBiomeResolver biomeNameResolver = new JavaNamedBiomeResolver(Version.LATEST, false);
 
         Optional<ChunkerBiome> mappedNameValue = biomeNameResolver.to(biome);

@@ -787,6 +787,12 @@ public class BedrockStateTypes {
             .mapping(14, Bool.TRUE)
             .mapping(15, Bool.TRUE)
             .build();
+    public static final TypeMapping<Integer, RehydrationLevel> REHYDRATION_LEVEL = new TypeMapping.Builder<Integer, RehydrationLevel>()
+            .mapping(0, RehydrationLevel._0)
+            .mapping(1, RehydrationLevel._1)
+            .mapping(2, RehydrationLevel._2)
+            .mapping(3, RehydrationLevel._3)
+            .build();
     public static final TypeMapping<Integer, RespawnAnchorCharges> RESPAWN_ANCHOR_CHARGE = new TypeMapping.Builder<Integer, RespawnAnchorCharges>()
             .mapping(0, RespawnAnchorCharges._0)
             .mapping(1, RespawnAnchorCharges._1)

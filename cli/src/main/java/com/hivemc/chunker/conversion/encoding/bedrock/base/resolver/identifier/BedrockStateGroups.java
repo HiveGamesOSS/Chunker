@@ -347,6 +347,10 @@ public class BedrockStateGroups {
     public static final StateMappingGroup DOUBLE_BLOCK = new StateMappingGroup.Builder()
             .state("upper_block_bit", VanillaBlockStates.HALF, BedrockStateTypes.HALF)
             .build();
+    public static final StateMappingGroup DRIED_GHAST = new StateMappingGroup.Builder()
+            .state("minecraft:cardinal_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.CARDINAL_DIRECTION)
+            .state("rehydration_level", VanillaBlockStates.REHYDRATION_LEVEL, BedrockStateTypes.REHYDRATION_LEVEL)
+            .build();
     public static final VersionedStateMappingGroup ENDER_CHEST = new VersionedStateMappingGroup.Builder()
             .defaults(new StateMappingGroup.Builder()
                     .state("facing_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.FACING_DIRECTION_LEGACY_HORIZONTAL)

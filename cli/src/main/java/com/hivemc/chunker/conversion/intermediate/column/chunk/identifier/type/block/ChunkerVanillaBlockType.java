@@ -1129,6 +1129,7 @@ public enum ChunkerVanillaBlockType implements ChunkerBlockType {
     WILDFLOWERS(0x7c00, Set.of(VanillaBlockStates.FACING_HORIZONTAL, VanillaBlockStates.FLOWER_AMOUNT), false),
     TEST_BLOCK(0x999999, Set.of(VanillaBlockStates.TEST_BLOCK_MODE), TestBlockEntity.class, true),
     TEST_INSTANCE_BLOCK(0x0, TestInstanceBlockEntity.class, true),
+    DRIED_GHAST(0x392923, Set.of(VanillaBlockStates.FACING_HORIZONTAL, VanillaBlockStates.REHYDRATION_LEVEL), false)
 
     ;
 

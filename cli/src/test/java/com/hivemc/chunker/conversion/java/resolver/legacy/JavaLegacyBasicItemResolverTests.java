@@ -143,7 +143,9 @@ public class JavaLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.EVOKER_FANGS,
                     ChunkerVanillaEntityType.GLOW_ITEM_FRAME,
                     ChunkerVanillaEntityType.ILLUSIONER,
-                    ChunkerVanillaEntityType.CREAKING
+                    ChunkerVanillaEntityType.OMINOUS_ITEM_SPAWNER,
+                    ChunkerVanillaEntityType.CREAKING,
+                    ChunkerVanillaEntityType.HAPPY_GHAST
             ),
             ChunkerPotionType.class, Set.of(
                     ChunkerPotionType.EMPTY,

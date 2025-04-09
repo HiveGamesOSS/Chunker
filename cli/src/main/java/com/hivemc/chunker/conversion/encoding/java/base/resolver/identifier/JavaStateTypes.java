@@ -544,6 +544,12 @@ public class JavaStateTypes {
             .mapping("side", RedstoneConnection.SIDE)
             .mapping("none", RedstoneConnection.NONE)
             .build();
+    public static final TypeMapping<String, RehydrationLevel> REHYDRATION_LEVEL = new TypeMapping.Builder<String, RehydrationLevel>()
+            .mapping("0", RehydrationLevel._0)
+            .mapping("1", RehydrationLevel._1)
+            .mapping("2", RehydrationLevel._2)
+            .mapping("3", RehydrationLevel._3)
+            .build();
     public static final TypeMapping<String, Rotation> ROTATION = new TypeMapping.Builder<String, Rotation>()
             .mapping("0", Rotation._0)
             .mapping("1", Rotation._1)

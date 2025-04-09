@@ -206,6 +206,7 @@ public class JavaEntityTypeResolver implements Resolver<String, ChunkerEntityTyp
             mapping.put(ChunkerVanillaEntityType.WIND_CHARGE, "minecraft:wind_charge");
             mapping.put(ChunkerVanillaEntityType.ARMADILLO, "minecraft:armadillo");
             mapping.put(ChunkerVanillaEntityType.BOGGED, "minecraft:bogged");
+            mapping.put(ChunkerVanillaEntityType.OMINOUS_ITEM_SPAWNER, "minecraft:ominous_item_spawner");
         }
         if (version.isGreaterThanOrEqual(1, 21, 2)) {
             mapping.put(ChunkerVanillaEntityType.CREAKING, "minecraft:creaking");
@@ -236,6 +237,9 @@ public class JavaEntityTypeResolver implements Resolver<String, ChunkerEntityTyp
             // Potion was flattened
             mapping.put(ChunkerVanillaEntityType.LINGERING_POTION, "minecraft:lingering_potion");
             mapping.put(ChunkerVanillaEntityType.POTION, "minecraft:splash_potion");
+        }
+        if (version.isGreaterThanOrEqual(1, 21, 6)) {
+            mapping.put(ChunkerVanillaEntityType.HAPPY_GHAST, "minecraft:happy_ghast");
         }
     }
 

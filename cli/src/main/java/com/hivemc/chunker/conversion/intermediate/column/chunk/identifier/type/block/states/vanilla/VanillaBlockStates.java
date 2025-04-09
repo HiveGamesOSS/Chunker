@@ -116,6 +116,7 @@ public class VanillaBlockStates {
     public static final BlockState<RedstoneConnection> REDSTONE_NORTH = new BlockState<>("north", RedstoneConnection.NONE, RedstoneConnection::values);
     public static final BlockState<RedstoneConnection> REDSTONE_SOUTH = new BlockState<>("south", RedstoneConnection.NONE, RedstoneConnection::values);
     public static final BlockState<RedstoneConnection> REDSTONE_WEST = new BlockState<>("west", RedstoneConnection.NONE, RedstoneConnection::values);
+    public static final BlockState<RehydrationLevel> REHYDRATION_LEVEL = new BlockState<>("rehydration_level", RehydrationLevel._0, RehydrationLevel::values);
     public static final BlockState<RespawnAnchorCharges> RESPAWN_ANCHOR_CHARGES = new BlockState<>("charges", RespawnAnchorCharges._0, RespawnAnchorCharges::values);
     public static final BlockState<Rotation> ROTATION = new BlockState<>("rotation", Rotation._0, Rotation::values);
     public static final BlockState<SculkSensorPhase> SCULK_SENSOR_PHASE = new BlockState<>("sculk_sensor_phase", SculkSensorPhase.INACTIVE, SculkSensorPhase::values);

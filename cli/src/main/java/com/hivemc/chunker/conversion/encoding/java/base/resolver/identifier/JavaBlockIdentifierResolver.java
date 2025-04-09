@@ -6,6 +6,7 @@ import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.BlockMapping;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.ChunkerBlockIdentifierResolver;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.state.StateMappingGroup;
+import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.identifier.BedrockStateGroups;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Bool;
@@ -1542,6 +1543,11 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
             register(BlockMapping.of("minecraft:short_dry_grass", ChunkerVanillaBlockType.SHORT_DRY_GRASS));
             register(BlockMapping.of("minecraft:tall_dry_grass", ChunkerVanillaBlockType.TALL_DRY_GRASS));
             register(BlockMapping.of("minecraft:wildflowers", ChunkerVanillaBlockType.WILDFLOWERS, JavaStateGroups.WILDFLOWERS));
+        }
+
+        // 1.21.6
+        if (version.isGreaterThanOrEqual(1, 21, 6)) {
+            register(BlockMapping.of("minecraft:dried_ghast", ChunkerVanillaBlockType.DRIED_GHAST, JavaStateGroups.DRIED_GHAST));
         }
     }
 }

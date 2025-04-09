@@ -2900,5 +2900,10 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
             register(BlockMapping.of("minecraft:tall_dry_grass", ChunkerVanillaBlockType.TALL_DRY_GRASS));
             register(BlockMapping.of("minecraft:wildflowers", ChunkerVanillaBlockType.WILDFLOWERS, BedrockStateGroups.WILDFLOWERS));
         }
+
+        // R21U8
+        if (version.isGreaterThanOrEqual(1, 21, 80)) {
+            register(BlockMapping.of("minecraft:dried_ghast", ChunkerVanillaBlockType.DRIED_GHAST, BedrockStateGroups.DRIED_GHAST));
+        }
     }
 }

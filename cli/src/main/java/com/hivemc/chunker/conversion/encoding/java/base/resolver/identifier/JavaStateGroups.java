@@ -268,6 +268,11 @@ public class JavaStateGroups {
             .state("open", VanillaBlockStates.OPEN, JavaStateTypes.BOOL)
             .state("powered", VanillaBlockStates.POWERED, JavaStateTypes.BOOL)
             .build();
+    public static final StateMappingGroup DRIED_GHAST = new StateMappingGroup.Builder()
+            .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
+            .state("hydration", VanillaBlockStates.REHYDRATION_LEVEL, JavaStateTypes.REHYDRATION_LEVEL)
+            .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+            .build();
     public static final StateMappingGroup END_PORTAL_FRAME = new StateMappingGroup.Builder()
             .state("eye", VanillaBlockStates.EYE, JavaStateTypes.BOOL)
             .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)

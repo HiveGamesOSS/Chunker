@@ -1094,5 +1094,30 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
             register(ItemMapping.of("minecraft:blue_egg", ChunkerVanillaItemType.BLUE_EGG));
             register(ItemMapping.of("minecraft:brown_egg", ChunkerVanillaItemType.BROWN_EGG));
         }
+
+        // R21U8
+        if (version.isGreaterThanOrEqual(1, 21, 80)) {
+            // Game Drop 2 Experiments
+            // New egg
+            register(ItemMapping.of("minecraft:happy_ghast_spawn_egg", ChunkerVanillaItemType.SPAWN_EGG, ChunkerItemProperty.SPAWN_EGG_MOB, ChunkerVanillaEntityType.HAPPY_GHAST));
+
+            // Harness
+            register(ItemMapping.of("minecraft:black_harness", ChunkerVanillaItemType.BLACK_HARNESS));
+            register(ItemMapping.of("minecraft:blue_harness", ChunkerVanillaItemType.BLUE_HARNESS));
+            register(ItemMapping.of("minecraft:brown_harness", ChunkerVanillaItemType.BROWN_HARNESS));
+            register(ItemMapping.of("minecraft:cyan_harness", ChunkerVanillaItemType.CYAN_HARNESS));
+            register(ItemMapping.of("minecraft:gray_harness", ChunkerVanillaItemType.GRAY_HARNESS));
+            register(ItemMapping.of("minecraft:green_harness", ChunkerVanillaItemType.GREEN_HARNESS));
+            register(ItemMapping.of("minecraft:light_blue_harness", ChunkerVanillaItemType.LIGHT_BLUE_HARNESS));
+            register(ItemMapping.of("minecraft:light_gray_harness", ChunkerVanillaItemType.LIGHT_GRAY_HARNESS));
+            register(ItemMapping.of("minecraft:lime_harness", ChunkerVanillaItemType.LIME_HARNESS));
+            register(ItemMapping.of("minecraft:magenta_harness", ChunkerVanillaItemType.MAGENTA_HARNESS));
+            register(ItemMapping.of("minecraft:orange_harness", ChunkerVanillaItemType.ORANGE_HARNESS));
+            register(ItemMapping.of("minecraft:pink_harness", ChunkerVanillaItemType.PINK_HARNESS));
+            register(ItemMapping.of("minecraft:purple_harness", ChunkerVanillaItemType.PURPLE_HARNESS));
+            register(ItemMapping.of("minecraft:red_harness", ChunkerVanillaItemType.RED_HARNESS));
+            register(ItemMapping.of("minecraft:white_harness", ChunkerVanillaItemType.WHITE_HARNESS));
+            register(ItemMapping.of("minecraft:yellow_harness", ChunkerVanillaItemType.YELLOW_HARNESS));
+        }
     }
 }

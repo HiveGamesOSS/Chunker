@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export class SliderType extends Component {
     onChangeValue = (event) => {
@@ -81,16 +83,39 @@ export class NumberInputType extends Component {
     }
 }
 
+export class ButtonInputType extends Component {
+    onChangeValue = (event) => {
+        this.props.onChangeValue(event.target.value);
+    };
+
+    render() {
+        if (this.props.header) {
+            return <button variant="link" title={this.props.description} onClick={this.onChangeValue}
+                           onBlur={this.props.onBlur}>
+                {this.props.value === "X" ? <FontAwesomeIcon icon={faTimes}/> : this.props.value}
+            </button>;
+        } else {
+            return <button className="button blue small" title={this.props.description} onClick={this.onChangeValue}
+                           onBlur={this.props.onBlur}>
+                {this.props.value === "X" ? <FontAwesomeIcon icon={faTimes}/> : this.props.value}
+            </button>;
+        }
+    }
+}
+
+
 export class SettingsInput extends Component {
     onChangeValue = (value) => {
         this.props.onChange(this.props.base.name, value);
     };
 
     render() {
+        let className = this.props.base.borderless ? "borderless_box" : (!this.props.base.header ? "white_box" : "header_box");
         return (
-            <div className={"white_box" + (this.props.base.type === "Boolean" ? " checkbox" : "")}>
-                <label className="legend" htmlFor="name">
-                    {(((this.props.base.description && this.props.base.description.length > 0) || this.props.base.java !== this.props.base.bedrock)) &&
+            <div
+                className={className + (this.props.base.type === "Boolean" ? " checkbox" : "")}>
+                {(!this.props.base.borderless && <label className="legend" htmlFor="name">
+                    {(((this.props.base.description && this.props.base.description.length > 0 && this.props.base.type !== "Button") || this.props.base.java !== this.props.base.bedrock)) &&
                         <span className="tooltip">
                             {this.props.base.java === true && this.props.base.bedrock === false &&
                                 <strong>Java only.&nbsp;</strong>}
@@ -99,7 +124,7 @@ export class SettingsInput extends Component {
                             {this.props.base.description}
                         </span>
                     }{this.props.name}
-                </label>
+                </label>)}
                 <div className="fields">
                     {this.props.base.type === "String" &&
                         <StringInputType value={this.props.base.value} onChangeValue={this.onChangeValue}
@@ -122,6 +147,11 @@ export class SettingsInput extends Component {
                     {this.props.base.type === "Slider" &&
                         <SliderType value={this.props.base.value} min={this.props.base.min} max={this.props.base.max}
                                     onChangeValue={this.onChangeValue} onBlur={this.props.onBlur}/>
+                    }
+                    {this.props.base.type === "Button" &&
+                        <ButtonInputType value={this.props.base.value} description={this.props.base.description}
+                                         onChangeValue={this.onChangeValue}
+                                         onBlur={this.props.onBlur} header={this.props.base.header}/>
                     }
                 </div>
             </div>

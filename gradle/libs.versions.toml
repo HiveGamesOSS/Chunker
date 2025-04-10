@@ -5,7 +5,7 @@
 picocli = "4.7.6"
 caffeine = "3.2.0"
 gson = "2.12.1"
-guava = "33.4.6-jre"
+guava = "33.4.7-jre"
 leveldb = "1.0.1"
 leveldb-api = "1.0.1"
 fastutil = "8.5.15"
@@ -16,8 +16,8 @@ jetbrains-annotations = "26.0.2"
 junit = "5.12.1"
 
 # Plugins
-shadow = "8.3.0"
-gitVersion = "3.1.0"
+shadow = "8.3.6"
+gitVersion = "3.2.0"
 jpackage = "1.6.1"
 node = "7.1.0"
 

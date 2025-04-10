@@ -185,8 +185,14 @@ public class BedrockEntityTypeIDResolver implements Resolver<Integer, ChunkerEnt
             mapping.put(ChunkerVanillaEntityType.WIND_CHARGE, 143);
             mapping.put(ChunkerVanillaEntityType.BOGGED, 144);
         }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 21, 0)) {
+            mapping.put(ChunkerVanillaEntityType.OMINOUS_ITEM_SPAWNER, 145);
+        }
         if (bedrockVersion.isGreaterThanOrEqual(1, 21, 50)) {
-            mapping.put(ChunkerVanillaEntityType.CREAKING, 145);
+            mapping.put(ChunkerVanillaEntityType.CREAKING, 146);
+        }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 21, 80)) {
+            mapping.put(ChunkerVanillaEntityType.HAPPY_GHAST, 147);
         }
     }
 

@@ -208,6 +208,14 @@ export class Map extends Component {
                 region: true
             });
 
+            // Add a label for the region if there are multiple
+            if (pruningRegions.regions.length > 1) {
+                rect.bindTooltip("Region " + (index + 1), {
+                    direction: "center",
+                    opacity: 0.8
+                });
+            }
+
             // Add event for edit
             let self = this;
             rect.on("edit", function (e) {

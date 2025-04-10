@@ -97,6 +97,25 @@ export class DimensionPruningTab extends Component {
 
                 return {pruningSettings: pruningSettingsClone};
             });
+        } else if (name === "addRegion") {
+            this.app.setState((prevState) => {
+                let pruningSettingsClone = JSON.parse(JSON.stringify(prevState.pruningSettings));
+                pruningSettingsClone[tabIndex].regions = pruningSettingsClone[tabIndex].regions.concat([{
+                    minChunkX: -10,
+                    minChunkZ: -10,
+                    maxChunkX: 10,
+                    maxChunkZ: 10
+                }]);
+
+                return {pruningSettings: pruningSettingsClone};
+            });
+        } else if (name === "removeRegion") {
+            this.app.setState((prevState) => {
+                let pruningSettingsClone = JSON.parse(JSON.stringify(prevState.pruningSettings));
+                pruningSettingsClone[tabIndex].regions.splice(setting.region, 1);
+
+                return {pruningSettings: pruningSettingsClone};
+            });
         } else {
             this.app.setState((prevState) => {
                 let pruningSettingsClone = JSON.parse(JSON.stringify(prevState.pruningSettings));
@@ -147,18 +166,30 @@ export class DimensionPruningTab extends Component {
     };
 
     getOptions = (dimension, dimensionIndex) => {
+        let enabled = !!(this.app.state.pruningSettings[dimensionIndex]
+            && this.app.state.pruningSettings[dimensionIndex].regions
+            && this.app.state.pruningSettings[dimensionIndex].regions.length > 0);
         let options = [
             {
                 "display": "Prune chunks outside of a region",
                 "name": "Enabled",
                 "description": "This will make it so other chunks outside a certain region are discarded.",
                 "type": "Boolean",
-                "value": !!(this.app.state.pruningSettings[dimensionIndex] && this.app.state.pruningSettings[dimensionIndex].regions)
+                "value": enabled
             }
         ];
 
         if (this.app.state.pruningSettings[dimensionIndex] && this.app.state.pruningSettings[dimensionIndex].regions) {
             this.app.state.pruningSettings[dimensionIndex].regions.forEach((region, index) => {
+                options = options.concat([{
+                    "display": "Region " + (index + 1),
+                    "name": "removeRegion",
+                    "description": "Remove this region",
+                    "header": true,
+                    "type": "Button",
+                    "value": "X",
+                    "region": index
+                }]);
                 // Add settings for dimension pruning
                 options = options.concat([
                     {
@@ -195,6 +226,20 @@ export class DimensionPruningTab extends Component {
                     }
                 ]);
             });
+
+            // Only show add region if it's enabled
+            if (enabled) {
+                options = options.concat([
+                    {
+                        "display": "Add Region",
+                        "borderless": true,
+                        "name": "addRegion",
+                        "description": "Add another pruning region",
+                        "value": "Add Region",
+                        "type": "Button"
+                    }
+                ]);
+            }
         }
         return options;
     };
@@ -228,7 +273,8 @@ export class DimensionPruningTab extends Component {
                                            name={"Output Dimension"}
                                            onChange={(name, value) => this.updateSetting(tab, name, value)}/>
                             {pruningSettings.map(setting => (
-                                <SettingsInput key={setting.name} base={setting} name={setting.display}
+                                <SettingsInput key={setting.name + ":" + setting.region} base={setting}
+                                               name={setting.display}
                                                onChange={(name, value) => this.updateSetting(tab, name, value, setting)}
                                                onBlur={() => this.validateSetting(tab, setting)}/>
                             ))}

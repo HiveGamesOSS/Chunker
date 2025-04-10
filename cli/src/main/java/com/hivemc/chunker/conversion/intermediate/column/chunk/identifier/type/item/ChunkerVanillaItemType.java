@@ -417,7 +417,23 @@ public enum ChunkerVanillaItemType implements ChunkerItemType {
     WIND_CHARGE,
     BREEZE_ROD,
     MACE,
-    RESIN_BRICK;
+    RESIN_BRICK,
+    BLACK_HARNESS,
+    BLUE_HARNESS,
+    BROWN_HARNESS,
+    CYAN_HARNESS,
+    GRAY_HARNESS,
+    GREEN_HARNESS,
+    LIGHT_BLUE_HARNESS,
+    LIGHT_GRAY_HARNESS,
+    LIME_HARNESS,
+    MAGENTA_HARNESS,
+    ORANGE_HARNESS,
+    PINK_HARNESS,
+    PURPLE_HARNESS,
+    RED_HARNESS,
+    WHITE_HARNESS,
+    YELLOW_HARNESS;
 
     private final Class<? extends BlockEntity> blockEntityClass;
 

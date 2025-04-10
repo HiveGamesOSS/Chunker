@@ -77,6 +77,7 @@ public class JavaBasicItemResolverTests {
                     // Added in newer than 1.20.4
                     ChunkerVanillaEntityType.ARMADILLO,
                     ChunkerVanillaEntityType.BOGGED,
+                    ChunkerVanillaEntityType.OMINOUS_ITEM_SPAWNER,
                     ChunkerVanillaEntityType.BREEZE,
                     ChunkerVanillaEntityType.WIND_CHARGE,
                     ChunkerVanillaEntityType.BREEZE_WIND_CHARGE_PROJECTILE,
@@ -101,7 +102,11 @@ public class JavaBasicItemResolverTests {
                     ChunkerVanillaEntityType.DARK_OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.PALE_OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT,
-                    ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT
+                    ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT,
+
+                    // 1.21.6
+                    ChunkerVanillaEntityType.HAPPY_GHAST
+
             ),
             ChunkerPotionType.class, Set.of(
                     ChunkerPotionType.EMPTY,

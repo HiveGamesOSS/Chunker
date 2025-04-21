@@ -2,7 +2,7 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-picocli = "4.7.6"
+picocli = "4.7.7"
 caffeine = "3.2.0"
 gson = "2.12.1"
 guava = "33.4.7-jre"

@@ -266,7 +266,7 @@ public class BedrockLegacyItemStackResolver extends ItemStackResolver<BedrockRes
                 for (Map.Entry<ChunkerEnchantmentType, Integer> enchantment : enchantments.entrySet()) {
                     Optional<Integer> id = resolvers.enchantmentIDResolver().from(enchantment.getKey());
                     if (id.isEmpty()) {
-                        resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENCHANTMENT, enchantment.getKey().toString());
+                        resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENCHANTMENT, String.valueOf(enchantment.getKey()));
                         continue; // Don't include not supported enchantments
                     }
 
@@ -337,7 +337,7 @@ public class BedrockLegacyItemStackResolver extends ItemStackResolver<BedrockRes
                     state.right().put("ItemIdentifier", type.get());
                 } else {
                     // Report missing mapping
-                    resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENTITY_TYPE, entityType.toString());
+                    resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENTITY_TYPE, String.valueOf(entityType));
 
                     // If it's a spawn egg, turn the output to null as it's not valid
                     if (state.key().getIdentifier() == ChunkerVanillaItemType.SPAWN_EGG) {

@@ -44,6 +44,9 @@ public class ChunkerClusterPaletteBasedBiomes implements ChunkerBiomes {
                     }
                 }
             }
+        } else {
+            // Fill with the fallback if empty
+            Arrays.fill(output, fallbackBiome);
         }
 
         return output;
@@ -66,6 +69,9 @@ public class ChunkerClusterPaletteBasedBiomes implements ChunkerBiomes {
                     }
                 }
             }
+        } else {
+            // Fill with the fallback if empty
+            Arrays.fill(output, fallbackBiome);
         }
 
         return output;

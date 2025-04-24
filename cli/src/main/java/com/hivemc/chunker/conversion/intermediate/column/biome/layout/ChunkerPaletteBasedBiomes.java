@@ -6,6 +6,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.Palette;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.ShortBasedPalette;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.SingleValuePalette;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
@@ -39,6 +40,9 @@ public class ChunkerPaletteBasedBiomes implements ChunkerBiomes {
                 // Set the key to the looked up value
                 output[i] = palette.get(x, 0, z, fallbackBiome);
             }
+        } else {
+            // Fill with the fallback if empty
+            Arrays.fill(output, fallbackBiome);
         }
 
         return output;
@@ -67,6 +71,9 @@ public class ChunkerPaletteBasedBiomes implements ChunkerBiomes {
                     }
                 }
             }
+        } else {
+            // Fill with the fallback if empty
+            Arrays.fill(output, fallbackBiome);
         }
 
         return output;

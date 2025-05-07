@@ -219,7 +219,7 @@ public class JavaColumnWriter implements ColumnWriter {
             return compoundTag.get();
         } else {
             // Log as missing
-            converter.logMissingMapping(Converter.MissingMappingType.ENTITY, entity.getEntityType().toString());
+            converter.logMissingMapping(Converter.MissingMappingType.ENTITY, String.valueOf(entity.getEntityType()));
             return null;
         }
     }

@@ -24,6 +24,7 @@ import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.resolver.Resolver;
 import com.hivemc.chunker.util.LegacyIdentifier;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.function.Function;
@@ -110,7 +111,7 @@ public class JavaResolversBuilder {
                 // Return the output or report an error
                 return output.orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.BLOCK, input.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.BLOCK, String.valueOf(input));
 
                     // Return air
                     return ChunkerBlockIdentifier.AIR;
@@ -121,7 +122,7 @@ public class JavaResolversBuilder {
             public ChunkerBlockIdentifier readBlockIdentifier(Identifier input) {
                 return blockIdentifierResolver.to(input).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.BLOCK, input.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.BLOCK, String.valueOf(input));
 
                     // Return air
                     return ChunkerBlockIdentifier.AIR;
@@ -158,7 +159,7 @@ public class JavaResolversBuilder {
             public Optional<CompoundTag> writeItem(ChunkerItemStack chunkerItemStack) {
                 return Optional.ofNullable(itemStackResolver.from(chunkerItemStack).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.ITEM, chunkerItemStack.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.ITEM, String.valueOf(chunkerItemStack));
 
                     // Return null
                     return null;
@@ -180,7 +181,7 @@ public class JavaResolversBuilder {
                         });
                     } else {
                         // Report the error
-                        converter.logMissingMapping(Converter.MissingMappingType.ITEM, chunkerItemStack.toString());
+                        converter.logMissingMapping(Converter.MissingMappingType.ITEM, String.valueOf(chunkerItemStack));
 
                         // Write air
                         return writeBlockIdentifier(ChunkerBlockIdentifier.AIR, false).orElseThrow();
@@ -214,7 +215,7 @@ public class JavaResolversBuilder {
             public int writeBiomeID(ChunkerBiome biome, Dimension dimension) {
                 return biomeIDResolver.from(biome).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.BIOME, biome.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.BIOME, String.valueOf(biome));
 
                     // Return fallback
                     return biomeIDResolver.from(getFallbackBiome(dimension)).orElseThrow();
@@ -225,7 +226,7 @@ public class JavaResolversBuilder {
             public String writeBiome(ChunkerBiome biome, Dimension dimension) {
                 return biomeNameResolver.from(biome).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.BIOME, biome.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.BIOME, String.valueOf(biome));
 
                     // Return fallback
                     return biomeNameResolver.from(getFallbackBiome(dimension)).orElseThrow();
@@ -236,7 +237,7 @@ public class JavaResolversBuilder {
             public CompoundTag writeBlock(ChunkerBlockIdentifier chunkerBlockIdentifier) {
                 return nbtChunkerBlockIdentifierResolver.from(chunkerBlockIdentifier).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.BLOCK, chunkerBlockIdentifier.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.BLOCK, String.valueOf(chunkerBlockIdentifier));
 
                     // Return air
                     return nbtChunkerBlockIdentifierResolver.from(ChunkerBlockIdentifier.AIR).orElseThrow();
@@ -248,7 +249,7 @@ public class JavaResolversBuilder {
                 Optional<Identifier> result = blockIdentifierResolver.from(identifier);
                 if (result.isEmpty() && reportMissing) {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.BLOCK, identifier.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.BLOCK, String.valueOf(identifier));
                 }
                 return result;
             }
@@ -260,7 +261,7 @@ public class JavaResolversBuilder {
                                 .map(id -> new LegacyIdentifier(id, (byte) identifier.getDataValue().orElse(0))))
                         .orElseGet(() -> {
                             // Report the error
-                            converter.logMissingMapping(Converter.MissingMappingType.BLOCK, chunkerBlockIdentifier.toString());
+                            converter.logMissingMapping(Converter.MissingMappingType.BLOCK, String.valueOf(chunkerBlockIdentifier));
 
                             // Return air
                             return new LegacyIdentifier(0, (byte) 0);
@@ -282,7 +283,7 @@ public class JavaResolversBuilder {
             public String writeEffect(ChunkerEffectType effect) {
                 return effectResolver.from(effect).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.EFFECT, effect.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.EFFECT, String.valueOf(effect));
 
                     // Return empty
                     return "minecraft:empty";
@@ -304,7 +305,7 @@ public class JavaResolversBuilder {
             public int writeEffectID(ChunkerEffectType effect) {
                 return effectIDResolver.from(effect).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.EFFECT, effect.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.EFFECT, String.valueOf(effect));
 
                     // Return empty
                     return 0;
@@ -326,7 +327,7 @@ public class JavaResolversBuilder {
             public String writeHornInstrument(ChunkerHornInstrument hornInstrument) {
                 return hornInstrumentResolver.from(hornInstrument).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.HORN, hornInstrument.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.HORN, String.valueOf(hornInstrument));
 
                     // Return ponder
                     return hornInstrumentResolver.from(ChunkerHornInstrument.PONDER_GOAT_HORN).orElseThrow();
@@ -348,7 +349,7 @@ public class JavaResolversBuilder {
             public String writePotionType(ChunkerPotionType potionType) {
                 return potionTypeResolver.from(potionType).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.POTION, potionType.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.POTION, String.valueOf(potionType));
 
                     // Use water
                     return potionTypeResolver.from(ChunkerPotionType.WATER).orElseThrow();
@@ -370,7 +371,7 @@ public class JavaResolversBuilder {
             public String writePaintingMotive(PaintingEntity.Motive motive) {
                 return paintingMotiveResolver.from(motive).orElseGet(() -> {
                     // Report the error
-                    converter.logMissingMapping(Converter.MissingMappingType.PAINTING, motive.toString());
+                    converter.logMissingMapping(Converter.MissingMappingType.PAINTING, String.valueOf(motive));
 
                     // Return kebab
                     return paintingMotiveResolver.from(PaintingEntity.Motive.KEBAB).orElseThrow();

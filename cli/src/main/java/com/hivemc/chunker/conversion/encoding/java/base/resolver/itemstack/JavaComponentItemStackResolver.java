@@ -311,7 +311,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                 for (Map.Entry<ChunkerEnchantmentType, Integer> enchantment : value.entrySet()) {
                     Optional<String> id = resolvers.enchantmentResolver().from(enchantment.getKey());
                     if (id.isEmpty()) {
-                        resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENCHANTMENT, enchantment.getKey().toString());
+                        resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENCHANTMENT, String.valueOf(enchantment.getKey()));
                         continue; // Don't include not supported enchantments
                     }
 
@@ -394,7 +394,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                     entityTag.put("id", type.get());
                 } else {
                     // Report missing mapping
-                    resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENTITY_TYPE, entityType.toString());
+                    resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENTITY_TYPE, String.valueOf(entityType));
 
                     // If it's a spawn egg, turn the output to null as it's not valid
                     if (state.key().getIdentifier() == ChunkerVanillaItemType.SPAWN_EGG) {
@@ -590,7 +590,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                 Optional<String> trimPattern = resolvers.trimPatternResolver().from(chunkerTrim.getPattern());
                 if (trimPattern.isEmpty()) {
                     // Report missing mapping
-                    resolvers.converter().logMissingMapping(Converter.MissingMappingType.TRIM_PATTERN, chunkerTrim.getPattern().toString());
+                    resolvers.converter().logMissingMapping(Converter.MissingMappingType.TRIM_PATTERN, String.valueOf(chunkerTrim.getPattern()));
                     return; // Don't write
                 }
 
@@ -598,7 +598,7 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                 Optional<String> trimMaterial = resolvers.trimMaterialResolver().from(chunkerTrim.getMaterial());
                 if (trimMaterial.isEmpty()) {
                     // Report missing mapping
-                    resolvers.converter().logMissingMapping(Converter.MissingMappingType.TRIM_MATERIAL, chunkerTrim.getMaterial().toString());
+                    resolvers.converter().logMissingMapping(Converter.MissingMappingType.TRIM_MATERIAL, String.valueOf(chunkerTrim.getMaterial()));
                     return; // Don't write
                 }
 

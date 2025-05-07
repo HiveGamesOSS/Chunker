@@ -69,7 +69,7 @@ public class JavaSpawnerBlockEntityHandler extends BlockEntityHandler<JavaResolv
         // Resolve the entity identifier to use
         Optional<String> identifier = Optional.ofNullable(value.getEntityType()).map(type -> resolvers.entityTypeResolver().from(type).orElseGet(() -> {
             // Report missing mapping
-            resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENTITY_TYPE, value.getEntityType().toString());
+            resolvers.converter().logMissingMapping(Converter.MissingMappingType.ENTITY_TYPE, String.valueOf(value.getEntityType()));
 
             // Use null
             return null;

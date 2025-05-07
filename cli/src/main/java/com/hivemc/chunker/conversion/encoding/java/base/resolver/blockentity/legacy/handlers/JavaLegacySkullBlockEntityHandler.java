@@ -99,7 +99,9 @@ public class JavaLegacySkullBlockEntityHandler extends BlockEntityHandler<JavaRe
             Map<BlockState<?>, BlockStateValue> newBlockStates = new Object2ObjectOpenHashMap<>(blockIdentifier.getPresentStates());
             if (!wallSkull) {
                 // Apply rotation
-                newBlockStates.put(VanillaBlockStates.ROTATION, Rotation.class.getEnumConstants()[legacySkullBlockEntity.getRotation()]);
+                Rotation[] constants = Rotation.class.getEnumConstants();
+                int normalizedRotation = (((legacySkullBlockEntity.getRotation() % constants.length) + constants.length) % constants.length);
+                newBlockStates.put(VanillaBlockStates.ROTATION, constants[normalizedRotation]);
             }
 
             // Set the new block type

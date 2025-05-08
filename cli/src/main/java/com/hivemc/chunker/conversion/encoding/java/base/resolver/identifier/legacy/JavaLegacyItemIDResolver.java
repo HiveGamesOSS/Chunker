@@ -257,7 +257,7 @@ public class JavaLegacyItemIDResolver implements Resolver<Integer, String> {
         mapping.put("minecraft:clock", 347);
         mapping.put("minecraft:glowstone_dust", 348);
         mapping.put("minecraft:fish", 349);
-        mapping.put("minecraft:cooked_fished", 350);
+        mapping.put("minecraft:cooked_fish", 350);
         mapping.put("minecraft:dye", 351);
         mapping.put("minecraft:bone", 352);
         mapping.put("minecraft:sugar", 353);

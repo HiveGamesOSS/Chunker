@@ -1119,5 +1119,10 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
             register(ItemMapping.of("minecraft:white_harness", ChunkerVanillaItemType.WHITE_HARNESS));
             register(ItemMapping.of("minecraft:yellow_harness", ChunkerVanillaItemType.YELLOW_HARNESS));
         }
+
+        // R21U9
+        if (version.isGreaterThanOrEqual(1, 21, 90)) {
+            register(ItemMapping.of("minecraft:music_disc_tears", ChunkerVanillaItemType.MUSIC_DISC_TEARS));
+        }
     }
 }

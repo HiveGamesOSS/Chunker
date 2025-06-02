@@ -33,7 +33,7 @@ public class WorldReader extends com.hivemc.chunker.conversion.encoding.java.v1_
         // If only one element is present it may just be entities
         if (main == null && entities != null) {
             main = new CompoundTag();
-            int[] position = entities.getIntArray("Position");
+            int[] position = entities.getIntArray("Position", null);
             if (position == null) return null; // No valid position
 
             main.put("xPos", position[0]);

@@ -10,8 +10,8 @@ dependencies {
 }
 
 node {
-    version.set("23.11.0")
-    npmVersion.set("11.3.0")
+    version.set("24.1.0")
+    npmVersion.set("11.4.1")
     download.set(true)
 }
 

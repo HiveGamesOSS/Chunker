@@ -46,8 +46,10 @@ Otherwise, see the building section on how to build Chunker yourself.
 Download the appropriate version of the application depending on your operating system and then you will be able to run
 the electron based frontend for Chunker.
 
-Chunker defaults to a maximum of 75% of available memory, you can customise this by specifying the amount when launching Chunker e.g.
-`Chunker.exe -Xmx8G` for 8 gigabytes.
+Chunker defaults to a maximum of 75% of available memory, you can customise this by specifying the amount when launching
+Chunker e.g. `Chunker.exe -Xmx8G` for 8 gigabytes.
+
+Chunker forwards `-Xmx` and `-Xms` to the backing JVM, if you wish to supply other options use `--java-options="..."`.
 
 CLI Usage
 --------

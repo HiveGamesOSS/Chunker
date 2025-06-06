@@ -30,7 +30,7 @@ export class Session {
     _asyncResponseMappers = {};
 
     // Constructor
-    constructor(sessions, sessionID, window, webContents, jvmOptions) {
+    constructor(sessions, sessionID, window, webContents, javaOptions) {
         this._sessions = sessions;
         this._sessionID = sessionID;
         this._window = window;
@@ -68,7 +68,6 @@ export class Session {
         }
 
         // Attach JVM options (calculate memory if not set)
-        let javaOptions = jvmOptions.join(" ");
         if (javaOptions.indexOf("-Xm") === -1) {
             let maximumMB;
             if (process.platform !== "darwin") {

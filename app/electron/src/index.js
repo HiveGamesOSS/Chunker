@@ -24,6 +24,11 @@ log.transports.file.level = "info";
 log.transports.file.writeOptions
 log.eventLogger.startLogging();
 
+// Apply fix for issue with GTK version on linux - https://github.com/electron/electron/issues/46538
+if (process.platform === "linux" && !app.commandLine.hasSwitch("gtk-version")) {
+    app.commandLine.appendSwitch("gtk-version", "3");
+}
+
 /**
  * Get the options to use for the Chunker JVM backend.
  * @returns a string which should be used as the value for JAVA_OPTIONS.

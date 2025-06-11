@@ -17,7 +17,7 @@ Supported Formats:
     - 1.18.0 - 1.18.30
     - 1.19.0 - 1.19.80
     - 1.20.0 - 1.20.80
-    - 1.21.0 - 1.21.70
+    - 1.21.0 - 1.21.90
 - Java
     - 1.8.8
     - 1.9.0 - 1.9.3
@@ -32,7 +32,7 @@ Supported Formats:
     - 1.18.0 - 1.18.2
     - 1.19.0 - 1.19.4
     - 1.20.0 - 1.20.6
-    - 1.21.0 - 1.21.5
+    - 1.21.0 - 1.21.6
 
 **Microsoft Creator Docs:**
 https://learn.microsoft.com/en-us/minecraft/creator/documents/chunkeroverview?view=minecraft-bedrock-stable
@@ -46,8 +46,10 @@ Otherwise, see the building section on how to build Chunker yourself.
 Download the appropriate version of the application depending on your operating system and then you will be able to run
 the electron based frontend for Chunker.
 
-Chunker defaults to a maximum of 75% of available memory, you can customise this by specifying the amount when launching Chunker e.g.
-`Chunker.exe -Xmx8G` for 8 gigabytes.
+Chunker defaults to a maximum of 75% of available memory, you can customise this by specifying the amount when launching
+Chunker e.g. `Chunker.exe -Xmx8G` for 8 gigabytes.
+
+Chunker forwards `-Xmx` and `-Xms` to the backing JVM, if you wish to supply other options use `--java-options="..."`.
 
 CLI Usage
 --------

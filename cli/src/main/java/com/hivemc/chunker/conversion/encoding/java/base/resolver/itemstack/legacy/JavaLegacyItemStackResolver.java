@@ -6,6 +6,7 @@ import com.hivemc.chunker.conversion.encoding.base.Converter;
 import com.hivemc.chunker.conversion.encoding.base.resolver.itemstack.ItemStackResolver;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.legacy.JavaLegacyEntityTypeIDResolver;
+import com.hivemc.chunker.conversion.encoding.java.base.resolver.identifier.legacy.JavaLegacyItemIDResolver;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.BlockEntity;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
@@ -26,6 +27,7 @@ import com.hivemc.chunker.nbt.TagType;
 import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
+import com.hivemc.chunker.nbt.tags.primitive.ShortTag;
 import com.hivemc.chunker.nbt.tags.primitive.StringTag;
 import com.hivemc.chunker.resolver.property.PropertyHandler;
 import com.hivemc.chunker.util.JsonTextUtil;
@@ -43,6 +45,8 @@ import java.util.stream.IntStream;
  * Resolver for converting Java Legacy NBT to the Chunker ItemStack and resolving all the properties of the item.
  */
 public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers, CompoundTag> {
+    private JavaLegacyItemIDResolver legacyItemIDResolver;
+
     /**
      * Create a new legacy java item stack resolver.
      *
@@ -50,6 +54,7 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
      */
     public JavaLegacyItemStackResolver(JavaResolvers resolvers) {
         super(resolvers);
+        this.legacyItemIDResolver = new JavaLegacyItemIDResolver(resolvers.dataVersion().getVersion());
     }
 
     @Override
@@ -686,10 +691,31 @@ public class JavaLegacyItemStackResolver extends ItemStackResolver<JavaResolvers
     @Override
     protected Optional<ChunkerItemStack> createPropertyHolder(CompoundTag input) {
         // First turn the NBT into an identifier
-        Identifier identifier = Identifier.fromData(
-                input.getString("id"),
-                OptionalInt.of(input.getShort("Damage", (short) 0))
-        );
+        Tag<?> id = input.get("id");
+        Identifier identifier;
+        if (id instanceof StringTag stringTag) {
+            identifier = Identifier.fromData(
+                    stringTag.getValue(),
+                    OptionalInt.of(input.getShort("Damage", (short) 0))
+            );
+        } else if (id instanceof ShortTag shortTag)  {
+            Optional<String> value = legacyItemIDResolver.inverse().from((int) shortTag.getValue());
+
+            // Couldn't find the legacy ID
+            if (value.isEmpty()) {
+                return Optional.empty();
+            }
+
+            // Create an identifier using the converter ID
+            identifier = Identifier.fromData(
+                    value.get(),
+                    OptionalInt.of(input.getShort("Damage", (short) 0))
+            );
+        } else {
+            // Couldn't find the ID
+            return Optional.empty();
+        }
+
 
         // Now use the item identifier reader to turn it into an item/block
         return Optional.of(resolvers.readItemIdentifier(identifier));

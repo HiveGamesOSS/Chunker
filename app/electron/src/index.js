@@ -10,21 +10,69 @@ import * as os from "node:os";
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// List of arguments which aren't forwarded to the backend java process
-const IGNORED_ARGUMENTS = [
-    "--no-sandbox",
-    "--enable-logging",
+// List of arguments which are forwarded to the backend java process by default
+const JVM_ARGUMENTS = [
+    "-Xmx",
+    "-Xms",
 ];
+
+// This flag indicates arguments should be forwarded to the JVM
+const ADDITIONAL_JAVA_OPTIONS = "--java-options";
 
 // Start logging
 log.transports.file.level = "info";
 log.transports.file.writeOptions
 log.eventLogger.startLogging();
 
+// Apply fix for issue with GTK version on linux - https://github.com/electron/electron/issues/46538
+if (process.platform === "linux" && !app.commandLine.hasSwitch("gtk-version")) {
+    app.commandLine.appendSwitch("gtk-version", "3");
+}
+
+/**
+ * Get the options to use for the Chunker JVM backend.
+ * @returns a string which should be used as the value for JAVA_OPTIONS.
+ */
+const getJavaOptions = () => {
+    // Get args, we need to remove the process (depending on if it's launched directly or not)
+    let rawArgs = process.argv.slice(process.defaultApp ? 2 : 1);
+
+    // Find JVM arguments that are forwarded by default
+    const jvmArgs = rawArgs.filter(arg =>
+        JVM_ARGUMENTS.some(jvmArg => arg.startsWith(jvmArg))
+    );
+
+    // Loop through the arguments looking for any arguments which have --java-options before it
+    // or in the format --java-options="-Xmx5G -Xms2G"
+    rawArgs.forEach((arg, index) => {
+        if (arg.startsWith(ADDITIONAL_JAVA_OPTIONS)) {
+            // If it has an equals we need to consume the arguments after
+            let equalsIndex = arg.indexOf("=");
+            if (equalsIndex !== -1) {
+                let value = arg.substring(equalsIndex + 1);
+
+                // Remove quotes if present
+                if ((value.startsWith('"') && value.endsWith('"')) ||
+                    (value.startsWith("'") && value.endsWith("'"))) {
+                    value = value.slice(1, -1);
+                }
+
+                // Add the value (can be multiple options)
+                jvmArgs.push(value);
+            } else if (arg === ADDITIONAL_JAVA_OPTIONS && index + 1 < rawArgs.length) {
+                // Add the next argument
+                jvmArgs.push(rawArgs[index + 1]);
+            }
+        }
+    });
+
+    // Join the arguments to make the JAVA_OPTIONS
+    return jvmArgs.join(' ');
+}
+
 const createWindow = () => {
     // Get launch parameters (these are forwarded to the backend process)
-    // Note: these vary based on if launched directly be electron, so we have to check if it's the defaultApp
-    const args = process.argv.slice(process.defaultApp ? 2 : 1).filter(arg => !IGNORED_ARGUMENTS.includes(arg));
+    const javaOptions = getJavaOptions();
 
     // Start the window
     const window = new BrowserWindow({
@@ -47,7 +95,7 @@ const createWindow = () => {
         let session;
         try {
             // Create a session
-            session = new Session(sessions, sessionID, window, _event.sender, args);
+            session = new Session(sessions, sessionID, window, _event.sender, javaOptions);
         } catch (e) {
             log.warn("Session failed to be made ", e);
 

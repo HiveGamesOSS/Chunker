@@ -50,11 +50,11 @@ public class JavaLegacyEntityTypeResolver implements Resolver<String, ChunkerEnt
         mapping.put(ChunkerVanillaEntityType.ITEM_FRAME, "ItemFrame");
         mapping.put(ChunkerVanillaEntityType.MAGMA_CUBE, "LavaSlime");
         mapping.put(ChunkerVanillaEntityType.LEASH_KNOT, "LeashKnot");
+        mapping.put(ChunkerVanillaEntityType.MINECART, "Minecart");
         mapping.put(ChunkerVanillaEntityType.CHEST_MINECART, "MinecartChest");
         mapping.put(ChunkerVanillaEntityType.COMMAND_BLOCK_MINECART, "MinecartCommandBlock");
         mapping.put(ChunkerVanillaEntityType.FURNACE_MINECART, "MinecartFurnace");
         mapping.put(ChunkerVanillaEntityType.HOPPER_MINECART, "MinecartHopper");
-        mapping.put(ChunkerVanillaEntityType.MINECART, "MinecartRideable");
         mapping.put(ChunkerVanillaEntityType.SPAWNER_MINECART, "MinecartSpawner");
         mapping.put(ChunkerVanillaEntityType.TNT_MINECART, "MinecartTNT");
         mapping.put(ChunkerVanillaEntityType.MULE, "Mule");
@@ -95,6 +95,7 @@ public class JavaLegacyEntityTypeResolver implements Resolver<String, ChunkerEnt
         mapping.put(ChunkerVanillaEntityType.ZOMBIE_VILLAGER, "ZombieVillager");
 
         if (version.isGreaterThanOrEqual(1, 9, 0)) {
+            mapping.put(ChunkerVanillaEntityType.MINECART, "MinecartRideable");
             mapping.put(ChunkerVanillaEntityType.SHULKER, "Shulker");
             mapping.put(ChunkerVanillaEntityType.SHULKER_BULLET, "ShulkerBullet");
         }

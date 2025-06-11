@@ -678,6 +678,10 @@ public class JavaItemIdentifierResolver extends ChunkerItemIdentifierResolver {
             register(ItemMapping.of("minecraft:red_harness", ChunkerVanillaItemType.RED_HARNESS));
             register(ItemMapping.of("minecraft:white_harness", ChunkerVanillaItemType.WHITE_HARNESS));
             register(ItemMapping.of("minecraft:yellow_harness", ChunkerVanillaItemType.YELLOW_HARNESS));
+
+            // Music disc
+            register(ItemMapping.of("minecraft:music_disc_tears", ChunkerVanillaItemType.MUSIC_DISC_TEARS));
+
         }
     }
 }

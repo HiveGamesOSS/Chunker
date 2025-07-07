@@ -75,6 +75,9 @@ public class JavaPaintingMotiveResolver implements Resolver<String, PaintingEnti
             mapping.put(PaintingEntity.Motive.HUMBLE, "minecraft:humble");
             mapping.put(PaintingEntity.Motive.BAROQUE, "minecraft:baroque");
         }
+        if (javaVersion.isGreaterThanOrEqual(1, 21, 7)) {
+            mapping.put(PaintingEntity.Motive.DENNIS, "minecraft:dennis");
+        }
     }
 
     @Override

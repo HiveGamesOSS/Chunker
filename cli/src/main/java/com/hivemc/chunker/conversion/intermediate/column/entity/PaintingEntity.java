@@ -126,6 +126,7 @@ public class PaintingEntity extends HangingEntity {
         OWLEMONS(3, 3),
         SUNFLOWERS(3, 3),
         TIDES(3, 3),
+        DENNIS(3, 3),
         BACKYARD(3, 4),
         POND(3, 4),
         FIGHTERS(4, 2),

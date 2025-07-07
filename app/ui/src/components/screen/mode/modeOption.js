@@ -24,7 +24,7 @@ export class ModeOption extends Component {
         let version = this.props.value.version ? this.props.value.version : getVersionName(this.props.type);
         let java = this.props.type.startsWith("JAVA_");
         let bedrock = this.props.type.startsWith("BEDROCK_");
-        let beta = (bedrock && version === "1.21.90") || (java && version === "1.21.6"); // Beta label
+        let beta = (bedrock && version === "1.21.93") || (java && version === "1.21.7"); // Beta label
         let label;
         if (java) {
             label = "Java Edition";

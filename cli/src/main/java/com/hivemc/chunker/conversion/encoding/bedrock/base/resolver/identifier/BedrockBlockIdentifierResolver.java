@@ -2905,5 +2905,17 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
         if (version.isGreaterThanOrEqual(1, 21, 80)) {
             register(BlockMapping.of("minecraft:dried_ghast", ChunkerVanillaBlockType.DRIED_GHAST, BedrockStateGroups.DRIED_GHAST));
         }
+
+        // R21U10
+        if (version.isGreaterThanOrEqual(1, 21, 100)) {
+            register(BlockMapping.of("minecraft:copper_chest", ChunkerVanillaBlockType.COPPER_CHEST, BedrockStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:exposed_copper_chest", ChunkerVanillaBlockType.EXPOSED_COPPER_CHEST, BedrockStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:oxidized_copper_chest", ChunkerVanillaBlockType.OXIDIZED_COPPER_CHEST, BedrockStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:waxed_copper_chest", ChunkerVanillaBlockType.WAXED_COPPER_CHEST, BedrockStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:waxed_exposed_copper_chest", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_CHEST, BedrockStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:waxed_oxidized_copper_chest", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_CHEST, BedrockStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:waxed_weathered_copper_chest", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_CHEST, BedrockStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:weathered_copper_chest", ChunkerVanillaBlockType.WEATHERED_COPPER_CHEST, BedrockStateGroups.CHEST));
+        }
     }
 }

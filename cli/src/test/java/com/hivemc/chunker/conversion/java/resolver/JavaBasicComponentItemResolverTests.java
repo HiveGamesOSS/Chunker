@@ -68,7 +68,8 @@ public class JavaBasicComponentItemResolverTests {
                     ChunkerVanillaEntityType.ELDER_GUARDIAN_GHOST,
                     ChunkerVanillaEntityType.MOVING_BLOCK,
                     ChunkerVanillaEntityType.SHIELD,
-                    ChunkerVanillaEntityType.WITHER_SKULL_DANGEROUS
+                    ChunkerVanillaEntityType.WITHER_SKULL_DANGEROUS,
+                    ChunkerVanillaEntityType.COPPER_GOLEM // Remove when autumn drop 2025 is supported
             ),
             ChunkerPotionType.class, Set.of(
                     ChunkerPotionType.EMPTY,
@@ -77,9 +78,6 @@ public class JavaBasicComponentItemResolverTests {
             ),
             ChunkerEffectType.class, Set.of(
                     ChunkerEffectType.FATAL_POISON
-            ),
-            ChunkerTrimMaterial.class, Set.of(
-                    ChunkerTrimMaterial.RESIN
             )
     );
     public static final JavaDataVersion VERSION = JavaDataVersion.latest();

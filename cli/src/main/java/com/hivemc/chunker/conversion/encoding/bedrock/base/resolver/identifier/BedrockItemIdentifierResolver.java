@@ -1129,5 +1129,27 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
         if (version.isGreaterThanOrEqual(1, 21, 93)) {
             register(ItemMapping.of("minecraft:music_disc_lava_chicken", ChunkerVanillaItemType.MUSIC_DISC_LAVA_CHICKEN));
         }
+
+        // R21U10
+        if (version.isGreaterThanOrEqual(1, 21, 100)) {
+            // Game Drop 3 Experiments
+            register(ItemMapping.of("minecraft:copper_nugget", ChunkerVanillaItemType.COPPER_NUGGET));
+
+            // New egg
+            register(ItemMapping.of("minecraft:copper_golem_spawn_egg", ChunkerVanillaItemType.SPAWN_EGG, ChunkerItemProperty.SPAWN_EGG_MOB, ChunkerVanillaEntityType.COPPER_GOLEM));
+
+            // New copper tools
+            register(ItemMapping.of("minecraft:copper_axe", ChunkerVanillaItemType.COPPER_AXE));
+            register(ItemMapping.of("minecraft:copper_hoe", ChunkerVanillaItemType.COPPER_HOE));
+            register(ItemMapping.of("minecraft:copper_pickaxe", ChunkerVanillaItemType.COPPER_PICKAXE));
+            register(ItemMapping.of("minecraft:copper_shovel", ChunkerVanillaItemType.COPPER_SHOVEL));
+            register(ItemMapping.of("minecraft:copper_sword", ChunkerVanillaItemType.COPPER_SWORD));
+
+            // New copper armor
+            register(ItemMapping.of("minecraft:copper_boots", ChunkerVanillaItemType.COPPER_BOOTS));
+            register(ItemMapping.of("minecraft:copper_chestplate", ChunkerVanillaItemType.COPPER_CHESTPLATE));
+            register(ItemMapping.of("minecraft:copper_helmet", ChunkerVanillaItemType.COPPER_HELMET));
+            register(ItemMapping.of("minecraft:copper_leggings", ChunkerVanillaItemType.COPPER_LEGGINGS));
+        }
     }
 }

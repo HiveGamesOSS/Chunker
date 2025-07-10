@@ -254,4 +254,19 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.MANGROVE_FENCE,
             ChunkerVanillaBlockType.BAMBOO_FENCE
     );
+    /**
+     * Group of all the chests which can be double chests.
+     */
+    public static final Set<ChunkerBlockType> DOUBLE_CHESTS = Set.of(
+            ChunkerVanillaBlockType.CHEST,
+            ChunkerVanillaBlockType.TRAPPED_CHEST,
+            ChunkerVanillaBlockType.COPPER_CHEST,
+            ChunkerVanillaBlockType.EXPOSED_COPPER_CHEST,
+            ChunkerVanillaBlockType.OXIDIZED_COPPER_CHEST,
+            ChunkerVanillaBlockType.WAXED_COPPER_CHEST,
+            ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_CHEST,
+            ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_CHEST,
+            ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_CHEST,
+            ChunkerVanillaBlockType.WEATHERED_COPPER_CHEST
+    );
 }

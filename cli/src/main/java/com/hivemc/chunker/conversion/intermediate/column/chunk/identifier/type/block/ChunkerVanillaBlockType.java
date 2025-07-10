@@ -1129,8 +1129,15 @@ public enum ChunkerVanillaBlockType implements ChunkerBlockType {
     WILDFLOWERS(0x7c00, Set.of(VanillaBlockStates.FACING_HORIZONTAL, VanillaBlockStates.FLOWER_AMOUNT), false),
     TEST_BLOCK(0x999999, Set.of(VanillaBlockStates.TEST_BLOCK_MODE), TestBlockEntity.class, true),
     TEST_INSTANCE_BLOCK(0x0, TestInstanceBlockEntity.class, true),
-    DRIED_GHAST(0x392923, Set.of(VanillaBlockStates.FACING_HORIZONTAL, VanillaBlockStates.REHYDRATION_LEVEL), false)
-
+    DRIED_GHAST(0x392923, Set.of(VanillaBlockStates.FACING_HORIZONTAL, VanillaBlockStates.REHYDRATION_LEVEL), false),
+    COPPER_CHEST(0x8f7748, VanillaBlockStateGroups.CHEST, ChestBlockEntity.class, false),
+    EXPOSED_COPPER_CHEST(0x876b62, VanillaBlockStateGroups.CHEST, ChestBlockEntity.class, false),
+    OXIDIZED_COPPER_CHEST(0x167e86, VanillaBlockStateGroups.CHEST, ChestBlockEntity.class, false),
+    WAXED_COPPER_CHEST(0xd87f33, VanillaBlockStateGroups.CHEST, ChestBlockEntity.class, false),
+    WAXED_EXPOSED_COPPER_CHEST(0x876b62, VanillaBlockStateGroups.CHEST, ChestBlockEntity.class, false),
+    WAXED_OXIDIZED_COPPER_CHEST(0x167e86, VanillaBlockStateGroups.CHEST, ChestBlockEntity.class, false),
+    WAXED_WEATHERED_COPPER_CHEST(0x3a8e8c, VanillaBlockStateGroups.CHEST, ChestBlockEntity.class, false),
+    WEATHERED_COPPER_CHEST(0x3a8e8c, VanillaBlockStateGroups.CHEST, ChestBlockEntity.class, false),
     ;
 
     private final int rgbColor;

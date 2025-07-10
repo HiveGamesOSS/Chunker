@@ -121,6 +121,11 @@ public class BedrockEncoders {
                 com.hivemc.chunker.conversion.encoding.bedrock.v1_21_90.reader.LevelReader::new,
                 com.hivemc.chunker.conversion.encoding.bedrock.v1_21_90.writer.LevelWriter::new
         );
+        register(
+                BedrockDataVersion.V1_21_100,
+                com.hivemc.chunker.conversion.encoding.bedrock.v1_21_100.reader.LevelReader::new,
+                com.hivemc.chunker.conversion.encoding.bedrock.v1_21_100.writer.LevelWriter::new
+        );
     }
 
     /**

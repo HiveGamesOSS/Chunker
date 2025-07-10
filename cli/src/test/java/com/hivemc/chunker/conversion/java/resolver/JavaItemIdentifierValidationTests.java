@@ -32,7 +32,18 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
  */
 public class JavaItemIdentifierValidationTests {
     // Items from future versions
-    public static final Set<ChunkerVanillaItemType> FUTURE_ITEMS = ImmutableSet.of();
+    public static final Set<ChunkerVanillaItemType> FUTURE_ITEMS = ImmutableSet.of(
+            ChunkerVanillaItemType.COPPER_SWORD,
+            ChunkerVanillaItemType.COPPER_SHOVEL,
+            ChunkerVanillaItemType.COPPER_PICKAXE,
+            ChunkerVanillaItemType.COPPER_AXE,
+            ChunkerVanillaItemType.COPPER_HOE,
+            ChunkerVanillaItemType.COPPER_HELMET,
+            ChunkerVanillaItemType.COPPER_CHESTPLATE,
+            ChunkerVanillaItemType.COPPER_LEGGINGS,
+            ChunkerVanillaItemType.COPPER_BOOTS,
+            ChunkerVanillaItemType.COPPER_NUGGET
+    );
     public static final Set<String> UNSUPPORTED_ITEMS = ImmutableSet.of();
     private static final Gson gson = new Gson();
 

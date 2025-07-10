@@ -407,7 +407,11 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
 
     @Override
     public @Nullable Object readCustomLevelSetting(@NotNull CompoundTag root, @NotNull String targetName, @NotNull Class<?> type) {
-        // Check for SummerDrop2025 support
+        // Check for next update
+        if (targetName.equals("AutumnDrop2025")) {
+            return false;
+        }
+
         if (targetName.equals("SummerDrop2025")) {
             return false;
         }

@@ -24,6 +24,7 @@ public enum ChunkerVanillaEntityType implements ChunkerEntityType {
     CHICKEN(true),
     COD(true),
     COMMAND_BLOCK_MINECART,
+    COPPER_GOLEM(true),
     COW(true),
     CREAKING(true),
     CREEPER(true),

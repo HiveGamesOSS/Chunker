@@ -210,7 +210,7 @@ public class BedrockReaderPreTransformManager extends PreTransformManager {
         ), ChunkerVanillaBlockType.WEEPING_VINES);
 
         // Chest connector (adds missing data as only the lead has data in older versions)
-        registerHandler(new BedrockChestPreTransformHandler(), ChunkerVanillaBlockType.CHEST, ChunkerVanillaBlockType.TRAPPED_CHEST);
+        registerHandler(new BedrockChestPreTransformHandler(), ChunkerVanillaBlockGroups.DOUBLE_CHESTS);
 
         // Relocate paintings
         registerHandler(new BedrockPaintingEntityHandler.Relocator(false), PaintingEntity.class);

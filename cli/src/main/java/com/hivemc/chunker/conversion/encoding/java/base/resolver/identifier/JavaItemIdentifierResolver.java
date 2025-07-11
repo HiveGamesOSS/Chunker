@@ -683,5 +683,12 @@ public class JavaItemIdentifierResolver extends ChunkerItemIdentifierResolver {
             register(ItemMapping.of("minecraft:music_disc_tears", ChunkerVanillaItemType.MUSIC_DISC_TEARS));
 
         }
+
+        // 1.21.7
+        if (version.isGreaterThanOrEqual(1, 21, 7)) {
+            // Music disc
+            register(ItemMapping.of("minecraft:music_disc_lava_chicken", ChunkerVanillaItemType.MUSIC_DISC_LAVA_CHICKEN));
+
+        }
     }
 }

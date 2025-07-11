@@ -17,7 +17,7 @@ Supported Formats:
     - 1.18.0 - 1.18.30
     - 1.19.0 - 1.19.80
     - 1.20.0 - 1.20.80
-    - 1.21.0 - 1.21.90
+    - 1.21.0 - 1.21.93
 - Java
     - 1.8.8
     - 1.9.0 - 1.9.3
@@ -32,7 +32,7 @@ Supported Formats:
     - 1.18.0 - 1.18.2
     - 1.19.0 - 1.19.4
     - 1.20.0 - 1.20.6
-    - 1.21.0 - 1.21.6
+    - 1.21.0 - 1.21.7
 
 **Microsoft Creator Docs:**
 https://learn.microsoft.com/en-us/minecraft/creator/documents/chunkeroverview?view=minecraft-bedrock-stable

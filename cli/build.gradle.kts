@@ -36,7 +36,7 @@ dependencies {
 }
 
 group = "com.hivemc.chunker"
-version = "1.8.0"
+version = "1.9.0"
 description = "chunker"
 base.archivesName = "chunker-cli"
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -155,27 +155,31 @@ tasks.withType<Javadoc> {
     options.encoding = "UTF-8"
 }
 
-tasks.jpackage {
+tasks.register("copyJar", Copy::class) {
     dependsOn("build")
 
-    // Copy files
+    // Make input directory (during configuration)
+    mkdir("${layout.buildDirectory.get()}/libs/input")
+
+    // Copy the shadowed jar
+    from(layout.buildDirectory.dir("libs"))
+    into(layout.buildDirectory.dir("libs/input"))
+    include(tasks.shadowJar.get().archiveFileName.get())
+}
+
+tasks.jpackage {
+    dependsOn("build", "copyJar")
+
+    // Clear the output directory
     doFirst {
         // Clear output directory
         delete(layout.buildDirectory.dir("libs").get().dir("packaged"))
-
-        // Copy inputs
-        mkdir("${layout.buildDirectory.get()}/libs/input")
-        copy {
-            from(layout.buildDirectory.dir("libs"))
-            into(layout.buildDirectory.dir("libs/input"))
-            include(tasks.shadowJar.get().archiveFileName.get())
-        }
     }
 
     // Settings for jpackage
     type = ImageType.APP_IMAGE
-    input = layout.buildDirectory.dir("libs/input").get().toString()
-    destination = layout.buildDirectory.dir("libs").get().dir("packaged").toString()
+    input = layout.buildDirectory.dir("libs/input")
+    destination = layout.buildDirectory.dir("libs").get().dir("packaged")
     appVersion = version.toString().replace("-SNAPSHOT", "")
 
     appName = "chunker-cli"

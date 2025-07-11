@@ -72,6 +72,9 @@ public class BedrockPaintingMotiveResolver implements Resolver<String, PaintingE
             mapping.put(PaintingEntity.Motive.HUMBLE, "humble");
             mapping.put(PaintingEntity.Motive.BAROQUE, "baroque");
         }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 21, 93)) {
+            mapping.put(PaintingEntity.Motive.DENNIS, "dennis");
+        }
     }
 
     @Override

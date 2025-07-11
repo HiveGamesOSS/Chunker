@@ -1124,5 +1124,10 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
         if (version.isGreaterThanOrEqual(1, 21, 90)) {
             register(ItemMapping.of("minecraft:music_disc_tears", ChunkerVanillaItemType.MUSIC_DISC_TEARS));
         }
+
+        // R21U9H3
+        if (version.isGreaterThanOrEqual(1, 21, 93)) {
+            register(ItemMapping.of("minecraft:music_disc_lava_chicken", ChunkerVanillaItemType.MUSIC_DISC_LAVA_CHICKEN));
+        }
     }
 }

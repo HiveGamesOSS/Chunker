@@ -125,7 +125,26 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.POLISHED_BLACKSTONE_BUTTON,
             ChunkerVanillaBlockType.SCULK_SENSOR,
             ChunkerVanillaBlockType.CALIBRATED_SCULK_SENSOR,
-            ChunkerVanillaBlockType.LIGHTNING_ROD
+            ChunkerVanillaBlockType.LIGHTNING_ROD,
+            ChunkerVanillaBlockType.EXPOSED_LIGHTNING_ROD,
+            ChunkerVanillaBlockType.OXIDIZED_LIGHTNING_ROD,
+            ChunkerVanillaBlockType.WAXED_LIGHTNING_ROD,
+            ChunkerVanillaBlockType.WAXED_EXPOSED_LIGHTNING_ROD,
+            ChunkerVanillaBlockType.WAXED_OXIDIZED_LIGHTNING_ROD,
+            ChunkerVanillaBlockType.WAXED_WEATHERED_LIGHTNING_ROD,
+            ChunkerVanillaBlockType.WEATHERED_LIGHTNING_ROD,
+            ChunkerVanillaBlockType.ACACIA_SHELF,
+            ChunkerVanillaBlockType.BAMBOO_SHELF,
+            ChunkerVanillaBlockType.BIRCH_SHELF,
+            ChunkerVanillaBlockType.CHERRY_SHELF,
+            ChunkerVanillaBlockType.CRIMSON_SHELF,
+            ChunkerVanillaBlockType.DARK_OAK_SHELF,
+            ChunkerVanillaBlockType.JUNGLE_SHELF,
+            ChunkerVanillaBlockType.MANGROVE_SHELF,
+            ChunkerVanillaBlockType.OAK_SHELF,
+            ChunkerVanillaBlockType.PALE_OAK_SHELF,
+            ChunkerVanillaBlockType.SPRUCE_SHELF,
+            ChunkerVanillaBlockType.WARPED_SHELF
     );
     /**
      * Group of blocks which cause grass below to turn to a snowy variant.

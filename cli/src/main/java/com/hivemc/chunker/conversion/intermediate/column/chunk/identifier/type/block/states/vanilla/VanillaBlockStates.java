@@ -53,6 +53,7 @@ public class VanillaBlockStates {
     public static final BlockState<Bool> CHISELED_BOOKSHELF_SLOT_5_OCCUPIED = new BlockState<>("slot_5_occupied", Bool.FALSE, Bool::values);
     public static final BlockState<ComposterLevel> COMPOSTER_LEVEL = new BlockState<>("level", ComposterLevel._0, ComposterLevel::values);
     public static final BlockState<Bool> CONDITIONAL = new BlockState<>("conditional", Bool.FALSE, Bool::values);
+    public static final BlockState<CopperGolemPose> COPPER_GOLEM_POSE = new BlockState<>("copper_golem_pose", CopperGolemPose.STANDING, CopperGolemPose::values);
     public static final BlockState<CoralFanDirection> CORAL_FAN_DIRECTION = new BlockState<>("coral_fan_direction", CoralFanDirection.NORTH_SOUTH, CoralFanDirection::values);
     public static final BlockState<Bool> CRACKED = new BlockState<>("cracked", Bool.FALSE, Bool::values);
     public static final BlockState<Bool> CRAFTING = new BlockState<>("crafting", Bool.FALSE, Bool::values);
@@ -123,6 +124,7 @@ public class VanillaBlockStates {
     public static final BlockState<Segments> SEGMENT_AMOUNT = new BlockState<>("segment_amount", Segments._1, Segments::values);
     public static final BlockState<Bool> SHORT = new BlockState<>("short", Bool.FALSE, Bool::values);
     public static final BlockState<Bool> SHRIEKING = new BlockState<>("shrieking", Bool.FALSE, Bool::values);
+    public static final BlockState<SideChain> SIDE_CHAIN = new BlockState<>("side_chain", SideChain.UNCONNECTED, SideChain::values);
     public static final BlockState<Bool> SIGNAL_FIRE = new BlockState<>("signal_fire", Bool.FALSE, Bool::values);
     public static final BlockState<SlabType> SLAB_TYPE = new BlockState<>("type", SlabType.BOTTOM, SlabType::values);
     public static final BlockState<Bool> SNOWY = new BlockState<>("snowy", Bool.FALSE, Bool::values);

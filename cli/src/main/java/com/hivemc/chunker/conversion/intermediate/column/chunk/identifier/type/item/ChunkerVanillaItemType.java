@@ -294,6 +294,7 @@ public enum ChunkerVanillaItemType implements ChunkerItemType {
     GOLDEN_HORSE_ARMOR,
     DIAMOND_HORSE_ARMOR,
     LEATHER_HORSE_ARMOR,
+    COPPER_HORSE_ARMOR,
     WOLF_ARMOR,
     LEAD,
     NAME_TAG,

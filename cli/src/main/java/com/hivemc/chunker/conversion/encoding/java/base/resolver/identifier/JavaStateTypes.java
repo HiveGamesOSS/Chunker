@@ -197,6 +197,12 @@ public class JavaStateTypes {
             .mapping("7", ComposterLevel._7)
             .mapping("8", ComposterLevel._8)
             .build();
+    public static final TypeMapping<String, CopperGolemPose> COPPER_GOLEM_POSE = new TypeMapping.Builder<String, CopperGolemPose>()
+            .mapping("standing", CopperGolemPose.STANDING)
+            .mapping("sitting", CopperGolemPose.SITTING)
+            .mapping("running", CopperGolemPose.RUNNING)
+            .mapping("star", CopperGolemPose.STAR)
+            .build();
     public static final TypeMapping<String, Creaking> CREAKING = new TypeMapping.Builder<String, Creaking>()
             .mapping("disabled", Creaking.DISABLED)
             .mapping("dormant", Creaking.DORMANT)
@@ -578,6 +584,12 @@ public class JavaStateTypes {
             .mapping("2", Segments._2)
             .mapping("3", Segments._3)
             .mapping("4", Segments._4)
+            .build();
+    public static final TypeMapping<String, SideChain> SIDE_CHAIN = new TypeMapping.Builder<String, SideChain>()
+            .mapping("unconnected", SideChain.UNCONNECTED)
+            .mapping("right", SideChain.RIGHT)
+            .mapping("left", SideChain.LEFT)
+            .mapping("center", SideChain.CENTER)
             .build();
     public static final TypeMapping<String, SlabType> SLAB_TYPE = new TypeMapping.Builder<String, SlabType>()
             .mapping("top", SlabType.TOP)

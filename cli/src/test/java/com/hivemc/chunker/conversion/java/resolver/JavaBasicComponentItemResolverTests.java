@@ -68,8 +68,7 @@ public class JavaBasicComponentItemResolverTests {
                     ChunkerVanillaEntityType.ELDER_GUARDIAN_GHOST,
                     ChunkerVanillaEntityType.MOVING_BLOCK,
                     ChunkerVanillaEntityType.SHIELD,
-                    ChunkerVanillaEntityType.WITHER_SKULL_DANGEROUS,
-                    ChunkerVanillaEntityType.COPPER_GOLEM // Remove when autumn drop 2025 is supported
+                    ChunkerVanillaEntityType.WITHER_SKULL_DANGEROUS
             ),
             ChunkerPotionType.class, Set.of(
                     ChunkerPotionType.EMPTY,

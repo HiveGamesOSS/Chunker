@@ -17,6 +17,7 @@ public class VanillaBlockStateGroups {
     public static final Set<BlockState<?>> COMMAND_BLOCK = Set.of(VanillaBlockStates.CONDITIONAL, VanillaBlockStates.FACING_ALL);
     public static final Set<BlockState<?>> CONNECTABLE_ALL = Set.of(VanillaBlockStates.DOWN, VanillaBlockStates.UP, VanillaBlockStates.NORTH, VanillaBlockStates.SOUTH, VanillaBlockStates.EAST, VanillaBlockStates.WEST);
     public static final Set<BlockState<?>> CONNECTABLE_HORIZONTAL = Set.of(VanillaBlockStates.NORTH, VanillaBlockStates.SOUTH, VanillaBlockStates.EAST, VanillaBlockStates.WEST);
+    public static final Set<BlockState<?>> COPPER_GOLEM = Set.of(VanillaBlockStates.COPPER_GOLEM_POSE, VanillaBlockStates.FACING_HORIZONTAL);
     public static final Set<BlockState<?>> CORAL_FAN = Set.of(VanillaBlockStates.CORAL_FAN_DIRECTION);
     public static final Set<BlockState<?>> DOOR = Set.of(VanillaBlockStates.OPEN, VanillaBlockStates.POWERED, VanillaBlockStates.HALF, VanillaBlockStates.FACING_HORIZONTAL, VanillaBlockStates.DOOR_HINGE);
     public static final Set<BlockState<?>> FACING_ALL = Set.of(VanillaBlockStates.FACING_ALL);
@@ -34,6 +35,7 @@ public class VanillaBlockStateGroups {
     public static final Set<BlockState<?>> REDSTONE_RAIL = Set.of(VanillaBlockStates.POWERED, VanillaBlockStates.RAIL_SHAPE_STRAIGHT);
     public static final Set<BlockState<?>> ROTATION = Set.of(VanillaBlockStates.ROTATION);
     public static final Set<BlockState<?>> SAPLING = Set.of(VanillaBlockStates.STAGE);
+    public static final Set<BlockState<?>> SHELF = Set.of(VanillaBlockStates.POWERED, VanillaBlockStates.FACING_HORIZONTAL, VanillaBlockStates.SIDE_CHAIN);
     public static final Set<BlockState<?>> SKULL = Set.of(VanillaBlockStates.POWERED, VanillaBlockStates.NO_DROP, VanillaBlockStates.ROTATION);
     public static final Set<BlockState<?>> SLAB = Set.of(VanillaBlockStates.SLAB_TYPE);
     public static final Set<BlockState<?>> STAIRS = Set.of(VanillaBlockStates.STAIR_SHAPE, VanillaBlockStates.HALF, VanillaBlockStates.FACING_HORIZONTAL);

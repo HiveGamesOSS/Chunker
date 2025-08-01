@@ -476,10 +476,7 @@ public class JsonTextUtil {
             // Turn JSON string into a string tag
             if (element.isJsonPrimitive()) {
                 JsonPrimitive primitive = element.getAsJsonPrimitive();
-                if (primitive.isString()) {
-                    return new StringTag(primitive.getAsString());
-                }
-                throw new IllegalArgumentException("Unknown type for Text component " + element);
+                return new StringTag(primitive.getAsString());
             }
             if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();

@@ -241,6 +241,9 @@ public class JavaEntityTypeResolver implements Resolver<String, ChunkerEntityTyp
         if (version.isGreaterThanOrEqual(1, 21, 6)) {
             mapping.put(ChunkerVanillaEntityType.HAPPY_GHAST, "minecraft:happy_ghast");
         }
+        if (version.isGreaterThanOrEqual(1, 21, 9)) {
+            mapping.put(ChunkerVanillaEntityType.COPPER_GOLEM, "minecraft:copper_golem");
+        }
     }
 
     @Override

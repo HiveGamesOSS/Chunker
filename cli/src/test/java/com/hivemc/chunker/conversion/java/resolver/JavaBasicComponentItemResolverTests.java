@@ -77,9 +77,6 @@ public class JavaBasicComponentItemResolverTests {
             ),
             ChunkerEffectType.class, Set.of(
                     ChunkerEffectType.FATAL_POISON
-            ),
-            ChunkerTrimMaterial.class, Set.of(
-                    ChunkerTrimMaterial.RESIN
             )
     );
     public static final JavaDataVersion VERSION = JavaDataVersion.latest();

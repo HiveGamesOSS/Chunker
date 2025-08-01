@@ -12,8 +12,8 @@
     "test": "react-scripts test"
   },
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/react-fontawesome": "^0.2.3",
     "base64-arraybuffer": "^1.0.2",
     "chroma-js": "^3.1.2",
     "file-saver": "^2.0.5",
@@ -23,10 +23,10 @@
     "leaflet-fullscreen": "^1.0.2",
     "leaflet-mouse-position": "^1.2.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.3",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.7.1",
     "react-scripts": "^5.0.1",
-    "react-select": "^5.10.1",
+    "react-select": "^5.10.2",
     "react-syntax-highlighter": "^15.6.1",
     "seedrandom": "^3.0.5"
   },

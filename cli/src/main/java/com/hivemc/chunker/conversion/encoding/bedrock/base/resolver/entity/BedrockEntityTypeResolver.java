@@ -200,6 +200,9 @@ public class BedrockEntityTypeResolver implements Resolver<String, ChunkerEntity
         if (bedrockVersion.isGreaterThanOrEqual(1, 21, 80)) {
             mapping.put(ChunkerVanillaEntityType.HAPPY_GHAST, "minecraft:happy_ghast");
         }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 21, 100)) {
+            mapping.put(ChunkerVanillaEntityType.COPPER_GOLEM, "minecraft:copper_golem");
+        }
     }
 
     @Override

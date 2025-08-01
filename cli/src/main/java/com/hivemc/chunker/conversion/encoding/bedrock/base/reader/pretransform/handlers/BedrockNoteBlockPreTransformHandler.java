@@ -652,6 +652,18 @@ public class BedrockNoteBlockPreTransformHandler implements BlockPreTransformHan
             .put(ChunkerVanillaBlockType.RESIN_BRICK_STAIRS, NoteBlockInstrument.BASEDRUM)
             .put(ChunkerVanillaBlockType.RESIN_BRICK_WALL, NoteBlockInstrument.BASEDRUM)
             .put(ChunkerVanillaBlockType.CHISELED_RESIN_BRICKS, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.ACACIA_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.BAMBOO_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.BIRCH_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.CHERRY_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.CRIMSON_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.DARK_OAK_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.JUNGLE_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.MANGROVE_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.OAK_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.PALE_OAK_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.SPRUCE_SHELF, NoteBlockInstrument.BASS)
+            .put(ChunkerVanillaBlockType.WARPED_SHELF, NoteBlockInstrument.BASS)
             .build();
 
     @Override

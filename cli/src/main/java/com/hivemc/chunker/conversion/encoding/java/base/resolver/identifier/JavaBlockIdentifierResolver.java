@@ -6,7 +6,6 @@ import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.BlockMapping;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.ChunkerBlockIdentifierResolver;
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.state.StateMappingGroup;
-import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.identifier.BedrockStateGroups;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.ChunkerVanillaBlockType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Bool;
@@ -1548,6 +1547,52 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
         // 1.21.6
         if (version.isGreaterThanOrEqual(1, 21, 6)) {
             register(BlockMapping.of("minecraft:dried_ghast", ChunkerVanillaBlockType.DRIED_GHAST, JavaStateGroups.DRIED_GHAST));
+        }
+
+        // 1.21.9
+        if (version.isGreaterThanOrEqual(1, 21, 9)) {
+            // New copper chests
+            register(BlockMapping.of("minecraft:copper_chest", ChunkerVanillaBlockType.COPPER_CHEST, JavaStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:exposed_copper_chest", ChunkerVanillaBlockType.EXPOSED_COPPER_CHEST, JavaStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:oxidized_copper_chest", ChunkerVanillaBlockType.OXIDIZED_COPPER_CHEST, JavaStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:waxed_copper_chest", ChunkerVanillaBlockType.WAXED_COPPER_CHEST, JavaStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:waxed_exposed_copper_chest", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_CHEST, JavaStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:waxed_oxidized_copper_chest", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_CHEST, JavaStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:waxed_weathered_copper_chest", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_CHEST, JavaStateGroups.CHEST));
+            register(BlockMapping.of("minecraft:weathered_copper_chest", ChunkerVanillaBlockType.WEATHERED_COPPER_CHEST, JavaStateGroups.CHEST));
+
+            // New lightning rods
+            register(BlockMapping.of("minecraft:exposed_lightning_rod", ChunkerVanillaBlockType.EXPOSED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
+            register(BlockMapping.of("minecraft:oxidized_lightning_rod", ChunkerVanillaBlockType.OXIDIZED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
+            register(BlockMapping.of("minecraft:waxed_lightning_rod", ChunkerVanillaBlockType.WAXED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
+            register(BlockMapping.of("minecraft:waxed_exposed_lightning_rod", ChunkerVanillaBlockType.WAXED_EXPOSED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
+            register(BlockMapping.of("minecraft:waxed_oxidized_lightning_rod", ChunkerVanillaBlockType.WAXED_OXIDIZED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
+            register(BlockMapping.of("minecraft:waxed_weathered_lightning_rod", ChunkerVanillaBlockType.WAXED_WEATHERED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
+            register(BlockMapping.of("minecraft:weathered_lightning_rod", ChunkerVanillaBlockType.WEATHERED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
+
+            // New copper golem
+            register(BlockMapping.of("minecraft:copper_golem_statue", ChunkerVanillaBlockType.COPPER_GOLEM, JavaStateGroups.COPPER_GOLEM));
+            register(BlockMapping.of("minecraft:exposed_copper_golem_statue", ChunkerVanillaBlockType.EXPOSED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
+            register(BlockMapping.of("minecraft:oxidized_copper_golem_statue", ChunkerVanillaBlockType.OXIDIZED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
+            register(BlockMapping.of("minecraft:waxed_copper_golem_statue", ChunkerVanillaBlockType.WAXED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
+            register(BlockMapping.of("minecraft:waxed_exposed_copper_golem_statue", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
+            register(BlockMapping.of("minecraft:waxed_oxidized_copper_golem_statue", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
+            register(BlockMapping.of("minecraft:waxed_weathered_copper_golem_statue", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
+            register(BlockMapping.of("minecraft:weathered_copper_golem_statue", ChunkerVanillaBlockType.WEATHERED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
+
+            // New shelves
+            register(BlockMapping.of("minecraft:acacia_shelf", ChunkerVanillaBlockType.ACACIA_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:bamboo_shelf", ChunkerVanillaBlockType.BAMBOO_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:birch_shelf", ChunkerVanillaBlockType.BIRCH_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:cherry_shelf", ChunkerVanillaBlockType.CHERRY_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:crimson_shelf", ChunkerVanillaBlockType.CRIMSON_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:dark_oak_shelf", ChunkerVanillaBlockType.DARK_OAK_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:jungle_shelf", ChunkerVanillaBlockType.JUNGLE_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:mangrove_shelf", ChunkerVanillaBlockType.MANGROVE_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:oak_shelf", ChunkerVanillaBlockType.OAK_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:pale_oak_shelf", ChunkerVanillaBlockType.PALE_OAK_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:spruce_shelf", ChunkerVanillaBlockType.SPRUCE_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.of("minecraft:warped_shelf", ChunkerVanillaBlockType.WARPED_SHELF, JavaStateGroups.SHELF));
         }
     }
 }

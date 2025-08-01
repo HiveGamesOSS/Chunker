@@ -62,7 +62,6 @@ public class BedrockBlockEntityResolver extends BlockEntityResolver<BedrockResol
         register(new BedrockComparatorBlockEntityHandler());
         register(new EmptyBlockEntityHandler<>("Dispenser", DispenserBlockEntity.class, DispenserBlockEntity::new));
         register(new EmptyBlockEntityHandler<>("Dropper", DropperBlockEntity.class, DropperBlockEntity::new));
-        register(new BedrockCrafterBlockEntityHandler());
         register(new EmptyBlockEntityHandler<>("Hopper", HopperBlockEntity.class, HopperBlockEntity::new));
         register(new BedrockCauldronBlockEntityHandler());
         register(new BedrockItemFrameBlockEntityHandler()); // Bedrock only
@@ -120,6 +119,11 @@ public class BedrockBlockEntityResolver extends BlockEntityResolver<BedrockResol
         // R19U8
         if (version.isGreaterThanOrEqual(1, 19, 80)) {
             register(new EmptyBlockEntityHandler<>("CalibratedSculkSensor", CalibratedSculkSensorBlockEntity.class, CalibratedSculkSensorBlockEntity::new));
+        }
+
+        // R20U5
+        if (version.isGreaterThanOrEqual(1, 20, 50)) {
+            register(new BedrockCrafterBlockEntityHandler());
         }
 
         // R20U6

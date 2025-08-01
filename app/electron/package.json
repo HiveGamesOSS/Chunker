@@ -1,7 +1,7 @@
 {
   "name": "chunker-electron",
   "private": true,
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Convert worlds between Java and Bedrock.",
   "main": "src/index.js",
   "type": "module",
@@ -15,7 +15,7 @@
   "homepage": "https://github.com/HiveGamesOSS/Chunker",
   "license": "MIT",
   "devDependencies": {
-    "electron": "37.2.0",
+    "electron": "37.2.5",
     "electron-builder": "26.0.12",
     "git-last-commit": "^1.0.1"
   },

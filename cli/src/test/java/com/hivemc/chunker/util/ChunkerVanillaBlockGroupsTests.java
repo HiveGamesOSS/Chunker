@@ -114,4 +114,13 @@ public class ChunkerVanillaBlockGroupsTests {
                     || vanillaBlockType.name().contains("REDSTONE");
         });
     }
+
+    @Test
+    public void testDoubleChests() {
+        checkGroup("DOUBLE_CHESTS", ChunkerVanillaBlockGroups.DOUBLE_CHESTS, (type) -> {
+            // Any chest which ends with _CHEST that isn't an ENDER_CHEST can be made double
+            return type != ChunkerVanillaBlockType.ENDER_CHEST && (type == ChunkerVanillaBlockType.CHEST
+                    || type instanceof ChunkerVanillaBlockType vanillaBlockType && vanillaBlockType.name().endsWith("_CHEST"));
+        });
+    }
 }

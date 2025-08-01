@@ -205,6 +205,11 @@ public class JavaStateGroups {
             .state("down", VanillaBlockStates.DOWN, JavaStateTypes.BOOL)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
             .build();
+    public static final StateMappingGroup COPPER_GOLEM = new StateMappingGroup.Builder()
+            .state("copper_golem_pose", VanillaBlockStates.COPPER_GOLEM_POSE, JavaStateTypes.COPPER_GOLEM_POSE)
+            .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
+            .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+            .build();
     public static final VersionedStateMappingGroup CORAL = new VersionedStateMappingGroup.Builder()
             .defaults(new StateMappingGroup.Builder()
                     .defaultOutput(VanillaBlockStates.WATERLOGGED, Bool.FALSE)
@@ -553,6 +558,12 @@ public class JavaStateGroups {
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
             // In Java if the pickle is waterlogged it is not dead
             .state("waterlogged", VanillaBlockStates.DEAD, JavaStateTypes.INVERSE_BOOL)
+            .build();
+    public static final StateMappingGroup SHELF = new StateMappingGroup.Builder()
+            .state("powered", VanillaBlockStates.POWERED, JavaStateTypes.BOOL)
+            .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
+            .state("side_chain", VanillaBlockStates.SIDE_CHAIN, JavaStateTypes.SIDE_CHAIN)
+            .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
             .build();
     public static final VersionedStateMappingGroup SIGN = new StateMappingGroup.Builder()
             .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)

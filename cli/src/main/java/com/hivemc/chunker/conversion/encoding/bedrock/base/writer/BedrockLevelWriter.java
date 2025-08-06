@@ -34,6 +34,8 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.*;
@@ -130,57 +132,54 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
                     continue;
                 }
 
-                // Read key information
                 // Mark dimension & chunk present
-                try (ByteArrayInputStream inputStream = new ByteArrayInputStream(key);
-                     DataInputStream dataInputStream = new DataInputStream(inputStream)) {
-                    Reader reader = Reader.toBedrockReader(dataInputStream);
+                // Use a buffer to parse the key
+                ByteBuffer buffer = ByteBuffer.wrap(key).order(ByteOrder.LITTLE_ENDIAN);
 
-                    // Read co-ordinates
-                    int x = reader.readInt();
-                    int z = reader.readInt();
+                // Read co-ordinates
+                int x = buffer.getInt();
+                int z = buffer.getInt();
 
-                    // Read dimension
-                    Dimension dimension = Dimension.OVERWORLD;
-                    if (containsDimension) {
-                        int dimensionID = reader.readInt();
-                        dimension = Dimension.fromBedrock((byte) dimensionID, null);
+                // Read dimension
+                Dimension dimension = Dimension.OVERWORLD;
+                if (containsDimension) {
+                    int dimensionID = buffer.getInt();
+                    dimension = Dimension.fromBedrock((byte) dimensionID, null);
 
-                        // If unknown report an issue
-                        if (dimension == null) {
-                            converter.logNonFatalException(new Exception("Unknown dimension key " + dimensionID));
-                            removals.add(key);
-                            continue;
-                        }
-                    }
-                    byte subChunkY = 0;
-                    // Read subChunk Y
-                    if (containsSubChunk) {
-                        subChunkY = reader.readByte();
-                    }
-                    byte type = reader.readByte();
-
-                    // Check if it needs a dimension remap / pruning
-                    Optional<Dimension> newDimension = converter.getNewDimension(dimension);
-                    ChunkCoordPair chunkCoordPair = new ChunkCoordPair(x, z);
-                    if (newDimension.isPresent() && converter.shouldProcessColumn(dimension, chunkCoordPair)) {
-                        if (newDimension.get() != dimension) {
-                            byte[] value = entry.getValue();
-
-                            // Delete old key
-                            removals.add(key);
-
-                            // Write new key (with dimension changed)
-                            if (containsSubChunk) {
-                                database.put(LevelDBKey.key(newDimension.get(), chunkCoordPair, subChunkY, type), value);
-                            } else {
-                                database.put(LevelDBKey.key(newDimension.get(), chunkCoordPair, type), value);
-                            }
-                        }
-                    } else {
-                        // Remove as the dimension/column has been pruned
+                    // If unknown report an issue
+                    if (dimension == null) {
+                        converter.logNonFatalException(new Exception("Unknown dimension key " + dimensionID));
                         removals.add(key);
+                        continue;
                     }
+                }
+                byte subChunkY = 0;
+                // Read subChunk Y
+                if (containsSubChunk) {
+                    subChunkY = buffer.get();
+                }
+                byte type = buffer.get();
+
+                // Check if it needs a dimension remap / pruning
+                Optional<Dimension> newDimension = converter.getNewDimension(dimension);
+                ChunkCoordPair chunkCoordPair = new ChunkCoordPair(x, z);
+                if (newDimension.isPresent() && converter.shouldProcessColumn(dimension, chunkCoordPair)) {
+                    if (newDimension.get() != dimension) {
+                        byte[] value = entry.getValue();
+
+                        // Delete old key
+                        removals.add(key);
+
+                        // Write new key (with dimension changed)
+                        if (containsSubChunk) {
+                            database.put(LevelDBKey.key(newDimension.get(), chunkCoordPair, subChunkY, type), value);
+                        } else {
+                            database.put(LevelDBKey.key(newDimension.get(), chunkCoordPair, type), value);
+                        }
+                    }
+                } else {
+                    // Remove as the dimension/column has been pruned
+                    removals.add(key);
                 }
             }
         }

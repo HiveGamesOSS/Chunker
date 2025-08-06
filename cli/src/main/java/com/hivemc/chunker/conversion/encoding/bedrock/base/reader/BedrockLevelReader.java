@@ -37,6 +37,8 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.*;
 
 /**
@@ -139,51 +141,49 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
                         continue;
                     }
 
-                    try (ByteArrayInputStream inputStream = new ByteArrayInputStream(key);
-                         DataInputStream dataInputStream = new DataInputStream(inputStream)) {
-                        Reader reader = Reader.toBedrockReader(dataInputStream);
+                    // Use a buffer to parse the key
+                    ByteBuffer buffer = ByteBuffer.wrap(key).order(ByteOrder.LITTLE_ENDIAN);
 
-                        // Read co-ordinates
-                        int x = reader.readInt();
-                        int z = reader.readInt();
+                    // Read co-ordinates
+                    int x = buffer.getInt();
+                    int z = buffer.getInt();
 
-                        // Read dimension
-                        Dimension dimension = Dimension.OVERWORLD;
-                        if (containsDimension) {
-                            int dimensionID = reader.readInt();
-                            dimension = Dimension.fromBedrock((byte) dimensionID, null);
+                    // Read dimension
+                    Dimension dimension = Dimension.OVERWORLD;
+                    if (containsDimension) {
+                        int dimensionID = buffer.getInt();
+                        dimension = Dimension.fromBedrock((byte) dimensionID, null);
 
-                            // If unknown report an issue
-                            if (dimension == null) {
-                                converter.logNonFatalException(new Exception("Unknown dimension key " + dimensionID));
-                                continue;
-                            }
-                        }
-
-                        // Read subChunk Y
-                        if (containsSubChunk) {
-                            reader.readByte();
-                        }
-
-                        // Read type
-                        byte type = reader.readByte();
-
-                        // Ensure the chunk either has: biome/height data, chunk data, block entity/entity data
-                        if (type != LevelDBChunkType.DATA_2D.getId() && type != LevelDBChunkType.DATA_3D.getId()
-                                && type != LevelDBChunkType.SUB_CHUNK_PREFIX.getId()
-                                && type != LevelDBChunkType.ENTITY.getId() && type != LevelDBChunkType.BLOCK_ENTITY.getId()) {
+                        // If unknown report an issue
+                        if (dimension == null) {
+                            converter.logNonFatalException(new Exception("Unknown dimension key " + dimensionID));
                             continue;
                         }
-
-                        // Create the pairs used for adding to the lookup
-                        ChunkCoordPair chunkCoordPair = new ChunkCoordPair(x, z);
-                        RegionCoordPair regionCoordPair = chunkCoordPair.getRegion();
-
-                        // Add to lookup
-                        Map<RegionCoordPair, Set<ChunkCoordPair>> regionLookup = dimensionLookup.computeIfAbsent(dimension, (ignored) -> new Object2ObjectOpenHashMap<>());
-                        Set<ChunkCoordPair> columns = regionLookup.computeIfAbsent(regionCoordPair, (ignored) -> new ObjectOpenHashSet<>());
-                        columns.add(chunkCoordPair);
                     }
+
+                    // Read subChunk Y
+                    if (containsSubChunk) {
+                        buffer.get();
+                    }
+
+                    // Read type
+                    byte type = buffer.get();
+
+                    // Ensure the chunk either has: biome/height data, chunk data, block entity/entity data
+                    if (type != LevelDBChunkType.DATA_2D.getId() && type != LevelDBChunkType.DATA_3D.getId()
+                            && type != LevelDBChunkType.SUB_CHUNK_PREFIX.getId()
+                            && type != LevelDBChunkType.ENTITY.getId() && type != LevelDBChunkType.BLOCK_ENTITY.getId()) {
+                        continue;
+                    }
+
+                    // Create the pairs used for adding to the lookup
+                    ChunkCoordPair chunkCoordPair = new ChunkCoordPair(x, z);
+                    RegionCoordPair regionCoordPair = chunkCoordPair.getRegion();
+
+                    // Add to lookup
+                    Map<RegionCoordPair, Set<ChunkCoordPair>> regionLookup = dimensionLookup.computeIfAbsent(dimension, (ignored) -> new Object2ObjectOpenHashMap<>());
+                    Set<ChunkCoordPair> columns = regionLookup.computeIfAbsent(regionCoordPair, (ignored) -> new ObjectOpenHashSet<>());
+                    columns.add(chunkCoordPair);
                 }
             }
 

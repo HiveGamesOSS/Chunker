@@ -65,21 +65,21 @@ public class BedrockEntityHandler extends EntityHandler<BedrockResolvers, Compou
         }
 
         // Position
-        ListTag<FloatTag, Float> pos = new ListTag<>(TagType.FLOAT);
+        ListTag<FloatTag, Float> pos = new ListTag<>(TagType.FLOAT, 3);
         pos.add(new FloatTag((float) entity.getPositionX()));
         pos.add(new FloatTag((float) entity.getPositionY()));
         pos.add(new FloatTag((float) entity.getPositionZ()));
         output.put("Pos", pos);
 
         // Motion
-        ListTag<FloatTag, Float> motion = new ListTag<>(TagType.FLOAT);
+        ListTag<FloatTag, Float> motion = new ListTag<>(TagType.FLOAT, 3);
         motion.add(new FloatTag((float) entity.getMotionX()));
         motion.add(new FloatTag((float) entity.getMotionY()));
         motion.add(new FloatTag((float) entity.getMotionZ()));
         output.put("Motion", motion);
 
         // Motion
-        ListTag<FloatTag, Float> rotation = new ListTag<>(TagType.FLOAT);
+        ListTag<FloatTag, Float> rotation = new ListTag<>(TagType.FLOAT, 2);
         rotation.add(new FloatTag(entity.getYaw()));
         rotation.add(new FloatTag(entity.getPitch()));
         output.put("Rotation", rotation);

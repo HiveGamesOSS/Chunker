@@ -47,7 +47,7 @@ public class BedrockSignBlockEntityHandler extends BlockEntityHandler<BedrockRes
             textLines = FontUtil.split(hanging ? HANGING_SIGN_MAX_WIDTH : SIGN_MAX_WIDTH, 4, textLines);
 
             // Turn the lines into JSON
-            List<JsonElement> lines = new ArrayList<>();
+            List<JsonElement> lines = new ArrayList<>(4);
             for (int i = 0; i < 4; i++) {
                 JsonElement text = textLines.length > i ? JsonTextUtil.fromText(textLines[i]) : JsonTextUtil.EMPTY_TEXT_TAG;
                 lines.add(text);

@@ -30,15 +30,17 @@ public class ChunkWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
 
         // Create the keys and convert from Chunker to Java NBT
         int keyCount = 1;
-        ListTag<CompoundTag, Map<String, Tag<?>>> keys = new ListTag<>(TagType.COMPOUND);
+        ListTag<CompoundTag, Map<String, Tag<?>>> keys;
         if (!palette.isEmpty()) {
             keyCount = palette.getKeyCount();
+            keys = new ListTag<>(TagType.COMPOUND, keyCount);
             for (int i = 0; i < keyCount; i++) {
                 ChunkerBlockIdentifier blockIdentifier = palette.getKey(i, ChunkerBlockIdentifier.AIR);
                 keys.add(resolvers.writeBlock(blockIdentifier));
             }
         } else {
             // Write air for empty chunks
+            keys = new ListTag<>(TagType.COMPOUND, 1);
             keys.add(resolvers.writeBlock(ChunkerBlockIdentifier.AIR));
         }
         output.add(new TagWithName<>("Palette", keys));

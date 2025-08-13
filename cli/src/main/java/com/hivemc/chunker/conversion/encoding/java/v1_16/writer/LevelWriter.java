@@ -65,7 +65,7 @@ public class LevelWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
                 case FLAT:
                 case VOID:
                     long seed = Long.parseLong(chunkerLevelSettings.RandomSeed);
-                    CompoundTag dimensions = new CompoundTag();
+                    CompoundTag dimensions = new CompoundTag(3);
                     dimensions.put("minecraft:overworld", createDimension("minecraft:overworld", generatorType, seed));
 
                     // Use normal for nether as the client complains otherwise
@@ -73,7 +73,7 @@ public class LevelWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
                     dimensions.put("minecraft:the_nether", createDimension("minecraft:the_nether", ChunkerGeneratorType.NORMAL, seed));
 
                     // Settings
-                    CompoundTag worldGenSettings = new CompoundTag();
+                    CompoundTag worldGenSettings = new CompoundTag(4);
                     worldGenSettings.put("bonus_chest", (byte) (chunkerLevelSettings.bonusChestEnabled ? 1 : 0));
                     worldGenSettings.put("generate_features", (byte) (chunkerLevelSettings.MapFeatures ? 1 : 0));
                     worldGenSettings.put("seed", seed);
@@ -91,8 +91,8 @@ public class LevelWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
     }
 
     protected CompoundTag createDimension(String dimension, ChunkerGeneratorType type, long seed) {
-        CompoundTag tag = new CompoundTag();
-        CompoundTag generator = new CompoundTag();
+        CompoundTag tag = new CompoundTag(2);
+        CompoundTag generator = new CompoundTag(4);
 
         // Fill in the generator settings
         generator.put("type", type == ChunkerGeneratorType.NORMAL ? "minecraft:noise" : "minecraft:flat");
@@ -101,40 +101,37 @@ public class LevelWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
             generator.put("seed", seed);
             generator.put("biome_source", createDimensionBiomeSource(dimension, seed));
         } else {
-            CompoundTag settings = new CompoundTag();
+            CompoundTag settings = new CompoundTag(3);
 
             // Add structures tag
-            CompoundTag structures = new CompoundTag();
+            CompoundTag structures = new CompoundTag(1);
             structures.put("structures", new CompoundTag());
             settings.put("structures", structures);
 
             settings.put("biome", resolvers.writeBiome(ChunkerBiome.ChunkerVanillaBiome.PLAINS, Dimension.OVERWORLD));
-            ListTag<CompoundTag, Map<String, Tag<?>>> layers = new ListTag<>(TagType.COMPOUND);
+            ListTag<CompoundTag, Map<String, Tag<?>>> layers = new ListTag<>(TagType.COMPOUND, 3);
 
             // Layers vary depending on generator
             if (type == ChunkerGeneratorType.FLAT) {
                 // Bedrock
-                CompoundTag bedrockLayer = new CompoundTag();
+                CompoundTag bedrockLayer = new CompoundTag(2);
                 bedrockLayer.put("block", "minecraft:bedrock");
                 bedrockLayer.put("height", 1);
                 layers.add(bedrockLayer);
 
                 // Dirt
-                CompoundTag dirtLayer = new CompoundTag();
+                CompoundTag dirtLayer = new CompoundTag(2);
                 dirtLayer.put("block", "minecraft:dirt");
                 dirtLayer.put("height", 2);
                 layers.add(dirtLayer);
 
                 // Grass
-                CompoundTag grassLayer = new CompoundTag();
+                CompoundTag grassLayer = new CompoundTag(2);
                 grassLayer.put("block", "minecraft:grass_block");
                 grassLayer.put("height", 1);
                 layers.add(grassLayer);
-
-                // Add layers
-                settings.put("layers", layers);
             } else if (type == ChunkerGeneratorType.VOID) {
-                CompoundTag airLayer = new CompoundTag();
+                CompoundTag airLayer = new CompoundTag(2);
                 airLayer.put("block", "minecraft:air");
                 airLayer.put("height", 1);
                 layers.add(airLayer);
@@ -155,7 +152,7 @@ public class LevelWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
     }
 
     protected CompoundTag createDimensionBiomeSource(String dimension, long seed) {
-        CompoundTag biomes = new CompoundTag();
+        CompoundTag biomes = new CompoundTag(3);
         biomes.put("seed", seed);
 
         if (dimension.equals("minecraft:overworld")) {

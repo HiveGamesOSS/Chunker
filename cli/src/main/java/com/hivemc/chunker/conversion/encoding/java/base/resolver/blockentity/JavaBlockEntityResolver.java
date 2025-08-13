@@ -116,7 +116,7 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
     @Override
     protected CompoundTag constructDataType(String key) {
         // Create a new compoundTag with the ID
-        CompoundTag compoundTag = new CompoundTag();
+        CompoundTag compoundTag = new CompoundTag(4);
         compoundTag.put("id", key);
         return compoundTag;
     }

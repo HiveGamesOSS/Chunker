@@ -71,7 +71,7 @@ public class BedrockColumnWriter implements ColumnWriter {
         });
 
         // Write the chunk to NBT
-        ArrayList<Task<Void>> processing = new ArrayList<>();
+        ArrayList<Task<Void>> processing = new ArrayList<>(5);
         processing.add(Task.asyncConsume("Writing Metadata", TaskWeight.LOW, this::writeMetadata, chunkerColumn));
         processing.add(Task.asyncConsume("Writing HeightMap/Biomes", TaskWeight.NORMAL, this::writeHeightMapBiomes, chunkerColumn));
         processing.add(Task.asyncConsume("Writing Entities", TaskWeight.HIGH, this::writeEntities, chunkerColumn));

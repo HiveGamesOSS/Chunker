@@ -17,7 +17,6 @@ import com.hivemc.chunker.conversion.intermediate.level.*;
 import com.hivemc.chunker.conversion.intermediate.level.map.ChunkerMap;
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;
 import com.hivemc.chunker.nbt.TagType;
-import com.hivemc.chunker.nbt.io.Reader;
 import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
@@ -30,8 +29,6 @@ import org.iq80.leveldb.impl.Iq80DBFactory;
 import org.iq80.leveldb.table.BloomFilterPolicy;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -267,7 +264,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
      */
     protected CompoundTag prepareMap(ChunkerMap chunkerMap) throws Exception {
         // Use the original map NBT as a base if it's present
-        CompoundTag mapData = chunkerMap.getOriginalNBT() != null ? chunkerMap.getOriginalNBT() : new CompoundTag();
+        CompoundTag mapData = chunkerMap.getOriginalNBT() != null ? chunkerMap.getOriginalNBT() : new CompoundTag(12);
         mapData.put("mapId", chunkerMap.getId());
 
         // Set the parentMapId to -1 if it's not present
@@ -323,10 +320,10 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         }
 
         // Write portals
-        CompoundTag entry = new CompoundTag();
-        ListTag<CompoundTag, Map<String, Tag<?>>> portalRecords = new ListTag<>(TagType.COMPOUND);
+        CompoundTag entry = new CompoundTag(1);
+        ListTag<CompoundTag, Map<String, Tag<?>>> portalRecords = new ListTag<>(TagType.COMPOUND, chunkerLevel.getPortals().size());
         for (ChunkerPortal portal : chunkerLevel.getPortals()) {
-            CompoundTag record = new CompoundTag();
+            CompoundTag record = new CompoundTag(7);
             record.put("DimId", (int) portal.getDimension().getBedrockID());
             record.put("Span", portal.getWidth());
             record.put("TpX", portal.getX());
@@ -339,7 +336,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         entry.put("PortalRecords", portalRecords);
 
         // Wrap in a data tag
-        CompoundTag data = new CompoundTag();
+        CompoundTag data = new CompoundTag(1);
         data.put("data", entry);
 
         // Write to field
@@ -445,7 +442,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
      */
     protected void writeLevelSettings(ChunkerLevel chunkerLevel) throws Exception {
         // Generate NBT from settings
-        CompoundTag data = chunkerLevel.getOriginalLevelData() == null || !converter.shouldAllowNBTCopying() ? new CompoundTag() : chunkerLevel.getOriginalLevelData();
+        CompoundTag data = chunkerLevel.getOriginalLevelData() == null || !converter.shouldAllowNBTCopying() ? new CompoundTag(100) : chunkerLevel.getOriginalLevelData();
         chunkerLevel.getSettings().worldStartCount = 0xFFFFFFFFL - 1L; // Use 1 as start count (this is used to seed entity IDs)
         chunkerLevel.getSettings().toNBT(data, this, converter);
 
@@ -484,7 +481,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
 
         // Mark minimum compatible version
         Version version = resolvers.dataVersion().getVersion();
-        ListTag<IntTag, Integer> minimumVersion = new ListTag<>(TagType.INT);
+        ListTag<IntTag, Integer> minimumVersion = new ListTag<>(TagType.INT, 5);
         minimumVersion.add(new IntTag(version.getMajor()));
         minimumVersion.add(new IntTag(version.getMinor()));
         minimumVersion.add(new IntTag(version.getPatch()));
@@ -515,7 +512,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         ChunkerLevelPlayer player = output.getPlayer();
 
         // Create the NBT
-        CompoundTag playerTag = new CompoundTag();
+        CompoundTag playerTag = new CompoundTag(9);
 
         // Write position data
         playerTag.put("Pos", ListTag.fromValues(TagType.FLOAT, List.of(
@@ -534,7 +531,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         )));
 
         // Write main inventory
-        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(player.getInventory().size()));
+        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, player.getInventory().size());
         for (Byte2ObjectMap.Entry<ChunkerItemStack> tag : player.getInventory().byte2ObjectEntrySet()) {
             // Don't include slots not in the main inventory
             if ((tag.getByteKey() & 0xFF) >= 100) continue;
@@ -555,7 +552,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         playerTag.put("Inventory", items);
 
         // Write armor (reversed)
-        ListTag<CompoundTag, Map<String, Tag<?>>> armor = new ListTag<>(TagType.COMPOUND, new ArrayList<>(4));
+        ListTag<CompoundTag, Map<String, Tag<?>>> armor = new ListTag<>(TagType.COMPOUND, 4);
         for (int i = 3; i >= 0; i--) {
             ChunkerItemStack chunkerItemStack = player.getInventory().get((byte) (100 + i));
 
@@ -574,7 +571,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         playerTag.put("Armor", armor);
 
         // Write offhand
-        ListTag<CompoundTag, Map<String, Tag<?>>> offhand = new ListTag<>(TagType.COMPOUND, new ArrayList<>(1));
+        ListTag<CompoundTag, Map<String, Tag<?>>> offhand = new ListTag<>(TagType.COMPOUND, 1);
         for (int i = 0; i < 1; i++) {
             ChunkerItemStack chunkerItemStack = player.getInventory().get((byte) (150 + i));
 
@@ -604,7 +601,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         }
 
         // Add default movement attribute (Bedrock doesn't use the player default so you ends up using 0.7)
-        CompoundTag movementAttribute = new CompoundTag();
+        CompoundTag movementAttribute = new CompoundTag(7);
         movementAttribute.put("Base", 0.1F);
         movementAttribute.put("Current", 0.1F);
         movementAttribute.put("DefaultMax", Float.MAX_VALUE);

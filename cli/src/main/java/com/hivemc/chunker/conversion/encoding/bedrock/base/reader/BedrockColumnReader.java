@@ -68,7 +68,7 @@ public class BedrockColumnReader implements ColumnReader {
         ChunkerColumn column = new ChunkerColumn(columnCoords);
 
         // Load other parts of the column
-        ArrayList<Task<Void>> processing = new ArrayList<>();
+        ArrayList<Task<Void>> processing = new ArrayList<>(4);
         if (converter.shouldProcessHeightMap() || converter.shouldProcessBiomes()) {
             processing.add(Task.asyncConsume("Reading Biome/HeightMap", TaskWeight.NORMAL, this::readBiomeHeightMap, column));
         }

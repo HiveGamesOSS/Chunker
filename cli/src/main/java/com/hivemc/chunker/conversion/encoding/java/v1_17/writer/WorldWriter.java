@@ -24,7 +24,7 @@ public class WorldWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
         Tag<?> entities = root.remove("Entities");
         if (entities instanceof ListTag<?, ?> entitiesList && entitiesList.size() > 0) {
             // Write the entities to a different region file
-            CompoundTag entitiesData = new CompoundTag();
+            CompoundTag entitiesData = new CompoundTag(3);
             entitiesData.put("Entities", entities);
             entitiesData.put("DataVersion", resolvers.dataVersion().getDataVersion());
             entitiesData.put("Position", new int[]{chunkCoordPair.chunkX(), chunkCoordPair.chunkZ()});

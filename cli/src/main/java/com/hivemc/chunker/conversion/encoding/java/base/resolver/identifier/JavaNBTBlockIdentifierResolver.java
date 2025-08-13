@@ -52,12 +52,12 @@ public class JavaNBTBlockIdentifierResolver implements Resolver<CompoundTag, Ide
     @Override
     public Optional<CompoundTag> from(Identifier input) {
         // Create the block compound tag
-        CompoundTag output = new CompoundTag();
+        CompoundTag output = new CompoundTag(2);
         output.put("Name", input.getIdentifier());
 
         // Write the states
         if (!input.getStates().isEmpty()) {
-            CompoundTag states = new CompoundTag();
+            CompoundTag states = new CompoundTag(input.getStates().size());
             for (Map.Entry<String, StateValue<?>> entry : input.getStates().entrySet()) {
                 states.put(entry.getKey(), entry.getValue().toNBT());
             }

@@ -35,6 +35,15 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>> implements Iterable<Ma
     }
 
     /**
+     * Create a CompoundTag with an initial capacity.
+     *
+     * @param initialCapacity the initial size to use for the backing map.
+     */
+    public CompoundTag(int initialCapacity) {
+        this(new Object2ObjectLinkedOpenHashMap<>(initialCapacity));
+    }
+
+    /**
      * Create a CompoundTag with no value (null).
      */
     public CompoundTag() {

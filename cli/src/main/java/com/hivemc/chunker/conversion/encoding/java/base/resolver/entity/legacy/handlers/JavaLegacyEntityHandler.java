@@ -66,21 +66,21 @@ public class JavaLegacyEntityHandler extends EntityHandler<JavaResolvers, Compou
         }
 
         // Position
-        ListTag<DoubleTag, Double> pos = new ListTag<>(TagType.DOUBLE);
+        ListTag<DoubleTag, Double> pos = new ListTag<>(TagType.DOUBLE, 3);
         pos.add(new DoubleTag(entity.getPositionX()));
         pos.add(new DoubleTag(entity.getPositionY()));
         pos.add(new DoubleTag(entity.getPositionZ()));
         output.put("Pos", pos);
 
         // Motion
-        ListTag<DoubleTag, Double> motion = new ListTag<>(TagType.DOUBLE);
+        ListTag<DoubleTag, Double> motion = new ListTag<>(TagType.DOUBLE, 3);
         motion.add(new DoubleTag(entity.getMotionX()));
         motion.add(new DoubleTag(entity.getMotionY()));
         motion.add(new DoubleTag(entity.getMotionZ()));
         output.put("Motion", motion);
 
         // Motion
-        ListTag<FloatTag, Float> rotation = new ListTag<>(TagType.FLOAT);
+        ListTag<FloatTag, Float> rotation = new ListTag<>(TagType.FLOAT, 2);
         rotation.add(new FloatTag(entity.getYaw()));
         rotation.add(new FloatTag(entity.getPitch()));
         output.put("Rotation", rotation);

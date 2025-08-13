@@ -41,8 +41,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
-import java.util.List;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -267,7 +267,7 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
 
             @Override
             public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull Map<ChunkerEnchantmentType, Integer> value) {
-                ListTag<CompoundTag, Map<String, Tag<?>>> enchantments = new ListTag<>(TagType.COMPOUND, new ArrayList<>(value.size()));
+                ListTag<CompoundTag, Map<String, Tag<?>>> enchantments = new ListTag<>(TagType.COMPOUND, value.size());
                 for (Map.Entry<ChunkerEnchantmentType, Integer> enchantment : value.entrySet()) {
                     Optional<String> id = resolvers.enchantmentResolver().from(enchantment.getKey());
                     if (id.isEmpty()) {
@@ -275,7 +275,7 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
                         continue; // Don't include not supported enchantments
                     }
 
-                    CompoundTag enchantmentTag = new CompoundTag();
+                    CompoundTag enchantmentTag = new CompoundTag(2);
                     enchantmentTag.put("id", id.get());
                     enchantmentTag.put("lvl", enchantment.getValue().shortValue());
                     enchantments.add(enchantmentTag);
@@ -413,7 +413,7 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
             @Override
             public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull List<JsonElement> pagesJSON) {
                 CompoundTag tag = state.right().getOrCreateCompound("tag");
-                ListTag<StringTag, String> pages = new ListTag<>(TagType.STRING, new ArrayList<>(pagesJSON.size()));
+                ListTag<StringTag, String> pages = new ListTag<>(TagType.STRING, pagesJSON.size());
                 for (JsonElement pageJSON : pagesJSON) {
                     // If it's a writable book then it's not json
                     if (state.key().getIdentifier().getItemStackType() == ChunkerVanillaItemType.WRITABLE_BOOK) {
@@ -566,13 +566,13 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
                 if (chunkerStewEffect.getEffects().isEmpty())
                     return;
 
-                ListTag<CompoundTag, Map<String, Tag<?>>> effectTags = new ListTag<>(TagType.COMPOUND);
+                ListTag<CompoundTag, Map<String, Tag<?>>> effectTags = new ListTag<>(TagType.COMPOUND, chunkerStewEffect.getEffects().size());
                 for (Map.Entry<ChunkerEffectType, Integer> effect : chunkerStewEffect.getEffects().entrySet()) {
                     // Resolve the effect id
                     String id = resolvers.writeEffect(effect.getKey());
 
                     // Write the tag
-                    CompoundTag effectTag = new CompoundTag();
+                    CompoundTag effectTag = new CompoundTag(2);
                     effectTag.put("duration", effect.getValue());
                     effectTag.put("id", id);
                     effectTags.add(effectTag);
@@ -648,9 +648,9 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
 
                 // Write explosions
                 if (!chunkerFireworks.getExplosions().isEmpty()) {
-                    ListTag<CompoundTag, Map<String, Tag<?>>> explosions = new ListTag<>(TagType.COMPOUND);
+                    ListTag<CompoundTag, Map<String, Tag<?>>> explosions = new ListTag<>(TagType.COMPOUND, chunkerFireworks.getExplosions().size());
                     for (ChunkerFireworkExplosion chunkerFireworkExplosion : chunkerFireworks.getExplosions()) {
-                        CompoundTag explosion = new CompoundTag();
+                        CompoundTag explosion = new CompoundTag(5);
                         explosion.put("Type", (byte) chunkerFireworkExplosion.getShape().getID());
                         explosion.put("Colors", chunkerFireworkExplosion.getColors().stream()
                                 .mapToInt(Color::getRGB)
@@ -679,7 +679,7 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
 
                 // Read the items
                 ListTag<CompoundTag, Map<String, Tag<?>>> items = component.get();
-                List<ChunkerItemStack> bundleContents = new ArrayList<>();
+                List<ChunkerItemStack> bundleContents = new ArrayList<>(items.size());
                 for (CompoundTag itemTag : items) {
                     // Read the tag
                     ChunkerItemStack item = resolvers.readItem(itemTag);
@@ -694,7 +694,7 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
             @Override
             public void write(@NotNull CompoundTag value, @NotNull List<ChunkerItemStack> bundleContents) {
                 // Write items
-                ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(bundleContents.size()));
+                ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, bundleContents.size());
                 for (ChunkerItemStack item : bundleContents) {
                     // Don't write air to bundles
                     if (item.getIdentifier().isAir()) continue;
@@ -851,7 +851,7 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
 
     @Override
     protected Optional<CompoundTag> createOutput(ChunkerItemStack input) {
-        CompoundTag output = new CompoundTag();
+        CompoundTag output = new CompoundTag(2);
 
         // Use the item identifier writer to turn it into an item (if it fails, we'll encode it as a block)
         Optional<Identifier> itemIdentifier = resolvers.chunkerItemIdentifierResolver().from(input);

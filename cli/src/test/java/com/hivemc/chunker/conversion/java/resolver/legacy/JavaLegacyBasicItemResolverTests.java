@@ -45,8 +45,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.awt.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;

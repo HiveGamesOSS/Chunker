@@ -31,6 +31,12 @@ public class CompoundTagTests extends TagTestsBase<CompoundTag, Map<String, Tag<
     }
 
     @Test
+    public void testInitialCapacity() {
+        CompoundTag compoundTag = new CompoundTag(5);
+        assertTrue(compoundTag.getValue().isEmpty());
+    }
+
+    @Test
     public void testGet() {
         CompoundTag compoundTag = new CompoundTag();
         IntTag entry = new IntTag(5);

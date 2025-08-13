@@ -22,7 +22,6 @@ import com.hivemc.chunker.nbt.tags.collection.ListTag;
 import it.unimi.dsi.fastutil.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -100,11 +99,11 @@ public class BedrockBannerBlockEntityHandler extends BlockEntityHandler<BedrockR
         }
 
         // Write patterns
-        ListTag<CompoundTag, Map<String, Tag<?>>> patternTags = new ListTag<>(TagType.COMPOUND, new ArrayList<>(value.getPatterns().size()));
+        ListTag<CompoundTag, Map<String, Tag<?>>> patternTags = new ListTag<>(TagType.COMPOUND, value.getPatterns().size());
         for (Pair<ChunkerDyeColor, ChunkerBannerPattern> pair : value.getPatterns()) {
             Optional<String> patternShortName = resolvers.bannerPatternResolver().from(pair.second());
             if (patternShortName.isPresent()) {
-                CompoundTag patternTag = new CompoundTag();
+                CompoundTag patternTag = new CompoundTag(2);
                 patternTag.put("Color", pair.first().getReversedID());
                 patternTag.put("Pattern", patternShortName.get());
                 patternTags.add(patternTag);

@@ -23,7 +23,7 @@ public class JavaLegacySignBlockEntityHandler extends BlockEntityHandler<JavaRes
     public void read(@NotNull JavaResolvers resolvers, @NotNull CompoundTag input, @NotNull SignBlockEntity value) {
         // Read text
         SignBlockEntity.SignFace face = value.getFront();
-        List<JsonElement> lines = new ArrayList<>();
+        List<JsonElement> lines = new ArrayList<>(4);
         for (int i = 1; i <= 4; i++) {
             lines.add(input.getOptionalValue("Text" + i, String.class)
                     .map(JsonTextUtil::fromJSON)

@@ -49,7 +49,7 @@ public class BedrockEntityResolver extends EntityResolver<BedrockResolvers, Comp
         if (key.isEmpty()) return null; // Can't write the type
 
         // Create a new compoundTag with the ID
-        CompoundTag compoundTag = new CompoundTag();
+        CompoundTag compoundTag = new CompoundTag(4);
         compoundTag.put("identifier", key.get());
         return compoundTag;
     }

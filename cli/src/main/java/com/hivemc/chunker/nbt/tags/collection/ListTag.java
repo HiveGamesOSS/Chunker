@@ -38,12 +38,22 @@ public class ListTag<T extends Tag<V>, V> extends Tag<List<T>> implements Iterab
     }
 
     /**
-     * Create a ListTag with atyped tag List.
+     * Create a ListTag with a typed tag List.
      *
      * @param type the tag type which is used for the list.
      */
     public ListTag(@Nullable TagType<T, V> type) {
         this(type, null);
+    }
+
+    /**
+     * Create a ListTag with a typed tag List with a size hint.
+     *
+     * @param type the tag type which is used for the list.
+     * @param initialCapacity the initial size to use for the list tag (can be expanded).
+     */
+    public ListTag(@Nullable TagType<T, V> type, int initialCapacity) {
+        this(type, new ArrayList<>(initialCapacity));
     }
 
     /**

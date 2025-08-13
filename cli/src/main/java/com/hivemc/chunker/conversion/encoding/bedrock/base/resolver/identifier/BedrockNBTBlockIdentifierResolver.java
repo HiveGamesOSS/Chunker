@@ -59,7 +59,7 @@ public class BedrockNBTBlockIdentifierResolver implements Resolver<BedrockBlockC
     @Override
     public Optional<BedrockBlockCompoundTag> from(Identifier input) {
         // Create the block compound tag
-        CompoundTag output = new CompoundTag();
+        CompoundTag output = new CompoundTag(4);
         output.put("name", input.getIdentifier());
 
         // Write the stateVersion if it was provided
@@ -69,7 +69,7 @@ public class BedrockNBTBlockIdentifierResolver implements Resolver<BedrockBlockC
 
         // Write the states
         if (!input.getStates().isEmpty()) {
-            CompoundTag states = new CompoundTag();
+            CompoundTag states = new CompoundTag(input.getStates().size());
             for (Map.Entry<String, StateValue<?>> entry : input.getStates().entrySet()) {
                 if (entry.getKey().equals("waterlogged")) continue;
                 states.put(entry.getKey(), entry.getValue().toNBT());

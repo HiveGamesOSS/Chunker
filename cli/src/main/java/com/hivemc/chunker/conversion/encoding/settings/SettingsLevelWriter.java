@@ -61,7 +61,7 @@ public class SettingsLevelWriter implements LevelWriter {
         // Sort the dimensions by index so they're in order
         worlds.sort(Comparator.comparing(a -> a.dimension.ordinal()));
         for (SettingsWorldWriter.WorldData worldData : worlds) {
-            JsonArray regions = new JsonArray();
+            JsonArray regions = new JsonArray(worldData.regions.size());
             for (RegionCoordPair regionCoordPair : worldData.regions) {
                 JsonArray coords = new JsonArray(2);
                 coords.add(regionCoordPair.regionX());

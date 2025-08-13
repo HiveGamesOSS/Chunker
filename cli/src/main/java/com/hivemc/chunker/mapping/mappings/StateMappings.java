@@ -123,7 +123,7 @@ public class StateMappings {
      * @return a json array containing the mappings.
      */
     public JsonElement serialize(JsonSerializationContext context) {
-        JsonArray jsonArray = new JsonArray();
+        JsonArray jsonArray = new JsonArray(mappings.size());
         for (StateMapping mapping : mappings) {
             jsonArray.add(mapping.serialize(context));
         }

@@ -116,7 +116,7 @@ public class JavaLegacyBlockEntityResolver extends BlockEntityResolver<JavaResol
     @Override
     protected CompoundTag constructDataType(String key) {
         // Create a new compoundTag with the ID
-        CompoundTag compoundTag = new CompoundTag();
+        CompoundTag compoundTag = new CompoundTag(4);
 
         // Newer versions use a namespaced key
         if (version.isGreaterThanOrEqual(1, 11, 0)) {

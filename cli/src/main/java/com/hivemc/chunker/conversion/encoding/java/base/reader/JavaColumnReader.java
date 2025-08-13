@@ -106,7 +106,7 @@ public class JavaColumnReader implements ColumnReader {
         }
 
         // Load other parts of the column
-        ArrayList<Task<Void>> processing = new ArrayList<>();
+        ArrayList<Task<Void>> processing = new ArrayList<>(5);
         if (converter.shouldProcessHeightMap()) {
             processing.add(Task.asyncConsume("Reading HeightMap", TaskWeight.NORMAL, this::readHeightMap, column));
         }

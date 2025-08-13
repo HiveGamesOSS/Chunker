@@ -36,8 +36,8 @@ import it.unimi.dsi.fastutil.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.List;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -266,7 +266,7 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
 
             @Override
             public void write(@NotNull CompoundTag value, @NotNull Map<ChunkerEnchantmentType, Integer> enchantments) {
-                ListTag<CompoundTag, Map<String, Tag<?>>> enchantmentsTag = new ListTag<>(TagType.COMPOUND, new ArrayList<>(value.size()));
+                ListTag<CompoundTag, Map<String, Tag<?>>> enchantmentsTag = new ListTag<>(TagType.COMPOUND, value.size());
                 for (Map.Entry<ChunkerEnchantmentType, Integer> enchantment : enchantments.entrySet()) {
                     Optional<Integer> id = resolvers.enchantmentIDResolver().from(enchantment.getKey());
                     if (id.isEmpty()) {
@@ -274,7 +274,7 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
                         continue; // Don't include not supported enchantments
                     }
 
-                    CompoundTag enchantmentTag = new CompoundTag();
+                    CompoundTag enchantmentTag = new CompoundTag(2);
                     enchantmentTag.put("id", id.get().shortValue());
                     enchantmentTag.put("lvl", enchantment.getValue().shortValue());
                     enchantmentsTag.add(enchantmentTag);
@@ -401,9 +401,9 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
 
             @Override
             public void write(@NotNull CompoundTag value, @NotNull List<JsonElement> values) {
-                ListTag<CompoundTag, Map<String, Tag<?>>> pages = new ListTag<>(TagType.COMPOUND, new ArrayList<>(values.size()));
+                ListTag<CompoundTag, Map<String, Tag<?>>> pages = new ListTag<>(TagType.COMPOUND, values.size());
                 for (JsonElement text : values) {
-                    CompoundTag page = new CompoundTag();
+                    CompoundTag page = new CompoundTag(2);
                     page.put("photoname", "");
                     page.put("text", JsonTextUtil.toLegacy(text, true));
 
@@ -546,9 +546,9 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
 
                 // Write explosions
                 if (!chunkerFireworks.getExplosions().isEmpty()) {
-                    ListTag<CompoundTag, Map<String, Tag<?>>> explosions = new ListTag<>(TagType.COMPOUND);
+                    ListTag<CompoundTag, Map<String, Tag<?>>> explosions = new ListTag<>(TagType.COMPOUND, chunkerFireworks.getExplosions().size());
                     for (ChunkerFireworkExplosion chunkerFireworkExplosion : chunkerFireworks.getExplosions()) {
-                        CompoundTag explosion = new CompoundTag();
+                        CompoundTag explosion = new CompoundTag(5);
                         explosion.put("Type", (byte) chunkerFireworkExplosion.getShape().getID());
                         explosion.put("Colors", chunkerFireworkExplosion.getColors().stream()
                                 .mapToInt(Color::getRGB)
@@ -577,7 +577,7 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
 
                 // Read the items
                 ListTag<CompoundTag, Map<String, Tag<?>>> items = component.get();
-                List<ChunkerItemStack> bundleContents = new ArrayList<>();
+                List<ChunkerItemStack> bundleContents = new ArrayList<>(items.size());
                 for (CompoundTag itemTag : items) {
                     // Read the tag
                     ChunkerItemStack item = resolvers.readItem(itemTag);
@@ -592,7 +592,7 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
             @Override
             public void write(@NotNull CompoundTag value, @NotNull List<ChunkerItemStack> bundleContents) {
                 // Write items
-                ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(bundleContents.size()));
+                ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, bundleContents.size());
                 byte slot = 0;
                 for (ChunkerItemStack item : bundleContents) {
                     // Don't write air to bundles
@@ -708,7 +708,7 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
 
     @Override
     protected Optional<CompoundTag> createOutput(ChunkerItemStack input) {
-        CompoundTag output = new CompoundTag();
+        CompoundTag output = new CompoundTag(3);
 
         // Use the item identifier writer to turn it into an item (if it fails, we'll encode it as a block)
         Optional<Identifier> itemIdentifier = resolvers.chunkerItemIdentifierResolver().from(input);

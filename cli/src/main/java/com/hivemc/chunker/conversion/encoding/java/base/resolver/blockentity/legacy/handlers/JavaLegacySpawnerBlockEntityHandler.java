@@ -64,7 +64,7 @@ public class JavaLegacySpawnerBlockEntityHandler extends BlockEntityHandler<Java
 
         if (identifier.isPresent()) {
             // Write the entity type
-            CompoundTag spawnData = new CompoundTag();
+            CompoundTag spawnData = new CompoundTag(1);
             spawnData.put("id", identifier.get());
 
             output.put("SpawnData", spawnData);

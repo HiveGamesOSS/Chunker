@@ -161,13 +161,13 @@ public class TypeMappings {
      */
     public JsonElement serialize(JsonSerializationContext context) {
         // Sort type mappings
-        List<TypeMapping> fullTypeMappings = new ArrayList<>();
+        List<TypeMapping> fullTypeMappings = new ArrayList<>(inputsToOutputsLookup.size() + redundant.size());
         fullTypeMappings.addAll(inputsToOutputsLookup.values());
         fullTypeMappings.addAll(redundant);
         fullTypeMappings.sort(Comparator.comparing(TypeMapping::getIndex));
 
         // Serialize
-        JsonArray jsonArray = new JsonArray();
+        JsonArray jsonArray = new JsonArray(fullTypeMappings.size());
         for (TypeMapping typeMapping : fullTypeMappings) {
             jsonArray.add(typeMapping.serialize(context));
         }

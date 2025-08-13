@@ -76,7 +76,7 @@ public class JavaSkullBlockEntityHandler extends BlockEntityHandler<JavaResolver
     public void write(@NotNull JavaResolvers resolvers, @NotNull CompoundTag output, @NotNull SkullBlockEntity value) {
         // Write the tags normally (Name tag is special though)
         if (value.getOwnerId() != null || value.getTexture() != null || value.getTextureSignature() != null || (value.getOwnerName() != null && resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 12, 0))) {
-            CompoundTag owner = new CompoundTag();
+            CompoundTag owner = new CompoundTag(3);
 
             // Add owner tag if present
             if (value.getOwnerId() != null) {
@@ -101,7 +101,7 @@ public class JavaSkullBlockEntityHandler extends BlockEntityHandler<JavaResolver
 
             // Add properties/textures/value tag
             if (value.getTexture() != null || value.getTextureSignature() != null) {
-                CompoundTag textureEntry = new CompoundTag();
+                CompoundTag textureEntry = new CompoundTag(2);
 
                 // Add texture
                 if (value.getTexture() != null) {

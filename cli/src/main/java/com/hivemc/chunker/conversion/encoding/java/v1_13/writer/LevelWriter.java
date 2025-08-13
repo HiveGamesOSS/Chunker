@@ -52,11 +52,11 @@ public class LevelWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
                     output.put("generatorName", "flat");
                     output.put("generatorVersion", 0);
 
-                    CompoundTag generatorOptions = new CompoundTag();
+                    CompoundTag generatorOptions = new CompoundTag(2);
                     generatorOptions.put("biome", resolvers.writeBiome(ChunkerBiome.ChunkerVanillaBiome.PLAINS, Dimension.OVERWORLD));
-                    ListTag<CompoundTag, Map<String, Tag<?>>> layers = new ListTag<>(TagType.COMPOUND);
+                    ListTag<CompoundTag, Map<String, Tag<?>>> layers = new ListTag<>(TagType.COMPOUND, 1);
 
-                    CompoundTag airLayer = new CompoundTag();
+                    CompoundTag airLayer = new CompoundTag(2);
                     airLayer.put("block", "minecraft:air");
                     airLayer.put("height", (byte) 1);
                     layers.add(airLayer);

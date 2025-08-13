@@ -61,11 +61,11 @@ public class JavaChunkWriter {
         if (!isChunkHeightSupported(chunkerChunk.getY())) return null;
 
         // Create the base tag with the Y set
-        CompoundTag output = new CompoundTag();
+        CompoundTag output = new CompoundTag(4);
         output.put("Y", chunkerChunk.getY());
 
         // Create an output array to handle asynchronous results
-        List<TagWithName<?>> outputs = Collections.synchronizedList(new ArrayList<>());
+        List<TagWithName<?>> outputs = Collections.synchronizedList(new ArrayList<>(3));
 
         // Create the tasks
         List<Task<Void>> tasks = createChunkTasks(chunkerChunk, outputs);
@@ -90,7 +90,7 @@ public class JavaChunkWriter {
      * @return a list of tasks which have been created.
      */
     protected List<Task<Void>> createChunkTasks(ChunkerChunk chunkerChunk, List<TagWithName<?>> outputs) {
-        List<Task<Void>> tasks = new ArrayList<>();
+        List<Task<Void>> tasks = new ArrayList<>(2);
         tasks.add(Task.async("Writing Block Palette", TaskWeight.HIGH, () -> writeBlockPalette(chunkerChunk, outputs)));
         tasks.add(Task.async("Writing Light Data", TaskWeight.MEDIUM, () -> writeLightData(chunkerChunk, outputs)));
         return tasks;

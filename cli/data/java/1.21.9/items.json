@@ -3456,22 +3456,6 @@
       "minecraft:tooltip_display": {}
     }
   },
-  "minecraft:chain": {
-    "components": {
-      "minecraft:attribute_modifiers": [],
-      "minecraft:break_sound": "minecraft:entity.item.break",
-      "minecraft:enchantments": {},
-      "minecraft:item_model": "minecraft:chain",
-      "minecraft:item_name": {
-        "translate": "block.minecraft.chain"
-      },
-      "minecraft:lore": [],
-      "minecraft:max_stack_size": 64,
-      "minecraft:rarity": "common",
-      "minecraft:repair_cost": 0,
-      "minecraft:tooltip_display": {}
-    }
-  },
   "minecraft:chain_command_block": {
     "components": {
       "minecraft:attribute_modifiers": [],
@@ -5009,6 +4993,22 @@
       }
     }
   },
+  "minecraft:copper_bars": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:copper_bars",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.copper_bars"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
   "minecraft:copper_block": {
     "components": {
       "minecraft:attribute_modifiers": [],
@@ -5077,6 +5077,22 @@
       "minecraft:item_model": "minecraft:copper_bulb",
       "minecraft:item_name": {
         "translate": "block.minecraft.copper_bulb"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:copper_chain": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:copper_chain",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.copper_chain"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -5368,6 +5384,22 @@
       "minecraft:tooltip_display": {}
     }
   },
+  "minecraft:copper_lantern": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:copper_lantern",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.copper_lantern"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
   "minecraft:copper_leggings": {
     "components": {
       "minecraft:attribute_modifiers": [
@@ -5611,6 +5643,22 @@
       },
       "minecraft:tooltip_display": {},
       "minecraft:weapon": {}
+    }
+  },
+  "minecraft:copper_torch": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:copper_torch",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.copper_torch"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
     }
   },
   "minecraft:copper_trapdoor": {
@@ -8590,7 +8638,7 @@
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 1,
-      "minecraft:rarity": "uncommon",
+      "minecraft:rarity": "rare",
       "minecraft:repair_cost": 0,
       "minecraft:stored_enchantments": {},
       "minecraft:tooltip_display": {}
@@ -8986,6 +9034,22 @@
       "minecraft:tooltip_display": {}
     }
   },
+  "minecraft:exposed_copper_bars": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:exposed_copper_bars",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.exposed_copper_bars"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
   "minecraft:exposed_copper_bulb": {
     "components": {
       "minecraft:attribute_modifiers": [],
@@ -8994,6 +9058,22 @@
       "minecraft:item_model": "minecraft:exposed_copper_bulb",
       "minecraft:item_name": {
         "translate": "block.minecraft.exposed_copper_bulb"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:exposed_copper_chain": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:exposed_copper_chain",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.exposed_copper_chain"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -9058,6 +9138,22 @@
       "minecraft:item_model": "minecraft:exposed_copper_grate",
       "minecraft:item_name": {
         "translate": "block.minecraft.exposed_copper_grate"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:exposed_copper_lantern": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:exposed_copper_lantern",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.exposed_copper_lantern"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -11940,6 +12036,22 @@
       "minecraft:repairable": {
         "items": "#minecraft:repairs_iron_armor"
       },
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:iron_chain": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:iron_chain",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.iron_chain"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
       "minecraft:tooltip_display": {}
     }
   },
@@ -17368,6 +17480,22 @@
       "minecraft:tooltip_display": {}
     }
   },
+  "minecraft:oxidized_copper_bars": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:oxidized_copper_bars",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.oxidized_copper_bars"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
   "minecraft:oxidized_copper_bulb": {
     "components": {
       "minecraft:attribute_modifiers": [],
@@ -17376,6 +17504,22 @@
       "minecraft:item_model": "minecraft:oxidized_copper_bulb",
       "minecraft:item_name": {
         "translate": "block.minecraft.oxidized_copper_bulb"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:oxidized_copper_chain": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:oxidized_copper_chain",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.oxidized_copper_chain"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -17440,6 +17584,22 @@
       "minecraft:item_model": "minecraft:oxidized_copper_grate",
       "minecraft:item_name": {
         "translate": "block.minecraft.oxidized_copper_grate"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:oxidized_copper_lantern": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:oxidized_copper_lantern",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.oxidized_copper_lantern"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25071,6 +25231,22 @@
       "minecraft:tooltip_display": {}
     }
   },
+  "minecraft:waxed_copper_bars": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_copper_bars",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_copper_bars"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
   "minecraft:waxed_copper_block": {
     "components": {
       "minecraft:attribute_modifiers": [],
@@ -25095,6 +25271,22 @@
       "minecraft:item_model": "minecraft:waxed_copper_bulb",
       "minecraft:item_name": {
         "translate": "block.minecraft.waxed_copper_bulb"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:waxed_copper_chain": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_copper_chain",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_copper_chain"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25159,6 +25351,22 @@
       "minecraft:item_model": "minecraft:waxed_copper_grate",
       "minecraft:item_name": {
         "translate": "block.minecraft.waxed_copper_grate"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:waxed_copper_lantern": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_copper_lantern",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_copper_lantern"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25263,6 +25471,22 @@
       "minecraft:tooltip_display": {}
     }
   },
+  "minecraft:waxed_exposed_copper_bars": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_exposed_copper_bars",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_exposed_copper_bars"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
   "minecraft:waxed_exposed_copper_bulb": {
     "components": {
       "minecraft:attribute_modifiers": [],
@@ -25271,6 +25495,22 @@
       "minecraft:item_model": "minecraft:waxed_exposed_copper_bulb",
       "minecraft:item_name": {
         "translate": "block.minecraft.waxed_exposed_copper_bulb"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:waxed_exposed_copper_chain": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_exposed_copper_chain",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_exposed_copper_chain"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25335,6 +25575,22 @@
       "minecraft:item_model": "minecraft:waxed_exposed_copper_grate",
       "minecraft:item_name": {
         "translate": "block.minecraft.waxed_exposed_copper_grate"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:waxed_exposed_copper_lantern": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_exposed_copper_lantern",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_exposed_copper_lantern"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25471,6 +25727,22 @@
       "minecraft:tooltip_display": {}
     }
   },
+  "minecraft:waxed_oxidized_copper_bars": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_oxidized_copper_bars",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_oxidized_copper_bars"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
   "minecraft:waxed_oxidized_copper_bulb": {
     "components": {
       "minecraft:attribute_modifiers": [],
@@ -25479,6 +25751,22 @@
       "minecraft:item_model": "minecraft:waxed_oxidized_copper_bulb",
       "minecraft:item_name": {
         "translate": "block.minecraft.waxed_oxidized_copper_bulb"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:waxed_oxidized_copper_chain": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_oxidized_copper_chain",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_oxidized_copper_chain"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25543,6 +25831,22 @@
       "minecraft:item_model": "minecraft:waxed_oxidized_copper_grate",
       "minecraft:item_name": {
         "translate": "block.minecraft.waxed_oxidized_copper_grate"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:waxed_oxidized_copper_lantern": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_oxidized_copper_lantern",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_oxidized_copper_lantern"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25663,6 +25967,22 @@
       "minecraft:tooltip_display": {}
     }
   },
+  "minecraft:waxed_weathered_copper_bars": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_weathered_copper_bars",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_weathered_copper_bars"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
   "minecraft:waxed_weathered_copper_bulb": {
     "components": {
       "minecraft:attribute_modifiers": [],
@@ -25671,6 +25991,22 @@
       "minecraft:item_model": "minecraft:waxed_weathered_copper_bulb",
       "minecraft:item_name": {
         "translate": "block.minecraft.waxed_weathered_copper_bulb"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:waxed_weathered_copper_chain": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_weathered_copper_chain",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_weathered_copper_chain"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25735,6 +26071,22 @@
       "minecraft:item_model": "minecraft:waxed_weathered_copper_grate",
       "minecraft:item_name": {
         "translate": "block.minecraft.waxed_weathered_copper_grate"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:waxed_weathered_copper_lantern": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:waxed_weathered_copper_lantern",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.waxed_weathered_copper_lantern"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25871,6 +26223,22 @@
       "minecraft:tooltip_display": {}
     }
   },
+  "minecraft:weathered_copper_bars": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:weathered_copper_bars",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.weathered_copper_bars"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
   "minecraft:weathered_copper_bulb": {
     "components": {
       "minecraft:attribute_modifiers": [],
@@ -25879,6 +26247,22 @@
       "minecraft:item_model": "minecraft:weathered_copper_bulb",
       "minecraft:item_name": {
         "translate": "block.minecraft.weathered_copper_bulb"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:weathered_copper_chain": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:weathered_copper_chain",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.weathered_copper_chain"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,
@@ -25943,6 +26327,22 @@
       "minecraft:item_model": "minecraft:weathered_copper_grate",
       "minecraft:item_name": {
         "translate": "block.minecraft.weathered_copper_grate"
+      },
+      "minecraft:lore": [],
+      "minecraft:max_stack_size": 64,
+      "minecraft:rarity": "common",
+      "minecraft:repair_cost": 0,
+      "minecraft:tooltip_display": {}
+    }
+  },
+  "minecraft:weathered_copper_lantern": {
+    "components": {
+      "minecraft:attribute_modifiers": [],
+      "minecraft:break_sound": "minecraft:entity.item.break",
+      "minecraft:enchantments": {},
+      "minecraft:item_model": "minecraft:weathered_copper_lantern",
+      "minecraft:item_name": {
+        "translate": "block.minecraft.weathered_copper_lantern"
       },
       "minecraft:lore": [],
       "minecraft:max_stack_size": 64,

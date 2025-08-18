@@ -67,7 +67,7 @@ public class JavaLegacyWallPreTransformHandler implements BlockPreTransformHandl
         if (relative.getType().isAllFacesSolid()) return WallHeight.LOW;
 
         // Special case for iron bar like blocks
-        if (ChunkerVanillaBlockGroups.IRON_BARS_AND_GLASS_PANES.contains(relative.getType())) return WallHeight.LOW;
+        if (ChunkerVanillaBlockGroups.BARS_AND_GLASS_PANES.contains(relative.getType())) return WallHeight.LOW;
         if (ChunkerVanillaBlockGroups.FENCE_GATES.contains(relative.getType())) return WallHeight.LOW;
 
         // Otherwise, don't connect

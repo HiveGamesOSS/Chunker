@@ -1552,47 +1552,112 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
         // 1.21.9
         if (version.isGreaterThanOrEqual(1, 21, 9)) {
             // New copper chests
-            register(BlockMapping.of("minecraft:copper_chest", ChunkerVanillaBlockType.COPPER_CHEST, JavaStateGroups.CHEST));
-            register(BlockMapping.of("minecraft:exposed_copper_chest", ChunkerVanillaBlockType.EXPOSED_COPPER_CHEST, JavaStateGroups.CHEST));
-            register(BlockMapping.of("minecraft:oxidized_copper_chest", ChunkerVanillaBlockType.OXIDIZED_COPPER_CHEST, JavaStateGroups.CHEST));
-            register(BlockMapping.of("minecraft:waxed_copper_chest", ChunkerVanillaBlockType.WAXED_COPPER_CHEST, JavaStateGroups.CHEST));
-            register(BlockMapping.of("minecraft:waxed_exposed_copper_chest", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_CHEST, JavaStateGroups.CHEST));
-            register(BlockMapping.of("minecraft:waxed_oxidized_copper_chest", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_CHEST, JavaStateGroups.CHEST));
-            register(BlockMapping.of("minecraft:waxed_weathered_copper_chest", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_CHEST, JavaStateGroups.CHEST));
-            register(BlockMapping.of("minecraft:weathered_copper_chest", ChunkerVanillaBlockType.WEATHERED_COPPER_CHEST, JavaStateGroups.CHEST));
+            register(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:copper_chest", ChunkerVanillaBlockType.COPPER_CHEST)
+                            .put("minecraft:exposed_copper_chest", ChunkerVanillaBlockType.EXPOSED_COPPER_CHEST)
+                            .put("minecraft:oxidized_copper_chest", ChunkerVanillaBlockType.OXIDIZED_COPPER_CHEST)
+                            .put("minecraft:waxed_copper_chest", ChunkerVanillaBlockType.WAXED_COPPER_CHEST)
+                            .put("minecraft:waxed_exposed_copper_chest", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_CHEST)
+                            .put("minecraft:waxed_oxidized_copper_chest", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_CHEST)
+                            .put("minecraft:waxed_weathered_copper_chest", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_CHEST)
+                            .put("minecraft:weathered_copper_chest", ChunkerVanillaBlockType.WEATHERED_COPPER_CHEST)
+                            .build(),
+                    JavaStateGroups.CHEST
+            ));
 
             // New lightning rods
-            register(BlockMapping.of("minecraft:exposed_lightning_rod", ChunkerVanillaBlockType.EXPOSED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
-            register(BlockMapping.of("minecraft:oxidized_lightning_rod", ChunkerVanillaBlockType.OXIDIZED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
-            register(BlockMapping.of("minecraft:waxed_lightning_rod", ChunkerVanillaBlockType.WAXED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
-            register(BlockMapping.of("minecraft:waxed_exposed_lightning_rod", ChunkerVanillaBlockType.WAXED_EXPOSED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
-            register(BlockMapping.of("minecraft:waxed_oxidized_lightning_rod", ChunkerVanillaBlockType.WAXED_OXIDIZED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
-            register(BlockMapping.of("minecraft:waxed_weathered_lightning_rod", ChunkerVanillaBlockType.WAXED_WEATHERED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
-            register(BlockMapping.of("minecraft:weathered_lightning_rod", ChunkerVanillaBlockType.WEATHERED_LIGHTNING_ROD, JavaStateGroups.LIGHTNING_ROD));
+            register(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:exposed_lightning_rod", ChunkerVanillaBlockType.EXPOSED_LIGHTNING_ROD)
+                            .put("minecraft:oxidized_lightning_rod", ChunkerVanillaBlockType.OXIDIZED_LIGHTNING_ROD)
+                            .put("minecraft:waxed_lightning_rod", ChunkerVanillaBlockType.WAXED_LIGHTNING_ROD)
+                            .put("minecraft:waxed_exposed_lightning_rod", ChunkerVanillaBlockType.WAXED_EXPOSED_LIGHTNING_ROD)
+                            .put("minecraft:waxed_oxidized_lightning_rod", ChunkerVanillaBlockType.WAXED_OXIDIZED_LIGHTNING_ROD)
+                            .put("minecraft:waxed_weathered_lightning_rod", ChunkerVanillaBlockType.WAXED_WEATHERED_LIGHTNING_ROD)
+                            .put("minecraft:weathered_lightning_rod", ChunkerVanillaBlockType.WEATHERED_LIGHTNING_ROD)
+                            .build(),
+                    JavaStateGroups.LIGHTNING_ROD
+            ));
 
             // New copper golem
-            register(BlockMapping.of("minecraft:copper_golem_statue", ChunkerVanillaBlockType.COPPER_GOLEM, JavaStateGroups.COPPER_GOLEM));
-            register(BlockMapping.of("minecraft:exposed_copper_golem_statue", ChunkerVanillaBlockType.EXPOSED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
-            register(BlockMapping.of("minecraft:oxidized_copper_golem_statue", ChunkerVanillaBlockType.OXIDIZED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
-            register(BlockMapping.of("minecraft:waxed_copper_golem_statue", ChunkerVanillaBlockType.WAXED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
-            register(BlockMapping.of("minecraft:waxed_exposed_copper_golem_statue", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
-            register(BlockMapping.of("minecraft:waxed_oxidized_copper_golem_statue", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
-            register(BlockMapping.of("minecraft:waxed_weathered_copper_golem_statue", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
-            register(BlockMapping.of("minecraft:weathered_copper_golem_statue", ChunkerVanillaBlockType.WEATHERED_COPPER_GOLEM_STATUE, JavaStateGroups.COPPER_GOLEM));
+            register(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:copper_golem_statue", ChunkerVanillaBlockType.COPPER_GOLEM)
+                            .put("minecraft:exposed_copper_golem_statue", ChunkerVanillaBlockType.EXPOSED_COPPER_GOLEM_STATUE)
+                            .put("minecraft:oxidized_copper_golem_statue", ChunkerVanillaBlockType.OXIDIZED_COPPER_GOLEM_STATUE)
+                            .put("minecraft:waxed_copper_golem_statue", ChunkerVanillaBlockType.WAXED_COPPER_GOLEM_STATUE)
+                            .put("minecraft:waxed_exposed_copper_golem_statue", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_GOLEM_STATUE)
+                            .put("minecraft:waxed_oxidized_copper_golem_statue", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_GOLEM_STATUE)
+                            .put("minecraft:waxed_weathered_copper_golem_statue", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_GOLEM_STATUE)
+                            .put("minecraft:weathered_copper_golem_statue", ChunkerVanillaBlockType.WEATHERED_COPPER_GOLEM_STATUE)
+                            .build(),
+                    JavaStateGroups.COPPER_GOLEM
+            ));
 
             // New shelves
-            register(BlockMapping.of("minecraft:acacia_shelf", ChunkerVanillaBlockType.ACACIA_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:bamboo_shelf", ChunkerVanillaBlockType.BAMBOO_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:birch_shelf", ChunkerVanillaBlockType.BIRCH_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:cherry_shelf", ChunkerVanillaBlockType.CHERRY_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:crimson_shelf", ChunkerVanillaBlockType.CRIMSON_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:dark_oak_shelf", ChunkerVanillaBlockType.DARK_OAK_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:jungle_shelf", ChunkerVanillaBlockType.JUNGLE_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:mangrove_shelf", ChunkerVanillaBlockType.MANGROVE_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:oak_shelf", ChunkerVanillaBlockType.OAK_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:pale_oak_shelf", ChunkerVanillaBlockType.PALE_OAK_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:spruce_shelf", ChunkerVanillaBlockType.SPRUCE_SHELF, JavaStateGroups.SHELF));
-            register(BlockMapping.of("minecraft:warped_shelf", ChunkerVanillaBlockType.WARPED_SHELF, JavaStateGroups.SHELF));
+            register(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:acacia_shelf", ChunkerVanillaBlockType.ACACIA_SHELF)
+                            .put("minecraft:bamboo_shelf", ChunkerVanillaBlockType.BAMBOO_SHELF)
+                            .put("minecraft:birch_shelf", ChunkerVanillaBlockType.BIRCH_SHELF)
+                            .put("minecraft:cherry_shelf", ChunkerVanillaBlockType.CHERRY_SHELF)
+                            .put("minecraft:crimson_shelf", ChunkerVanillaBlockType.CRIMSON_SHELF)
+                            .put("minecraft:dark_oak_shelf", ChunkerVanillaBlockType.DARK_OAK_SHELF)
+                            .put("minecraft:jungle_shelf", ChunkerVanillaBlockType.JUNGLE_SHELF)
+                            .put("minecraft:mangrove_shelf", ChunkerVanillaBlockType.MANGROVE_SHELF)
+                            .put("minecraft:oak_shelf", ChunkerVanillaBlockType.OAK_SHELF)
+                            .put("minecraft:pale_oak_shelf", ChunkerVanillaBlockType.PALE_OAK_SHELF)
+                            .put("minecraft:spruce_shelf", ChunkerVanillaBlockType.SPRUCE_SHELF)
+                            .put("minecraft:warped_shelf", ChunkerVanillaBlockType.WARPED_SHELF)
+                            .build(),
+                    JavaStateGroups.SHELF
+            ));
+
+            // Copper Torch (normal/wall)
+            register(BlockMapping.of("minecraft:copper_torch", ChunkerVanillaBlockType.COPPER_TORCH));
+            register(BlockMapping.of("minecraft:copper_wall_torch", ChunkerVanillaBlockType.COPPER_WALL_TORCH, JavaStateGroups.FACING_HORIZONTAL));
+
+            // Rename chain -> iron_chain
+            registerOverrideOutput(BlockMapping.of("minecraft:iron_chain", ChunkerVanillaBlockType.CHAIN, JavaStateGroups.CHAIN));
+
+            // New chains
+            register(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:copper_chain", ChunkerVanillaBlockType.COPPER_CHAIN)
+                            .put("minecraft:exposed_copper_chain", ChunkerVanillaBlockType.EXPOSED_COPPER_CHAIN)
+                            .put("minecraft:oxidized_copper_chain", ChunkerVanillaBlockType.OXIDIZED_COPPER_CHAIN)
+                            .put("minecraft:waxed_copper_chain", ChunkerVanillaBlockType.WAXED_COPPER_CHAIN)
+                            .put("minecraft:waxed_exposed_copper_chain", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_CHAIN)
+                            .put("minecraft:waxed_oxidized_copper_chain", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_CHAIN)
+                            .put("minecraft:waxed_weathered_copper_chain", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_CHAIN)
+                            .put("minecraft:weathered_copper_chain", ChunkerVanillaBlockType.WEATHERED_COPPER_CHAIN)
+                            .build(),
+                    JavaStateGroups.CHAIN
+            ));
+
+            // New bars
+            register(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:copper_bars", ChunkerVanillaBlockType.COPPER_BARS)
+                            .put("minecraft:exposed_copper_bars", ChunkerVanillaBlockType.EXPOSED_COPPER_BARS)
+                            .put("minecraft:oxidized_copper_bars", ChunkerVanillaBlockType.OXIDIZED_COPPER_BARS)
+                            .put("minecraft:waxed_copper_bars", ChunkerVanillaBlockType.WAXED_COPPER_BARS)
+                            .put("minecraft:waxed_exposed_copper_bars", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_BARS)
+                            .put("minecraft:waxed_oxidized_copper_bars", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_BARS)
+                            .put("minecraft:waxed_weathered_copper_bars", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_BARS)
+                            .put("minecraft:weathered_copper_bars", ChunkerVanillaBlockType.WEATHERED_COPPER_BARS)
+                            .build(),
+                    JavaStateGroups.CONNECTABLE_HORIZONTAL
+            ));
+
+            // New lanterns
+            register(BlockMapping.group(ImmutableMultimap.<String, ChunkerVanillaBlockType>builder()
+                            .put("minecraft:copper_lantern", ChunkerVanillaBlockType.COPPER_LANTERN)
+                            .put("minecraft:exposed_copper_lantern", ChunkerVanillaBlockType.EXPOSED_COPPER_LANTERN)
+                            .put("minecraft:oxidized_copper_lantern", ChunkerVanillaBlockType.OXIDIZED_COPPER_LANTERN)
+                            .put("minecraft:waxed_copper_lantern", ChunkerVanillaBlockType.WAXED_COPPER_LANTERN)
+                            .put("minecraft:waxed_exposed_copper_lantern", ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_LANTERN)
+                            .put("minecraft:waxed_oxidized_copper_lantern", ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_LANTERN)
+                            .put("minecraft:waxed_weathered_copper_lantern", ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_LANTERN)
+                            .put("minecraft:weathered_copper_lantern", ChunkerVanillaBlockType.WEATHERED_COPPER_LANTERN)
+                            .build(),
+                    JavaStateGroups.LANTERN
+            ));
         }
     }
 }

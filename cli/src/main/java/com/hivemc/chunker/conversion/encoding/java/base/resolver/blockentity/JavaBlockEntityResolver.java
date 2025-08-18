@@ -110,6 +110,7 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
         }
         if (version.isGreaterThanOrEqual(1, 21, 9)) {
             register(new JavaShelfBlockEntityHandler());
+            register(new EmptyBlockEntityHandler<>("minecraft:copper_golem_statue", CopperGolemStatueBlockEntity.class, CopperGolemStatueBlockEntity::new));
         }
     }
 

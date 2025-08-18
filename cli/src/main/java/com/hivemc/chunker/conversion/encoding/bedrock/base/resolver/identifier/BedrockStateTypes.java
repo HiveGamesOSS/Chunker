@@ -751,6 +751,12 @@ public class BedrockStateTypes {
             .mapping(14, Power._14)
             .mapping(15, Power._15)
             .build();
+    public static final TypeMapping<Integer, SideChain> POWERED_SHELF_TYPE = new TypeMapping.Builder<Integer, SideChain>()
+            .mapping(0, SideChain.UNCONNECTED)
+            .mapping(1, SideChain.RIGHT)
+            .mapping(2, SideChain.CENTER)
+            .mapping(3, SideChain.LEFT)
+            .build();
     public static final TypeMapping<Integer, RailShape> RAIL_SHAPE = new TypeMapping.Builder<Integer, RailShape>()
             .mapping(0, RailShape.NORTH_SOUTH)
             .mapping(1, RailShape.EAST_WEST)

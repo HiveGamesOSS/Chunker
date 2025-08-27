@@ -60,7 +60,7 @@ public class JavaColumnWriter implements ColumnWriter {
 
     @Override
     public void writeColumn(ChunkerColumn chunkerColumn) throws Exception {
-        CompoundTag root = new CompoundTag();
+        CompoundTag root = new CompoundTag(10);
 
         // Write base details
         root.put("xPos", chunkerColumn.getPosition().chunkX());
@@ -79,7 +79,7 @@ public class JavaColumnWriter implements ColumnWriter {
         });
 
         // Write the chunk to NBT
-        ArrayList<Task<TagWithName<?>>> processing = new ArrayList<>();
+        ArrayList<Task<TagWithName<?>>> processing = new ArrayList<>(5);
         processing.add(Task.async("Writing HeightMap", TaskWeight.NORMAL, this::writeHeightMap, chunkerColumn));
         processing.add(Task.async("Writing Biomes", TaskWeight.NORMAL, this::writeBiomes, chunkerColumn));
         processing.add(Task.async("Writing Entities", TaskWeight.HIGH, this::writeEntities, chunkerColumn));
@@ -187,7 +187,7 @@ public class JavaColumnWriter implements ColumnWriter {
      */
     @Nullable
     protected TagWithName<?> writeEntities(ChunkerColumn column) {
-        ListTag<CompoundTag, Map<String, Tag<?>>> outputList = new ListTag<>(TagType.COMPOUND);
+        ListTag<CompoundTag, Map<String, Tag<?>>> outputList = new ListTag<>(TagType.COMPOUND, column.getEntities().size());
         // Write each entity as a separate tag
         for (Entity entity : column.getEntities()) {
             try {
@@ -232,7 +232,7 @@ public class JavaColumnWriter implements ColumnWriter {
      */
     @Nullable
     protected TagWithName<?> writeBlockEntities(ChunkerColumn column) {
-        ListTag<CompoundTag, Map<String, Tag<?>>> outputList = new ListTag<>(TagType.COMPOUND);
+        ListTag<CompoundTag, Map<String, Tag<?>>> outputList = new ListTag<>(TagType.COMPOUND, column.getBlockEntities().size());
         // Write each block entity as a separate tag
         for (BlockEntity blockEntity : column.getBlockEntities()) {
             try {
@@ -278,7 +278,7 @@ public class JavaColumnWriter implements ColumnWriter {
     @Nullable
     protected TagWithName<?> writeChunks(ChunkerColumn column) {
         // Sections are created here, so we can return them but filled async
-        ListTag<CompoundTag, Map<String, Tag<?>>> sections = new ListTag<>(TagType.COMPOUND, new ArrayList<>(column.getChunks().size()));
+        ListTag<CompoundTag, Map<String, Tag<?>>> sections = new ListTag<>(TagType.COMPOUND, column.getChunks().size());
 
         // Create the writer for the chunks
         JavaChunkWriter chunkWriter = createChunkWriter(column);
@@ -412,7 +412,7 @@ public class JavaColumnWriter implements ColumnWriter {
      */
     protected CompoundTag nestColumnNBT(CompoundTag columnNBT) {
         // Below 1.18 requires the tag inside a Level tag
-        CompoundTag root = new CompoundTag();
+        CompoundTag root = new CompoundTag(1);
         root.put("Level", columnNBT);
         return root;
     }
@@ -477,14 +477,14 @@ public class JavaColumnWriter implements ColumnWriter {
         if (portalBlocks.isEmpty()) return; // No portals
 
         // Write our portal records
-        CompoundTag sections = new CompoundTag();
+        CompoundTag sections = new CompoundTag(portalBlocks.size());
         for (Map.Entry<Byte, List<BlockPosition>> entry : portalBlocks.entrySet()) {
-            CompoundTag section = new CompoundTag();
+            CompoundTag section = new CompoundTag(2);
             section.put("Valid", (byte) 1);
             // Write records
-            ListTag<CompoundTag, Map<String, Tag<?>>> records = new ListTag<>(TagType.COMPOUND);
+            ListTag<CompoundTag, Map<String, Tag<?>>> records = new ListTag<>(TagType.COMPOUND, entry.getValue().size());
             for (BlockPosition blockPosition : entry.getValue()) {
-                CompoundTag record = new CompoundTag();
+                CompoundTag record = new CompoundTag(3);
                 record.put("type", "minecraft:nether_portal");
                 record.put("pos", new int[]{blockPosition.x(), blockPosition.y(), blockPosition.z()});
                 record.put("free_tickets", 0);
@@ -496,7 +496,7 @@ public class JavaColumnWriter implements ColumnWriter {
             sections.put(entry.getKey().toString(), section);
         }
 
-        CompoundTag root = new CompoundTag();
+        CompoundTag root = new CompoundTag(2);
         root.put("Sections", sections);
 
         // Add data version

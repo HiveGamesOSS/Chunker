@@ -38,20 +38,22 @@ public class ChunkWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
 
     @Override
     protected void writeBlockPalette(ChunkerChunk chunk, List<TagWithName<?>> output) {
-        List<TagWithName<?>> temp = new ArrayList<>();
+        List<TagWithName<?>> temp = new ArrayList<>(1);
         Palette<ChunkerBlockIdentifier> palette = chunk.getPalette();
 
         // Create the keys and convert from Chunker to Java NBT
         int keyCount = 1;
-        ListTag<CompoundTag, Map<String, Tag<?>>> keys = new ListTag<>(TagType.COMPOUND);
+        ListTag<CompoundTag, Map<String, Tag<?>>> keys;
         if (!palette.isEmpty()) {
             keyCount = palette.getKeyCount();
+            keys = new ListTag<>(TagType.COMPOUND, keyCount);
             for (int i = 0; i < keyCount; i++) {
                 ChunkerBlockIdentifier blockIdentifier = palette.getKey(i, ChunkerBlockIdentifier.AIR);
                 keys.add(resolvers.writeBlock(blockIdentifier));
             }
         } else {
             // Write air for empty chunks
+            keys = new ListTag<>(TagType.COMPOUND, 1);
             keys.add(resolvers.writeBlock(ChunkerBlockIdentifier.AIR));
         }
         temp.add(new TagWithName<>("palette", keys));
@@ -65,7 +67,7 @@ public class ChunkWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
         writeBlockPaletteValues(keyCount, values, temp);
 
         // Combine temp list values to nest the key
-        CompoundTag blockStates = new CompoundTag();
+        CompoundTag blockStates = new CompoundTag(temp.size());
         for (TagWithName<?> input : temp) {
             if (input == null) continue;
             blockStates.put(input.name(), input.tag());
@@ -88,13 +90,14 @@ public class ChunkWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
         Palette<ChunkerBiome> biomePalette = chunkerColumn.getBiomes().as4X4Palette(chunkerChunk.getY() + (cavesAndCliffs ? 4 : 0));
 
         // Generate the palette to write
-        CompoundTag biomes = new CompoundTag();
+        CompoundTag biomes = new CompoundTag(2);
 
         // Create the keys and convert from Chunker to Java NBT
         int keyCount = 1;
-        ListTag<StringTag, String> keys = new ListTag<>(TagType.STRING);
+        ListTag<StringTag, String> keys;
         if (biomePalette != null && !biomePalette.isEmpty()) {
             keyCount = biomePalette.getKeyCount();
+            keys = new ListTag<>(TagType.STRING, keyCount);
             for (int i = 0; i < keyCount; i++) {
                 ChunkerBiome chunkerBiome = biomePalette.getKey(i, null);
                 if (chunkerBiome == null) {
@@ -104,6 +107,7 @@ public class ChunkWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
             }
         } else {
             // Write air for empty chunks
+            keys = new ListTag<>(TagType.STRING, 1);
             keys.add(new StringTag(resolvers.writeBiome(resolvers.getFallbackBiome(dimension), dimension)));
         }
         biomes.put("palette", keys);

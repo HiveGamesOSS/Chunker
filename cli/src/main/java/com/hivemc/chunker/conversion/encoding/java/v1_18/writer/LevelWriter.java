@@ -15,7 +15,7 @@ public class LevelWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
 
     @Override
     protected CompoundTag createDimensionBiomeSource(String dimension, long seed) {
-        CompoundTag biomes = new CompoundTag();
+        CompoundTag biomes = new CompoundTag(2);
         if (dimension.equals("minecraft:overworld")) {
             biomes.put("preset", "minecraft:overworld");
             biomes.put("type", "minecraft:multi_noise");

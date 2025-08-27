@@ -1151,5 +1151,11 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
             register(ItemMapping.of("minecraft:copper_helmet", ChunkerVanillaItemType.COPPER_HELMET));
             register(ItemMapping.of("minecraft:copper_leggings", ChunkerVanillaItemType.COPPER_LEGGINGS));
         }
+
+        // R21U11
+        if (version.isGreaterThanOrEqual(1, 21, 110)) {
+            // New copper armor
+            register(ItemMapping.of("minecraft:copper_horse_armor", ChunkerVanillaItemType.COPPER_HORSE_ARMOR));
+        }
     }
 }

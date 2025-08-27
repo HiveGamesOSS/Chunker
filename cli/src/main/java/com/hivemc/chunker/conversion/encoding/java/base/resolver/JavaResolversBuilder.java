@@ -24,7 +24,6 @@ import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.resolver.Resolver;
 import com.hivemc.chunker.util.LegacyIdentifier;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.function.Function;

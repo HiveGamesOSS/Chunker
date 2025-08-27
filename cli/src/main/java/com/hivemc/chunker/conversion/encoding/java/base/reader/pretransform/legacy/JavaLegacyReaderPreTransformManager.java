@@ -108,9 +108,9 @@ public class JavaLegacyReaderPreTransformManager extends PreTransformManager {
         // Glass Pane / Iron Bar handler
         registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
             public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
-                return ChunkerVanillaBlockGroups.IRON_BARS_AND_GLASS_PANES.contains(relative.getType()) || ChunkerVanillaBlockGroups.WALLS.contains(relative.getType()) || relative.getType().isAllFacesSolid();
+                return ChunkerVanillaBlockGroups.BARS_AND_GLASS_PANES.contains(relative.getType()) || ChunkerVanillaBlockGroups.WALLS.contains(relative.getType()) || relative.getType().isAllFacesSolid();
             }
-        }, ChunkerVanillaBlockGroups.IRON_BARS_AND_GLASS_PANES);
+        }, ChunkerVanillaBlockGroups.BARS_AND_GLASS_PANES);
 
         // Trip Wire handler
         registerHandler(new HorizontalConnectableBlockPreTransformHandler() {

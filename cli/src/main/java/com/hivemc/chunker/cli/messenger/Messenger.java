@@ -288,7 +288,7 @@ public class Messenger {
                         // Loop through all the converters under this anonymous ID and cancel them
                         Map<UUID, WorldConverter> converters = SESSION_ID_TO_WORLD_CONVERTERS.get(killRequest.getAnonymousId());
                         if (converters != null) {
-                            List<CompletableFuture<Void>> futures = new ArrayList<>();
+                            List<CompletableFuture<Void>> futures = new ArrayList<>(converters.size());
                             for (WorldConverter worldConverter : converters.values()) {
                                 futures.add(worldConverter.cancel(null));
                             }
@@ -488,7 +488,7 @@ public class Messenger {
                         }
 
                         // Generate the array of missing identifiers
-                        JsonArray missingIdentifiers = new JsonArray();
+                        JsonArray missingIdentifiers = new JsonArray(worldConverter.getMissingIdentifiers().size());
                         for (Map.Entry<Converter.MissingMappingType, String> entry : worldConverter.getMissingIdentifiers().entries()) {
                             JsonObject missingIdentifier = new JsonObject();
                             missingIdentifier.addProperty("identifier", entry.getKey().getName() + ": " + entry.getValue());

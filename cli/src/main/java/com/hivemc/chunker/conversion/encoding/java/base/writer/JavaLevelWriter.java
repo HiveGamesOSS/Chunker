@@ -29,7 +29,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -110,7 +109,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         }
 
         // Update idcounts.dat
-        CompoundTag root = new CompoundTag();
+        CompoundTag root = new CompoundTag(1);
         root.put("map", (short) chunkerLevel.getMaps().stream().mapToLong(ChunkerMap::getId).max().orElse(0));
 
         Tag.writeUncompressedJavaNBT(new File(dataFolder, "idcounts.dat"), root);
@@ -128,7 +127,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
      */
     protected CompoundTag prepareMap(ChunkerMap chunkerMap) throws Exception {
         // Use the original map NBT as a base if it's present
-        CompoundTag mapData = chunkerMap.getOriginalNBT() != null ? chunkerMap.getOriginalNBT() : new CompoundTag();
+        CompoundTag mapData = chunkerMap.getOriginalNBT() != null ? chunkerMap.getOriginalNBT() : new CompoundTag(11);
 
         // Copy over the other settings
         mapData.put("dimension", chunkerMap.getDimension().getJavaID());
@@ -157,7 +156,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         CompoundTag mapData = prepareMap(chunkerMap);
 
         // Wrap the mapData in a compound tag
-        CompoundTag root = new CompoundTag();
+        CompoundTag root = new CompoundTag(2);
         root.put("data", mapData);
         root.put("DataVersion", resolvers.dataVersion().getDataVersion());
 
@@ -248,7 +247,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         // Enable data packs
         CompoundTag dataPacks = output.getOrCreateCompound("DataPacks");
         if (!dataPacks.contains("Enabled")) {
-            dataPacks.put("Enabled", new ListTag<>(TagType.STRING));
+            dataPacks.put("Enabled", new ListTag<>(TagType.STRING, 1));
         }
 
         // Add to enabled with vanilla
@@ -266,7 +265,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
 
         // Add to enabled_features
         if (!output.contains("enabled_features")) {
-            output.put("enabled_features", new ListTag<>(TagType.STRING));
+            output.put("enabled_features", new ListTag<>(TagType.STRING, 1));
         }
         ListTag<StringTag, String> enabledFeatures = output.getList("enabled_features", StringTag.class);
         if (!enabledFeatures.contains("vanilla")) {
@@ -288,7 +287,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
      */
     protected void writeLevelSettings(ChunkerLevel chunkerLevel) throws Exception {
         // Generate NBT from settings
-        CompoundTag data = chunkerLevel.getOriginalLevelData() == null || !converter.shouldAllowNBTCopying() ? new CompoundTag() : chunkerLevel.getOriginalLevelData();
+        CompoundTag data = chunkerLevel.getOriginalLevelData() == null || !converter.shouldAllowNBTCopying() ? new CompoundTag(100) : chunkerLevel.getOriginalLevelData();
         chunkerLevel.getSettings().toNBT(data, this, converter);
 
         // Write player data
@@ -302,7 +301,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         writeExtraLevelSettings(data);
 
         // Write the level.dat
-        CompoundTag root = new CompoundTag();
+        CompoundTag root = new CompoundTag(1);
         root.put("Data", data);
         Tag.writeGZipJavaNBT(new File(outputFolder, "level.dat"), root);
     }
@@ -356,7 +355,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         boolean splitEquipment = resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 21, 5);
 
         // Write the inventory
-        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(player.getInventory().size()));
+        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, player.getInventory().size());
         for (Byte2ObjectMap.Entry<ChunkerItemStack> tag : player.getInventory().byte2ObjectEntrySet()) {
             // Don't write air to inventories
             if (tag.getValue().getIdentifier().isAir()) continue;
@@ -378,7 +377,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
 
         // Write the equipment (1.21.5+)
         if (splitEquipment) {
-            CompoundTag equipment = new CompoundTag();
+            CompoundTag equipment = new CompoundTag(JavaLevelReader.SLOT_TO_EQUIPMENT.size());
             for (Map.Entry<Byte, String> slot : JavaLevelReader.SLOT_TO_EQUIPMENT.entrySet()) {
                 ChunkerItemStack tag = player.getInventory().get(slot.getKey().byteValue());
 
@@ -408,7 +407,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
             // Ensure dataVersion is present
             if (resolvers.dataVersion() == null) throw new Exception("Unable to find a suitable data version.");
 
-            CompoundTag version = new CompoundTag();
+            CompoundTag version = new CompoundTag(3);
             version.put("Id", resolvers.dataVersion().getDataVersion());
             version.put("Name", resolvers.dataVersion().getVersion().toString());
             version.put("Snapshot", (byte) 0);

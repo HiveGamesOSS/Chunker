@@ -4,11 +4,9 @@ import com.google.gson.JsonElement;
 import com.hivemc.chunker.conversion.encoding.base.resolver.blockentity.BlockEntityHandler;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.sign.SignBlockEntity;
-import com.hivemc.chunker.nbt.TagType;
 import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
-import com.hivemc.chunker.nbt.tags.primitive.StringTag;
 import com.hivemc.chunker.util.JsonTextUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,7 +40,7 @@ public class JavaSignBlockEntityHandler extends BlockEntityHandler<JavaResolvers
         if (input.contains("messages")) {
             ListTag<?, ?> textLines = input.get("messages", ListTag.class);
             if (textLines != null) {
-                List<JsonElement> lines = new ArrayList<>();
+                List<JsonElement> lines = new ArrayList<>(4);
                 for (int i = 0; i < 4; i++) {
                     JsonElement text = textLines.size() > i ? JsonTextUtil.fromNBT(textLines.get(i)) : JsonTextUtil.EMPTY_TEXT_TAG;
                     lines.add(text);
@@ -50,7 +48,7 @@ public class JavaSignBlockEntityHandler extends BlockEntityHandler<JavaResolvers
                 face.setLines(lines);
             }
         } else {
-            List<JsonElement> lines = new ArrayList<>();
+            List<JsonElement> lines = new ArrayList<>(4);
             for (int i = 1; i <= 4; i++) {
                 lines.add(input.getOptional("Text" + i, Tag.class)
                         .map(JsonTextUtil::fromNBT)

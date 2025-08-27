@@ -20,8 +20,8 @@ public class JavaSculkSensorBlockEntityHandler extends BlockEntityHandler<JavaRe
 
     @Override
     public void write(@NotNull JavaResolvers resolvers, @NotNull CompoundTag output, @NotNull SculkSensorBlockEntity value) {
-        CompoundTag listener = new CompoundTag();
-        CompoundTag selector = new CompoundTag();
+        CompoundTag listener = new CompoundTag(2);
+        CompoundTag selector = new CompoundTag(1);
         selector.put("tick", -1L);
         listener.put("event_delay", 0);
         listener.put("selector", selector);

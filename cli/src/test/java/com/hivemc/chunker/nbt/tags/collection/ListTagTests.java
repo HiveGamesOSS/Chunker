@@ -84,6 +84,12 @@ public class ListTagTests extends TagTestsBase<ListTag<Tag<?>, ?>, List<Tag<?>>>
     }
 
     @Test
+    public void testInitialSize() {
+        ListTag<IntTag, Integer> list = new ListTag<>(TagType.INT, 1);
+        assertTrue(list.getValue().isEmpty());
+    }
+
+    @Test
     public void testSetNull() {
         ListTag<IntTag, Integer> list = new ListTag<>();
         assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.set(0, new IntTag(0)));

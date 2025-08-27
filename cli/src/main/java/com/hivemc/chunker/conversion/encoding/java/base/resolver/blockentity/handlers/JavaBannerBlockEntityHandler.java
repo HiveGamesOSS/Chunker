@@ -15,7 +15,6 @@ import com.hivemc.chunker.util.JsonTextUtil;
 import it.unimi.dsi.fastutil.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -77,9 +76,9 @@ public class JavaBannerBlockEntityHandler extends BlockEntityHandler<JavaResolve
         }
 
         // Write patterns
-        ListTag<CompoundTag, Map<String, Tag<?>>> patternTags = new ListTag<>(TagType.COMPOUND, new ArrayList<>(value.getPatterns().size()));
+        ListTag<CompoundTag, Map<String, Tag<?>>> patternTags = new ListTag<>(TagType.COMPOUND, value.getPatterns().size());
         for (Pair<ChunkerDyeColor, ChunkerBannerPattern> pair : value.getPatterns()) {
-            CompoundTag patternTag = new CompoundTag();
+            CompoundTag patternTag = new CompoundTag(2);
             if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 20, 5)) {
                 Optional<String> patternIdentifier = resolvers.bannerPatternResolver().from(pair.second());
                 if (patternIdentifier.isPresent()) {
@@ -149,11 +148,11 @@ public class JavaBannerBlockEntityHandler extends BlockEntityHandler<JavaResolve
 
         // Patterns
         if (!input.getPatterns().isEmpty()) {
-            ListTag<CompoundTag, Map<String, Tag<?>>> patternTags = new ListTag<>(TagType.COMPOUND, new ArrayList<>(input.getPatterns().size()));
+            ListTag<CompoundTag, Map<String, Tag<?>>> patternTags = new ListTag<>(TagType.COMPOUND, input.getPatterns().size());
             for (Pair<ChunkerDyeColor, ChunkerBannerPattern> pair : input.getPatterns()) {
                 Optional<String> patternIdentifier = resolvers.bannerPatternResolver().from(pair.second());
                 if (patternIdentifier.isPresent()) {
-                    CompoundTag patternTag = new CompoundTag();
+                    CompoundTag patternTag = new CompoundTag(2);
                     patternTag.put("color", pair.first().getName());
                     patternTag.put("pattern", patternIdentifier.get());
                     patternTags.add(patternTag);

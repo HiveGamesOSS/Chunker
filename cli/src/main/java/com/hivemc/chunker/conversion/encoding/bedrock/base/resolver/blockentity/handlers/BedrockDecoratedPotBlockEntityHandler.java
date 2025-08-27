@@ -54,7 +54,7 @@ public class BedrockDecoratedPotBlockEntityHandler extends BlockEntityHandler<Be
 
     @Override
     public void write(@NotNull BedrockResolvers resolvers, @NotNull CompoundTag output, @NotNull DecoratedPotBlockEntity value) {
-        ListTag<StringTag, String> sherds = new ListTag<>(TagType.STRING);
+        ListTag<StringTag, String> sherds = new ListTag<>(TagType.STRING, 4);
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getBack())).getIdentifier()));
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getLeft())).getIdentifier()));
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getRight())).getIdentifier()));

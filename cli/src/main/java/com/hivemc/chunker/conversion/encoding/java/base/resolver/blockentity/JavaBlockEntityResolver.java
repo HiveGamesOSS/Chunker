@@ -110,13 +110,14 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
         }
         if (version.isGreaterThanOrEqual(1, 21, 9)) {
             register(new JavaShelfBlockEntityHandler());
+            register(new EmptyBlockEntityHandler<>("minecraft:copper_golem_statue", CopperGolemStatueBlockEntity.class, CopperGolemStatueBlockEntity::new));
         }
     }
 
     @Override
     protected CompoundTag constructDataType(String key) {
         // Create a new compoundTag with the ID
-        CompoundTag compoundTag = new CompoundTag();
+        CompoundTag compoundTag = new CompoundTag(4);
         compoundTag.put("id", key);
         return compoundTag;
     }

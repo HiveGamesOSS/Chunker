@@ -11,7 +11,6 @@ import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -41,7 +40,7 @@ public class BedrockChiseledBookshelfBlockEntityHandler extends BlockEntityHandl
 
     @Override
     public void write(@NotNull BedrockResolvers resolvers, @NotNull CompoundTag output, @NotNull ChiseledBookshelfBlockEntity value) {
-        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(value.getBooks().length));
+        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, value.getBooks().length);
         for (ChunkerItemStack itemStack : value.getBooks()) {
             // Write the item
             Optional<CompoundTag> item = resolvers.writeItem(itemStack == null ? new ChunkerItemStack(ChunkerBlockIdentifier.AIR) : itemStack);

@@ -64,13 +64,13 @@ public class BedrockNBTLegacyBlockIdentifierResolver implements Resolver<Bedrock
     @Override
     public Optional<BedrockBlockCompoundTag> from(Identifier input) {
         // Create the block compound tag
-        CompoundTag output = new CompoundTag();
+        CompoundTag output = new CompoundTag(4);
         output.put("name", input.getIdentifier());
 
         // Write the data
         output.put("val", (short) ((StateValueInt) input.getStates().getOrDefault("data", StateValueInt.ZERO)).getValue());
         if (!input.getStates().isEmpty()) {
-            CompoundTag states = new CompoundTag();
+            CompoundTag states = new CompoundTag(input.getStates().size());
             for (Map.Entry<String, StateValue<?>> entry : input.getStates().entrySet()) {
                 if (entry.getKey().equals("waterlogged")) continue;
                 states.put(entry.getKey(), entry.getValue().toNBT());

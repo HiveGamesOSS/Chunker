@@ -58,7 +58,7 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
 
     @Override
     public void write(@NotNull JavaResolvers resolvers, @NotNull CompoundTag output, @NotNull DecoratedPotBlockEntity value) {
-        ListTag<StringTag, String> sherds = new ListTag<>(TagType.STRING);
+        ListTag<StringTag, String> sherds = new ListTag<>(TagType.STRING, 4);
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getBack())).getIdentifier()));
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getLeft())).getIdentifier()));
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getRight())).getIdentifier()));
@@ -128,7 +128,7 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
         CompoundTag components = output.getOrCreateCompound("components");
 
         // Write the pot decorations
-        ListTag<StringTag, String> sherds = new ListTag<>(TagType.STRING);
+        ListTag<StringTag, String> sherds = new ListTag<>(TagType.STRING, 4);
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(input.getBack())).getIdentifier()));
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(input.getLeft())).getIdentifier()));
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(input.getRight())).getIdentifier()));
@@ -139,13 +139,13 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
 
         // Write item if present (with the container component)
         if (input.getItem() != null && !input.getItem().getIdentifier().isAir()) {
-            ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(1));
+            ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, 1);
 
             // Write the item with slot
             Optional<CompoundTag> item = resolvers.writeItem(input.getItem());
             if (item.isPresent()) {
                 // Add the slot
-                CompoundTag itemTag = new CompoundTag();
+                CompoundTag itemTag = new CompoundTag(2);
                 itemTag.put("slot", 0);
                 itemTag.put("item", item.get());
 

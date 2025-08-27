@@ -293,8 +293,8 @@ public class JsonTextUtil {
                     if (shadowColorTag instanceof IntTag intTag) {
                         converted.addProperty("shadow_color", intTag.getValue());
                     } else if (shadowColorTag instanceof ListTag<?, ?>) {
-                        JsonArray array = new JsonArray();
                         List<Float> values = compoundTag.getListValues("shadow_color", FloatTag.class);
+                        JsonArray array = new JsonArray(values.size());
                         for (Float value : values) {
                             array.add(value);
                         }
@@ -387,7 +387,7 @@ public class JsonTextUtil {
                                 if (value2 instanceof StringTag stringTag) {
                                     entityContents.addProperty("id", stringTag.getValue());
                                 } else if (value2 instanceof IntArrayTag intArrayTag) {
-                                    JsonArray ids = new JsonArray();
+                                    JsonArray ids = new JsonArray(intArrayTag.length());
                                     for (int i : Objects.requireNonNull(intArrayTag.getValue())) {
                                         ids.add(i);
                                     }
@@ -449,7 +449,7 @@ public class JsonTextUtil {
             }
             if (tag instanceof ListTag<?, ?> listTag) {
                 // Convert all the children to JSON
-                JsonArray jsonArray = new JsonArray();
+                JsonArray jsonArray = new JsonArray(listTag.size());
                 for (Tag<?> child : listTag) {
                     jsonArray.add(fromNBT(child));
                 }
@@ -482,7 +482,7 @@ public class JsonTextUtil {
                 JsonObject object = element.getAsJsonObject();
 
                 // Handle it as a compound tag
-                CompoundTag converted = new CompoundTag();
+                CompoundTag converted = new CompoundTag(1);
 
                 // Add text
                 if (object.has("text")) {
@@ -564,7 +564,7 @@ public class JsonTextUtil {
                 // Score component
                 if (object.has("score")) {
                     JsonObject scoreElement = object.getAsJsonObject("score");
-                    CompoundTag scoreTag = new CompoundTag();
+                    CompoundTag scoreTag = new CompoundTag(2);
                     if (scoreElement.has("objective")) {
                         scoreTag.put("objective", scoreElement.get("objective").getAsString());
                     }
@@ -579,7 +579,7 @@ public class JsonTextUtil {
                     JsonObject hoverEvent = object.getAsJsonObject("hoverEvent");
 
                     // Create the tag for the event
-                    CompoundTag hoverEventTag = new CompoundTag();
+                    CompoundTag hoverEventTag = new CompoundTag(2);
 
                     // Parse the action
                     String action = hoverEvent.has("action") ? hoverEvent.get("action").getAsString() : "";
@@ -644,7 +644,7 @@ public class JsonTextUtil {
                     JsonObject clickEvent = object.getAsJsonObject("clickEvent");
 
                     // Create the tag for the event
-                    CompoundTag clickEventTag = new CompoundTag();
+                    CompoundTag clickEventTag = new CompoundTag(2);
 
                     // Parse the action
                     String action = clickEvent.has("action") ? clickEvent.get("action").getAsString() : "";
@@ -693,8 +693,8 @@ public class JsonTextUtil {
             }
             if (element.isJsonArray()) {
                 // Convert all the children to JSON (they all need to be compound tags)
-                ListTag<CompoundTag, Map<String, Tag<?>>> listTag = new ListTag<>(TagType.COMPOUND);
                 JsonArray array = element.getAsJsonArray();
+                ListTag<CompoundTag, Map<String, Tag<?>>> listTag = new ListTag<>(TagType.COMPOUND, array.size());
 
                 // Iterate through each element and convert it
                 for (JsonElement child : array) {
@@ -703,7 +703,7 @@ public class JsonTextUtil {
                         listTag.add(compoundTag);
                     } else {
                         // Nest into a CompoundTag
-                        CompoundTag holder = new CompoundTag();
+                        CompoundTag holder = new CompoundTag(1);
                         holder.put("", converted);
                         listTag.add(holder);
                     }
@@ -786,7 +786,7 @@ public class JsonTextUtil {
                 return castNBTList(tagType, tags);
             }
         } else {
-            ListTag<StringTag, String> list = new ListTag<>(TagType.STRING);
+            ListTag<StringTag, String> list = new ListTag<>(TagType.STRING, Math.max(jsonElements.size(), minimumSize));
 
             // Add each element
             for (JsonElement jsonElement : jsonElements) {
@@ -816,13 +816,13 @@ public class JsonTextUtil {
      */
     @SuppressWarnings("unchecked")
     private static <T extends Tag<U>, U> ListTag<T, U> castNBTList(TagType<T, U> target, List<Tag<?>> tags) {
-        ListTag<T, U> listTag = new ListTag<>(target);
+        ListTag<T, U> listTag = new ListTag<>(target, tags.size());
 
         // Loop through and wrap everything in a compound tag
         for (Tag<?> tag : tags) {
             if (tag.getType() != target) {
                 if (tag.getType() != TagType.COMPOUND) {
-                    CompoundTag holder = new CompoundTag();
+                    CompoundTag holder = new CompoundTag(1);
                     holder.put("", tag);
                     tag = holder;
                 } else {

@@ -41,7 +41,7 @@ public class LevelWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
                 // Enable data packs
                 CompoundTag dataPacks = output.getOrCreateCompound("DataPacks");
                 if (!dataPacks.contains("Enabled")) {
-                    dataPacks.put("Enabled", new ListTag<>(TagType.STRING));
+                    dataPacks.put("Enabled", new ListTag<>(TagType.STRING, 1));
                 }
 
                 // Add to enabled with vanilla

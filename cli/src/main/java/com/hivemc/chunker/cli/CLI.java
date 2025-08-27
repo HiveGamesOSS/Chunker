@@ -342,7 +342,8 @@ public class CLI implements Runnable {
                 System.exit(1);
             } else {
                 Duration duration = stopwatch.elapsed();
-                System.out.println("Conversion complete! Took " + String.format("%sm %ss %sms",
+                System.out.println("Conversion complete! Took " + String.format("%sh %sm %ss %sms",
+                        duration.toHoursPart(),
                         duration.toMinutesPart(),
                         duration.toSecondsPart(),
                         duration.toMillisPart()

@@ -123,4 +123,13 @@ public class ChunkerVanillaBlockGroupsTests {
                     || type instanceof ChunkerVanillaBlockType vanillaBlockType && vanillaBlockType.name().endsWith("_CHEST"));
         });
     }
+
+    @Test
+    public void testBarsAndGlassPanes() {
+        checkGroup("BARS_AND_GLASS_PANES", ChunkerVanillaBlockGroups.BARS_AND_GLASS_PANES, (type) -> {
+            // Any chest which ends with _CHEST that isn't an ENDER_CHEST can be made double
+            return (type instanceof ChunkerVanillaBlockType vanillaBlockType && (vanillaBlockType.name().endsWith("_BARS")
+                    || vanillaBlockType.name().endsWith("_PANE")));
+        });
+    }
 }

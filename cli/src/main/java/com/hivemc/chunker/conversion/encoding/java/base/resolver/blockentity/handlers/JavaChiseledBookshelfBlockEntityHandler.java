@@ -11,7 +11,6 @@ import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -44,7 +43,7 @@ public class JavaChiseledBookshelfBlockEntityHandler extends BlockEntityHandler<
 
     @Override
     public void write(@NotNull JavaResolvers resolvers, @NotNull CompoundTag output, @NotNull ChiseledBookshelfBlockEntity value) {
-        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(4));
+        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, 4);
         for (int i = 0; i < value.getBooks().length; i++) {
             ChunkerItemStack itemStack = value.getBooks()[i];
 
@@ -100,7 +99,7 @@ public class JavaChiseledBookshelfBlockEntityHandler extends BlockEntityHandler<
         CompoundTag components = output.getOrCreateCompound("components");
 
         // Write items
-        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(input.getBooks().length));
+        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, input.getBooks().length);
         for (int i = 0; i < input.getBooks().length; i++) {
             ChunkerItemStack chunkerItem = input.getBooks()[i];
             // Don't write air to inventories
@@ -111,7 +110,7 @@ public class JavaChiseledBookshelfBlockEntityHandler extends BlockEntityHandler<
             if (item.isEmpty()) continue;
 
             // Add the slot
-            CompoundTag itemTag = new CompoundTag();
+            CompoundTag itemTag = new CompoundTag(2);
             itemTag.put("slot", i);
             itemTag.put("item", item.get());
 

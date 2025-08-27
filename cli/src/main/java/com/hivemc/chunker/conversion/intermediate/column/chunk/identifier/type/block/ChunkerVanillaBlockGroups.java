@@ -52,9 +52,9 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.BAMBOO_FENCE_GATE
     );
     /**
-     * Group of all the iron bars and glass panes.
+     * Group of all the bars and glass panes.
      */
-    public static final Set<ChunkerBlockType> IRON_BARS_AND_GLASS_PANES = Set.of(
+    public static final Set<ChunkerBlockType> BARS_AND_GLASS_PANES = Set.of(
             ChunkerVanillaBlockType.IRON_BARS,
             ChunkerVanillaBlockType.GLASS_PANE,
             ChunkerVanillaBlockType.WHITE_STAINED_GLASS_PANE,
@@ -72,7 +72,15 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.BROWN_STAINED_GLASS_PANE,
             ChunkerVanillaBlockType.GREEN_STAINED_GLASS_PANE,
             ChunkerVanillaBlockType.RED_STAINED_GLASS_PANE,
-            ChunkerVanillaBlockType.BLACK_STAINED_GLASS_PANE
+            ChunkerVanillaBlockType.BLACK_STAINED_GLASS_PANE,
+            ChunkerVanillaBlockType.COPPER_BARS,
+            ChunkerVanillaBlockType.EXPOSED_COPPER_BARS,
+            ChunkerVanillaBlockType.OXIDIZED_COPPER_BARS,
+            ChunkerVanillaBlockType.WAXED_COPPER_BARS,
+            ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_BARS,
+            ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_BARS,
+            ChunkerVanillaBlockType.WAXED_WEATHERED_COPPER_BARS,
+            ChunkerVanillaBlockType.WEATHERED_COPPER_BARS
     );
     /**
      * Group of all blocks which redstone wire connects towards.

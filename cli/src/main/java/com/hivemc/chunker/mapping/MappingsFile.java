@@ -552,7 +552,7 @@ public class MappingsFile {
             fullIdentifierMappings.sort(Comparator.comparing(IdentifierMapping::getIndex));
 
             // Serialize
-            JsonArray jsonArray = new JsonArray();
+            JsonArray jsonArray = new JsonArray(fullIdentifierMappings.size());
             for (IdentifierMapping identifierMapping : fullIdentifierMappings) {
                 jsonArray.add(identifierMapping.serialize(context));
             }

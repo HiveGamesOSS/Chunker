@@ -78,7 +78,7 @@ public class BedrockChunkWriter {
      * @return a list of tasks that represent the writing of the chunk.
      */
     protected List<Task<Void>> createChunkTasks(ChunkerChunk chunkerChunk) {
-        List<Task<Void>> tasks = new ArrayList<>();
+        List<Task<Void>> tasks = new ArrayList<>(1);
         tasks.add(Task.asyncConsume("Writing Block Palette", TaskWeight.HIGH, this::writeBlockPalette, chunkerChunk));
         return tasks;
     }

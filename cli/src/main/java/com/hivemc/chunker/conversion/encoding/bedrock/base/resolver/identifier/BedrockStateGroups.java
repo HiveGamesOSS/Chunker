@@ -269,6 +269,10 @@ public class BedrockStateGroups {
             .defaultOutput(VanillaBlockStates.SOUTH, Bool.FALSE)
             .defaultOutput(VanillaBlockStates.WEST, Bool.FALSE)
             .build();
+    public static final VersionedStateMappingGroup COPPER_GOLEM = new StateMappingGroup.Builder()
+            .state("minecraft:cardinal_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.CARDINAL_DIRECTION)
+            .defaultOutput(VanillaBlockStates.COPPER_GOLEM_POSE, CopperGolemPose.STANDING)
+            .build();
     public static final StateMappingGroup CORAL_FAN = new StateMappingGroup.Builder()
             .state("coral_fan_direction", VanillaBlockStates.CORAL_FAN_DIRECTION, BedrockStateTypes.CORAL_FAN_DIRECTION)
             .build();
@@ -536,10 +540,17 @@ public class BedrockStateGroups {
                     )
                     .build()
             ).build();
-    public static final StateMappingGroup LIGHTNING_ROD = new StateMappingGroup.Builder()
-            .state("facing_direction", VanillaBlockStates.FACING_ALL, BedrockStateTypes.FACING_DIRECTION_LEGACY)
-            .defaultOutput(VanillaBlockStates.POWERED, Bool.FALSE)
-            .build();
+    public static final VersionedStateMappingGroup LIGHTNING_ROD = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("facing_direction", VanillaBlockStates.FACING_ALL, BedrockStateTypes.FACING_DIRECTION_LEGACY)
+                    .defaultOutput(VanillaBlockStates.POWERED, Bool.FALSE)
+                    .build())
+            // 1.21.110 added powered_bit
+            .version(new Version(1, 21, 110), new StateMappingGroup.Builder()
+                    .state("facing_direction", VanillaBlockStates.FACING_ALL, BedrockStateTypes.FACING_DIRECTION_LEGACY)
+                    .state("powered_bit", VanillaBlockStates.POWERED, BedrockStateTypes.BOOL)
+                    .build()
+            ).build();
     public static final StateMappingGroup LIGHT_BLOCK = new StateMappingGroup.Builder()
             .state("block_light_level", VanillaBlockStates.LIGHT_LEVEL, BedrockStateTypes.LIGHT)
             .build();
@@ -764,6 +775,11 @@ public class BedrockStateGroups {
     public static final StateMappingGroup SEA_PICKLE = new StateMappingGroup.Builder()
             .state("cluster_count", VanillaBlockStates.PICKLES, BedrockStateTypes.PICKLES)
             .state("dead_bit", VanillaBlockStates.DEAD, BedrockStateTypes.BOOL)
+            .build();
+    public static final VersionedStateMappingGroup SHELF = new StateMappingGroup.Builder()
+            .state("minecraft:cardinal_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.CARDINAL_DIRECTION)
+            .state("powered_bit", VanillaBlockStates.POWERED, BedrockStateTypes.BOOL)
+            .state("powered_shelf_type", VanillaBlockStates.SIDE_CHAIN, BedrockStateTypes.POWERED_SHELF_TYPE)
             .build();
     public static final StateMappingGroup SHULKER_BOX = new StateMappingGroup.Builder()
             .defaultOutput(VanillaBlockStates.FACING_ALL, FacingDirection.UP)

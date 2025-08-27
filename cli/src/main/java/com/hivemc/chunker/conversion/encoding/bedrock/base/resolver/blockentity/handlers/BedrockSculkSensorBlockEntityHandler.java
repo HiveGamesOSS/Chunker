@@ -20,7 +20,7 @@ public class BedrockSculkSensorBlockEntityHandler extends BlockEntityHandler<Bed
 
     @Override
     public void write(@NotNull BedrockResolvers resolvers, @NotNull CompoundTag output, @NotNull SculkSensorBlockEntity value) {
-        CompoundTag vibrationListener = new CompoundTag();
+        CompoundTag vibrationListener = new CompoundTag(1);
         vibrationListener.put("selector", new CompoundTag());
         output.put("VibrationListener", vibrationListener);
     }

@@ -77,11 +77,11 @@ public class JavaSpawnerBlockEntityHandler extends BlockEntityHandler<JavaResolv
 
         if (identifier.isPresent()) {
             // Write the entity type
-            CompoundTag spawnData = new CompoundTag();
+            CompoundTag spawnData = new CompoundTag(1);
 
             // Fix SpawnData for 1.18
             if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 18, 0)) {
-                CompoundTag entityNbt = new CompoundTag();
+                CompoundTag entityNbt = new CompoundTag(1);
                 entityNbt.put("id", identifier.get());
                 spawnData.put("entity", entityNbt);
             } else {

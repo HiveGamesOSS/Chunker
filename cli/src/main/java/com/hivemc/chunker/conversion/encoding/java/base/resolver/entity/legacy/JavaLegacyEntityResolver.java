@@ -43,7 +43,7 @@ public class JavaLegacyEntityResolver extends EntityResolver<JavaResolvers, Comp
         if (key.isEmpty()) return null; // Can't write the type
 
         // Create a new compoundTag with the ID
-        CompoundTag compoundTag = new CompoundTag();
+        CompoundTag compoundTag = new CompoundTag(4);
         compoundTag.put("id", key.get());
         return compoundTag;
     }

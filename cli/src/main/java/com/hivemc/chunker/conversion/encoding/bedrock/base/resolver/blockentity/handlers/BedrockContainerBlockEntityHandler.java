@@ -12,7 +12,6 @@ import com.hivemc.chunker.nbt.tags.collection.ListTag;
 import it.unimi.dsi.fastutil.bytes.Byte2ObjectMap;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,7 +45,7 @@ public class BedrockContainerBlockEntityHandler extends BlockEntityHandler<Bedro
 
     @Override
     public void write(@NotNull BedrockResolvers resolvers, @NotNull CompoundTag output, @NotNull ContainerBlockEntity value) {
-        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, new ArrayList<>(value.getItems().size()));
+        ListTag<CompoundTag, Map<String, Tag<?>>> items = new ListTag<>(TagType.COMPOUND, value.getItems().size());
         for (Byte2ObjectMap.Entry<ChunkerItemStack> tag : value.getItems().byte2ObjectEntrySet()) {
             // Don't write air to inventories
             if (tag.getValue().getIdentifier().isAir()) continue;

@@ -114,7 +114,7 @@ public abstract class KeyedHierarchyBasedResolver<R, K, D, T> implements Resolve
 
     private Collection<TypeHandler<R, K, D, ? extends T>> generateTypeHandlerHierarchy(TypeHandler<R, K, D, ? extends T> lastHandler) {
         // Generate a list of handlers in the order of visiting the base class then going to the final class
-        List<TypeHandler<R, K, D, ? extends T>> typeHandlers = new ArrayList<>();
+        List<TypeHandler<R, K, D, ? extends T>> typeHandlers = new ArrayList<>(1);
         typeHandlers.add(lastHandler);
 
         // Loop through the class parents

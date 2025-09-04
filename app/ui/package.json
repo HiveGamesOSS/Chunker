@@ -12,7 +12,7 @@
     "test": "react-scripts test"
   },
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/free-solid-svg-icons": "^7.0.1",
     "@fortawesome/react-fontawesome": "^3.0.0",
     "base64-arraybuffer": "^1.0.2",
     "chroma-js": "^3.1.2",

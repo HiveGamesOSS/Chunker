@@ -30,6 +30,9 @@ ui/build
 # Electron Builds
 electron/dist
 
+# Processed block data
+public/data
+
 # Build version data
 ui/src/version.json
 electron/src/version.json

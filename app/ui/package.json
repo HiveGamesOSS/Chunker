@@ -6,7 +6,9 @@
   "license": "MIT",
   "homepage": "./",
   "scripts": {
+    "prestart": "node scripts/process-block-data.js",
     "start": "react-scripts start",
+    "prebuild": "node scripts/process-block-data.js",
     "build": "react-scripts build",
     "eslint": "eslint src/**/*.js",
     "test": "react-scripts test"

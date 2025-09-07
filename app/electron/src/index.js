@@ -170,84 +170,8 @@ const createWindow = () => {
             if (responseOrJSON instanceof Response) {
                 return responseOrJSON;
             } else {
-                let blocks = [];
-
-                // Apply pre-processing to sort it into states
-                if (responseOrJSON instanceof Array) {
-                    // Legacy Java format
-                    for (let entry of responseOrJSON) {
-                        blocks.push({
-                            name: "minecraft:" + entry.name,
-                            states: {
-                                data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-                            }
-                        })
-                    }
-                } else {
-                    // Either Java or Bedrock format
-                    if (responseOrJSON.hasOwnProperty("blocks")) {
-                        // Bedrock palette
-                        let blockMap = {};
-
-                        // Loop through the entries and build the block map
-                        for (let entry of responseOrJSON.blocks) {
-                            let block = blockMap[entry.name];
-
-                            // Create a new entry
-                            if (!block) {
-                                block = {
-                                    waterlogged: new Set([false, true])
-                                }
-                                blockMap[entry.name] = block;
-                            }
-
-                            // Merge any state values
-                            if (entry.hasOwnProperty("states")) {
-                                for (let state of entry.states) {
-                                    let states = block[state.name];
-
-                                    // Create a new state entry
-                                    if (!states) {
-                                        states = new Set();
-                                        block[state.name] = states;
-                                    }
-
-                                    // Add the known states (special case for byte)
-                                    states.add(state.type === "byte" ? (state.value === 1) : state.value);
-                                }
-                            }
-                        }
-
-                        // Finally convert the blocks into an array
-                        for (let name of Object.keys(blockMap)) {
-                            // Turn the states into arrays
-                            let states = blockMap[name];
-                            for (let name in states) {
-                                states[name] = Array.from(states[name]);
-                            }
-
-                            // Add the block
-                            blocks.push({
-                                name: name,
-                                states: states
-                            });
-                        }
-                    } else {
-                        // Java blocks report
-                        for (let name of Object.keys(responseOrJSON)) {
-                            blocks.push({
-                                name: name,
-                                states: responseOrJSON[name].properties
-                            })
-                        }
-                    }
-                }
-
-                // Sort blocks by name
-                blocks.sort((a, b) => a.name.localeCompare(b.name));
-
                 // Return the JSON
-                return new Response(JSON.stringify(blocks), {
+                return new Response(JSON.stringify(responseOrJSON), {
                     status: 200,
                     headers: {"content-type": "text/json"}
                 })

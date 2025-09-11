@@ -4,7 +4,7 @@
 [versions]
 picocli = "4.7.7"
 caffeine = "3.2.2"
-gson = "2.13.1"
+gson = "2.13.2"
 guava = "33.4.8-jre"
 leveldb = "1.1.0"
 leveldb-api = "1.1.0"

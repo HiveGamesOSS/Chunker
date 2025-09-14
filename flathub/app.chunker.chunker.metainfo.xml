@@ -47,6 +47,15 @@
   <launchable type="desktop-id">app.chunker.chunker.desktop</launchable>
   <update_contact>maxi@maxiicodes.dev</update_contact>
   <releases>
+    <release version="1.11.0" date="2025-08-29" />
+    <release version="1.10.0" date="2025-08-01" />
+    <release version="1.9.0" date="2025-07-11" />
+    <release version="1.8.0" date="2025-06-11" />
+    <release version="1.7.1" date="2025-05-07" />
+    <release version="1.7.0" date="2025-04-10" />
+    <release version="1.6.0" date="2025-03-26" />
+    <release version="1.5.0" date="2025-03-09" />
+    <release version="1.4.6" date="2025-02-26" />
     <release version="1.4.5" date="2025-01-27" />
   </releases>
 </component>

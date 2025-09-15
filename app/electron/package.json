@@ -35,6 +35,12 @@
         "AppImage",
         "deb",
         "dir"
+      ],
+      "extraResources": [
+        {
+          "from": "../../flathub",
+          "to": "flathub"
+        }
       ]
     },
     "extraResources": [

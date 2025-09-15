@@ -45,7 +45,7 @@
   </supports>
   <content_rating type="oars-1.1"/>
   <launchable type="desktop-id">app.chunker.chunker.desktop</launchable>
-  <update_contact>maxi@maxiicodes.dev</update_contact>
+  <update_contact>contact+chunker-flatpak@maxiicodes.dev</update_contact>
   <releases>
     <release version="1.11.0" date="2025-08-29" />
     <release version="1.10.0" date="2025-08-01" />

@@ -74,6 +74,7 @@ public enum ChunkerVanillaEntityType implements ChunkerEntityType {
     LLAMA(true),
     LLAMA_SPIT,
     MAGMA_CUBE(true),
+    MANNEQUIN,
     MARKER,
     MINECART,
     MOOSHROOM(true),

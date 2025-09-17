@@ -16,6 +16,7 @@ import com.hivemc.chunker.conversion.intermediate.column.blockentity.sculksensor
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.sign.HangingSignBlockEntity;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -125,6 +126,8 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
     @Override
     public Optional<String> getKey(CompoundTag input) {
         // Use id but ensure there is a minecraft: prefix
-        return input.getOptionalValue("id", String.class).map(a -> !a.contains(":") ? "minecraft:" + a : a);
+        return input.getOptionalValue("id", String.class)
+                .map(a -> a.toLowerCase(Locale.ROOT)) // Enforce lower-case
+                .map(a -> !a.contains(":") ? "minecraft:" + a : a);
     }
 }

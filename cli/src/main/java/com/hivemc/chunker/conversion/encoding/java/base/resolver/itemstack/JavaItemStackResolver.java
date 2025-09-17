@@ -33,6 +33,8 @@ import com.hivemc.chunker.nbt.TagType;
 import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
+import com.hivemc.chunker.nbt.tags.primitive.IntTag;
+import com.hivemc.chunker.nbt.tags.primitive.ShortTag;
 import com.hivemc.chunker.nbt.tags.primitive.StringTag;
 import com.hivemc.chunker.resolver.property.PropertyHandler;
 import com.hivemc.chunker.util.JsonTextUtil;
@@ -839,10 +841,22 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
 
     @Override
     protected Optional<ChunkerItemStack> createPropertyHolder(CompoundTag input) {
+        // Get the damage tag (on some older versions it can be a short)
+        Tag<?> damageTag = input.get("Damage");
+        OptionalInt damage;
+        if (damageTag instanceof IntTag intTag) {
+            damage = OptionalInt.of(intTag.getValue());
+        } else if (damageTag instanceof ShortTag shortTag) {
+            damage = OptionalInt.of(shortTag.getValue());
+        } else {
+            // Default to 0
+            damage = OptionalInt.of(0);
+        }
+
         // First turn the NBT into an identifier
         Identifier identifier = Identifier.fromData(
                 input.getString("id"),
-                OptionalInt.of(input.getInt("Damage", 0))
+                damage
         );
 
         // Now use the item identifier reader to turn it into an item/block

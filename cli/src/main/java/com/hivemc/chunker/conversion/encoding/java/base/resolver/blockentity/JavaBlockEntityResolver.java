@@ -63,7 +63,7 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
         register(new EmptyBlockEntityHandler<>("minecraft:hopper", HopperBlockEntity.class, HopperBlockEntity::new));
         register(new JavaComparatorBlockEntityHandler());
         register(new JavaBannerBlockEntityHandler());
-        register(new EmptyBlockEntityHandler<>("minecraft:structure_block", StructureBlockEntity.class, StructureBlockEntity::new));
+        register(new JavaStructureBlockEntityHandler());
         register(new JavaEndGatewayBlockEntityHandler());
         register(new JavaCommandBlockBlockEntityHandler());
         register(new EmptyBlockEntityHandler<>("minecraft:shulker_box", ShulkerBoxBlockEntity.class, ShulkerBoxBlockEntity::new));

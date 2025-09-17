@@ -72,7 +72,7 @@ public class BedrockBlockEntityResolver extends BlockEntityResolver<BedrockResol
         register(new EmptyBlockEntityHandler<>("EnderChest", EnderChestBlockEntity.class, EnderChestBlockEntity::new));
         register(new BedrockEndGatewayBlockEntityHandler());
         register(new BedrockBannerBlockEntityHandler());
-        register(new EmptyBlockEntityHandler<>("StructureBlock", StructureBlockEntity.class, StructureBlockEntity::new));
+        register(new BedrockStructureBlockEntityHandler());
         register(new EmptyBlockEntityHandler<>("JigsawBlock", JigsawBlockEntity.class, JigsawBlockEntity::new));
         register(new BedrockShulkerBoxBlockEntityHandler());
         register(new BedrockCommandBlockBlockEntityHandler());

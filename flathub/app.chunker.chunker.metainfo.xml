@@ -10,7 +10,9 @@
   <project_license>MIT</project_license>
   <url type="homepage">https://chunker.app</url>
   <url type="vcs-browser">https://github.com/HiveGamesOSS/Chunker</url>
+  <url type="contribute">https://github.com/HiveGamesOSS/Chunker/blob/main/CONTRIBUTING.md</url>
   <url type="bugtracker">https://github.com/HiveGamesOSS/Chunker/issues</url>
+  <url type="help">https://learn.microsoft.com/en-us/minecraft/creator/documents/chunkeroverview?view=minecraft-bedrock-stable</url>
   <description>
     <p>WARNING: This flatpak is maintained by the Flathub community, and is not necessarily endorsed or officially maintained by the upstream developers.</p>
 
@@ -37,7 +39,11 @@
   </categories>
   <recommends>
     <display_length compare="ge">750</display_length>
+    <memory compare="ge">4096</memory>
   </recommends>
+  <requires>
+    <internet>offline-only</internet>
+  </requires>
   <supports>
     <control>pointing</control>
     <control>keyboard</control>

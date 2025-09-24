@@ -1,0 +1,1018 @@
+[
+  {
+    "id": 0,
+    "name": "air"
+  },
+  {
+    "id": 1,
+    "name": "stone"
+  },
+  {
+    "id": 2,
+    "name": "grass"
+  },
+  {
+    "id": 3,
+    "name": "dirt"
+  },
+  {
+    "id": 4,
+    "name": "cobblestone"
+  },
+  {
+    "id": 5,
+    "name": "planks"
+  },
+  {
+    "id": 6,
+    "name": "sapling"
+  },
+  {
+    "id": 7,
+    "name": "bedrock"
+  },
+  {
+    "id": 8,
+    "name": "flowing_water"
+  },
+  {
+    "id": 9,
+    "name": "water"
+  },
+  {
+    "id": 10,
+    "name": "flowing_lava"
+  },
+  {
+    "id": 11,
+    "name": "lava"
+  },
+  {
+    "id": 12,
+    "name": "sand"
+  },
+  {
+    "id": 13,
+    "name": "gravel"
+  },
+  {
+    "id": 14,
+    "name": "gold_ore"
+  },
+  {
+    "id": 15,
+    "name": "iron_ore"
+  },
+  {
+    "id": 16,
+    "name": "coal_ore"
+  },
+  {
+    "id": 17,
+    "name": "log"
+  },
+  {
+    "id": 18,
+    "name": "leaves"
+  },
+  {
+    "id": 19,
+    "name": "sponge"
+  },
+  {
+    "id": 20,
+    "name": "glass"
+  },
+  {
+    "id": 21,
+    "name": "lapis_ore"
+  },
+  {
+    "id": 22,
+    "name": "lapis_block"
+  },
+  {
+    "id": 23,
+    "name": "dispenser"
+  },
+  {
+    "id": 24,
+    "name": "sandstone"
+  },
+  {
+    "id": 25,
+    "name": "noteblock"
+  },
+  {
+    "id": 26,
+    "name": "bed"
+  },
+  {
+    "id": 27,
+    "name": "golden_rail"
+  },
+  {
+    "id": 28,
+    "name": "detector_rail"
+  },
+  {
+    "id": 29,
+    "name": "sticky_piston"
+  },
+  {
+    "id": 30,
+    "name": "web"
+  },
+  {
+    "id": 31,
+    "name": "tallgrass"
+  },
+  {
+    "id": 32,
+    "name": "deadbush"
+  },
+  {
+    "id": 33,
+    "name": "piston"
+  },
+  {
+    "id": 34,
+    "name": "piston_head"
+  },
+  {
+    "id": 35,
+    "name": "wool"
+  },
+  {
+    "id": 36,
+    "name": "piston_extension"
+  },
+  {
+    "id": 37,
+    "name": "yellow_flower"
+  },
+  {
+    "id": 38,
+    "name": "red_flower"
+  },
+  {
+    "id": 39,
+    "name": "brown_mushroom"
+  },
+  {
+    "id": 40,
+    "name": "red_mushroom"
+  },
+  {
+    "id": 41,
+    "name": "gold_block"
+  },
+  {
+    "id": 42,
+    "name": "iron_block"
+  },
+  {
+    "id": 43,
+    "name": "double_stone_slab"
+  },
+  {
+    "id": 44,
+    "name": "stone_slab"
+  },
+  {
+    "id": 45,
+    "name": "brick_block"
+  },
+  {
+    "id": 46,
+    "name": "tnt"
+  },
+  {
+    "id": 47,
+    "name": "bookshelf"
+  },
+  {
+    "id": 48,
+    "name": "mossy_cobblestone"
+  },
+  {
+    "id": 49,
+    "name": "obsidian"
+  },
+  {
+    "id": 50,
+    "name": "torch"
+  },
+  {
+    "id": 51,
+    "name": "fire"
+  },
+  {
+    "id": 52,
+    "name": "mob_spawner"
+  },
+  {
+    "id": 53,
+    "name": "oak_stairs"
+  },
+  {
+    "id": 54,
+    "name": "chest"
+  },
+  {
+    "id": 55,
+    "name": "redstone_wire"
+  },
+  {
+    "id": 56,
+    "name": "diamond_ore"
+  },
+  {
+    "id": 57,
+    "name": "diamond_block"
+  },
+  {
+    "id": 58,
+    "name": "crafting_table"
+  },
+  {
+    "id": 59,
+    "name": "wheat"
+  },
+  {
+    "id": 60,
+    "name": "farmland"
+  },
+  {
+    "id": 61,
+    "name": "furnace"
+  },
+  {
+    "id": 62,
+    "name": "lit_furnace"
+  },
+  {
+    "id": 63,
+    "name": "standing_sign"
+  },
+  {
+    "id": 64,
+    "name": "wooden_door"
+  },
+  {
+    "id": 65,
+    "name": "ladder"
+  },
+  {
+    "id": 66,
+    "name": "rail"
+  },
+  {
+    "id": 67,
+    "name": "stone_stairs"
+  },
+  {
+    "id": 68,
+    "name": "wall_sign"
+  },
+  {
+    "id": 69,
+    "name": "lever"
+  },
+  {
+    "id": 70,
+    "name": "stone_pressure_plate"
+  },
+  {
+    "id": 71,
+    "name": "iron_door"
+  },
+  {
+    "id": 72,
+    "name": "wooden_pressure_plate"
+  },
+  {
+    "id": 73,
+    "name": "redstone_ore"
+  },
+  {
+    "id": 74,
+    "name": "lit_redstone_ore"
+  },
+  {
+    "id": 75,
+    "name": "unlit_redstone_torch"
+  },
+  {
+    "id": 76,
+    "name": "redstone_torch"
+  },
+  {
+    "id": 77,
+    "name": "stone_button"
+  },
+  {
+    "id": 78,
+    "name": "snow_layer"
+  },
+  {
+    "id": 79,
+    "name": "ice"
+  },
+  {
+    "id": 80,
+    "name": "snow"
+  },
+  {
+    "id": 81,
+    "name": "cactus"
+  },
+  {
+    "id": 82,
+    "name": "clay"
+  },
+  {
+    "id": 83,
+    "name": "reeds"
+  },
+  {
+    "id": 84,
+    "name": "jukebox"
+  },
+  {
+    "id": 85,
+    "name": "fence"
+  },
+  {
+    "id": 86,
+    "name": "pumpkin"
+  },
+  {
+    "id": 87,
+    "name": "netherrack"
+  },
+  {
+    "id": 88,
+    "name": "soul_sand"
+  },
+  {
+    "id": 89,
+    "name": "glowstone"
+  },
+  {
+    "id": 90,
+    "name": "portal"
+  },
+  {
+    "id": 91,
+    "name": "lit_pumpkin"
+  },
+  {
+    "id": 92,
+    "name": "cake"
+  },
+  {
+    "id": 93,
+    "name": "unpowered_repeater"
+  },
+  {
+    "id": 94,
+    "name": "powered_repeater"
+  },
+  {
+    "id": 95,
+    "name": "stained_glass"
+  },
+  {
+    "id": 96,
+    "name": "trapdoor"
+  },
+  {
+    "id": 97,
+    "name": "monster_egg"
+  },
+  {
+    "id": 98,
+    "name": "stonebrick"
+  },
+  {
+    "id": 99,
+    "name": "brown_mushroom_block"
+  },
+  {
+    "id": 100,
+    "name": "red_mushroom_block"
+  },
+  {
+    "id": 101,
+    "name": "iron_bars"
+  },
+  {
+    "id": 102,
+    "name": "glass_pane"
+  },
+  {
+    "id": 103,
+    "name": "melon_block"
+  },
+  {
+    "id": 104,
+    "name": "pumpkin_stem"
+  },
+  {
+    "id": 105,
+    "name": "melon_stem"
+  },
+  {
+    "id": 106,
+    "name": "vine"
+  },
+  {
+    "id": 107,
+    "name": "fence_gate"
+  },
+  {
+    "id": 108,
+    "name": "brick_stairs"
+  },
+  {
+    "id": 109,
+    "name": "stone_brick_stairs"
+  },
+  {
+    "id": 110,
+    "name": "mycelium"
+  },
+  {
+    "id": 111,
+    "name": "waterlily"
+  },
+  {
+    "id": 112,
+    "name": "nether_brick"
+  },
+  {
+    "id": 113,
+    "name": "nether_brick_fence"
+  },
+  {
+    "id": 114,
+    "name": "nether_brick_stairs"
+  },
+  {
+    "id": 115,
+    "name": "nether_wart"
+  },
+  {
+    "id": 116,
+    "name": "enchanting_table"
+  },
+  {
+    "id": 117,
+    "name": "brewing_stand"
+  },
+  {
+    "id": 118,
+    "name": "cauldron"
+  },
+  {
+    "id": 119,
+    "name": "end_portal"
+  },
+  {
+    "id": 120,
+    "name": "end_portal_frame"
+  },
+  {
+    "id": 121,
+    "name": "end_stone"
+  },
+  {
+    "id": 122,
+    "name": "dragon_egg"
+  },
+  {
+    "id": 123,
+    "name": "redstone_lamp"
+  },
+  {
+    "id": 124,
+    "name": "lit_redstone_lamp"
+  },
+  {
+    "id": 125,
+    "name": "double_wooden_slab"
+  },
+  {
+    "id": 126,
+    "name": "wooden_slab"
+  },
+  {
+    "id": 127,
+    "name": "cocoa"
+  },
+  {
+    "id": 128,
+    "name": "sandstone_stairs"
+  },
+  {
+    "id": 129,
+    "name": "emerald_ore"
+  },
+  {
+    "id": 130,
+    "name": "ender_chest"
+  },
+  {
+    "id": 131,
+    "name": "tripwire_hook"
+  },
+  {
+    "id": 132,
+    "name": "tripwire"
+  },
+  {
+    "id": 133,
+    "name": "emerald_block"
+  },
+  {
+    "id": 134,
+    "name": "spruce_stairs"
+  },
+  {
+    "id": 135,
+    "name": "birch_stairs"
+  },
+  {
+    "id": 136,
+    "name": "jungle_stairs"
+  },
+  {
+    "id": 137,
+    "name": "command_block"
+  },
+  {
+    "id": 138,
+    "name": "beacon"
+  },
+  {
+    "id": 139,
+    "name": "cobblestone_wall"
+  },
+  {
+    "id": 140,
+    "name": "flower_pot"
+  },
+  {
+    "id": 141,
+    "name": "carrots"
+  },
+  {
+    "id": 142,
+    "name": "potatoes"
+  },
+  {
+    "id": 143,
+    "name": "wooden_button"
+  },
+  {
+    "id": 144,
+    "name": "skull"
+  },
+  {
+    "id": 145,
+    "name": "anvil"
+  },
+  {
+    "id": 146,
+    "name": "trapped_chest"
+  },
+  {
+    "id": 147,
+    "name": "light_weighted_pressure_plate"
+  },
+  {
+    "id": 148,
+    "name": "heavy_weighted_pressure_plate"
+  },
+  {
+    "id": 149,
+    "name": "unpowered_comparator"
+  },
+  {
+    "id": 150,
+    "name": "powered_comparator"
+  },
+  {
+    "id": 151,
+    "name": "daylight_detector"
+  },
+  {
+    "id": 152,
+    "name": "redstone_block"
+  },
+  {
+    "id": 153,
+    "name": "quartz_ore"
+  },
+  {
+    "id": 154,
+    "name": "hopper"
+  },
+  {
+    "id": 155,
+    "name": "quartz_block"
+  },
+  {
+    "id": 156,
+    "name": "quartz_stairs"
+  },
+  {
+    "id": 157,
+    "name": "activator_rail"
+  },
+  {
+    "id": 158,
+    "name": "dropper"
+  },
+  {
+    "id": 159,
+    "name": "stained_hardened_clay"
+  },
+  {
+    "id": 160,
+    "name": "stained_glass_pane"
+  },
+  {
+    "id": 161,
+    "name": "leaves2"
+  },
+  {
+    "id": 162,
+    "name": "log2"
+  },
+  {
+    "id": 163,
+    "name": "acacia_stairs"
+  },
+  {
+    "id": 164,
+    "name": "dark_oak_stairs"
+  },
+  {
+    "id": 165,
+    "name": "slime"
+  },
+  {
+    "id": 166,
+    "name": "barrier"
+  },
+  {
+    "id": 167,
+    "name": "iron_trapdoor"
+  },
+  {
+    "id": 168,
+    "name": "prismarine"
+  },
+  {
+    "id": 169,
+    "name": "sea_lantern"
+  },
+  {
+    "id": 170,
+    "name": "hay_block"
+  },
+  {
+    "id": 171,
+    "name": "carpet"
+  },
+  {
+    "id": 172,
+    "name": "hardened_clay"
+  },
+  {
+    "id": 173,
+    "name": "coal_block"
+  },
+  {
+    "id": 174,
+    "name": "packed_ice"
+  },
+  {
+    "id": 175,
+    "name": "double_plant"
+  },
+  {
+    "id": 176,
+    "name": "standing_banner"
+  },
+  {
+    "id": 177,
+    "name": "wall_banner"
+  },
+  {
+    "id": 178,
+    "name": "daylight_detector_inverted"
+  },
+  {
+    "id": 179,
+    "name": "red_sandstone"
+  },
+  {
+    "id": 180,
+    "name": "red_sandstone_stairs"
+  },
+  {
+    "id": 181,
+    "name": "double_stone_slab2"
+  },
+  {
+    "id": 182,
+    "name": "stone_slab2"
+  },
+  {
+    "id": 183,
+    "name": "spruce_fence_gate"
+  },
+  {
+    "id": 184,
+    "name": "birch_fence_gate"
+  },
+  {
+    "id": 185,
+    "name": "jungle_fence_gate"
+  },
+  {
+    "id": 186,
+    "name": "dark_oak_fence_gate"
+  },
+  {
+    "id": 187,
+    "name": "acacia_fence_gate"
+  },
+  {
+    "id": 188,
+    "name": "spruce_fence"
+  },
+  {
+    "id": 189,
+    "name": "birch_fence"
+  },
+  {
+    "id": 190,
+    "name": "jungle_fence"
+  },
+  {
+    "id": 191,
+    "name": "dark_oak_fence"
+  },
+  {
+    "id": 192,
+    "name": "acacia_fence"
+  },
+  {
+    "id": 193,
+    "name": "spruce_door"
+  },
+  {
+    "id": 194,
+    "name": "birch_door"
+  },
+  {
+    "id": 195,
+    "name": "jungle_door"
+  },
+  {
+    "id": 196,
+    "name": "acacia_door"
+  },
+  {
+    "id": 197,
+    "name": "dark_oak_door"
+  },
+  {
+    "id": 198,
+    "name": "end_rod"
+  },
+  {
+    "id": 199,
+    "name": "chorus_plant"
+  },
+  {
+    "id": 200,
+    "name": "chorus_flower"
+  },
+  {
+    "id": 201,
+    "name": "purpur_block"
+  },
+  {
+    "id": 202,
+    "name": "purpur_pillar"
+  },
+  {
+    "id": 203,
+    "name": "purpur_stairs"
+  },
+  {
+    "id": 204,
+    "name": "purpur_double_slab"
+  },
+  {
+    "id": 205,
+    "name": "purpur_slab"
+  },
+  {
+    "id": 206,
+    "name": "end_bricks"
+  },
+  {
+    "id": 207,
+    "name": "beetroots"
+  },
+  {
+    "id": 208,
+    "name": "grass_path"
+  },
+  {
+    "id": 209,
+    "name": "end_gateway"
+  },
+  {
+    "id": 210,
+    "name": "repeating_command_block"
+  },
+  {
+    "id": 211,
+    "name": "chain_command_block"
+  },
+  {
+    "id": 212,
+    "name": "frosted_ice"
+  },
+  {
+    "id": 213,
+    "name": "magma"
+  },
+  {
+    "id": 214,
+    "name": "nether_wart_block"
+  },
+  {
+    "id": 215,
+    "name": "red_nether_brick"
+  },
+  {
+    "id": 216,
+    "name": "bone_block"
+  },
+  {
+    "id": 217,
+    "name": "structure_void"
+  },
+  {
+    "id": 218,
+    "name": "observer"
+  },
+  {
+    "id": 219,
+    "name": "white_shulker_box"
+  },
+  {
+    "id": 220,
+    "name": "orange_shulker_box"
+  },
+  {
+    "id": 221,
+    "name": "magenta_shulker_box"
+  },
+  {
+    "id": 222,
+    "name": "light_blue_shulker_box"
+  },
+  {
+    "id": 223,
+    "name": "yellow_shulker_box"
+  },
+  {
+    "id": 224,
+    "name": "lime_shulker_box"
+  },
+  {
+    "id": 225,
+    "name": "pink_shulker_box"
+  },
+  {
+    "id": 226,
+    "name": "gray_shulker_box"
+  },
+  {
+    "id": 227,
+    "name": "silver_shulker_box"
+  },
+  {
+    "id": 228,
+    "name": "cyan_shulker_box"
+  },
+  {
+    "id": 229,
+    "name": "purple_shulker_box"
+  },
+  {
+    "id": 230,
+    "name": "blue_shulker_box"
+  },
+  {
+    "id": 231,
+    "name": "brown_shulker_box"
+  },
+  {
+    "id": 232,
+    "name": "green_shulker_box"
+  },
+  {
+    "id": 233,
+    "name": "red_shulker_box"
+  },
+  {
+    "id": 234,
+    "name": "black_shulker_box"
+  },
+  {
+    "id": 235,
+    "name": "white_glazed_terracotta"
+  },
+  {
+    "id": 236,
+    "name": "orange_glazed_terracotta"
+  },
+  {
+    "id": 237,
+    "name": "magenta_glazed_terracotta"
+  },
+  {
+    "id": 238,
+    "name": "light_blue_glazed_terracotta"
+  },
+  {
+    "id": 239,
+    "name": "yellow_glazed_terracotta"
+  },
+  {
+    "id": 240,
+    "name": "lime_glazed_terracotta"
+  },
+  {
+    "id": 241,
+    "name": "pink_glazed_terracotta"
+  },
+  {
+    "id": 242,
+    "name": "gray_glazed_terracotta"
+  },
+  {
+    "id": 243,
+    "name": "silver_glazed_terracotta"
+  },
+  {
+    "id": 244,
+    "name": "cyan_glazed_terracotta"
+  },
+  {
+    "id": 245,
+    "name": "purple_glazed_terracotta"
+  },
+  {
+    "id": 246,
+    "name": "blue_glazed_terracotta"
+  },
+  {
+    "id": 247,
+    "name": "brown_glazed_terracotta"
+  },
+  {
+    "id": 248,
+    "name": "green_glazed_terracotta"
+  },
+  {
+    "id": 249,
+    "name": "red_glazed_terracotta"
+  },
+  {
+    "id": 250,
+    "name": "black_glazed_terracotta"
+  },
+  {
+    "id": 251,
+    "name": "concrete"
+  },
+  {
+    "id": 252,
+    "name": "concrete_powder"
+  },
+  {
+    "id": 255,
+    "name": "structure_block"
+  }
+]

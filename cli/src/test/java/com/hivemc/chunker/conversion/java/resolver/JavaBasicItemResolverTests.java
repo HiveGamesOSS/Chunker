@@ -108,7 +108,8 @@ public class JavaBasicItemResolverTests {
                     ChunkerVanillaEntityType.HAPPY_GHAST,
 
                     // Autumn Drop
-                    ChunkerVanillaEntityType.COPPER_GOLEM
+                    ChunkerVanillaEntityType.COPPER_GOLEM,
+                    ChunkerVanillaEntityType.MANNEQUIN
 
             ),
             ChunkerPotionType.class, Set.of(

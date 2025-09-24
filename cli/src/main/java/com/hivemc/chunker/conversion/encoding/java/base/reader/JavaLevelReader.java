@@ -332,15 +332,29 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
         CompoundTag level = Tag.readGZipJavaNBT(new File(inputDirectory, "level.dat"));
 
         // Parse settings
-        output.setSettings(ChunkerLevelSettings.fromNBT(Objects.requireNonNull(level), this, converter));
+        CompoundTag preparedLevel = prepareNBTForLevelSettings(level);
+        output.setSettings(ChunkerLevelSettings.fromNBT(Objects.requireNonNull(preparedLevel), this, converter));
         output.setOriginalLevelData(level);
 
         // Parse local player
         try {
-            output.setPlayer(parsePlayer(level));
+            output.setPlayer(parsePlayer(preparedLevel));
         } catch (Exception e) {
             converter.logNonFatalException(e);
         }
+    }
+
+    /**
+     * Called before level.dat data is used for processing, this allows fixing of data which may not match what Chunker
+     * parses for the ChunkerLevelSettings.
+     *
+     * @param level the level data parsed from the level.dat.
+     * @return the compound tag which should be used for parsing, this should be a copy if it's been modified to ensure
+     * original level data can be retained.
+     * @throws Exception if it failed to prepare the level settings.
+     */
+    protected CompoundTag prepareNBTForLevelSettings(CompoundTag level) throws Exception {
+        return level;
     }
 
     /**

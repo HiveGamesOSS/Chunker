@@ -543,7 +543,7 @@ public class BedrockBlockIdentifierValidationTests {
             clonedStates.replace("tall_grass_type", new StateValueString("snow"), new StateValueString("fern"));
         }
 
-        return new Identifier(input.getIdentifier().toLowerCase(), clonedStates); // Make identifiers lower case to avoid case issues
+        return new Identifier(input.getIdentifier().toLowerCase(Locale.ROOT), clonedStates); // Make identifiers lower case to avoid case issues
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

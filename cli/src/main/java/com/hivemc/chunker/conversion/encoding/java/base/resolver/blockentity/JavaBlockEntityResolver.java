@@ -16,6 +16,7 @@ import com.hivemc.chunker.conversion.intermediate.column.blockentity.sculksensor
 import com.hivemc.chunker.conversion.intermediate.column.blockentity.sign.HangingSignBlockEntity;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -62,7 +63,7 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
         register(new EmptyBlockEntityHandler<>("minecraft:hopper", HopperBlockEntity.class, HopperBlockEntity::new));
         register(new JavaComparatorBlockEntityHandler());
         register(new JavaBannerBlockEntityHandler());
-        register(new EmptyBlockEntityHandler<>("minecraft:structure_block", StructureBlockEntity.class, StructureBlockEntity::new));
+        register(new JavaStructureBlockEntityHandler());
         register(new JavaEndGatewayBlockEntityHandler());
         register(new JavaCommandBlockBlockEntityHandler());
         register(new EmptyBlockEntityHandler<>("minecraft:shulker_box", ShulkerBoxBlockEntity.class, ShulkerBoxBlockEntity::new));
@@ -125,6 +126,8 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
     @Override
     public Optional<String> getKey(CompoundTag input) {
         // Use id but ensure there is a minecraft: prefix
-        return input.getOptionalValue("id", String.class).map(a -> !a.contains(":") ? "minecraft:" + a : a);
+        return input.getOptionalValue("id", String.class)
+                .map(a -> a.toLowerCase(Locale.ROOT)) // Enforce lower-case
+                .map(a -> !a.contains(":") ? "minecraft:" + a : a);
     }
 }

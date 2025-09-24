@@ -101,7 +101,7 @@ public class JavaDataVersion implements Comparable<JavaDataVersion> {
     public static final JavaDataVersion V1_21_6 = register(4435, new Version(1, 21, 6));
     public static final JavaDataVersion V1_21_7 = register(4438, new Version(1, 21, 7));
     public static final JavaDataVersion V1_21_8 = register(4440, new Version(1, 21, 8));
-    public static final JavaDataVersion V1_21_9 = register(4542, new Version(1, 21, 9));
+    public static final JavaDataVersion V1_21_9 = register(4549, new Version(1, 21, 9));
 
     // Last anvil file version
     public static final int LAST_ANVIL_FILE_VERSION = 19133;

@@ -98,7 +98,7 @@ public class JavaLegacyBlockEntityResolver extends BlockEntityResolver<JavaResol
         register(new JavaLegacyBedBlockEntityHandler(version.isLessThan(1, 12, 0)));
         register(new JavaLegacyFlowerPotBlockEntityHandler());
         register(new JavaLegacyNoteBlockBlockEntityHandler());
-        register(new EmptyBlockEntityHandler<>("Structure", StructureBlockEntity.class, StructureBlockEntity::new));
+        register(new JavaLegacyStructureBlockEntityHandler());
         register(new EmptyBlockEntityHandler<>("Trap", DispenserBlockEntity.class, DispenserBlockEntity::new));
 
         // Chest handler

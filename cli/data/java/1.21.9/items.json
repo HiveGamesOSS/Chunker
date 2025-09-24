@@ -5199,6 +5199,9 @@
   "minecraft:copper_golem_statue": {
     "components": {
       "minecraft:attribute_modifiers": [],
+      "minecraft:block_state": {
+        "copper_golem_pose": "standing"
+      },
       "minecraft:break_sound": "minecraft:entity.item.break",
       "minecraft:enchantments": {},
       "minecraft:item_model": "minecraft:copper_golem_statue",
@@ -9117,6 +9120,9 @@
   "minecraft:exposed_copper_golem_statue": {
     "components": {
       "minecraft:attribute_modifiers": [],
+      "minecraft:block_state": {
+        "copper_golem_pose": "standing"
+      },
       "minecraft:break_sound": "minecraft:entity.item.break",
       "minecraft:enchantments": {},
       "minecraft:item_model": "minecraft:exposed_copper_golem_statue",
@@ -17563,6 +17569,9 @@
   "minecraft:oxidized_copper_golem_statue": {
     "components": {
       "minecraft:attribute_modifiers": [],
+      "minecraft:block_state": {
+        "copper_golem_pose": "standing"
+      },
       "minecraft:break_sound": "minecraft:entity.item.break",
       "minecraft:enchantments": {},
       "minecraft:item_model": "minecraft:oxidized_copper_golem_statue",
@@ -25330,6 +25339,9 @@
   "minecraft:waxed_copper_golem_statue": {
     "components": {
       "minecraft:attribute_modifiers": [],
+      "minecraft:block_state": {
+        "copper_golem_pose": "standing"
+      },
       "minecraft:break_sound": "minecraft:entity.item.break",
       "minecraft:enchantments": {},
       "minecraft:item_model": "minecraft:waxed_copper_golem_statue",
@@ -25554,6 +25566,9 @@
   "minecraft:waxed_exposed_copper_golem_statue": {
     "components": {
       "minecraft:attribute_modifiers": [],
+      "minecraft:block_state": {
+        "copper_golem_pose": "standing"
+      },
       "minecraft:break_sound": "minecraft:entity.item.break",
       "minecraft:enchantments": {},
       "minecraft:item_model": "minecraft:waxed_exposed_copper_golem_statue",
@@ -25810,6 +25825,9 @@
   "minecraft:waxed_oxidized_copper_golem_statue": {
     "components": {
       "minecraft:attribute_modifiers": [],
+      "minecraft:block_state": {
+        "copper_golem_pose": "standing"
+      },
       "minecraft:break_sound": "minecraft:entity.item.break",
       "minecraft:enchantments": {},
       "minecraft:item_model": "minecraft:waxed_oxidized_copper_golem_statue",
@@ -26050,6 +26068,9 @@
   "minecraft:waxed_weathered_copper_golem_statue": {
     "components": {
       "minecraft:attribute_modifiers": [],
+      "minecraft:block_state": {
+        "copper_golem_pose": "standing"
+      },
       "minecraft:break_sound": "minecraft:entity.item.break",
       "minecraft:enchantments": {},
       "minecraft:item_model": "minecraft:waxed_weathered_copper_golem_statue",
@@ -26306,6 +26327,9 @@
   "minecraft:weathered_copper_golem_statue": {
     "components": {
       "minecraft:attribute_modifiers": [],
+      "minecraft:block_state": {
+        "copper_golem_pose": "standing"
+      },
       "minecraft:break_sound": "minecraft:entity.item.break",
       "minecraft:enchantments": {},
       "minecraft:item_model": "minecraft:weathered_copper_golem_statue",

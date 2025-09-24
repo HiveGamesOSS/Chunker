@@ -133,7 +133,8 @@ public class BedrockLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.OMINOUS_ITEM_SPAWNER,
                     ChunkerVanillaEntityType.CREAKING,
                     ChunkerVanillaEntityType.HAPPY_GHAST,
-                    ChunkerVanillaEntityType.COPPER_GOLEM
+                    ChunkerVanillaEntityType.COPPER_GOLEM,
+                    ChunkerVanillaEntityType.MANNEQUIN
             )
     );
     // Mock converter with two mock maps

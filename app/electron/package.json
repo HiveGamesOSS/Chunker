@@ -59,7 +59,7 @@
     "archiver": "^7.0.1",
     "electron-dl": "^4.0.0",
     "electron-log": "^5.4.3",
-    "fs-extra": "^11.3.1",
+    "fs-extra": "^11.3.2",
     "jszip": "^3.10.1"
   },
   "optionalDependencies": {

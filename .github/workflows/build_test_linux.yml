@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           lfs: true
           submodules: recursive

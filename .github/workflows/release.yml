@@ -16,7 +16,7 @@ jobs:
   build_test_linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           lfs: true
           submodules: recursive
@@ -58,7 +58,7 @@ jobs:
   build_windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           lfs: true
           submodules: recursive
@@ -119,7 +119,7 @@ jobs:
         os: [macos-latest, macos-13]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           lfs: true
           submodules: recursive

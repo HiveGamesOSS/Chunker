@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.inputs.build_linux == 'true'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           lfs: true
           submodules: recursive
@@ -59,7 +59,7 @@ jobs:
     runs-on: windows-latest
     if: github.event.inputs.build_windows == 'true'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           lfs: true
           submodules: recursive
@@ -121,7 +121,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: github.event.inputs.build_mac == 'true'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           lfs: true
           submodules: recursive

@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
-    "@fortawesome/react-fontawesome": "^3.1.0",
+    "@fortawesome/react-fontawesome": "^3.1.1",
     "base64-arraybuffer": "^1.0.2",
     "chroma-js": "^3.1.2",
     "file-saver": "^2.0.5",

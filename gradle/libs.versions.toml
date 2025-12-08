@@ -16,7 +16,7 @@ jetbrains-annotations = "26.0.2-1"
 junit = "6.0.1"
 
 # Plugins
-shadow = "9.2.2"
+shadow = "9.3.0"
 gitVersion = "4.2.0"
 jpackage = "1.7.6"
 node = "7.1.0"

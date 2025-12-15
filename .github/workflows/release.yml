@@ -151,13 +151,13 @@ jobs:
 
     steps:
       - name: Download JAR artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: jar-builds
           path: artifacts
 
       - name: Download Linux artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: linux-builds
           path: artifacts
@@ -188,7 +188,7 @@ jobs:
           done
 
       - name: Download Windows artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: windows-builds
           path: artifacts
@@ -213,7 +213,7 @@ jobs:
           done
 
       - name: Download Mac artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: macos-builds-macos-latest
           path: artifacts
@@ -224,7 +224,7 @@ jobs:
           rm -rf "artifacts/chunker-cli.app"
 
       - name: Download Mac artifact (legacy)
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: macos-builds-macos-13
           path: artifacts

@@ -44,13 +44,13 @@ jobs:
           MAVEN_DEPLOY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload CLI Jar
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: jar-builds
           path: build/libs/*.jar
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: linux-builds
           path: build/libs/linux/
@@ -108,7 +108,7 @@ jobs:
           timestamp-digest: SHA256
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: windows-builds
           path: build/libs/windows/
@@ -140,7 +140,7 @@ jobs:
         run: ./gradlew build -x test
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: macos-builds-${{ matrix.os }}
           path: build/libs/mac/

@@ -33,13 +33,13 @@ jobs:
         run: ./gradlew build
 
       - name: Upload CLI Jar
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: jar-builds
           path: build/libs/*.jar
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: linux-builds
           path: build/libs/linux/

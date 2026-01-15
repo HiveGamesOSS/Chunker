@@ -76,7 +76,7 @@ jobs:
         run: ./gradlew build -x test
 
       - name: Sign exe with Trusted Signing
-        uses: azure/trusted-signing-action@v0.5.10
+        uses: azure/trusted-signing-action@v1.0.0
         if: github.repository == 'HiveGamesOSS/Chunker'
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -92,7 +92,7 @@ jobs:
           timestamp-digest: SHA256
 
       - name: Sign unpacked with Trusted Signing
-        uses: azure/trusted-signing-action@v0.5.10
+        uses: azure/trusted-signing-action@v1.0.0
         if: github.repository == 'HiveGamesOSS/Chunker'
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}

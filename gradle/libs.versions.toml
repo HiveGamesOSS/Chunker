@@ -17,7 +17,7 @@ junit = "6.0.1"
 
 # Plugins
 shadow = "9.2.2"
-gitVersion = "4.2.0"
+gitVersion = "4.3.0"
 jpackage = "1.7.6"
 node = "7.1.0"
 

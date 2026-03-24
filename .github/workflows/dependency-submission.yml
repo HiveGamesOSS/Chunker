@@ -24,4 +24,4 @@ jobs:
           distribution: 'temurin'
 
       - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@f29f5a9d7b09a7c6b29859002d29d24e1674c884 # v5.0.1
+        uses: gradle/actions/dependency-submission@0f4528296b4bc09e8ae0fc7be30185a4ab435545 # v6.0.0

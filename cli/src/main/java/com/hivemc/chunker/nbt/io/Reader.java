@@ -27,7 +27,7 @@ public interface Reader {
      * @return a reader which wraps the DataInput.
      */
     static Reader toJavaReader(DataInput dataInput) {
-        return toBigEndianReader(dataInput); // Java uses Big Endian
+        return new DataInputReaderJava(dataInput);
     }
 
     /**
@@ -68,6 +68,17 @@ public interface Reader {
 
         // Return the bytes
         return bytes;
+    }
+
+    /**
+     * Read a short-length based String from the buffer as a ByteString.
+     *
+     * @param maxLength the maximum accepting length for the String.
+     * @return the value which was read (can be a String or byte-array).
+     * @throws IOException an exception if it failed to read from the underlying buffer.
+     */
+    default ByteString readShortPrefixedByteString(int maxLength) throws IOException {
+        return new ByteString(readShortPrefixedBytes(maxLength));
     }
 
     /**

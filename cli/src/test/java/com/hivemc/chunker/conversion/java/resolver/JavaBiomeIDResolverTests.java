@@ -110,4 +110,20 @@ public class JavaBiomeIDResolverTests {
             assertEquals(mappedNameValue.get(), mappedIDValue.get());
         }
     }
+
+    @Test
+    public void checkJavaIdentifierExists() {
+        // Ensure every supported biome has a java identifier, and that it can be mapped back to a biome
+        // We don't technically support the legacy names that Java has so this is the best case for checking against legacy IDs
+        JavaBiomeIDResolver biomeResolver = new JavaBiomeIDResolver(Version.LATEST);
+        for (ChunkerBiome.ChunkerVanillaBiome biome : biomeResolver.getSupportedBiomes()) {
+            Optional<String> javaIdentifier = biome.getJavaIdentifier();
+            assertTrue(javaIdentifier.isPresent());
+
+            // Ensure that it can be looked up via find
+            Optional<ChunkerBiome.ChunkerVanillaBiome> resolved = ChunkerBiome.ChunkerVanillaBiome.find(javaIdentifier.get());
+            assertTrue(resolved.isPresent());
+            assertEquals(biome, resolved.get());
+        }
+    }
 }

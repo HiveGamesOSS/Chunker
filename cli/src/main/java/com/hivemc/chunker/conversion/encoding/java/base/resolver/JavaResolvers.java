@@ -3,6 +3,7 @@ package com.hivemc.chunker.conversion.encoding.java.base.resolver;
 import com.hivemc.chunker.conversion.encoding.base.Converter;
 import com.hivemc.chunker.conversion.encoding.base.resolver.blockentity.BlockEntityResolver;
 import com.hivemc.chunker.conversion.encoding.base.resolver.entity.EntityResolver;
+import com.hivemc.chunker.conversion.encoding.base.resolver.biome.ChunkerBiomeResolver;
 import com.hivemc.chunker.conversion.encoding.java.JavaDataVersion;
 import com.hivemc.chunker.conversion.handlers.pretransform.manager.PreTransformManager;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
@@ -128,6 +129,20 @@ public interface JavaResolvers {
      * @return the biome to use as a fallback if it fails to convert the biome.
      */
     ChunkerBiome getFallbackBiome(Dimension dimension);
+
+    /**
+     * Get the biome resolver used to map string identifier based biomes.
+     *
+     * @return the Biome resolver.
+     */
+    ChunkerBiomeResolver<String> biomeNameResolver();
+
+    /**
+     * Get the biome resolver used to map integer based biomes.
+     *
+     * @return the Biome resolver.
+     */
+    ChunkerBiomeResolver<Integer> biomeIdResolver();
 
     /**
      * Write a block to a compound tag.

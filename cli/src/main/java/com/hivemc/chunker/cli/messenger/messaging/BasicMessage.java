@@ -69,6 +69,8 @@ public abstract class BasicMessage {
         CONVERT(ConvertRequest.class),
         @SerializedName("kill")
         KILL(KillRequest.class),
+        @SerializedName("biomes")
+        BIOMES(BiomesRequest.class),
 
         // Output
         @SerializedName("response")

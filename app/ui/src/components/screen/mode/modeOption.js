@@ -1,5 +1,10 @@
 import React, {Component} from "react";
 
+export function getFormatName(id) {
+    const type = id.split("_")[0];
+    return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+}
+
 export function getVersionName(inputVersionName) {
     // Filter the version name and extract the actual version for display
     let type = inputVersionName.split("_")[0];
@@ -25,14 +30,7 @@ export class ModeOption extends Component {
         let java = this.props.type.startsWith("JAVA_");
         let bedrock = this.props.type.startsWith("BEDROCK_");
         let beta = (bedrock && version === "1.26.20") || (java && version === "26.2.0"); // Beta label
-        let label;
-        if (java) {
-            label = "Java Edition";
-        } else if (bedrock) {
-            label = "Bedrock Edition";
-        } else {
-            label = this.props.type.split("_")[0];
-        }
+        let label = getFormatName(this.props.type) + ((java || bedrock) ? " Edition" : "");
         return (
             <div>
                 <input type="radio" value={this.props.type} checked={this.props.selected === this.props.type}

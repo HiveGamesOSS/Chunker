@@ -173,9 +173,11 @@ public class TaskExecutor {
 
         // Main loop
         while (!Thread.currentThread().isInterrupted()) {
-            PriorityRunnable task = tasks.poll();
-            if (task != null) {
-                task.run();
+            try {
+                tasks.take().run();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
             }
         }
 

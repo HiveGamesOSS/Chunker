@@ -1,15 +1,21 @@
 import React, {Component} from "react";
-import "./previewComponent.css"
-import "leaflet/dist/leaflet.css"
+import "./previewComponent.css";
+import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "leaflet-draw";
 import {ProgressComponent} from "../../../../progress";
 import "leaflet-mouse-position/src/L.Control.MousePosition.css";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import {getDimensionDisplayName} from "../dimensionPruningTab";
+import {worldBoundsForAutoFit} from "./mapBin";
+import {computeMinZoom} from "./autoFit";
+import {ClientTileCache} from "./clientTileCache";
+import {ChunkerPreviewLayer} from "./chunkerPreviewLayer";
+import {CenterCoordsControl} from "./centerCoordsControl";
+import api from "../../../../../api";
 
-require("leaflet-mouse-position/src/L.Control.MousePosition"); // As it adds new controls, need to be required
-require("leaflet-fullscreen/dist/Leaflet.fullscreen"); // As it adds new controls, need to be required
+require("leaflet-mouse-position/src/L.Control.MousePosition");
+require("leaflet-fullscreen/dist/Leaflet.fullscreen");
 
 // Fix leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -46,79 +52,96 @@ export class Map extends Component {
     app = this.props.app;
 
     componentDidMount() {
-        let self = this;
-        // Render map
+        const self = this;
+        // this.props.data is the already-parsed map.bin (Task 14).
+        this._mapBin = this.props.data;
+        this._cache = new ClientTileCache();
+
+        const dimensions = this.app.state.settings.dimensions;
+        const defaultIdentifier = (this.app.state.previewState && this.app.state.previewState.layer) || dimensions[0];
+        const minZoom = computeMinZoom(worldBoundsForAutoFit(this._mapBin, defaultIdentifier));
+
         this.mymap = L.map("map", {
             crs: L.CRS.Simple,
-            minZoom: -5,
+            minZoom,
             maxZoom: 5,
             attributionControl: false
         });
 
-        let worlds = this.app.state.settings.dimensions.map((a, k) => {
-            return L.tileLayer("session://{session}/preview/{world}.{x}.{y}.png", {
-                maxNativeZoom: 0,
-                minNativeZoom: 0,
-                minZoom: -5,
-                maxZoom: 5,
-                world: a.replace(":", "_"),
-                id: "blocks",
-                session: self.props.session,
-                tileSize: 512,
-                noWrap: true,
-                identifier: a,
-                index: k,
-                continuousWorld: true
-            });
-        });
+        const worlds = dimensions.map((identifier, k) => new ChunkerPreviewLayer({
+            id: "blocks",
+            identifier,
+            world: identifier.replace(":", "_"),
+            session: self.props.session,
+            index: k,
+            continuousWorld: true,
+            mapBin: this._mapBin,
+            tileCache: this._cache,
+            ipc: {
+                requestTiles: (req) => api.send({type: "flow", method: "request_preview_tiles", ...req}, () => {}),
+                cancelTiles: (req) => api.send({type: "flow", method: "cancel_preview_tiles", ...req}, () => {}),
+                onTileReady: (cb) => api.addListener("tile_ready", cb),
+                onTileError: (cb) => api.addListener("tile_error", cb)
+            }
+        }));
 
         if (this.app.state.previewState === undefined) {
-            // Default
-            let defaultWorld = worlds.length > 0 ? worlds[0] : undefined;
+            const defaultWorld = worlds.length > 0 ? worlds[0] : undefined;
             if (defaultWorld !== undefined) {
                 defaultWorld.addTo(this.mymap);
-                let centerX = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnX")[0].value;
-                let centerZ = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnZ")[0].value;
-
-                // L.marker(xy(centerX * 16, centerZ * 16)).addTo(mymap).bindPopup("Center (" + (centerX * 16) + "," + (centerZ * 16) + ")");
+                const centerX = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnX")[0].value;
+                const centerZ = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnZ")[0].value;
                 this.mymap.setView(xy(centerX, centerZ), 2);
             }
         } else {
-            let defaultWorld = worlds.filter(a => this.app.state.previewState.layer === a.options.identifier)[0];
+            const defaultWorld = worlds.filter(a => this.app.state.previewState.layer === a.options.identifier)[0];
             defaultWorld.addTo(this.mymap);
             this.mymap.setView(this.app.state.previewState.center, this.app.state.previewState.zoom, {animate: false});
         }
 
         this.renderPruningRegion();
 
-        // Add controls
-        let baseMaps = {};
+        const baseMaps = {};
         worlds.forEach(a => {
             baseMaps[getDimensionDisplayName(a.options.identifier)] = a;
         });
 
-        // Mouse position
         L.control.mousePosition({
             emptyString: "0, 0 (0, 0)",
             formatter: this.formatCoords,
             wrapLng: false
         }).addTo(this.mymap);
 
-        // Zoom + Layers
         this.mymap.zoomControl.setPosition("bottomleft");
         L.control.fullscreen({position: "bottomright"}).addTo(this.mymap);
         L.control.layers(baseMaps, null, {position: "bottomright"}).addTo(this.mymap);
 
-        // Add handler for pruning render
+        new CenterCoordsControl({
+            getBounds: () => worldBoundsForAutoFit(this._mapBin, this._currentWorld())
+        }).addTo(this.mymap);
+
         this.mymap.on("baselayerchange", function (e) {
             self.renderPruningRegion();
         });
+
+        this.mymap.on("fullscreenchange", () => {
+            // Aggressive evict before the renderer holds two viewports' worth of tiles at once.
+            self._cache.evictAllExcept([]);
+        });
+    }
+
+    _currentWorld() {
+        let id;
+        this.mymap.eachLayer((layer) => {
+            if (layer.options && layer.options.identifier) id = layer.options.identifier;
+        });
+        return id || this.app.state.settings.dimensions[0];
     }
 
     formatCoords = (long, lat) => {
-        let x = long;
-        let z = -lat;
-        return Math.floor(x) + ", " + Math.floor(z) + " (" + Math.floor(x / 16) + ", " + Math.floor(z / 16) + ")"
+        const x = long;
+        const z = -lat;
+        return Math.floor(x) + ", " + Math.floor(z) + " (" + Math.floor(x / 16) + ", " + Math.floor(z / 16) + ")";
     };
 
     componentWillUnmount() {
@@ -140,58 +163,49 @@ export class Map extends Component {
 
     moveRegion = (world, regionIndex, minX, minZ, maxX, maxZ) => {
         this.app.setState((prevState) => {
-            let pruningSettingsClone = JSON.parse(JSON.stringify(prevState.pruningSettings));
-
-            // Add new state
+            const pruningSettingsClone = JSON.parse(JSON.stringify(prevState.pruningSettings));
             pruningSettingsClone[world].regions[regionIndex] = {
-                ...pruningSettingsClone[world].regions[regionIndex], // Merge old settings
+                ...pruningSettingsClone[world].regions[regionIndex],
                 minChunkX: Math.floor(Math.min(minX, maxX)),
                 minChunkZ: Math.floor(Math.min(minZ, maxZ)),
                 maxChunkX: Math.ceil(Math.max(minX, maxX)) - 1,
                 maxChunkZ: Math.ceil(Math.max(minZ, maxZ)) - 1
             };
-
             return {pruningSettings: pruningSettingsClone};
         }, () => {
-            // Force re-render
             this.renderPruningRegion();
         });
     }
-    renderPruningRegion = () => {
-        let self = this;
 
-        // Get selected map
+    renderPruningRegion = () => {
+        const self = this;
         this.mymap.eachLayer(function (layer) {
             if (layer.options.identifier !== undefined) {
                 self.renderWorldPruningRegion(layer.options.identifier);
             }
             if (layer.options.region) {
-                // Remove old polygons
                 self.mymap.removeLayer(layer);
             }
         });
     };
 
     renderWorldPruningRegion = (world) => {
-        if (!(this.app.state.pruningSettings[world] && this.app.state.pruningSettings[world].regions)) return; // No regions
+        if (!(this.app.state.pruningSettings[world] && this.app.state.pruningSettings[world].regions)) return;
 
-        let pruningRegions = this.app.state.pruningSettings[world];
+        const pruningRegions = this.app.state.pruningSettings[world];
 
         pruningRegions.regions.forEach((region, index) => {
-            // Drawing the region
-            let minX = Math.min(region.minChunkX, region.maxChunkX) * 16;
-            let minZ = Math.min(region.minChunkZ, region.maxChunkZ) * 16;
+            const minX = Math.min(region.minChunkX, region.maxChunkX) * 16;
+            const minZ = Math.min(region.minChunkZ, region.maxChunkZ) * 16;
 
-            let maxX = (Math.max(region.minChunkX, region.maxChunkX) * 16) + 16;
-            let maxZ = (Math.max(region.minChunkZ, region.maxChunkZ) * 16) + 16;
+            const maxX = (Math.max(region.minChunkX, region.maxChunkX) * 16) + 16;
+            const maxZ = (Math.max(region.minChunkZ, region.maxChunkZ) * 16) + 16;
 
-            // Draw rectangle
-            let rect = L.rectangle([xy(minX, minZ), xy(minX, maxZ), xy(maxX, maxZ), xy(maxX, minZ)], {
+            const rect = L.rectangle([xy(minX, minZ), xy(minX, maxZ), xy(maxX, maxZ), xy(maxX, minZ)], {
                 color: pruningRegions.include ? "green" : "red",
                 region: true
             });
 
-            // Add a label for the region if there are multiple (or if it's named)
             if (pruningRegions.regions.length > 1 || region.name) {
                 rect.bindTooltip(region.name ?? ("Region " + (index + 1)), {
                     direction: "center",
@@ -199,13 +213,10 @@ export class Map extends Component {
                 });
             }
 
-            // Add event for edit
-            let self = this;
+            const self = this;
             rect.on("edit", function (e) {
-                let max = rect.getBounds().getNorthEast();
-                let min = rect.getBounds().getSouthWest();
-
-                // Reverse lat long into co-ords
+                const max = rect.getBounds().getNorthEast();
+                const min = rect.getBounds().getSouthWest();
                 self.moveRegion(world, index, min.lng / 16, -min.lat / 16, max.lng / 16, -max.lat / 16);
             });
             rect.addTo(this.mymap);
@@ -218,11 +229,9 @@ export class Map extends Component {
     }
 }
 
-let xy = function (x, y) {
-    if (L.Util.isArray(x)) {    // When doing xy([x, y]);
+const xy = function (x, y) {
+    if (L.Util.isArray(x)) {
         return xy(x[0], x[1]);
     }
-
-    // Modified specifically for this leaflet scale of 512
-    return [-y, x];  // When doing xy(x, y);
+    return [-y, x];
 };

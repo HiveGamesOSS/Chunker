@@ -6,6 +6,8 @@ import com.hivemc.chunker.cli.messenger.messaging.response.ErrorResponse;
 import com.hivemc.chunker.cli.messenger.messaging.response.OutputResponse;
 import com.hivemc.chunker.cli.messenger.messaging.response.ProgressResponse;
 import com.hivemc.chunker.cli.messenger.messaging.response.ProgressStateResponse;
+import com.hivemc.chunker.cli.messenger.messaging.response.TileErrorResponse;
+import com.hivemc.chunker.cli.messenger.messaging.response.TileReadyResponse;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.util.Map;
@@ -69,6 +71,10 @@ public abstract class BasicMessage {
         CONVERT(ConvertRequest.class),
         @SerializedName("kill")
         KILL(KillRequest.class),
+        @SerializedName("request_preview_tiles")
+        REQUEST_PREVIEW_TILES(RequestPreviewTilesRequest.class),
+        @SerializedName("cancel_preview_tiles")
+        CANCEL_PREVIEW_TILES(CancelPreviewTilesRequest.class),
 
         // Output
         @SerializedName("response")
@@ -78,7 +84,11 @@ public abstract class BasicMessage {
         @SerializedName("progress_state")
         PROGRESS_STATE(ProgressStateResponse.class),
         @SerializedName("error")
-        ERROR(ErrorResponse.class);
+        ERROR(ErrorResponse.class),
+        @SerializedName("tile_ready")
+        TILE_READY(TileReadyResponse.class),
+        @SerializedName("tile_error")
+        TILE_ERROR(TileErrorResponse.class);
 
         private static final Map<Class<? extends BasicMessage>, BasicMessageType> CLASS_TO_MESSAGE = new Object2ObjectOpenHashMap<>();
 

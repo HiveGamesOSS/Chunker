@@ -11,12 +11,20 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
         L.setOptions(this, {
             tileSize: 512,
             noWrap: true,
+            // L.GridLayer's defaults hide the layer at zoom < 0. Explicitly extend the visible
+            // zoom range to match the map's autoFit floor; otherwise createTile is never called
+            // for negative zoom levels and the user sees an empty viewport on dezoom.
+            minZoom: MIN_ZOOM_FLOOR,
+            maxZoom: 5,
             // Native tiles only exist at LOD 0 down to the auto-fit floor. For zoom > 0 Leaflet
             // stretches LOD 0 tiles client-side; for zoom < MIN_ZOOM_FLOOR it stretches the floor tiles.
             // Without these, Leaflet would call createTile for any zoom and isTileEmpty would
             // be invoked with positive lod, where `1 << -lod` wraps to a huge value and hangs.
             maxNativeZoom: 0,
             minNativeZoom: MIN_ZOOM_FLOOR,
+            // Keep more off-viewport tiles in DOM so a fast pan or zoom-out doesn't reveal blank
+            // areas while the new tiles are still being generated.
+            keepBuffer: 4,
             ...options
         });
         this._mapBin = options.mapBin;

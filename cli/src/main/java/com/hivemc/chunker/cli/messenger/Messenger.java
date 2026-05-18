@@ -143,42 +143,53 @@ public class Messenger {
                         File inputDir = new File(previewRequest.getInputPath());
                         File outputDir = new File(previewRequest.getOutputPath());
 
-                        try {
-                            // 1) Decide which metadata pass to run based on what's in the world directory.
-                            PreviewMetadataReader metadataReader = new PreviewMetadataReader();
-                            if (new File(inputDir, "db/CURRENT").isFile()) {
-                                metadataReader.readBedrockWorld(inputDir, outputDir);
-                            } else {
-                                metadataReader.readJavaWorld(inputDir, outputDir);
+                        // Immediately signal that we have started — moves the renderer off the queue screen.
+                        write(new ProgressResponse(requestId, 0.0));
+
+                        // Run the metadata pass + tile service init off the messenger thread so the main loop stays responsive.
+                        CompletableFuture.runAsync(() -> {
+                            try {
+                                // 1) Run the metadata pass. Choose Bedrock vs Java by what's in the world directory.
+                                PreviewMetadataReader metadataReader = new PreviewMetadataReader();
+                                if (new File(inputDir, "db/CURRENT").isFile()) {
+                                    metadataReader.readBedrockWorld(inputDir, outputDir);
+                                } else {
+                                    metadataReader.readJavaWorld(inputDir, outputDir);
+                                }
+
+                                // Coarse progress signal halfway through.
+                                write(new ProgressResponse(requestId, 0.5));
+
+                                // 2) Spin up the long-lived tile service for this session.
+                                PreviewMapBin mapBin = PreviewMapBin.read(new File(outputDir, "map.bin"));
+                                RegionRgbaSource source = new ChunkerWorldRegionRgbaSource(inputDir);
+                                int cacheEntries = PreviewTileCache.computeCapacityEntries(Runtime.getRuntime().maxMemory());
+                                int workers = Math.min(4, Math.max(1, Runtime.getRuntime().availableProcessors() / 2));
+                                PreviewTileService service = new PreviewTileService(outputDir, mapBin, source, new PreviewTileCache(cacheEntries), workers);
+                                service.setEventListener(new PreviewTileService.EventListener() {
+                                    @Override public void onTileReady(TileReadyResponse r) { write(r); }
+                                    @Override public void onTileError(TileErrorResponse r) { write(r); }
+                                });
+
+                                // Stop and replace any pre-existing service for this session.
+                                PreviewTileService previous = SESSION_ID_TO_PREVIEW_SERVICE.put(anonymousId, service);
+                                if (previous != null) previous.shutdown();
+
+                                // 3) Tell the client we're done with the metadata pass.
+                                write(new OutputResponse(requestId, null));
+                            } catch (Throwable t) {
+                                // Use Throwable: catches any unexpected runtime issue including OOMs, so we always
+                                // surface an error to the client instead of leaving it stuck on the progress screen.
+                                write(new ErrorResponse(
+                                        requestId,
+                                        false,
+                                        "Failed to start preview.",
+                                        null,
+                                        t.getMessage(),
+                                        printStackTrace(t)
+                                ));
                             }
-
-                            // 2) Spin up a long-lived tile service for this session.
-                            PreviewMapBin mapBin = PreviewMapBin.read(new File(outputDir, "map.bin"));
-                            RegionRgbaSource source = new ChunkerWorldRegionRgbaSource(inputDir);
-                            int cacheEntries = PreviewTileCache.computeCapacityEntries(Runtime.getRuntime().maxMemory());
-                            int workers = Math.min(4, Math.max(1, Runtime.getRuntime().availableProcessors() / 2));
-                            PreviewTileService service = new PreviewTileService(outputDir, mapBin, source, new PreviewTileCache(cacheEntries), workers);
-                            service.setEventListener(new PreviewTileService.EventListener() {
-                                @Override public void onTileReady(TileReadyResponse r) { write(r); }
-                                @Override public void onTileError(TileErrorResponse r) { write(r); }
-                            });
-
-                            // Stop and replace any pre-existing service for this session.
-                            PreviewTileService previous = SESSION_ID_TO_PREVIEW_SERVICE.put(anonymousId, service);
-                            if (previous != null) previous.shutdown();
-
-                            // 3) Tell the client we're done with the metadata pass — the map.bin file is at outputDir/map.bin.
-                            write(new OutputResponse(requestId, null));
-                        } catch (Exception e) {
-                            write(new ErrorResponse(
-                                    requestId,
-                                    false,
-                                    "Failed to start preview.",
-                                    null,
-                                    e.getMessage(),
-                                    printStackTrace(e)
-                            ));
-                        }
+                        });
                     }
                     case REQUEST_PREVIEW_TILES -> {
                         RequestPreviewTilesRequest req = (RequestPreviewTilesRequest) message;

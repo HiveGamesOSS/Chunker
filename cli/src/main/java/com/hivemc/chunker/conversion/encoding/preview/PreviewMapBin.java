@@ -27,10 +27,15 @@ public final class PreviewMapBin {
     /**
      * A tile is empty when every region it covers at LOD 0 has zero present chunks.
      * For lod == 0 each tile maps to one region. For lod &lt; 0 a tile covers 2^|lod| x 2^|lod| regions.
+     * Positive lod is undefined here (the native pyramid bottoms out at LOD 0); always returns
+     * false in that case so the caller does not skip a tile the client may legitimately request.
      */
     public boolean isTileEmpty(String world, int lod, int tx, int tz) {
         WorldData w = findByIdentifier(world);
         if (w == null) return true;
+        // Guard against positive lod: Java bit-shift uses the low 5 bits of the right operand,
+        // so `1 << -lod` wraps to a huge value and the loop below would never terminate.
+        if (lod > 0) return false;
         int scale = 1 << (-lod);
         int minRx = tx * scale;
         int minRz = tz * scale;

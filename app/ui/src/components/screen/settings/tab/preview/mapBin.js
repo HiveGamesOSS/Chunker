@@ -42,6 +42,10 @@ function regionHasAnyChunk(entry, rx, rz) {
 export function isTileEmpty(parsed, world, lod, tx, tz) {
     const entry = parsed.worlds.get(world);
     if (!entry) return true;
+    // Only defined for lod <= 0. The native tile pyramid bottoms out at lod 0; higher zooms
+    // are produced by Leaflet scaling native tiles. Guarding against `lod > 0` here also
+    // avoids `1 << -lod` wrapping to a huge value (JS bit-shift uses low 5 bits of the operand).
+    if (lod > 0) return false;
     const scale = 1 << (-lod);
     const minRx = tx * scale;
     const minRz = tz * scale;

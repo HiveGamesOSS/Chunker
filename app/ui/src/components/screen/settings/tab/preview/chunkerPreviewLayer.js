@@ -1,5 +1,6 @@
 import L from "leaflet";
 import {isTileEmpty} from "./mapBin";
+import {MIN_ZOOM_FLOOR} from "./autoFit";
 
 const PADDING_FACTOR = 1.5;
 const DISPATCH_DEBOUNCE_MS = 50;
@@ -7,7 +8,17 @@ const TRANSPARENT_PIXEL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAE
 
 export const ChunkerPreviewLayer = L.GridLayer.extend({
     initialize(options) {
-        L.setOptions(this, {tileSize: 512, noWrap: true, ...options});
+        L.setOptions(this, {
+            tileSize: 512,
+            noWrap: true,
+            // Native tiles only exist at LOD 0 down to the auto-fit floor. For zoom > 0 Leaflet
+            // stretches LOD 0 tiles client-side; for zoom < MIN_ZOOM_FLOOR it stretches the floor tiles.
+            // Without these, Leaflet would call createTile for any zoom and isTileEmpty would
+            // be invoked with positive lod, where `1 << -lod` wraps to a huge value and hangs.
+            maxNativeZoom: 0,
+            minNativeZoom: MIN_ZOOM_FLOOR,
+            ...options
+        });
         this._mapBin = options.mapBin;
         this._sessionId = options.session;
         this._ipc = options.ipc;

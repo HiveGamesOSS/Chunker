@@ -6,8 +6,8 @@ import {Header} from "./page/header";
 import {StepDisplay} from "./page/stepDisplay";
 import {ErrorDisplay} from "./modal/errorDisplay";
 import {Footer} from "./page/footer";
-import {decode} from "base64-arraybuffer"
 import {getVersionName} from "./screen/mode/modeOption";
+import {parseMapBin} from "./screen/settings/tab/preview/mapBin";
 
 export class App extends Component {
     errorModal = React.createRef();
@@ -202,36 +202,10 @@ export class App extends Component {
                 let base64 = message.output;
 
                 if (base64.length > 0) {
-                    let buffer = decode(base64);
-                    let worlds = [];
-                    let dataView = new DataView(buffer);
-                    let bufferIndex = 0;
-                    let worldCount = dataView.getInt32(bufferIndex, true);
-                    bufferIndex += 4;
-
-                    for (let i = 0; i < worldCount; i++) {
-                        let worldIndex = dataView.getInt32(bufferIndex, true);
-                        bufferIndex += 4;
-
-                        // World Index
-                        worlds[worldIndex] = {};
-                        worlds[worldIndex].minX = dataView.getInt32(bufferIndex, true);
-                        bufferIndex += 4;
-                        worlds[worldIndex].minZ = dataView.getInt32(bufferIndex, true);
-                        bufferIndex += 4;
-                        worlds[worldIndex].maxX = dataView.getInt32(bufferIndex, true);
-                        bufferIndex += 4;
-                        worlds[worldIndex].maxZ = dataView.getInt32(bufferIndex, true);
-                        bufferIndex += 4;
-                        let regionCount = dataView.getInt32(bufferIndex, true);
-                        bufferIndex += 4;
-                        bufferIndex += regionCount * (8 + 128); // Skip region bytes
-                    }
-
-                    self.setState({previewData: worlds});
+                    let parsed = parseMapBin(base64);
+                    self.setState({previewData: parsed});
                 } else {
-                    // Set to empty data (meaning preview is streamed)
-                    self.setState({previewData: []});
+                    self.setState({previewData: undefined});
                 }
             } else {
                 console.info("Unknown response", message);

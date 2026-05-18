@@ -7,6 +7,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Set;
 import java.util.concurrent.*;
 
@@ -137,7 +140,21 @@ public final class PreviewTileService {
         int size = PreviewTileDownsampler.TILE_SIZE;
         BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
         image.setRGB(0, 0, size, size, argb, 0, size);
-        ImageIO.write(image, "png", outFile);
+        // Write to a temp file alongside the target then rename. Without this, a tile_ready
+        // can race a still-streaming write: the client opens the file mid-encode and the
+        // browser renders a truncated PNG (typically a single flat colour) until a later
+        // fetch picks up the full bytes. The rename is observed atomically by the protocol
+        // handler so the file never appears partially written.
+        File tmpFile = new File(outFile.getParent(), outFile.getName() + ".tmp");
+        ImageIO.write(image, "png", tmpFile);
+        try {
+            Files.move(tmpFile.toPath(), outFile.toPath(),
+                    StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+        } catch (AtomicMoveNotSupportedException atomicNotSupported) {
+            // Some filesystems (rare on local disk) don't support atomic moves — fall back to a
+            // regular replace. Still safer than letting ImageIO write straight into the target.
+            Files.move(tmpFile.toPath(), outFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 
     private void emitReady(PreviewTileKey key) {

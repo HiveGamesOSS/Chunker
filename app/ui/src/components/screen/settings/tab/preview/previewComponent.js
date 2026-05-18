@@ -63,11 +63,33 @@ export class Map extends Component {
         const defaultIdentifier = (this.app.state.previewState && this.app.state.previewState.layer) || dimensions[0];
         const minZoom = computeMinZoom(worldBoundsForAutoFit(this._mapBin, defaultIdentifier));
 
+        // Resolve the initial view BEFORE constructing the map so we can pass it to L.map().
+        // Without this, the layer's addTo() runs while the map is at its default state
+        // (no view set) and triggers tile loads at the wrong zoom, then setView() reshuffles
+        // everything — that race left some tiles in flight at the old LOD that never get
+        // their tile_ready honoured, manifesting as "2 of 4 tiles missing on first open".
+        let initialCenter;
+        let initialZoom;
+        let defaultLayerIdentifier;
+        if (this.app.state.previewState !== undefined) {
+            initialCenter = this.app.state.previewState.center;
+            initialZoom = this.app.state.previewState.zoom;
+            defaultLayerIdentifier = this.app.state.previewState.layer;
+        } else {
+            const centerX = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnX")[0].value;
+            const centerZ = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnZ")[0].value;
+            initialCenter = xy(centerX, centerZ);
+            initialZoom = 2;
+            defaultLayerIdentifier = dimensions[0];
+        }
+
         this.mymap = L.map("map", {
             crs: L.CRS.Simple,
             minZoom,
             maxZoom: 5,
-            attributionControl: false
+            attributionControl: false,
+            center: initialCenter,
+            zoom: initialZoom
         });
 
         const worlds = dimensions.map((identifier, k) => new ChunkerPreviewLayer({
@@ -87,19 +109,8 @@ export class Map extends Component {
             }
         }));
 
-        if (this.app.state.previewState === undefined) {
-            const defaultWorld = worlds.length > 0 ? worlds[0] : undefined;
-            if (defaultWorld !== undefined) {
-                defaultWorld.addTo(this.mymap);
-                const centerX = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnX")[0].value;
-                const centerZ = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnZ")[0].value;
-                this.mymap.setView(xy(centerX, centerZ), 2);
-            }
-        } else {
-            const defaultWorld = worlds.filter(a => this.app.state.previewState.layer === a.options.identifier)[0];
-            defaultWorld.addTo(this.mymap);
-            this.mymap.setView(this.app.state.previewState.center, this.app.state.previewState.zoom, {animate: false});
-        }
+        const defaultWorld = worlds.find(a => a.options.identifier === defaultLayerIdentifier) || worlds[0];
+        if (defaultWorld) defaultWorld.addTo(this.mymap);
 
         this.renderPruningRegion();
 

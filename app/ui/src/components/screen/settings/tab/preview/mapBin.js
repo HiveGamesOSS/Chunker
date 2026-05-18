@@ -1,13 +1,10 @@
-import {decode} from "base64-arraybuffer";
-
 const BEDROCK_ID_TO_IDENTIFIER = {
     0: "minecraft:overworld",
     1: "minecraft:the_nether",
     2: "minecraft:the_end"
 };
 
-export function parseMapBin(base64) {
-    const buffer = decode(base64);
+export function parseMapBin(buffer) {
     const view = new DataView(buffer);
     let offset = 0;
     const worldCount = view.getInt32(offset, true); offset += 4;
@@ -23,9 +20,9 @@ export function parseMapBin(base64) {
         for (let r = 0; r < regionCount; r++) {
             const rx = view.getInt32(offset, true); offset += 4;
             const rz = view.getInt32(offset, true); offset += 4;
-            // Copy the 128-byte bitset slice into its own Uint8Array so it remains valid after the
-            // backing ArrayBuffer is GC'd or sliced elsewhere.
-            const bits = new Uint8Array(buffer.slice(offset, offset + 128));
+            // Slice once into a view backed by the same buffer — avoid the heavy buffer.slice + new ArrayBuffer
+            // allocation per region. The view stays valid because we hold the buffer reference via DataView.
+            const bits = new Uint8Array(buffer, offset, 128);
             offset += 128;
             regionPresence.set(`${rx},${rz}`, bits);
         }

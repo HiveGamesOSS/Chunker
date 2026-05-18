@@ -197,16 +197,29 @@ export class App extends Component {
                     self.showError("Failed to render preview", message.error, message.errorId, message.stackTrace, true); // Preview isn't required
                 }
             } else if (message.type === "response") {
-                // Doesn't need to do anything, as progress.js will mark as complete :)
-                // Decode minX, minZ, maxX, maxZ
-                let base64 = message.output;
-
-                if (base64.length > 0) {
-                    let parsed = parseMapBin(base64);
-                    self.setState({previewData: parsed});
-                } else {
+                let sessionId = self.state.sessionData && self.state.sessionData.session;
+                if (!sessionId) {
+                    console.info("Preview response received but no session id available");
                     self.setState({previewData: undefined});
+                    return;
                 }
+                fetch(`session://${sessionId}/preview/map.bin`)
+                    .then((r) => {
+                        if (!r.ok) throw new Error("HTTP " + r.status);
+                        return r.arrayBuffer();
+                    })
+                    .then((buffer) => {
+                        if (buffer.byteLength > 0) {
+                            self.setState({previewData: parseMapBin(buffer)});
+                        } else {
+                            self.setState({previewData: undefined});
+                        }
+                    })
+                    .catch((err) => {
+                        console.info("Failed to fetch map.bin", err);
+                        self.showError("Failed to load preview metadata", err.message || String(err), undefined, undefined, true);
+                        self.setState({previewData: undefined});
+                    });
             } else {
                 console.info("Unknown response", message);
             }

@@ -659,13 +659,9 @@ export class Session {
             outputPath: previewOutputPath
         }
 
-        // Send the preview request
-        this.sendToProcess(request, async (response) => {
-            // Use the base64 of the map.bin for output
-            response.output = (await fs.readFile(path.join(previewOutputPath, "map.bin"))).toString("base64");
-
-            return response;
-        });
+        // Send the preview request. The renderer fetches map.bin via session:// URL after
+        // receiving the success response — no base64 payload on the wire.
+        this.sendToProcess(request);
     }
 
     requestPreviewTiles(data) {

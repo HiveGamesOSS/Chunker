@@ -1,6 +1,7 @@
 package com.hivemc.chunker.scheduling.task.executor;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 
 /**
@@ -10,19 +11,23 @@ import java.util.function.Supplier;
  * @param <T> the return type of the task.
  */
 class TaskExecutorSupplier<T> implements PriorityRunnable {
-    private final int priority;
+    private static final AtomicLong TASK_COUNTER = new AtomicLong();
+
+    private final long priority;
     private Supplier<? extends T> supplier;
     private CompletableFuture<T> future;
 
     /**
      * Create a new task executor supplier wrapper.
      *
-     * @param priority the priority of the task (ordered by highest).
+     * @param priority the priority of the task (ordered by highest), must be less than 2^16 as it is combined with a
+     *                 task counter.
      * @param supplier the task as a supplier.
      * @param future   the future which should be used.
      */
     TaskExecutorSupplier(int priority, Supplier<? extends T> supplier, CompletableFuture<T> future) {
-        this.priority = priority;
+        // Combine priority with the task counter, this means tasks of the same depth get prioritized to queued order
+        this.priority = ((long) priority << 48) | TASK_COUNTER.incrementAndGet();
         this.supplier = supplier;
         this.future = future;
     }
@@ -48,7 +53,7 @@ class TaskExecutorSupplier<T> implements PriorityRunnable {
     }
 
     @Override
-    public int getPriority() {
+    public long getPriority() {
         return priority;
     }
 }

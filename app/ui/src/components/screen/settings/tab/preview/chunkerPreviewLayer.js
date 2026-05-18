@@ -165,22 +165,38 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
             : `session://${this._sessionId}/preview/${event.path}`;
         const layer = this;
 
-        const img = new Image();
-        img.className = "chunker-tile";
-        img.src = resolvedUrl;
-        img.onload = () => {
-            layer._cache.put(cacheKey, {img, blobUrl: resolvedUrl, sizeBytes: 512 * 512 * 4});
-            if (pending) {
-                pending.tile.src = resolvedUrl;
-                pending.tile.className = "chunker-tile";
-                layer._pending.delete(cacheKey);
-                pending.done(null);
-                return;
-            }
-            // No pending entry for this tile. Either createTile hasn't run yet, OR Leaflet pruned
-            // our placeholder during initial layout but still tracks the tile in its registry.
-            // Look it up in `_tiles` (Leaflet uses `x:y:z` as the key) and refresh the live DOM
-            // element so the image becomes visible without waiting for a zoom/pan to retrigger.
+        if (pending) {
+            // Update the placeholder directly. Browser fetches the PNG asynchronously and
+            // fires onload on the <img> in the DOM; that's when we mark the tile loaded for
+            // Leaflet. Previously we routed through a separate internal Image() and only
+            // updated the placeholder once THAT had loaded — which created a race where the
+            // internal image could fail or fire out of order, leaving the live tile stuck
+            // on its transparent placeholder src.
+            const tileEl = pending.tile;
+            const done = pending.done;
+            layer._pending.delete(cacheKey);
+            tileEl.onload = () => {
+                tileEl.className = "chunker-tile";
+                layer._cache.put(cacheKey, {img: tileEl, blobUrl: resolvedUrl, sizeBytes: 512 * 512 * 4});
+                done(null);
+            };
+            tileEl.onerror = () => {
+                tileEl.className = "chunker-tile chunker-tile-error";
+                done(null);
+            };
+            tileEl.src = resolvedUrl;
+            return;
+        }
+
+        // No pending entry: cache for future createTile lookups, and if Leaflet still tracks
+        // this tile (the placeholder was created but pruned mid-load, leaving a stale entry in
+        // its `_tiles` registry), refresh that DOM element so the image becomes visible
+        // without waiting for a zoom/pan to retrigger createTile.
+        const cached = new Image();
+        cached.className = "chunker-tile";
+        cached.src = resolvedUrl;
+        cached.onload = () => {
+            layer._cache.put(cacheKey, {img: cached, blobUrl: resolvedUrl, sizeBytes: 512 * 512 * 4});
             const leafletKey = event.tx + ":" + event.tz + ":" + event.lod;
             const tile = layer._tiles && layer._tiles[leafletKey];
             if (tile && tile.el) {
@@ -191,13 +207,6 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
                 if (!tile.loaded && typeof layer._tileReady === "function") {
                     layer._tileReady(tile.coords, null, tile.el);
                 }
-            }
-        };
-        img.onerror = () => {
-            if (pending) {
-                pending.tile.className = "chunker-tile chunker-tile-error";
-                layer._pending.delete(cacheKey);
-                pending.done(null);
             }
         };
     },

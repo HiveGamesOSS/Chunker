@@ -6,7 +6,7 @@ import L from "leaflet";
  * in sync as the user switches dimensions via the layer picker.
  */
 export const LoadingIndicator = L.Control.extend({
-    options: {position: "topright"},
+    options: {position: "topleft"},
 
     initialize(options) {
         L.setOptions(this, options);

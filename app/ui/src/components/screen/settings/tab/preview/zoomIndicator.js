@@ -8,7 +8,7 @@ export const ZoomIndicator = L.Control.extend({
     },
 
     onAdd(map) {
-        const container = L.DomUtil.create("div", "chunker-zoom-indicator");
+        const container = L.DomUtil.create("div", "leaflet-bar chunker-zoom-indicator");
         L.DomEvent.disableClickPropagation(container);
         L.DomEvent.disableScrollPropagation(container);
 

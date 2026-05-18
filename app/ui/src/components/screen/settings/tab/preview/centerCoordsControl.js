@@ -1,7 +1,7 @@
 import L from "leaflet";
 
 export const CenterCoordsControl = L.Control.extend({
-    options: {position: "topleft"},
+    options: {position: "bottomleft"},
 
     initialize(options) {
         L.setOptions(this, options);

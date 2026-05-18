@@ -35,7 +35,8 @@
     align-items: center;
     gap: 3px;
     font: 11px monospace;
-    z-index: 400;
+    /* Below Leaflet's default control z-index (700) so any other control overlays it. */
+    z-index: 100;
 }
 .chunker-coords-label {
     color: #555;
@@ -55,23 +56,22 @@
 }
 .chunker-zoom-indicator {
     background: rgba(255, 255, 255, 0.9);
-    padding: 4px 6px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    font: 11px monospace;
-    color: #555;
-    user-select: none;
-    z-index: 400;
+    padding: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 .chunker-zoom-indicator-track {
     position: relative;
-    width: 6px;
-    height: 80px;
+    width: 8px;
+    height: 100px;
     background: #eee;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.chunker-zoom-indicator-track:hover {
+    background: #f4f4f4;
 }
 .chunker-zoom-indicator-fill {
     position: absolute;
@@ -79,12 +79,33 @@
     right: 0;
     bottom: 0;
     background: #6aa84f;
-    border-radius: 2px;
+    border-radius: 3px 3px 0 0;
     transition: height 60ms linear;
+    pointer-events: none;
 }
-.chunker-zoom-indicator-label {
-    font-weight: bold;
-    color: #333;
+.chunker-zoom-indicator-handle {
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    height: 4px;
+    transform: translateY(50%);
+    background: #2c2c2c;
+    border-radius: 2px;
+    transition: bottom 60ms linear;
+    pointer-events: none;
+}
+.chunker-loading-indicator {
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font: 11px sans-serif;
+    opacity: 0;
+    transition: opacity 120ms ease-in;
+    pointer-events: none;
+}
+.chunker-loading-indicator-visible {
+    opacity: 1;
 }
 .chunker-tile-empty {
     background: transparent;

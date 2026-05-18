@@ -13,6 +13,7 @@ import {ClientTileCache} from "./clientTileCache";
 import {ChunkerPreviewLayer} from "./chunkerPreviewLayer";
 import {CenterCoordsControl} from "./centerCoordsControl";
 import {ZoomIndicator} from "./zoomIndicator";
+import {LoadingIndicator} from "./loadingIndicator";
 import api from "../../../../../api";
 
 require("leaflet-mouse-position/src/L.Control.MousePosition");
@@ -121,7 +122,11 @@ export class Map extends Component {
             getBounds: () => worldBoundsForAutoFit(this._mapBin, this._currentWorld())
         }).addTo(this.mymap);
 
+        // Adding the zoom indicator after the (relocated) zoom control causes it to stack
+        // above the +/- buttons in the bottom-left corner.
         new ZoomIndicator().addTo(this.mymap);
+
+        new LoadingIndicator().addTo(this.mymap);
 
         this.mymap.on("baselayerchange", function (e) {
             self.renderPruningRegion();

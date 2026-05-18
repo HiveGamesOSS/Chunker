@@ -9,13 +9,20 @@ import com.hivemc.chunker.cli.messenger.messaging.response.ErrorResponse;
 import com.hivemc.chunker.cli.messenger.messaging.response.OutputResponse;
 import com.hivemc.chunker.cli.messenger.messaging.response.ProgressResponse;
 import com.hivemc.chunker.cli.messenger.messaging.response.ProgressStateResponse;
+import com.hivemc.chunker.cli.messenger.messaging.response.TileErrorResponse;
+import com.hivemc.chunker.cli.messenger.messaging.response.TileReadyResponse;
 import com.hivemc.chunker.conversion.WorldConverter;
 import com.hivemc.chunker.conversion.encoding.EncodingType;
 import com.hivemc.chunker.conversion.encoding.base.Converter;
 import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.reader.LevelReader;
 import com.hivemc.chunker.conversion.encoding.base.writer.LevelWriter;
-import com.hivemc.chunker.conversion.encoding.preview.PreviewLevelWriter;
+import com.hivemc.chunker.conversion.encoding.preview.ChunkerWorldRegionRgbaSource;
+import com.hivemc.chunker.conversion.encoding.preview.PreviewMapBin;
+import com.hivemc.chunker.conversion.encoding.preview.PreviewMetadataReader;
+import com.hivemc.chunker.conversion.encoding.preview.PreviewTileCache;
+import com.hivemc.chunker.conversion.encoding.preview.PreviewTileService;
+import com.hivemc.chunker.conversion.encoding.preview.RegionRgbaSource;
 import com.hivemc.chunker.conversion.encoding.settings.SettingsLevelWriter;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerCustomBiome;
@@ -41,12 +48,14 @@ import java.util.*;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Messenger handles JSON communication between ChunkerWeb and itself through System.out.
  */
 public class Messenger {
     private static final Map<UUID, Map<UUID, WorldConverter>> SESSION_ID_TO_WORLD_CONVERTERS = new Object2ObjectOpenHashMap<>();
+    private static final Map<UUID, PreviewTileService> SESSION_ID_TO_PREVIEW_SERVICE = new ConcurrentHashMap<>();
     private static final Gson GSON = new GsonBuilder()
             .registerTypeHierarchyAdapter(BasicMessage.class, new BasicMessageTypeAdapter())
             .create();
@@ -129,52 +138,67 @@ public class Messenger {
                     }
                     case PREVIEW -> {
                         PreviewRequest previewRequest = (PreviewRequest) message;
-                        WorldConverter worldConverter = createWorldConverter(previewRequest.getAnonymousId(), previewRequest.getRequestId());
-                        boolean started = startConversionRequest(
-                                previewRequest.getAnonymousId(),
-                                previewRequest.getRequestId(),
-                                worldConverter,
-                                new File(previewRequest.getInputPath()),
-                                new PreviewLevelWriter(new File(previewRequest.getOutputPath()))
-                        );
+                        UUID anonymousId = previewRequest.getAnonymousId();
+                        UUID requestId = previewRequest.getRequestId();
+                        File inputDir = new File(previewRequest.getInputPath());
+                        File outputDir = new File(previewRequest.getOutputPath());
 
-                        worldConverter.setDimensionMapping(previewRequest.getInputToOutputDimension());
-
-                        // Turn the String identifiers into a Dimension based map
-                        if (previewRequest.getPruningList() != null && previewRequest.getPruningList().getConfigs() != null && !previewRequest.getPruningList().getConfigs().isEmpty()) {
-                            DimensionRegistry registry = worldConverter.getDimensionRegistry();
-                            Map<String, PruningConfig> pruning = previewRequest.getPruningList().getConfigs();
-
-                            Map<Dimension, PruningConfig> pruningConfigs = new Object2ObjectOpenHashMap<>(pruning.size());
-                            for (String key : pruning.keySet()) {
-                                pruningConfigs.put(registry.getByIdentifier(key), pruning.get(key));
+                        try {
+                            // 1) Decide which metadata pass to run based on what's in the world directory.
+                            PreviewMetadataReader metadataReader = new PreviewMetadataReader();
+                            if (new File(inputDir, "db/CURRENT").isFile()) {
+                                metadataReader.readBedrockWorld(inputDir, outputDir);
+                            } else {
+                                metadataReader.readJavaWorld(inputDir, outputDir);
                             }
 
-                            worldConverter.setPruningConfigs(pruningConfigs);
-                        }
+                            // 2) Spin up a long-lived tile service for this session.
+                            PreviewMapBin mapBin = PreviewMapBin.read(new File(outputDir, "map.bin"));
+                            RegionRgbaSource source = new ChunkerWorldRegionRgbaSource(inputDir);
+                            int cacheEntries = PreviewTileCache.computeCapacityEntries(Runtime.getRuntime().maxMemory());
+                            int workers = Math.min(4, Math.max(1, Runtime.getRuntime().availableProcessors() / 2));
+                            PreviewTileService service = new PreviewTileService(outputDir, mapBin, source, new PreviewTileCache(cacheEntries), workers);
+                            service.setEventListener(new PreviewTileService.EventListener() {
+                                @Override public void onTileReady(TileReadyResponse r) { write(r); }
+                                @Override public void onTileError(TileErrorResponse r) { write(r); }
+                            });
 
-                        // Turn off certain features for preview
-                        worldConverter.setProcessMaps(false);
-                        worldConverter.setProcessLighting(false);
-                        worldConverter.setProcessHeightMap(false);
-                        worldConverter.setProcessBlockEntities(false);
-                        worldConverter.setProcessColumnPreTransform(false);
-                        worldConverter.setProcessEntities(false);
-                        worldConverter.setProcessBiomes(false);
-                        worldConverter.setProcessItems(false);
+                            // Stop and replace any pre-existing service for this session.
+                            PreviewTileService previous = SESSION_ID_TO_PREVIEW_SERVICE.put(anonymousId, service);
+                            if (previous != null) previous.shutdown();
 
-                        // Write an error if it failed to start
-                        if (!started) {
-                            removeWorldConverter(previewRequest.getAnonymousId(), previewRequest.getRequestId());
+                            // 3) Tell the client we're done with the metadata pass — the map.bin file is at outputDir/map.bin.
+                            write(new OutputResponse(requestId, null));
+                        } catch (Exception e) {
                             write(new ErrorResponse(
-                                    previewRequest.getRequestId(),
+                                    requestId,
                                     false,
                                     "Failed to start preview.",
                                     null,
-                                    null,
-                                    null
+                                    e.getMessage(),
+                                    printStackTrace(e)
                             ));
                         }
+                    }
+                    case REQUEST_PREVIEW_TILES -> {
+                        RequestPreviewTilesRequest req = (RequestPreviewTilesRequest) message;
+                        PreviewTileService svc = SESSION_ID_TO_PREVIEW_SERVICE.get(req.getAnonymousId());
+                        if (svc == null) {
+                            write(new ErrorResponse(req.getRequestId(), false,
+                                    "No active preview session.", null, null, null));
+                        } else {
+                            svc.enqueueRange(req.getWorld(), req.getLod(),
+                                    req.getMinTx(), req.getMinTz(), req.getMaxTx(), req.getMaxTz());
+                            write(new OutputResponse(req.getRequestId(), null));
+                        }
+                    }
+                    case CANCEL_PREVIEW_TILES -> {
+                        CancelPreviewTilesRequest req = (CancelPreviewTilesRequest) message;
+                        PreviewTileService svc = SESSION_ID_TO_PREVIEW_SERVICE.get(req.getAnonymousId());
+                        if (svc != null) {
+                            svc.cancel(req.getWorld(), req.getLod());
+                        }
+                        write(new OutputResponse(req.getRequestId(), null));
                     }
                     case CONVERT -> {
                         ConvertRequest convertRequest = (ConvertRequest) message;
@@ -359,6 +383,10 @@ public class Messenger {
                     }
                     case KILL -> {
                         KillRequest killRequest = (KillRequest) message;
+
+                        // Shutdown any preview tile service for this session.
+                        PreviewTileService previewService = SESSION_ID_TO_PREVIEW_SERVICE.remove(killRequest.getAnonymousId());
+                        if (previewService != null) previewService.shutdown();
 
                         // Loop through all the converters under this anonymous ID and cancel them
                         Map<UUID, WorldConverter> converters = SESSION_ID_TO_WORLD_CONVERTERS.get(killRequest.getAnonymousId());

@@ -137,23 +137,40 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
         const resolvedUrl = event.path.startsWith("session://")
             ? event.path
             : `session://${this._sessionId}/preview/${event.path}`;
+        const layer = this;
 
         const img = new Image();
         img.className = "chunker-tile";
         img.src = resolvedUrl;
         img.onload = () => {
-            this._cache.put(cacheKey, {img, blobUrl: resolvedUrl, sizeBytes: 512 * 512 * 4});
+            layer._cache.put(cacheKey, {img, blobUrl: resolvedUrl, sizeBytes: 512 * 512 * 4});
             if (pending) {
                 pending.tile.src = resolvedUrl;
                 pending.tile.className = "chunker-tile";
-                this._pending.delete(cacheKey);
+                layer._pending.delete(cacheKey);
                 pending.done(null);
+                return;
+            }
+            // No pending entry for this tile. Either createTile hasn't run yet, OR Leaflet pruned
+            // our placeholder during initial layout but still tracks the tile in its registry.
+            // Look it up in `_tiles` (Leaflet uses `x:y:z` as the key) and refresh the live DOM
+            // element so the image becomes visible without waiting for a zoom/pan to retrigger.
+            const leafletKey = event.tx + ":" + event.tz + ":" + event.lod;
+            const tile = layer._tiles && layer._tiles[leafletKey];
+            if (tile && tile.el) {
+                if (tile.el.tagName === "IMG") {
+                    tile.el.src = resolvedUrl;
+                    tile.el.className = "chunker-tile";
+                }
+                if (!tile.loaded && typeof layer._tileReady === "function") {
+                    layer._tileReady(tile.coords, null, tile.el);
+                }
             }
         };
         img.onerror = () => {
             if (pending) {
                 pending.tile.className = "chunker-tile chunker-tile-error";
-                this._pending.delete(cacheKey);
+                layer._pending.delete(cacheKey);
                 pending.done(null);
             }
         };

@@ -142,14 +142,25 @@ export class Map extends Component {
         // preview tab was hidden when the layer was added) the initial viewport can be 0px
         // wide and almost no tiles get requested. Force one recomputation now, then keep
         // watching for size changes so the same fix applies when the user switches tabs and
-        // comes back, resizes the window, or toggles fullscreen.
+        // comes back, resizes the window, or toggles fullscreen. Also force a layer redraw so
+        // any placeholder Leaflet pruned during the initial layout gets recreated and picks up
+        // the cached image without requiring the user to zoom around.
         const mapEl = document.getElementById("map");
         const invalidate = () => {
-            if (this.mymap) this.mymap.invalidateSize({pan: false});
+            if (!this.mymap) return;
+            this.mymap.invalidateSize({pan: false});
+            this.mymap.eachLayer((layer) => {
+                if (layer instanceof L.GridLayer && typeof layer.redraw === "function") {
+                    layer.redraw();
+                }
+            });
         };
         setTimeout(invalidate, 0);
+        setTimeout(invalidate, 200);
         if (typeof ResizeObserver !== "undefined" && mapEl) {
-            this._resizeObserver = new ResizeObserver(invalidate);
+            this._resizeObserver = new ResizeObserver(() => {
+                if (this.mymap) this.mymap.invalidateSize({pan: false});
+            });
             this._resizeObserver.observe(mapEl);
         }
     }

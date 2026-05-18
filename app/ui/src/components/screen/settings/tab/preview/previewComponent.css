@@ -29,22 +29,62 @@
 }
 
 .chunker-coords-control {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1px 4px;
     display: flex;
     align-items: center;
-    gap: 4px;
-    font: 12px sans-serif;
+    gap: 3px;
+    font: 11px monospace;
+    z-index: 400;
 }
 .chunker-coords-label {
-    color: #333;
+    color: #555;
     user-select: none;
 }
 .chunker-coords-input {
-    width: 70px;
-    padding: 1px 4px;
+    width: 55px;
+    padding: 0 2px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font: 11px monospace;
+}
+.chunker-coords-input::-webkit-inner-spin-button,
+.chunker-coords-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.chunker-zoom-indicator {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font: 11px monospace;
+    color: #555;
+    user-select: none;
+    z-index: 400;
+}
+.chunker-zoom-indicator-track {
+    position: relative;
+    width: 6px;
+    height: 80px;
+    background: #eee;
     border: 1px solid #ccc;
     border-radius: 3px;
+}
+.chunker-zoom-indicator-fill {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #6aa84f;
+    border-radius: 2px;
+    transition: height 60ms linear;
+}
+.chunker-zoom-indicator-label {
+    font-weight: bold;
+    color: #333;
 }
 .chunker-tile-empty {
     background: transparent;

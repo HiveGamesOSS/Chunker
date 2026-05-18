@@ -24,7 +24,9 @@ export const CenterCoordsControl = L.Control.extend({
         this._inputZ.type = "number";
 
         this._map = map;
-        map.on("moveend", this._syncFromMap, this);
+        // `move` fires continuously during a drag, so the inputs update in real time
+        // rather than only when the user releases the mouse.
+        map.on("move", this._syncFromMap, this);
 
         const onCommit = () => this._commit();
         this._inputX.addEventListener("keydown", (e) => { if (e.key === "Enter") onCommit(); });
@@ -37,7 +39,7 @@ export const CenterCoordsControl = L.Control.extend({
     },
 
     onRemove(map) {
-        map.off("moveend", this._syncFromMap, this);
+        map.off("move", this._syncFromMap, this);
     },
 
     _syncFromMap() {

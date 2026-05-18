@@ -12,6 +12,7 @@ import {computeMinZoom} from "./autoFit";
 import {ClientTileCache} from "./clientTileCache";
 import {ChunkerPreviewLayer} from "./chunkerPreviewLayer";
 import {CenterCoordsControl} from "./centerCoordsControl";
+import {ZoomIndicator} from "./zoomIndicator";
 import api from "../../../../../api";
 
 require("leaflet-mouse-position/src/L.Control.MousePosition");
@@ -119,6 +120,8 @@ export class Map extends Component {
         new CenterCoordsControl({
             getBounds: () => worldBoundsForAutoFit(this._mapBin, this._currentWorld())
         }).addTo(this.mymap);
+
+        new ZoomIndicator().addTo(this.mymap);
 
         this.mymap.on("baselayerchange", function (e) {
             self.renderPruningRegion();

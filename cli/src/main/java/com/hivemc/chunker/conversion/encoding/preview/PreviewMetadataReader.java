@@ -1,7 +1,13 @@
 package com.hivemc.chunker.conversion.encoding.preview;
 
+import org.iq80.leveldb.*;
+import org.iq80.leveldb.impl.Iq80DBFactory;
+import org.iq80.leveldb.table.BloomFilterPolicy;
+
 import java.io.*;
-import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,6 +105,124 @@ public final class PreviewMetadataReader {
             return present;
         } catch (IOException e) {
             return null;
+        }
+    }
+
+    public void readBedrockWorld(File worldDir, File outputFolder) throws IOException {
+        if (!outputFolder.exists() && !outputFolder.mkdirs()) {
+            throw new IOException("Could not create preview output folder: " + outputFolder);
+        }
+
+        File dbDir = new File(worldDir, "db");
+        new File(dbDir, "LOCK").delete();
+
+        Options options = new Options();
+        options.compressionType(CompressionType.ZLIB_RAW);
+        options.blockSize(160 * 1024);
+        options.filterPolicy(new BloomFilterPolicy(10));
+        options.createIfMissing(true);
+
+        // Per-dimension state: bounds and region presence.
+        // dimensionID -> (minX, minZ, maxX, maxZ)
+        Map<Integer, int[]> dimensionBounds = new HashMap<>();
+        // dimensionID -> (regionKey -> BitSet)
+        Map<Integer, Map<Long, BitSet>> dimensionRegions = new HashMap<>();
+
+        // LevelDBChunkType byte values that count as a chunk being present:
+        // DATA_3D=43, DATA_2D=45, SUB_CHUNK_PREFIX=47, BLOCK_ENTITY=49, ENTITY=50
+        final byte TYPE_DATA_3D = 43;
+        final byte TYPE_DATA_2D = 45;
+        final byte TYPE_SUB_CHUNK_PREFIX = 47;
+        final byte TYPE_BLOCK_ENTITY = 49;
+        final byte TYPE_ENTITY = 50;
+
+        try (DB db = new Iq80DBFactory().open(dbDir, options);
+             DBIterator iterator = db.iterator()) {
+            while (iterator.hasNext()) {
+                byte[] key = iterator.next().getKey();
+                int keyLength = key.length;
+
+                boolean containsSubChunk = keyLength == 14 || keyLength == 10;
+                boolean containsDimension = keyLength == 14 || keyLength == 13;
+
+                if (keyLength != 9 && !containsSubChunk && !containsDimension) continue;
+
+                ByteBuffer buffer = ByteBuffer.wrap(key).order(ByteOrder.LITTLE_ENDIAN);
+                int x = buffer.getInt();
+                int z = buffer.getInt();
+                int dimensionID = containsDimension ? buffer.getInt() : 0;
+                if (containsSubChunk) buffer.get();
+                byte type = buffer.get();
+
+                if (type != TYPE_DATA_3D && type != TYPE_DATA_2D && type != TYPE_SUB_CHUNK_PREFIX
+                        && type != TYPE_ENTITY && type != TYPE_BLOCK_ENTITY) {
+                    continue;
+                }
+
+                // Compute region coordinates and bit index within the region.
+                int rx = x >> 5;
+                int rz = z >> 5;
+                int bit = ((z & 31) << 5) | (x & 31);
+
+                // Record the chunk in the region presence map.
+                Map<Long, BitSet> regions = dimensionRegions.computeIfAbsent(dimensionID, id -> new HashMap<>());
+                long regionKey = ((long) rx << 32) | (rz & 0xFFFFFFFFL);
+                BitSet regionBits = regions.computeIfAbsent(regionKey, k -> new BitSet(1024));
+                regionBits.set(bit);
+
+                // Update bounds.
+                int[] bounds = dimensionBounds.computeIfAbsent(dimensionID,
+                        id -> new int[]{Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE});
+                if (x < bounds[0]) bounds[0] = x;
+                if (z < bounds[1]) bounds[1] = z;
+                if (x > bounds[2]) bounds[2] = x;
+                if (z > bounds[3]) bounds[3] = z;
+            }
+        }
+
+        PreviewMapBin.Builder builder = new PreviewMapBin.Builder();
+
+        // Always include the three vanilla dimensions.
+        int[] vanillaDims = {0, 1, 2};
+        String[] vanillaIdentifiers = {"minecraft:overworld", "minecraft:the_nether", "minecraft:the_end"};
+        for (int i = 0; i < vanillaDims.length; i++) {
+            int dimId = vanillaDims[i];
+            int worldIndex = builder.size();
+            builder.addWorld(dimId, vanillaIdentifiers[i], 0, 0, 0, 0);
+            populateDimension(builder, worldIndex, dimId, dimensionBounds, dimensionRegions);
+        }
+
+        // Custom dimensions (id > 2) — only add if they have chunks.
+        for (Map.Entry<Integer, Map<Long, BitSet>> entry : dimensionRegions.entrySet()) {
+            int dimId = entry.getKey();
+            if (dimId <= 2) continue;
+            int worldIndex = builder.size();
+            builder.addWorld(dimId, "custom:" + dimId, 0, 0, 0, 0);
+            populateDimension(builder, worldIndex, dimId, dimensionBounds, dimensionRegions);
+        }
+
+        builder.writeTo(new File(outputFolder, "map.bin"));
+    }
+
+    private void populateDimension(PreviewMapBin.Builder builder, int worldIndex, int dimId,
+                                   Map<Integer, int[]> dimensionBounds,
+                                   Map<Integer, Map<Long, BitSet>> dimensionRegions) {
+        Map<Long, BitSet> regions = dimensionRegions.get(dimId);
+        if (regions == null) return;
+
+        for (Map.Entry<Long, BitSet> entry : regions.entrySet()) {
+            long packed = entry.getKey();
+            int rx = (int) (packed >> 32);
+            int rz = (int) packed;
+            BitSet bits = entry.getValue();
+            if (!bits.isEmpty()) {
+                builder.addRegion(worldIndex, rx, rz, bits);
+            }
+        }
+
+        int[] bounds = dimensionBounds.get(dimId);
+        if (bounds != null && bounds[0] != Integer.MAX_VALUE) {
+            builder.setBoundsForWorld(worldIndex, bounds[0], bounds[1], bounds[2], bounds[3]);
         }
     }
 }

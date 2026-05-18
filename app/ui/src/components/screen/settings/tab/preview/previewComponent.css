@@ -34,30 +34,40 @@
  * next to the - button. Chained selector wins over leaflet.css's `.leaflet-control { position: relative }`.
  */
 .leaflet-control.chunker-coords-control {
+    /* Match the zoom control's vertical position and height (53px = two 26px buttons + 1px border)
+     * so the coords bar visually sits as an extension of the +/- stack to its right. */
     position: absolute;
     left: 44px;
-    bottom: 10px;
+    bottom: 16px;
+    height: 35px;
+    box-sizing: border-box;
     margin: 0;
     background: rgba(255, 255, 255, 0.9);
-    padding: 1px 3px;
+    padding: 0 6px;
     display: flex;
     align-items: center;
-    gap: 2px;
-    font: 9px monospace;
+    gap: 4px;
+    font: 12px monospace;
 }
 .chunker-coords-label {
     color: #555;
     user-select: none;
 }
-.chunker-coords-input {
-    width: 30px;
-    padding: 0 1px;
+/* Higher specificity than the app's global `input[type="number"]` style so width/height/font stick. */
+input[type="number"].chunker-coords-input {
+    width: 90px;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 3px;
+    margin: 0;
     border: 1px solid #ccc;
     border-radius: 2px;
-    font: 9px monospace;
-    height: 12px;
-    line-height: 12px;
+    font: 12px monospace;
     box-sizing: content-box;
+    background: #fff;
+}
+input[type="number"].chunker-coords-input:focus {
+    outline: 1px solid #6aa84f;
 }
 .chunker-coords-input::-webkit-inner-spin-button,
 .chunker-coords-input::-webkit-outer-spin-button {
@@ -101,19 +111,19 @@
     transition: bottom 60ms linear;
     pointer-events: none;
 }
-/* Match the existing leaflet-mouse-position control styling that lives at bottom-left. */
+/* Match the existing leaflet-mouse-position control styling that lives at bottom-left,
+ * but anchored to top-left with Leaflet's normal corner margin. */
 .chunker-loading-indicator {
     background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 0 0 5px #bbb;
     padding: 0 5px;
-    margin: 0;
     color: #333;
     font: 11px / 1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
     opacity: 0;
     transition: opacity 120ms ease-in;
     pointer-events: none;
 }
-.chunker-loading-indicator-visible {
+.chunker-loading-indicator.chunker-loading-indicator-visible {
     opacity: 1;
 }
 .chunker-tile-empty {

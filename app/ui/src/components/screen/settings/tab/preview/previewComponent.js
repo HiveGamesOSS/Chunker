@@ -136,6 +136,22 @@ export class Map extends Component {
             // Aggressive evict before the renderer holds two viewports' worth of tiles at once.
             self._cache.evictAllExcept([]);
         });
+
+        // Leaflet measures the container size at construction time and only loads tiles for
+        // that viewport. If the #map element wasn't fully laid out yet (mid-React-mount, or the
+        // preview tab was hidden when the layer was added) the initial viewport can be 0px
+        // wide and almost no tiles get requested. Force one recomputation now, then keep
+        // watching for size changes so the same fix applies when the user switches tabs and
+        // comes back, resizes the window, or toggles fullscreen.
+        const mapEl = document.getElementById("map");
+        const invalidate = () => {
+            if (this.mymap) this.mymap.invalidateSize({pan: false});
+        };
+        setTimeout(invalidate, 0);
+        if (typeof ResizeObserver !== "undefined" && mapEl) {
+            this._resizeObserver = new ResizeObserver(invalidate);
+            this._resizeObserver.observe(mapEl);
+        }
     }
 
     _currentWorld() {
@@ -166,6 +182,11 @@ export class Map extends Component {
                 center: this.mymap.getCenter(),
                 layer: currentLayer
             });
+        }
+
+        if (this._resizeObserver) {
+            this._resizeObserver.disconnect();
+            this._resizeObserver = null;
         }
     }
 

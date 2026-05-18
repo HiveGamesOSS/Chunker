@@ -59,12 +59,16 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
         return this;
     },
 
-    // Keep tiles alive while their tile_ready hasn't arrived yet. Leaflet's default _pruneTiles
-    // evicts any tile whose viewport rectangle is no longer current — including pending
-    // placeholders. Those placeholders would then become orphan DOM nodes that never receive
-    // the eventual tile_ready update, leaving holes in the map until the user zooms/pans to
-    // trigger a fresh createTile. By refusing to remove still-pending tiles we let the
-    // tile_ready handler swap the real image in-place when it arrives, without any flicker.
+    // Keep placeholders alive while their tile_ready hasn't arrived yet — but only at the
+    // CURRENT zoom level. Leaflet's default _pruneTiles evicts any tile whose viewport
+    // rectangle is no longer current, which would orphan a pending placeholder and turn it
+    // into a permanent hole in the map. Protecting current-zoom pending tiles lets the
+    // tile_ready handler swap the real image in-place without flicker.
+    //
+    // For old-zoom pending tiles (left over from before the user zoomed), we delete the
+    // pending entry and let Leaflet remove them normally. Otherwise the upcoming tile_ready
+    // would update a placeholder that's positioned at the wrong scale, briefly flashing the
+    // image in the wrong place before the next prune cycle disposes of it.
     _removeTile(key) {
         const tile = this._tiles && this._tiles[key];
         if (tile && tile.coords) {
@@ -72,7 +76,10 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
                 this.options.identifier, tile.coords.z, tile.coords.x, tile.coords.y
             );
             if (this._pending.has(cacheKey)) {
-                return;
+                if (tile.coords.z === this._tileZoom) {
+                    return;
+                }
+                this._pending.delete(cacheKey);
             }
         }
         L.GridLayer.prototype._removeTile.call(this, key);

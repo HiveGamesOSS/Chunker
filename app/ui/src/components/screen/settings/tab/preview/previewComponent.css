@@ -27,3 +27,32 @@
     image-rendering: pixelated; /* CSS4 Proposed  */
     -ms-interpolation-mode: nearest-neighbor; /* IE8+           */
 }
+
+.chunker-coords-control {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font: 12px sans-serif;
+}
+.chunker-coords-label {
+    color: #333;
+    user-select: none;
+}
+.chunker-coords-input {
+    width: 70px;
+    padding: 1px 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.chunker-tile-empty {
+    background: transparent;
+}
+.chunker-tile-pending {
+    background: rgba(0, 0, 0, 0.05);
+}
+.chunker-tile-error {
+    background: #ddd;
+    background-image: linear-gradient(45deg, transparent 45%, #aaa 45% 55%, transparent 55%);
+}

@@ -59,6 +59,25 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
         return this;
     },
 
+    // Keep tiles alive while their tile_ready hasn't arrived yet. Leaflet's default _pruneTiles
+    // evicts any tile whose viewport rectangle is no longer current — including pending
+    // placeholders. Those placeholders would then become orphan DOM nodes that never receive
+    // the eventual tile_ready update, leaving holes in the map until the user zooms/pans to
+    // trigger a fresh createTile. By refusing to remove still-pending tiles we let the
+    // tile_ready handler swap the real image in-place when it arrives, without any flicker.
+    _removeTile(key) {
+        const tile = this._tiles && this._tiles[key];
+        if (tile && tile.coords) {
+            const cacheKey = this._cache.keyFor(
+                this.options.identifier, tile.coords.z, tile.coords.x, tile.coords.y
+            );
+            if (this._pending.has(cacheKey)) {
+                return;
+            }
+        }
+        L.GridLayer.prototype._removeTile.call(this, key);
+    },
+
     createTile(coords, done) {
         const tx = coords.x;
         const tz = coords.y;

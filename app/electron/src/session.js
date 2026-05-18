@@ -277,6 +277,12 @@ export class Session {
             case "generate_preview":
                 await this.generatePreview(data.requestId);
                 break;
+            case "request_preview_tiles":
+                await this.requestPreviewTiles(data);
+                break;
+            case "cancel_preview_tiles":
+                await this.cancelPreviewTiles(data);
+                break;
             case "convert":
                 await this.convertWorld(data.outputType, data.requestId, data);
                 break;
@@ -659,6 +665,30 @@ export class Session {
             response.output = (await fs.readFile(path.join(previewOutputPath, "map.bin"))).toString("base64");
 
             return response;
+        });
+    }
+
+    requestPreviewTiles(data) {
+        this.sendToProcess({
+            type: "request_preview_tiles",
+            requestId: data.requestId,
+            anonymousId: this._sessionID,
+            world: data.world,
+            lod: data.lod,
+            minTx: data.minTx,
+            minTz: data.minTz,
+            maxTx: data.maxTx,
+            maxTz: data.maxTz
+        });
+    }
+
+    cancelPreviewTiles(data) {
+        this.sendToProcess({
+            type: "cancel_preview_tiles",
+            requestId: data.requestId,
+            anonymousId: this._sessionID,
+            world: data.world,
+            lod: data.lod
         });
     }
 

@@ -109,4 +109,48 @@ public class PreviewTileServiceTests {
         assertEquals(1, src.loads.get());
         svc.shutdown();
     }
+
+    @Test
+    public void testLodMinusOneAggregatesFourChildren(@TempDir Path tmp) throws Exception {
+        FakeSource src = new FakeSource();
+        src.data.put("minecraft:overworld:0:0", solid(0xFFFF0000));
+        src.data.put("minecraft:overworld:1:0", solid(0xFF00FF00));
+        src.data.put("minecraft:overworld:0:1", solid(0xFF0000FF));
+        src.data.put("minecraft:overworld:1:1", solid(0xFFFFFFFF));
+
+        PreviewMapBin.Builder b = new PreviewMapBin.Builder();
+        BitSet present = new BitSet(1024);
+        present.set(0);
+        b.addWorld(0, "minecraft:overworld", 0, 0, 1, 1);
+        b.addRegion(0, 0, 0, present);
+        b.addRegion(0, 1, 0, present);
+        b.addRegion(0, 0, 1, present);
+        b.addRegion(0, 1, 1, present);
+        File mapFile = tmp.resolve("map.bin").toFile();
+        b.writeTo(mapFile);
+        PreviewMapBin map = PreviewMapBin.read(mapFile);
+
+        File out = tmp.resolve("preview").toFile();
+        assertTrue(out.mkdirs());
+        BlockingQueue<TileReadyResponse> events = new LinkedBlockingQueue<>();
+
+        PreviewTileService svc = new PreviewTileService(out, map, src, new PreviewTileCache(16), 2);
+        svc.setEventListener(new PreviewTileService.EventListener() {
+            @Override public void onTileReady(TileReadyResponse r) { events.add(r); }
+            @Override public void onTileError(TileErrorResponse r) { }
+        });
+
+        svc.enqueueRange("minecraft:overworld", -1, 0, 0, 0, 0);
+
+        // Expect the LOD -1 tile_ready (children may also be emitted; drain until we see it).
+        boolean sawAggregated = false;
+        long deadline = System.currentTimeMillis() + 3000;
+        while (System.currentTimeMillis() < deadline) {
+            TileReadyResponse r = events.poll(100, TimeUnit.MILLISECONDS);
+            if (r != null && r.lod() == -1) { sawAggregated = true; break; }
+        }
+        assertTrue(sawAggregated, "Expected a tile_ready at LOD -1");
+        assertTrue(new File(out, "minecraft_overworld.-1.0.0.png").exists());
+        svc.shutdown();
+    }
 }

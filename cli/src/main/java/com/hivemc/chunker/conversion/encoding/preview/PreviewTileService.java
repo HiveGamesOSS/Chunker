@@ -73,14 +73,7 @@ public final class PreviewTileService {
     private void processTile(PreviewTileKey key) {
         try {
             if (!inFlight.contains(key)) return; // cancelled before start
-            int[] rgba;
-            if (key.lod() == 0) {
-                rgba = loadLodZero(key.world(), key.tx(), key.tz());
-            } else {
-                // LOD < 0 not yet supported in this task — return error.
-                emitError(key, "lod-not-supported");
-                return;
-            }
+            int[] rgba = loadOrAggregate(key);
             if (rgba == null) {
                 emitError(key, "missing-data");
                 return;
@@ -88,12 +81,46 @@ public final class PreviewTileService {
             File outFile = new File(outputFolder, key.toFileName());
             writePng(rgba, outFile);
             writtenTiles.add(key);
+            cache.put(key, rgba);
             emitReady(key);
         } catch (Throwable t) {
             emitError(key, t.getMessage() == null ? t.getClass().getSimpleName() : t.getMessage());
         } finally {
             inFlight.remove(key);
         }
+    }
+
+    private int[] loadOrAggregate(PreviewTileKey key) throws IOException {
+        int[] cached = cache.get(key);
+        if (cached != null) return cached;
+        if (key.lod() == 0) {
+            return loadLodZero(key.world(), key.tx(), key.tz());
+        }
+        int childLod = key.lod() + 1;
+        int cx = key.tx() << 1;
+        int cz = key.tz() << 1;
+        int[] tl = ensureChild(key.world(), childLod, cx,     cz);
+        int[] tr = ensureChild(key.world(), childLod, cx + 1, cz);
+        int[] bl = ensureChild(key.world(), childLod, cx,     cz + 1);
+        int[] br = ensureChild(key.world(), childLod, cx + 1, cz + 1);
+        if (tl == null && tr == null && bl == null && br == null) return null;
+        int[] empty = new int[PreviewTileDownsampler.TILE_SIZE * PreviewTileDownsampler.TILE_SIZE];
+        return PreviewTileDownsampler.aggregate(
+                tl == null ? empty : tl,
+                tr == null ? empty : tr,
+                bl == null ? empty : bl,
+                br == null ? empty : br
+        );
+    }
+
+    private int[] ensureChild(String world, int lod, int tx, int tz) throws IOException {
+        if (mapBin.isTileEmpty(world, lod, tx, tz)) return null;
+        PreviewTileKey ck = new PreviewTileKey(world, lod, tx, tz);
+        int[] cached = cache.get(ck);
+        if (cached != null) return cached;
+        int[] data = loadOrAggregate(ck);
+        if (data != null) cache.put(ck, data);
+        return data;
     }
 
     private int[] loadLodZero(String world, int rx, int rz) throws IOException {

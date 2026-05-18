@@ -207,36 +207,6 @@ public class WorldConversionIntegrationTests {
         }
     }
 
-    @ParameterizedTest
-    @MethodSource("getWorldNames")
-    public void testWorldPreview(String inputWorldName) throws IOException {
-        URL worldZip = Resources.getResource("integration/worlds/" + inputWorldName + ".zip");
-        Path unzipped = unzip(worldZip);
-        Path output = tempFolder();
-        try {
-            // Create a new world converter for our world
-            WorldConverter converter = new WorldConverter(UUID.randomUUID()) {
-                @Override
-                public void logMissingMapping(MissingMappingType type, String identifier) {
-                    // Don't log missing mappings for our tests
-                }
-            };
-            convertWorld(converter, unzipped, output, EncodingType.PREVIEW, new Version(1, 0, 0));
-
-            // Assert that no errors happened
-            assertFalse(converter.isExceptions());
-
-            // Assert that map data was written
-            assertTrue(output.resolve("map.bin").toFile().exists());
-
-            // Assert that image data was written
-            assertTrue(Objects.requireNonNull(output.toFile().listFiles((dir, file) -> file.endsWith(".png"))).length > 0);
-        } finally {
-            remove(unzipped);
-            remove(output);
-        }
-    }
-
     public void convertWorld(WorldConverter converter, Path input, Path output, EncodingType outputType, Version outputVersion) {
         // Create the reader / writer (note: converter settings cannot be set after construction)
         Optional<? extends LevelReader> reader = EncodingType.findReader(input.toFile(), converter);

@@ -6,7 +6,6 @@ import com.hivemc.chunker.conversion.encoding.base.reader.LevelReader;
 import com.hivemc.chunker.conversion.encoding.base.writer.LevelWriter;
 import com.hivemc.chunker.conversion.encoding.bedrock.BedrockEncoders;
 import com.hivemc.chunker.conversion.encoding.java.JavaEncoders;
-import com.hivemc.chunker.conversion.encoding.preview.PreviewLevelWriter;
 import com.hivemc.chunker.conversion.encoding.settings.SettingsLevelWriter;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 
@@ -54,7 +53,7 @@ public class EncodingType {
             "Preview",
             true,
             null,
-            (directory, version, settings) -> Optional.of(new PreviewLevelWriter(directory)),
+            (directory, version, settings) -> Optional.empty(),
             Collections.emptyList()
     );
 

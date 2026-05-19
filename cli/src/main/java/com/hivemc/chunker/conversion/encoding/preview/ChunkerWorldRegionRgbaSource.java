@@ -32,6 +32,17 @@ public class ChunkerWorldRegionRgbaSource implements RegionRgbaSource {
     private final File worldDir;
 
     /**
+     * Guards concurrent {@link #loadRegion} calls. Bedrock worlds back onto a single LevelDB
+     * instance whose file lock (db/LOCK) the JVM refuses to acquire twice via
+     * {@link java.nio.channels.OverlappingFileLockException}; without this mutex two preview
+     * workers entering loadRegion concurrently both spin up a fresh BedrockLevelReader and the
+     * second one fails immediately. Anvil worlds are unaffected by the lock contention but the
+     * serialization cost there is negligible because the heavy work (downsampling, PNG encoding)
+     * runs on the calling worker outside this method.
+     */
+    private final Object regionLoadLock = new Object();
+
+    /**
      * Create a new source backed by the given world directory.
      *
      * @param worldDir the root folder of the Minecraft world.
@@ -42,6 +53,12 @@ public class ChunkerWorldRegionRgbaSource implements RegionRgbaSource {
 
     @Override
     public int[] loadRegion(String world, int rx, int rz) throws IOException {
+        synchronized (regionLoadLock) {
+            return loadRegionLocked(world, rx, rz);
+        }
+    }
+
+    private int[] loadRegionLocked(String world, int rx, int rz) throws IOException {
         // Compute the chunk range covered by this region
         int minCx = rx * 32;
         int minCz = rz * 32;

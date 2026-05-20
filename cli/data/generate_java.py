@@ -143,7 +143,7 @@ response = requests.get("https://launchermeta.mojang.com/mc/game/version_manifes
 version_manifest = response.json()
 
 for version in version_manifest["versions"]:
-    if version["id"] == "26.2-snapshot-1":
+    if version["id"] == "26.2-pre-1":
         version["id"] = "26.2"
         version["type"] = "release"
     if version["type"] == "snapshot":

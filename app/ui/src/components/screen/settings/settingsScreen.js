@@ -81,6 +81,8 @@ export class SettingsScreen extends BaseScreen {
                     }
 
                     <div className="bottombar">
+                        <button onClick={() => window.location.reload()} type="submit" className="button red">Restart
+                        </button>
                         <button className="button red" onClick={this.previousScreen}>Switch Mode</button>
                         <button className="button green" onClick={this.nextScreen}>Convert</button>
                     </div>

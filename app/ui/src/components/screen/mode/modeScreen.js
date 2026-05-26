@@ -72,6 +72,8 @@ export class ModeScreen extends BaseScreen {
                     ))}
                 </div>
                 <div className="bottombar">
+                    <button onClick={() => window.location.reload()} type="submit" className="button red">Restart
+                    </button>
                     <button
                         type="submit" className="button magenta" disabled={this.state.selected === undefined}
                         onClick={() => this.convertWorld(true)}>Advanced Mode

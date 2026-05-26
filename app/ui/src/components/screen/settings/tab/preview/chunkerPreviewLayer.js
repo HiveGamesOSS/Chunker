@@ -42,6 +42,11 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
         L.GridLayer.prototype.onAdd.call(this, map);
         map.on("zoomstart", this._onZoomStart, this);
         map.on("zoomend", this._onZoomEnd, this);
+        map.on("moveend", this._onMoveEnd, this);
+        // Initial warm: fires once the layer has its tile range settled. setTimeout(0) defers
+        // past L.GridLayer.onAdd's internal _resetView so this._tileZoom and the px bounds
+        // are valid when we read them.
+        setTimeout(() => this._warmAdjacentLods(), 0);
         return this;
     },
 
@@ -50,6 +55,7 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
         if (this._unsubError) this._unsubError();
         map.off("zoomstart", this._onZoomStart, this);
         map.off("zoomend", this._onZoomEnd, this);
+        map.off("moveend", this._onMoveEnd, this);
         if (this._dispatchTimer) {
             clearTimeout(this._dispatchTimer);
             this._dispatchTimer = null;
@@ -228,5 +234,57 @@ export const ChunkerPreviewLayer = L.GridLayer.extend({
 
     _onZoomEnd() {
         this._zoomTransitionActive = false;
+    },
+
+    _onMoveEnd() {
+        // moveend fires after both pan and zoom completion (Leaflet emits move events even
+        // during a zoom), so one handler covers both cases for the adjacent-LOD warm.
+        this._warmAdjacentLods();
+    },
+
+    // Background-renders the lod ± 1 tiles for the current viewport so the next user zoom
+    // step paints from a warm cache instead of placeholders. Same IPC plumbing as the
+    // foreground dispatch — tile_ready lands in _handleTileReady's else branch, which
+    // populates the shared clientTileCache without disturbing any visible tile.
+    _warmAdjacentLods() {
+        if (!this._map || this._zoomTransitionActive) return;
+        const currentLod = this._tileZoom;
+        if (currentLod === undefined || currentLod === null) return;
+        const pxBounds = this._getTiledPixelBounds(this._map.getCenter());
+        if (!pxBounds) return;
+        const range = this._pxBoundsToTileRange(pxBounds);
+        if (!range) return;
+        const sourceMinTx = range.min.x;
+        const sourceMaxTx = range.max.x;
+        const sourceMinTz = range.min.y;
+        const sourceMaxTz = range.max.y;
+        this._dispatchAdjacentLod(currentLod, sourceMinTx, sourceMaxTx, sourceMinTz, sourceMaxTz, currentLod + 1);
+        this._dispatchAdjacentLod(currentLod, sourceMinTx, sourceMaxTx, sourceMinTz, sourceMaxTz, currentLod - 1);
+    },
+
+    _dispatchAdjacentLod(sourceLod, sourceMinTx, sourceMaxTx, sourceMinTz, sourceMaxTz, targetLod) {
+        if (targetLod > this.options.maxNativeZoom) return;
+        if (targetLod < this.options.minNativeZoom) return;
+        // Tile coords scale with LOD: each step toward 0 (finer) doubles the tile count per
+        // side over the same world area; each step away from 0 (coarser) halves it.
+        let minTx, maxTx, minTz, maxTz;
+        if (targetLod > sourceLod) {
+            const f = 1 << (targetLod - sourceLod);
+            minTx = sourceMinTx * f;
+            maxTx = (sourceMaxTx + 1) * f - 1;
+            minTz = sourceMinTz * f;
+            maxTz = (sourceMaxTz + 1) * f - 1;
+        } else {
+            const f = 1 << (sourceLod - targetLod);
+            minTx = Math.floor(sourceMinTx / f);
+            maxTx = Math.floor(sourceMaxTx / f);
+            minTz = Math.floor(sourceMinTz / f);
+            maxTz = Math.floor(sourceMaxTz / f);
+        }
+        this._ipc.requestTiles({
+            world: this.options.identifier,
+            lod: targetLod,
+            minTx, minTz, maxTx, maxTz
+        });
     }
 });

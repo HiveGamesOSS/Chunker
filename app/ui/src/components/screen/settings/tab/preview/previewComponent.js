@@ -9,7 +9,6 @@ import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import {getDimensionDisplayName} from "../dimensionPruningTab";
 import {worldBoundsForAutoFit} from "./mapBin";
 import {computeMinZoom} from "./autoFit";
-import {ClientTileCache} from "./clientTileCache";
 import {ChunkerPreviewLayer} from "./chunkerPreviewLayer";
 import {CenterCoordsControl} from "./centerCoordsControl";
 import {ZoomIndicator} from "./zoomIndicator";
@@ -32,16 +31,27 @@ export class PreviewComponent extends Component {
     app = this.props.app;
 
     render() {
+        const genDone = this.app.previewProgress.isComplete();
+        const data = this.app.state.previewData;
+        const tilesDone = this.app.previewTileProgress.isComplete();
         return (
             <React.Fragment>
-                {!this.app.previewProgress.isComplete() &&
+                {!genDone &&
                     <div className="main_content main_content_progress">
                         <ProgressComponent progress={this.app.previewProgress}/>
                     </div>
                 }
-                {this.app.previewProgress.isComplete() && this.app.state.previewData !== undefined &&
+                {/* Covers the gap between generation completing and previewData arriving from
+                 * the map.bin fetch, as well as the actual tile pre-load phase. */}
+                {genDone && !tilesDone &&
+                    <div className="main_content main_content_progress">
+                        <ProgressComponent progress={this.app.previewTileProgress} cancel={false}/>
+                    </div>
+                }
+                {genDone && tilesDone && data !== undefined &&
                     <Map
-                        session={this.props.session} data={this.app.state.previewData} app={this.app}
+                        session={this.props.session} data={data} app={this.app}
+                        clientTileCache={this.app.clientTileCache}
                         pruningSettings={this.app.state.pruningSettings}/>
                 }
             </React.Fragment>
@@ -57,7 +67,8 @@ export class Map extends Component {
         const self = this;
         // this.props.data is the already-parsed map.bin (Task 14).
         this._mapBin = this.props.data;
-        this._cache = new ClientTileCache();
+        // App owns the cache so tiles pre-loaded before mount survive into the layer here.
+        this._cache = this.props.clientTileCache;
 
         const dimensions = this.app.state.settings.dimensions;
         const defaultIdentifier = (this.app.state.previewState && this.app.state.previewState.layer) || dimensions[0];
@@ -76,11 +87,23 @@ export class Map extends Component {
             initialZoom = this.app.state.previewState.zoom;
             defaultLayerIdentifier = this.app.state.previewState.layer;
         } else {
-            const centerX = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnX")[0].value;
-            const centerZ = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnZ")[0].value;
-            initialCenter = xy(centerX, centerZ);
-            initialZoom = 2;
             defaultLayerIdentifier = dimensions[0];
+            const bounds = worldBoundsForAutoFit(this._mapBin, defaultLayerIdentifier);
+            if (bounds) {
+                // Frame the map on the world bounds. Centring on SpawnX/SpawnZ at a fixed
+                // zoom of 2 leaves worlds with content built far from spawn opening onto an
+                // empty viewport — the tiles exist, just off-screen. Auto-fit puts the actual
+                // content in front of the user from the start.
+                const centerX = (bounds.minX + bounds.maxX + 1) * 8;
+                const centerZ = (bounds.minZ + bounds.maxZ + 1) * 8;
+                initialCenter = xy(centerX, centerZ);
+                initialZoom = computeMinZoom(bounds);
+            } else {
+                const centerX = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnX")[0].value;
+                const centerZ = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnZ")[0].value;
+                initialCenter = xy(centerX, centerZ);
+                initialZoom = 2;
+            }
         }
 
         this.mymap = L.map("map", {

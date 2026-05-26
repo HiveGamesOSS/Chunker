@@ -31,24 +31,30 @@ export class PreviewComponent extends Component {
     app = this.props.app;
 
     render() {
+        const settingsDone = this.app.settingsProgress.isComplete();
         const genDone = this.app.previewProgress.isComplete();
         const data = this.app.state.previewData;
         const tilesDone = this.app.previewTileProgress.isComplete();
         return (
             <React.Fragment>
-                {!genDone &&
+                {!settingsDone &&
+                    <div className="main_content main_content_progress">
+                        <ProgressComponent progress={this.app.settingsProgress}/>
+                    </div>
+                }
+                {settingsDone && !genDone &&
                     <div className="main_content main_content_progress">
                         <ProgressComponent progress={this.app.previewProgress}/>
                     </div>
                 }
                 {/* Covers the gap between generation completing and previewData arriving from
                  * the map.bin fetch, as well as the actual tile pre-load phase. */}
-                {genDone && !tilesDone &&
+                {settingsDone && genDone && !tilesDone &&
                     <div className="main_content main_content_progress">
-                        <ProgressComponent progress={this.app.previewTileProgress} cancel={false}/>
+                        <ProgressComponent progress={this.app.previewTileProgress}/>
                     </div>
                 }
-                {genDone && tilesDone && data !== undefined &&
+                {settingsDone && genDone && tilesDone && data !== undefined &&
                     <Map
                         session={this.props.session} data={data} app={this.app}
                         clientTileCache={this.app.clientTileCache}

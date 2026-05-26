@@ -19,8 +19,14 @@ export class App extends Component {
     // Tracks the second preview phase — pre-loading default-LOD tiles of the world bounds
     // so the Map mounts with content already on disk/cached. queuePosition is pinned to -1
     // so ProgressComponent renders the percentage bar from the start, not the "queue" UI.
+    // cancelTilePreload aborts the Java-side rendering for the world and leaves the bar in
+    // its cancelled state so the Map never mounts; the user explicitly opted out of the preview.
     previewTileProgress = (() => {
-        const t = new ProgressTracker("Loading map tiles", (newState) => this.setState({previewTileProgress: newState}));
+        const t = new ProgressTracker(
+            "Loading map tiles",
+            (newState) => this.setState({previewTileProgress: newState}),
+            () => this.cancelTilePreload()
+        );
         t.state.queuePosition = -1;
         return t;
     })();
@@ -28,6 +34,7 @@ export class App extends Component {
     // before Map mounts stay resident in this cache, so createTile finds them on first paint.
     clientTileCache = new ClientTileCache();
     _preloadUnsub = null;
+    _preloadingWorld = null;
     settingsProgress = new ProgressTracker("Grabbing world information", (newState) => this.setState({settingsProgress: newState}));
     screen = React.createRef();
     defaultConverterSettings = {
@@ -214,9 +221,12 @@ export class App extends Component {
             this._preloadUnsub();
             this._preloadUnsub = null;
         }
+        this._preloadingWorld = null;
         this.clientTileCache.evictAllExcept([]);
         this.previewProgress.setProgress(0);
-        this.previewTileProgress.setProgress(0);
+        // Reset progress + clear any cancelled/errored flags left from a previous run so
+        // ProgressComponent doesn't render "This task was cancelled." for the new generation.
+        this.previewTileProgress.updateState({progress: 0, queuePosition: -1, cancelled: false, errored: false});
         this.setState({previewData: undefined});
 
         api.send({type: "flow", method: "generate_preview"}, this.previewProgress.pipe(function (message) {
@@ -272,12 +282,20 @@ export class App extends Component {
      * it only exposes more {@code tile_ready} events for us to count.
      */
     preloadDefaultWorldTiles = (parsedMapBin, sessionId) => {
+        // User clicked Cancel before the fetch returned: respect that decision instead of
+        // resetting progress to 0 and resuming the pre-load. Check both isComplete (the
+        // legacy "skip-to-Map" cancel path) and isCancelled (the current path where the
+        // bar stays at the cancelled message instead of jumping to 100).
+        if (this.previewTileProgress.isComplete() || this.previewTileProgress.isCancelled()) {
+            return;
+        }
         const dims = this.state.settings && this.state.settings.dimensions;
         if (!dims || dims.length === 0) {
             this.previewTileProgress.setProgress(100);
             return;
         }
         const layer = (this.state.previewState && this.state.previewState.layer) || dims[0];
+        this._preloadingWorld = layer;     // cancelTilePreload needs this to address the right Java queue
         const bounds = worldBoundsForAutoFit(parsedMapBin, layer);
         if (!bounds) {
             this.previewTileProgress.setProgress(100);
@@ -391,6 +409,26 @@ export class App extends Component {
         for (const r of lodRequests) {
             api.send({type: "flow", method: "request_preview_tiles",
                 world: layer, lod: r.lod, minTx: r.minTx, minTz: r.minTz, maxTx: r.maxTx, maxTz: r.maxTz}, () => {});
+        }
+    };
+
+    /**
+     * Cancels the tile pre-load: tells Java to drop all queued tile work for the world and
+     * releases the UI listeners. Progress stays where it was — ProgressTracker.cancel() has
+     * already flipped {@code cancelled} on, so ProgressComponent renders "This task was
+     * cancelled." and PreviewComponent stays in the tile-loading branch (the Map does not
+     * mount). The user explicitly opted out, so we don't auto-recover.
+     */
+    cancelTilePreload = () => {
+        if (this._preloadingWorld) {
+            // No `lod` field → Java drops all in-flight tiles for the world across every LOD
+            // we enqueued during the pre-load.
+            api.send({type: "flow", method: "cancel_preview_tiles", world: this._preloadingWorld}, () => {});
+            this._preloadingWorld = null;
+        }
+        if (this._preloadUnsub) {
+            this._preloadUnsub();
+            this._preloadUnsub = null;
         }
     };
 

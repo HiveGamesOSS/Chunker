@@ -37,7 +37,7 @@ export class SelectWorldScreen extends BaseScreen {
         // Setup fileInput
         this.fileInput = document.createElement("input");
         this.fileInput.type = "file";
-        this.fileInput.accept = ".zip,.mcworld";
+        this.fileInput.accept = ".zip,.mcworld,.mctemplate,.tar,.tar.gz,.tgz,.tar.br,.tbr";
         this.fileInput.value = null;
         this.fileInput.onclick = () => {
             self.fileInput.value = null;
@@ -215,9 +215,10 @@ export class SelectWorldScreen extends BaseScreen {
         let self = this;
 
         // Check selected type (if it's a file)
-        let name = this.state.filePath;
-        if (!this.state.filePathDirectory && !name.endsWith(".zip") && !name.endsWith(".mcworld")) {
-            self.app.showError("Failed to load world", "Only .zip and .mcworld files can be used.", undefined, undefined, false);
+        let name = this.state.filePath.toLowerCase();
+        let supportedExtensions = [".zip", ".mcworld", ".mctemplate", ".tar", ".tar.gz", ".tgz", ".tar.br", ".tbr"];
+        if (!this.state.filePathDirectory && !supportedExtensions.some(extension => name.endsWith(extension))) {
+            self.app.showError("Failed to load world", "Only .zip, .mcworld, .mctemplate and .tar (.tar.gz / .tgz) files can be used.", undefined, undefined, false);
             return;
         }
 
@@ -330,7 +331,7 @@ export class SelectWorldScreen extends BaseScreen {
                         </button>
                         <button onClick={this.showFileBrowser} className="gray_box">
                             Select archive
-                            <span>Supported types: .zip, .mcworld</span>
+                            <span>Supported types: .zip, .mcworld, .mctemplate, .tar</span>
                         </button>
                     </div>
                 }
@@ -340,7 +341,7 @@ export class SelectWorldScreen extends BaseScreen {
                             className={"gray_box drag_box" + (this.state.draggingOverBox ? " dragged_over" : "")}
                             onDrop={this.onDrop} onDragOver={this.onDragBoxOver} onDragLeave={this.onDragBoxStop}>
                             Drop your worlds here!
-                            <span>Supported types: .zip, .mcworld and directories</span>
+                            <span>Supported types: .zip, .mcworld, .mctemplate, .tar and directories</span>
                         </button>
                     </div>
                 }

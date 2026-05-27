@@ -14,7 +14,7 @@ jetbrains-annotations = "26.1.0"
 
 # JUnit
 junit = "6.1.0"
-junit-platform-launcher = "6.0.3"
+junit-platform-launcher = "6.1.0"
 
 # Plugins
 shadow = "9.4.1"

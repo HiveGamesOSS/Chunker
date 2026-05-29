@@ -474,7 +474,7 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
             String generatorName = root.getString("generatorName");
 
             if (generatorName.equals("default")) {
-                return ChunkerGeneratorType.CUSTOM;
+                return ChunkerGeneratorType.NORMAL;
             }
 
             // If it's flat, it may be one of the presets, but we'll do a basic check

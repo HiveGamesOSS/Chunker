@@ -1,6 +1,9 @@
 package com.hivemc.chunker.conversion.encoding.base;
 
 import com.hivemc.chunker.conversion.encoding.EncodingType;
+import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
+
+import java.util.Set;
 
 /**
  * An interface that represents either a LevelReader or a LevelWriter.
@@ -26,6 +29,13 @@ public interface LevelReaderWriter {
      * @return the version of the game.
      */
     Version getVersion();
+
+    /**
+     * Get the vanilla biomes that this format supports.
+     *
+     * @return the set of supported biomes, or an empty set if the format supports no biomes.
+     */
+    Set<ChunkerBiome.ChunkerVanillaBiome> getSupportedBiomes();
 
     /**
      * Called when the conversion is complete, whether it error'd or not.

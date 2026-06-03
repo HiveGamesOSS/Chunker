@@ -56,4 +56,21 @@ public class StringTagTests extends TagTestsBase<StringTag, String> {
         StringTag tag = new StringTag();
         assertNull(tag.getValue());
     }
+
+    @Test
+    public void testGetByteArrayValueNull() {
+        assertNull(new StringTag().getByteArrayValue());
+    }
+
+    @Test
+    public void testSetNullBytes() {
+        StringTag tag = new StringTag(new byte[]{1, 2, 3});
+        tag.setValue((byte[]) null);
+        assertNull(tag.getByteArrayValue());
+    }
+
+    @Test
+    public void testToSNBT() {
+        assertEquals("\"hello\"", new StringTag("hello").toSNBT());
+    }
 }

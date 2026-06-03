@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  */
 public class TaskExecutor {
     private static final ThreadLocal<TaskExecutor> EXECUTORS = new InheritableThreadLocal<>();
-    private static final Comparator<PriorityRunnable> COMPARATOR = Comparator.comparing(PriorityRunnable::getPriority).reversed();
+    private static final Comparator<PriorityRunnable> COMPARATOR = Comparator.comparingLong(PriorityRunnable::getPriority).reversed();
     private final PriorityBlockingQueue<PriorityRunnable> tasks = new PriorityBlockingQueue<>(100, COMPARATOR);
     private final Thread[] pool;
     private final Consumer<Throwable> exceptionHandler;
@@ -173,9 +173,11 @@ public class TaskExecutor {
 
         // Main loop
         while (!Thread.currentThread().isInterrupted()) {
-            PriorityRunnable task = tasks.poll();
-            if (task != null) {
-                task.run();
+            try {
+                tasks.take().run();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
             }
         }
 

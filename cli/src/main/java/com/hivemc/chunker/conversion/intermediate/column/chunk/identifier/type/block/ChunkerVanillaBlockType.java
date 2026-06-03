@@ -1195,7 +1195,7 @@ public enum ChunkerVanillaBlockType implements ChunkerBlockType {
     POTTED_GOLDEN_DANDELION(0x0, false),
     CINNABAR(0x993333, true),
     SULFUR(0xe5e533, true),
-    POTENT_SULFUR(0xfaee4d, true),
+    POTENT_SULFUR(0xfaee4d, Set.of(VanillaBlockStates.POTENT_SULFUR_STATE), PotentSulfurBlockEntity.class, true),
     CHISELED_CINNABAR(0x993333, true),
     CHISELED_SULFUR(0xe5e533, true),
     POLISHED_CINNABAR(0x993333, true),
@@ -1220,6 +1220,7 @@ public enum ChunkerVanillaBlockType implements ChunkerBlockType {
     POLISHED_SULFUR_WALL(0xe5e533, VanillaBlockStateGroups.WALL, false),
     CINNABAR_BRICK_WALL(0x993333, VanillaBlockStateGroups.WALL, false),
     SULFUR_BRICK_WALL(0xe5e533, VanillaBlockStateGroups.WALL, false),
+    SULFUR_SPIKE(0xe5e533, Set.of(VanillaBlockStates.DRIPSTONE_THICKNESS, VanillaBlockStates.VERTICAL_DIRECTION), false),
     ;
 
     private final int rgbColor;

@@ -7,6 +7,7 @@ import com.hivemc.chunker.conversion.encoding.base.resolver.entity.EntityResolve
 import com.hivemc.chunker.conversion.encoding.java.JavaDataVersion;
 import com.hivemc.chunker.conversion.handlers.pretransform.manager.PreTransformManager;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
+import com.hivemc.chunker.conversion.encoding.base.resolver.biome.ChunkerBiomeResolver;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.banner.ChunkerBannerPattern;
@@ -43,8 +44,8 @@ public class JavaResolversBuilder {
     private Resolver<Identifier, ChunkerItemStack> itemIdentifierResolver;
     private Resolver<Identifier, ChunkerBlockIdentifier> blockIdentifierResolver;
     private Resolver<String, ChunkerEntityType> entityTypeResolver;
-    private Resolver<String, ChunkerBiome> biomeNameResolver;
-    private Resolver<Integer, ChunkerBiome> biomeIDResolver;
+    private ChunkerBiomeResolver<String> biomeNameResolver;
+    private ChunkerBiomeResolver<Integer> biomeIDResolver;
     private Resolver<String, ChunkerEffectType> effectResolver;
     private Resolver<Integer, ChunkerEffectType> effectIDResolver;
     private Resolver<String, ChunkerEnchantmentType> enchantmentResolver;
@@ -233,6 +234,16 @@ public class JavaResolversBuilder {
                     // Return fallback
                     return biomeNameResolver.from(getFallbackBiome(dimension)).orElseThrow();
                 });
+            }
+
+            @Override
+            public ChunkerBiomeResolver<String> biomeNameResolver() {
+                return biomeNameResolver;
+            }
+
+            @Override
+            public ChunkerBiomeResolver<Integer> biomeIdResolver() {
+                return biomeIDResolver;
             }
 
             @Override
@@ -487,12 +498,12 @@ public class JavaResolversBuilder {
         return this;
     }
 
-    public JavaResolversBuilder biomeNameResolver(Resolver<String, ChunkerBiome> resolver) {
+    public JavaResolversBuilder biomeNameResolver(ChunkerBiomeResolver<String> resolver) {
         biomeNameResolver = resolver;
         return this;
     }
 
-    public JavaResolversBuilder biomeIDResolver(Resolver<Integer, ChunkerBiome> resolver) {
+    public JavaResolversBuilder biomeIDResolver(ChunkerBiomeResolver<Integer> resolver) {
         biomeIDResolver = resolver;
         return this;
     }

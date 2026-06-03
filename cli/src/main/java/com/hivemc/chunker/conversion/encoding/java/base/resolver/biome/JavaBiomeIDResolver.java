@@ -2,8 +2,7 @@ package com.hivemc.chunker.conversion.encoding.java.base.resolver.biome;
 
 import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
-import com.hivemc.chunker.resolver.Resolver;
-import com.hivemc.chunker.util.InvertibleMap;
+import com.hivemc.chunker.conversion.encoding.base.resolver.biome.ChunkerBiomeResolver;
 
 import java.util.Optional;
 
@@ -11,9 +10,7 @@ import java.util.Optional;
  * Biome ID resolver, used for Java less than 1.18
  */
 @SuppressWarnings("deprecation")
-public class JavaBiomeIDResolver implements Resolver<Integer, ChunkerBiome> {
-    private final InvertibleMap<ChunkerBiome.ChunkerVanillaBiome, Integer> mapping = InvertibleMap.enumKeys(ChunkerBiome.ChunkerVanillaBiome.class);
-
+public class JavaBiomeIDResolver extends ChunkerBiomeResolver<Integer> {
     /**
      * Create a new java ID biome resolver.
      *

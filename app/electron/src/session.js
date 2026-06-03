@@ -280,6 +280,9 @@ export class Session {
             case "convert":
                 await this.convertWorld(data.outputType, data.requestId, data);
                 break;
+            case "get_biomes":
+                this.getBiomes(data.outputType, data.requestId);
+                break;
             default:
                 log.log("Unhandled flow message ", data.method, ", full message: ", data);
                 break;
@@ -385,6 +388,15 @@ export class Session {
                 this.sendMessage({requestId: data.requestId, type: "response"});
                 break;
         }
+    }
+
+    getBiomes(outputType, requestId) {
+        this.sendToProcess({
+            type: "biomes",
+            requestId: requestId,
+            inputPath: path.join(this._sessionPath, "input"),
+            outputType: outputType
+        });
     }
 
     async cancelTask(requestId) {

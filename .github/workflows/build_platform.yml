@@ -69,8 +69,10 @@ jobs:
         include:
           - os: windows-latest
             java-version: '17'
+            unpacked-dir: win-unpacked
           - os: windows-11-arm
             java-version: '21'
+            unpacked-dir: win-arm64-unpacked
     runs-on: ${{ matrix.os }}
     if: github.event.inputs.build_windows == 'true'
     steps:
@@ -117,7 +119,7 @@ jobs:
           endpoint: https://weu.codesigning.azure.net/
           trusted-signing-account-name: hivegames
           certificate-profile-name: Chunker
-          files-folder: build/libs/windows/win-unpacked/
+          files-folder: build/libs/windows/${{ matrix.unpacked-dir }}/
           files-folder-filter: exe
           file-digest: SHA256
           timestamp-rfc3161: http://timestamp.acs.microsoft.com

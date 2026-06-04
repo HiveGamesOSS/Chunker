@@ -774,6 +774,11 @@ public class JsonTextUtil {
                 tags.add(tag);
             }
 
+            // Use Compound type if no tagType was found
+            if (tagType == null) {
+                tagType = TagType.COMPOUND;
+            }
+
             // Ensure we reach the minimum size so pad it
             while (tags.size() < minimumSize) {
                 tags.add(new StringTag(toJSON(EMPTY_TEXT_TAG)));

@@ -67,7 +67,7 @@ public class JavaColumnWriter implements ColumnWriter {
         root.put("zPos", chunkerColumn.getPosition().chunkZ());
 
         // Mark as populated
-        root.put("LightPopulated", chunkerColumn.isLightPopulated() ? (byte) 1 : (byte) 0);
+        writeLightPopulated(chunkerColumn, root);
         root.put("TerrainPopulated", (byte) 1);
 
         // Run any preprocessing
@@ -112,6 +112,16 @@ public class JavaColumnWriter implements ColumnWriter {
             if (input == null) continue;
             output.put(input.name(), input.tag());
         }
+    }
+
+    /**
+     * Write whether the lighting is present for this column.
+     *
+     * @param column    the column being written.
+     * @param columnNBT the column NBT to write the tag into.
+     */
+    protected void writeLightPopulated(ChunkerColumn column, CompoundTag columnNBT) {
+        columnNBT.put("LightPopulated", column.isLightPopulated() ? (byte) 1 : (byte) 0);
     }
 
     /**

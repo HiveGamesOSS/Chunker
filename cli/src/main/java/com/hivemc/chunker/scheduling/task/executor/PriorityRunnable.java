@@ -7,7 +7,7 @@ public interface PriorityRunnable extends Runnable {
     /**
      * The priority of the task, higher indicating it should be executed sooner.
      *
-     * @return an integer priority relative to other tasks.
+     * @return a long priority relative to other tasks.
      */
-    int getPriority();
+    long getPriority();
 }

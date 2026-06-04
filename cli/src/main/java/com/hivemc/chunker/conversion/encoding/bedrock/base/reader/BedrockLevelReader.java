@@ -9,6 +9,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.util.LevelDBChunkType;
 import com.hivemc.chunker.conversion.encoding.bedrock.util.LevelDBKey;
 import com.hivemc.chunker.conversion.handlers.LevelConversionHandler;
 import com.hivemc.chunker.conversion.handlers.WorldConversionHandler;
+import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.ChunkCoordPair;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.RegionCoordPair;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
@@ -73,6 +74,11 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
         this.inputVersion = inputVersion;
         this.converter = converter;
         resolvers = buildResolvers(converter).build();
+    }
+
+    @Override
+    public Set<ChunkerBiome.ChunkerVanillaBiome> getSupportedBiomes() {
+        return resolvers.biomeIdResolver().getSupportedBiomes();
     }
 
     /**

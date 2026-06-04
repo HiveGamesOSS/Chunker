@@ -699,6 +699,15 @@ public class BedrockStateGroups {
     public static final StateMappingGroup PORTAL = new StateMappingGroup.Builder()
             .state("portal_axis", VanillaBlockStates.AXIS_HORIZONTAL, BedrockStateTypes.AXIS_HORIZONTAL)
             .build();
+    public static final VersionedStateMappingGroup POTENT_SULFUR = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .defaultOutput(VanillaBlockStates.POTENT_SULFUR_STATE, PotentSulfurState.DRY)
+                    .build())
+            // 1.26.30 added the potent_sulfur_state property
+            .version(new Version(1, 26, 30), new StateMappingGroup.Builder()
+                    .state("potent_sulfur_state", VanillaBlockStates.POTENT_SULFUR_STATE, BedrockStateTypes.POTENT_SULFUR_STATE)
+                    .build())
+            .build();
     public static final StateMappingGroup POWERED_RAIL = new StateMappingGroup.Builder()
             .state("rail_data_bit", VanillaBlockStates.POWERED, BedrockStateTypes.BOOL)
             .state("rail_direction", VanillaBlockStates.RAIL_SHAPE_STRAIGHT, BedrockStateTypes.STRAIGHT_RAIL_SHAPE)

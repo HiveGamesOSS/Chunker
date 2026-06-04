@@ -27,7 +27,7 @@ public interface Writer {
      * @return a writer which wraps the DataOutput.
      */
     static Writer toJavaWriter(DataOutput dataOutput) {
-        return toBigEndianWriter(dataOutput); // Java uses Big Endian
+        return new DataOutputWriterJava(dataOutput);
     }
 
     /**
@@ -64,12 +64,22 @@ public interface Writer {
     /**
      * Write a short-length based String to the buffer.
      *
-     * @param value the value to write to the buffer
+     * @param value the value to write to the buffer.
      * @throws IOException an exception if it failed to write to the underlying buffer.
      */
     default void writeString(@NotNull String value) throws IOException {
         // Write the string as bytes
         writeShortPrefixedBytes(value.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Write a short-length based ByteString to the buffer.
+     *
+     * @param value the value to write to the buffer (can be backed by a string or byte array).
+     * @throws IOException an exception if it failed to write to the underlying buffer.
+     */
+    default void writeShortPrefixedByteString(@NotNull ByteString value) throws IOException {
+        writeShortPrefixedBytes(value.getBytes());
     }
 
     /**

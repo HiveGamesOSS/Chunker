@@ -101,9 +101,7 @@ public class JavaColumnReader implements ColumnReader {
         ChunkerColumn column = new ChunkerColumn(columnCoords);
 
         // Load light populated
-        if (columnNBT.contains("LightPopulated")) {
-            column.setLightPopulated(columnNBT.getByte("LightPopulated") != (byte) 0);
-        }
+        readLightPopulated(column);
 
         // Load other parts of the column
         ArrayList<Task<Void>> processing = new ArrayList<>(5);
@@ -125,6 +123,17 @@ public class JavaColumnReader implements ColumnReader {
         Task.join(processing)
                 .then("Post-processing column", TaskWeight.HIGH, this::postProcess, column)
                 .thenConsume("Submitting column", TaskWeight.LOW, columnConversionHandler::convertColumn);
+    }
+
+    /**
+     * Read whether the lighting is present for this column.
+     *
+     * @param column the output to set the light populated state on.
+     */
+    protected void readLightPopulated(ChunkerColumn column) {
+        if (columnNBT.contains("LightPopulated")) {
+            column.setLightPopulated(columnNBT.getByte("LightPopulated") != (byte) 0);
+        }
     }
 
     /**

@@ -7,6 +7,7 @@ import {PreviewTab} from "./tab/previewTab";
 import {WorldSettingsTab} from "./tab/worldSettingsTab";
 import {DimensionPruningTab} from "./tab/dimensionPruningTab";
 import {PaletteMappingsTab} from "./tab/paletteMappingsTab";
+import {BiomeMappingsTab} from "./tab/biomeMappingsTab";
 import {ConverterSettingsTab} from "./tab/converterSettingsTab";
 import {CLIExportTab} from "./tab/cliTab";
 
@@ -53,6 +54,11 @@ export class SettingsScreen extends BaseScreen {
                             </button>
                         </li>
                         <li>
+                            <button className={this.state.tab === "biomes" ? "active" : ""}
+                                    onClick={(e) => this.switchTab("biomes", e)}>Biome Mapping
+                            </button>
+                        </li>
+                        <li>
                             <button
                                 className={this.state.tab === "converter" || this.state.tab === "api" ? "active" : ""}
                                 onClick={(e) => this.switchTab("converter", e)}>Converter Settings
@@ -78,6 +84,9 @@ export class SettingsScreen extends BaseScreen {
                     }
                     {this.state.tab === "mappings" &&
                         <PaletteMappingsTab app={this.app}/>
+                    }
+                    {this.state.tab === "biomes" &&
+                        <BiomeMappingsTab app={this.app}/>
                     }
 
                     <div className="bottombar">

@@ -3056,7 +3056,7 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
 
             // Sulfur blocks
             register(BlockMapping.of("minecraft:sulfur", ChunkerVanillaBlockType.SULFUR));
-            register(BlockMapping.of("minecraft:potent_sulfur", ChunkerVanillaBlockType.POTENT_SULFUR));
+            register(BlockMapping.of("minecraft:potent_sulfur", ChunkerVanillaBlockType.POTENT_SULFUR, BedrockStateGroups.POTENT_SULFUR));
             register(BlockMapping.of("minecraft:chiseled_sulfur", ChunkerVanillaBlockType.CHISELED_SULFUR));
             register(BlockMapping.of("minecraft:polished_sulfur", ChunkerVanillaBlockType.POLISHED_SULFUR));
             register(BlockMapping.of("minecraft:sulfur_bricks", ChunkerVanillaBlockType.SULFUR_BRICKS));
@@ -3072,6 +3072,11 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
             register(BlockMapping.of("minecraft:sulfur_brick_double_slab", ChunkerVanillaBlockType.SULFUR_BRICK_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
             register(BlockMapping.of("minecraft:sulfur_brick_stairs", ChunkerVanillaBlockType.SULFUR_BRICK_STAIRS, BedrockStateGroups.STAIRS));
             register(BlockMapping.of("minecraft:sulfur_brick_wall", ChunkerVanillaBlockType.SULFUR_BRICK_WALL, BedrockStateGroups.WALL));
+        }
+
+        // R26U3
+        if (version.isGreaterThanOrEqual(1, 26, 30)) {
+            register(BlockMapping.of("minecraft:sulfur_spike", ChunkerVanillaBlockType.SULFUR_SPIKE, BedrockStateGroups.POINTED_DRIPSTONE));
         }
     }
 }

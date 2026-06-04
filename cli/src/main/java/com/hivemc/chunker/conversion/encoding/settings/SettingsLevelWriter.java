@@ -7,6 +7,7 @@ import com.hivemc.chunker.conversion.encoding.EncodingType;
 import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.writer.LevelWriter;
 import com.hivemc.chunker.conversion.encoding.base.writer.WorldWriter;
+import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.RegionCoordPair;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevel;
 import com.hivemc.chunker.conversion.intermediate.level.map.ChunkerMap;
@@ -89,6 +90,11 @@ public class SettingsLevelWriter implements LevelWriter {
     @Override
     public Version getVersion() {
         return new Version(1, 0, 0);
+    }
+
+    @Override
+    public Set<ChunkerBiome.ChunkerVanillaBiome> getSupportedBiomes() {
+        return Set.of(); // Biomes aren't used in the SettingsLevelWriter
     }
 
     /**

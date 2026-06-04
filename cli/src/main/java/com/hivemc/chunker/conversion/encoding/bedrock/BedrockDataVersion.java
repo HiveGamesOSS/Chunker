@@ -90,6 +90,7 @@ public class BedrockDataVersion implements Comparable<BedrockDataVersion> {
     public static final BedrockDataVersion V1_26_0 = register(924, 9, new Version(1, 26, 0));
     public static final BedrockDataVersion V1_26_10 = register(944, 9, new Version(1, 26, 10));
     public static final BedrockDataVersion V1_26_20 = register(974, 9, new Version(1, 26, 20));
+    public static final BedrockDataVersion V1_26_30 = register(1001, 9, new Version(1, 26, 30));
 
     private final int protocolVersion;
     private final int storageVersion;

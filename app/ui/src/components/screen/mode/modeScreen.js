@@ -3,6 +3,7 @@ import {BaseScreen} from "../baseScreen";
 import {SettingsScreen} from "../settings/settingsScreen";
 import {ModeOption} from "./modeOption";
 import {ProcessingScreen} from "../processing/processingScreen";
+import api from "../../../api";
 
 export class ModeScreen extends BaseScreen {
     state = {
@@ -40,6 +41,19 @@ export class ModeScreen extends BaseScreen {
                 .then(data =>
                     self.app.setState({outputBlockSuggestions: data})
                 );
+
+            api.send({
+                type: "flow",
+                method: "get_biomes",
+                outputType: data.id
+            }, function (message) {
+                if (message.type === "response") {
+                    self.app.setState({
+                        inputBiomeSuggestions: message.output.input,
+                        outputBiomeSuggestions: message.output.output
+                    });
+                }
+            });
 
             // Next screen
             this.app.setScreen(SettingsScreen);

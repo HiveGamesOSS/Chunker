@@ -116,4 +116,34 @@ public class JavaBiomeNameResolverTests {
         assertTrue(mappedNameValue.isPresent());
         assertEquals(biome, mappedNameValue.get());
     }
+
+    @ParameterizedTest
+    @MethodSource("biomeList")
+    public void checkJavaIdentifierMatches(String biome) {
+        JavaNamedBiomeResolver biomeResolver = new JavaNamedBiomeResolver(Version.LATEST, false);
+
+        // Resolve the Java identifier back to a vanilla biome
+        Optional<ChunkerBiome> mappedValue = biomeResolver.to(biome);
+        assertTrue(mappedValue.isPresent());
+        assertInstanceOf(ChunkerBiome.ChunkerVanillaBiome.class, mappedValue.get());
+
+        // Ensure it is present and matches biome_names.json
+        ChunkerBiome.ChunkerVanillaBiome vanillaBiome = (ChunkerBiome.ChunkerVanillaBiome) mappedValue.get();
+        Optional<String> javaIdentifier = vanillaBiome.getJavaIdentifier();
+        assertTrue(javaIdentifier.isPresent());
+        assertEquals(biome, javaIdentifier.get());
+    }
+
+    @Test
+    public void checkJavaIdentifiersUnique() {
+        // Ensure all the Java identifiers in ChunkerVanillaBiome are unique
+        Set<String> seen = new ObjectOpenHashSet<>();
+        for (ChunkerBiome.ChunkerVanillaBiome biome : ChunkerBiome.ChunkerVanillaBiome.values()) {
+            Optional<String> javaIdentifier = biome.getJavaIdentifier();
+            if (javaIdentifier.isEmpty()) continue;
+
+            // Try adding
+            assertTrue(seen.add(javaIdentifier.get()));
+        }
+    }
 }

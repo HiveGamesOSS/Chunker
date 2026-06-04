@@ -22,4 +22,10 @@ public class ColumnWriter extends com.hivemc.chunker.conversion.encoding.java.v1
     protected void writeColumnStatus(ChunkerColumn column, CompoundTag columnNBT) {
         columnNBT.put("Status", "full");
     }
+
+    @Override
+    protected void writeLightPopulated(ChunkerColumn column, CompoundTag columnNBT) {
+        // 1.14 changed "LightPopulated" to "isLightOn" (async lighting)
+        columnNBT.put("isLightOn", column.isLightPopulated() ? (byte) 1 : (byte) 0);
+    }
 }

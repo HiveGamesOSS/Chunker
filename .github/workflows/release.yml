@@ -7,6 +7,11 @@ on:
         description: 'Version (e.g. 1.0.0)'
         required: true
         type: string
+      publish_maven:
+        description: 'Publish to Maven (GitHub Packages)'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: write
@@ -14,7 +19,14 @@ permissions:
 
 jobs:
   build_test_linux:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            gradle-args: 'build'
+          - os: ubuntu-24.04-arm
+            gradle-args: 'build -x test'
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -34,9 +46,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew ${{ matrix.gradle-args }}
 
       - name: Publish to GitHub packages
+        if: matrix.os == 'ubuntu-latest' && github.event.inputs.publish_maven == 'true'
         run: ./gradlew publish
         env:
           MAVEN_DEPLOY_URL: "https://maven.pkg.github.com/${{github.repository}}"
@@ -45,6 +58,7 @@ jobs:
 
       - name: Upload CLI Jar
         uses: actions/upload-artifact@v7
+        if: matrix.os == 'ubuntu-latest'
         with:
           name: jar-builds
           path: build/libs/*.jar
@@ -52,21 +66,30 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
-          name: linux-builds
+          name: linux-builds-${{ matrix.os }}
           path: build/libs/linux/
 
   build_windows:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            java-version: '17'
+            unpacked-dir: win-unpacked
+          - os: windows-11-arm
+            java-version: '21'
+            unpacked-dir: win-arm64-unpacked
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
         with:
           lfs: true
           submodules: recursive
 
-      - name: Set up JDK 17
+      - name: Set up JDK ${{ matrix.java-version }}
         uses: actions/setup-java@v5
         with:
-          java-version: '17'
+          java-version: ${{ matrix.java-version }}
           distribution: 'temurin'
 
       - name: Setup Gradle
@@ -101,7 +124,7 @@ jobs:
           endpoint: https://weu.codesigning.azure.net/
           trusted-signing-account-name: hivegames
           certificate-profile-name: Chunker
-          files-folder: build/libs/windows/win-unpacked/
+          files-folder: build/libs/windows/${{ matrix.unpacked-dir }}/
           files-folder-filter: exe
           file-digest: SHA256
           timestamp-rfc3161: http://timestamp.acs.microsoft.com
@@ -110,7 +133,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
-          name: windows-builds
+          name: windows-builds-${{ matrix.os }}
           path: build/libs/windows/
 
   build_mac:
@@ -156,61 +179,131 @@ jobs:
           name: jar-builds
           path: artifacts
 
-      - name: Download Linux artifact
+      # === Linux amd64 ===
+
+      - name: Download Linux amd64 artifact
         uses: actions/download-artifact@v8
         with:
-          name: linux-builds
+          name: linux-builds-ubuntu-latest
           path: artifacts
 
-      - name: Compress Linux CLI
+      - name: Compress Linux CLI (amd64)
         run: |
           cd artifacts && zip -r "chunker-cli-linux-amd64.zip" "chunker-cli" && cd ..
           rm -rf "artifacts/chunker-cli"
 
-      - name: Compress Linux Unpacked
+      - name: Compress Linux Unpacked (amd64)
         run: |
           version="${{ github.event.inputs.version }}"
           cd artifacts/linux-unpacked && zip -r "../Chunker-$version-amd64-linux.zip" . && cd ../..
           rm -rf "artifacts/linux-unpacked"
 
-      - name: Rename AppImage files
+      - name: Rename AppImage files (amd64)
         run: |
           for file in artifacts/*.AppImage; do
             mv "$file" "${file%.AppImage}-amd64-linux.AppImage"
           done
 
-      - name: Rename deb files
+      - name: Rename deb files (amd64)
         run: |
-          for file in artifacts/*.deb; do
+          for file in artifacts/chunker-electron_*.deb; do
             new_file="${file//chunker-electron_/Chunker-}"
             new_file="${new_file//_/-}"
             mv "$file" "${new_file%.deb}-linux.deb"
           done
 
-      - name: Download Windows artifact
+      # === Linux arm64 ===
+
+      - name: Download Linux arm64 artifact
         uses: actions/download-artifact@v8
         with:
-          name: windows-builds
+          name: linux-builds-ubuntu-24.04-arm
           path: artifacts
 
-      - name: Compress Windows CLI
+      - name: Compress Linux CLI (arm64)
+        run: |
+          cd artifacts && zip -r "chunker-cli-linux-arm64.zip" "chunker-cli" && cd ..
+          rm -rf "artifacts/chunker-cli"
+
+      - name: Compress Linux Unpacked (arm64)
+        run: |
+          version="${{ github.event.inputs.version }}"
+          cd artifacts/linux-arm64-unpacked && zip -r "../Chunker-$version-arm64-linux.zip" . && cd ../..
+          rm -rf "artifacts/linux-arm64-unpacked"
+
+      - name: Rename AppImage files (arm64)
+        run: |
+          for file in artifacts/*.AppImage; do
+            [[ "$file" == *-linux.AppImage ]] && continue
+            base="${file%.AppImage}"
+            base="${base%-arm64}"
+            mv "$file" "${base}-arm64-linux.AppImage"
+          done
+
+      - name: Rename deb files (arm64)
+        run: |
+          for file in artifacts/chunker-electron_*.deb; do
+            new_file="${file//chunker-electron_/Chunker-}"
+            new_file="${new_file//_/-}"
+            mv "$file" "${new_file%.deb}-linux.deb"
+          done
+
+      # === Windows x86 (amd64) ===
+
+      - name: Download Windows x86 artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: windows-builds-windows-latest
+          path: artifacts
+
+      - name: Compress Windows CLI (x86)
         run: |
           cd artifacts && zip -r "chunker-cli-windows-x86.zip" "chunker-cli" && cd ..
           rm -rf "artifacts/chunker-cli"
 
-      - name: Compress Windows Unpacked
+      - name: Compress Windows Unpacked (x86)
         run: |
           version="${{ github.event.inputs.version }}"
           cd artifacts/win-unpacked && zip -r "../Chunker-$version-windows-x86.zip" . && cd ../..
           rm -rf "artifacts/win-unpacked"
 
-      - name: Rename exe files
+      - name: Rename exe files (x86)
         run: |
           for file in artifacts/*.exe; do
             base_name="${file#artifacts/Chunker }"
             base_name="${base_name%.exe}"
             mv "$file" "artifacts/Chunker-${base_name}-windows-x86.exe"
           done
+
+      # === Windows arm64 ===
+
+      - name: Download Windows arm64 artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: windows-builds-windows-11-arm
+          path: artifacts
+
+      - name: Compress Windows CLI (arm64)
+        run: |
+          cd artifacts && zip -r "chunker-cli-windows-arm64.zip" "chunker-cli" && cd ..
+          rm -rf "artifacts/chunker-cli"
+
+      - name: Compress Windows Unpacked (arm64)
+        run: |
+          version="${{ github.event.inputs.version }}"
+          cd artifacts/win-arm64-unpacked && zip -r "../Chunker-$version-windows-arm64.zip" . && cd ../..
+          rm -rf "artifacts/win-arm64-unpacked"
+
+      - name: Rename exe files (arm64)
+        run: |
+          for file in artifacts/*.exe; do
+            [[ "$file" == *-windows-*.exe ]] && continue
+            base_name="${file#artifacts/Chunker }"
+            base_name="${base_name%.exe}"
+            mv "$file" "artifacts/Chunker-${base_name}-windows-arm64.exe"
+          done
+
+      # === Mac ===
 
       - name: Download Mac artifact
         uses: actions/download-artifact@v8
@@ -237,7 +330,7 @@ jobs:
       - name: Rename Mac artifacts (legacy)
         run: |
           find artifacts -type f -name "Chunker-*" ! -name "*-amd64*" ! -name "*arm64*" ! -name "*x86*" -exec bash -c '
-            for file; do 
+            for file; do
               new_name=$(echo "$file" | sed -E "s/(Chunker-[^-]+)(.*)(\.[a-zA-Z0-9]+)$/\1-amd64\2\3/");
               mv "$file" "$new_name";
             done

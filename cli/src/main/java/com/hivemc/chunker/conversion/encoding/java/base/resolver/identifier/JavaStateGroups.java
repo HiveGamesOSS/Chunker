@@ -490,6 +490,9 @@ public class JavaStateGroups {
             .state("vertical_direction", VanillaBlockStates.VERTICAL_DIRECTION, JavaStateTypes.VERTICAL_DIRECTION)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
             .build();
+    public static final StateMappingGroup POTENT_SULFUR = new StateMappingGroup.Builder()
+            .state("potent_sulfur_state", VanillaBlockStates.POTENT_SULFUR_STATE, JavaStateTypes.POTENT_SULFUR_STATE)
+            .build();
     public static final StateMappingGroup POWER = new StateMappingGroup.Builder()
             .state("power", VanillaBlockStates.POWER, JavaStateTypes.POWER)
             .build();

@@ -1695,7 +1695,7 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
 
             // Sulfur blocks
             register(BlockMapping.of("minecraft:sulfur", ChunkerVanillaBlockType.SULFUR));
-            register(BlockMapping.of("minecraft:potent_sulfur", ChunkerVanillaBlockType.POTENT_SULFUR));
+            register(BlockMapping.of("minecraft:potent_sulfur", ChunkerVanillaBlockType.POTENT_SULFUR, JavaStateGroups.POTENT_SULFUR));
             register(BlockMapping.of("minecraft:chiseled_sulfur", ChunkerVanillaBlockType.CHISELED_SULFUR));
             register(BlockMapping.of("minecraft:polished_sulfur", ChunkerVanillaBlockType.POLISHED_SULFUR));
             register(BlockMapping.of("minecraft:sulfur_bricks", ChunkerVanillaBlockType.SULFUR_BRICKS));
@@ -1708,6 +1708,7 @@ public class JavaBlockIdentifierResolver extends ChunkerBlockIdentifierResolver 
             register(BlockMapping.of("minecraft:sulfur_brick_slab", ChunkerVanillaBlockType.SULFUR_BRICK_SLAB, JavaStateGroups.SLAB));
             register(BlockMapping.of("minecraft:sulfur_brick_stairs", ChunkerVanillaBlockType.SULFUR_BRICK_STAIRS, JavaStateGroups.STAIRS));
             register(BlockMapping.of("minecraft:sulfur_brick_wall", ChunkerVanillaBlockType.SULFUR_BRICK_WALL, JavaStateGroups.WALL));
+            register(BlockMapping.of("minecraft:sulfur_spike", ChunkerVanillaBlockType.SULFUR_SPIKE, JavaStateGroups.POINTED_DRIPSTONE));
         }
     }
 }

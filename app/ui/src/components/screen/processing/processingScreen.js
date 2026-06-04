@@ -3,7 +3,7 @@ import {BaseScreen} from "../baseScreen";
 import {SaveScreen} from "../save/saveScreen";
 import api from "../../../api";
 import {ProgressComponent, ProgressTracker} from "../../progress";
-import {getVersionName} from "../mode/modeOption";
+import {getFormatName, getVersionName} from "../mode/modeOption";
 
 export class ProcessingScreen extends BaseScreen {
     mounted = true;
@@ -156,11 +156,20 @@ export class ProcessingScreen extends BaseScreen {
     convertSetBiomeMappings = () => {
         let self = this;
 
+        // Copy valid mappings
+        let clone = {};
+        for (const key in this.app.state.biomeMapping) {
+            const value = this.app.state.biomeMapping[key];
+
+            // If key and value are present move it to the clone
+            if (key && value) clone[key] = value;
+        }
+
         // Set biome mappings
         api.send({
             type: "mappings",
             method: "set_biome_mappings",
-            biomes: self.app.state.biomeMapping
+            biomes: clone
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set biome mappings: " + message.error);
@@ -198,14 +207,14 @@ export class ProcessingScreen extends BaseScreen {
 
     render() {
         let version = getVersionName(this.app.state.outputType.id);
-        let java = this.app.state.outputType.id.startsWith("JAVA_");
+        let format = getFormatName(this.app.state.outputType.id);
 
         return (
             <div className="maincol">
                 <div className="topbar">
                     <h1>Converting</h1>
                     <h2>We're currently converting your world
-                        to {java ? "Java Edition" : "Bedrock Edition"} {version}</h2>
+                        to {format} Edition {version}</h2>
                 </div>
                 {!this.progress.isErrored() && !this.progress.isCancelled() &&
                     <div className="main_content main_content_progress">

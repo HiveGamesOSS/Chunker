@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import fsSync from "fs";
-import archiver from "archiver";
+import {ZipArchive} from "archiver";
 
 export async function countFiles(inputPath) {
     const files = await fs.readdir(inputPath);
@@ -44,7 +44,7 @@ export async function copyRecursive(inputPath, outputPath, singleFileCallback) {
 
 export async function zipRecursive(inputPath, outputPath) {
     let output = fsSync.createWriteStream(outputPath);
-    let archive = archiver("zip", {zlib: {level: 9}});
+    let archive = new ZipArchive({zlib: {level: 9}});
     // Pipe to our output
     archive.pipe(output);
 

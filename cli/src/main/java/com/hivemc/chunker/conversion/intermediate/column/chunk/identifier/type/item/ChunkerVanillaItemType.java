@@ -366,6 +366,7 @@ public enum ChunkerVanillaItemType implements ChunkerItemType {
     MUSIC_DISC_PRECIPICE,
     MUSIC_DISC_TEARS,
     MUSIC_DISC_LAVA_CHICKEN,
+    MUSIC_DISC_BOUNCE,
     DISC_FRAGMENT_5,
     TRIDENT,
     PHANTOM_MEMBRANE,

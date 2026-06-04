@@ -20,7 +20,14 @@ on:
         type: boolean
 jobs:
   build_test_linux:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            gradle-args: 'build'
+          - os: ubuntu-24.04-arm
+            gradle-args: 'build -x test'
+    runs-on: ${{ matrix.os }}
     if: github.event.inputs.build_linux == 'true'
     steps:
       - uses: actions/checkout@v6
@@ -41,10 +48,11 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew ${{ matrix.gradle-args }}
 
       - name: Upload CLI Jar
         uses: actions/upload-artifact@v7
+        if: matrix.os == 'ubuntu-latest'
         with:
           name: jar-builds
           path: build/libs/*.jar
@@ -52,11 +60,20 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
-          name: linux-builds
+          name: linux-builds-${{ matrix.os }}
           path: build/libs/linux/
 
   build_windows:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            java-version: '17'
+            unpacked-dir: win-unpacked
+          - os: windows-11-arm
+            java-version: '21'
+            unpacked-dir: win-arm64-unpacked
+    runs-on: ${{ matrix.os }}
     if: github.event.inputs.build_windows == 'true'
     steps:
       - uses: actions/checkout@v6
@@ -64,10 +81,10 @@ jobs:
           lfs: true
           submodules: recursive
 
-      - name: Set up JDK 17
+      - name: Set up JDK ${{ matrix.java-version }}
         uses: actions/setup-java@v5
         with:
-          java-version: '17'
+          java-version: ${{ matrix.java-version }}
           distribution: 'temurin'
 
       - name: Setup Gradle
@@ -102,7 +119,7 @@ jobs:
           endpoint: https://weu.codesigning.azure.net/
           trusted-signing-account-name: hivegames
           certificate-profile-name: Chunker
-          files-folder: build/libs/windows/win-unpacked/
+          files-folder: build/libs/windows/${{ matrix.unpacked-dir }}/
           files-folder-filter: exe
           file-digest: SHA256
           timestamp-rfc3161: http://timestamp.acs.microsoft.com
@@ -111,7 +128,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
-          name: windows-builds
+          name: windows-builds-${{ matrix.os }}
           path: build/libs/windows/
 
   build_mac:

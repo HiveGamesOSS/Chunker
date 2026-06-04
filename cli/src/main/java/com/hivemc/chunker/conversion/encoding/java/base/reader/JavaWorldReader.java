@@ -122,11 +122,27 @@ public class JavaWorldReader implements WorldReader {
                 // Multiple region files can be handled by later versions, so it's abstracted here
                 File[] regionFiles = getRegionFiles(region, knownRegionFiles);
 
-                // Read the region file then perform GC, this ensures in systems where the Java process is not bound
-                // we do not consume too much memory and keep it fair to other processes
+                // Read the region file then close the readers after it is done
                 Task.async("Reading region file", TaskWeight.NORMAL, () -> readRegion(regionFiles, region, columnConversionHandler))
-                        .then("Region - Flushing", TaskWeight.MEDIUM, () -> columnConversionHandler.flushRegion(region))
-                        .then("Region - System::GC", TaskWeight.NONE, System::gc);
+                        .thenConsume("Closing region readers", TaskWeight.NONE, this::closeReaders)
+                        .then("Region - Flushing", TaskWeight.MEDIUM, () -> columnConversionHandler.flushRegion(region));
+            }
+        }
+    }
+
+    /**
+     * Close all the MCAReaders in an array.
+     *
+     * @param mcaReaders the readers.
+     */
+    protected void closeReaders(MCAReader[] mcaReaders) {
+        // Loop through all the readers and close them
+        for (MCAReader mcaReader : mcaReaders) {
+            if (mcaReader == null) continue;
+            try {
+                mcaReader.close();
+            } catch (IOException e) {
+                converter.logNonFatalException(e);
             }
         }
     }
@@ -175,69 +191,73 @@ public class JavaWorldReader implements WorldReader {
      *                                versions).
      * @param region                  the region co-ordinates.
      * @param columnConversionHandler the conversion handler to submit the read columns to.
+     * @return the MCAReaders associated with the region.
      */
     @SuppressWarnings("resource")
-    protected void readRegion(@Nullable File[] regionFiles, RegionCoordPair region, ColumnConversionHandler columnConversionHandler) {
+    protected MCAReader[] readRegion(@Nullable File[] regionFiles, RegionCoordPair region, ColumnConversionHandler columnConversionHandler) {
         int regionFilesCount = regionFiles.length;
         MCAReader[] mcaReaders = new MCAReader[regionFilesCount];
-        try {
-            // Open all our required files
-            boolean foundValidFile = false;
-            for (int i = 0; i < regionFilesCount; i++) {
-                File file = regionFiles[i];
 
-                // Skip if the file doesn't exist / is invalid
-                if (file == null) continue;
+        // Open all our required files
+        boolean foundValidFile = false;
+        for (int i = 0; i < regionFilesCount; i++) {
+            File file = regionFiles[i];
 
-                // Otherwise open a random access file
-                try {
-                    mcaReaders[i] = new MCAReader(converter, file);
-                    foundValidFile = true;
-                } catch (FileNotFoundException e) {
-                    // Ignored, it'll be null if this happens
-                }
+            // Skip if the file doesn't exist / is invalid
+            if (file == null) continue;
+
+            // Otherwise open a random access file
+            try {
+                mcaReaders[i] = new MCAReader(converter, file);
+                foundValidFile = true;
+            } catch (FileNotFoundException e) {
+                // Ignored, it'll be null if this happens
             }
+        }
 
-            // Don't continue if there's no files to read
-            if (!foundValidFile) {
-                converter.logNonFatalException(new Exception("Misnamed region file for " + dimension + ", " + region));
-                return;
-            }
+        // Don't continue if there's no files to read
+        if (!foundValidFile) {
+            converter.logNonFatalException(new Exception("Misnamed region file for " + dimension + ", " + region));
+            return mcaReaders;
+        }
 
-            // Stage 1. Collect all known offsets
-            Int2ObjectMap<int[]> positionsToOffsets = new Int2ObjectOpenHashMap<>();
-            for (int regionFileIndex = 0; regionFileIndex < regionFilesCount; regionFileIndex++) {
-                MCAReader mcaReader = mcaReaders[regionFileIndex];
-                if (mcaReader == null) continue;
+        // Stage 1. Collect all known offsets
+        Int2ObjectMap<int[]> positionsToOffsets = new Int2ObjectOpenHashMap<>();
+        for (int regionFileIndex = 0; regionFileIndex < regionFilesCount; regionFileIndex++) {
+            MCAReader mcaReader = mcaReaders[regionFileIndex];
+            if (mcaReader == null) continue;
 
-                try {
-                    // Read the header which contains the chunk offsets
-                    int[] offsets = mcaReader.readOffsetTable();
-                    for (int i = 0; i < offsets.length; i++) {
-                        int offset = offsets[i];
+            try {
+                // Read the header which contains the chunk offsets
+                int[] offsets = mcaReader.readOffsetTable();
+                for (int i = 0; i < offsets.length; i++) {
+                    int offset = offsets[i];
 
-                        // Only record the offset if it's more than 0, the first 4096 is the header, so it's invalid to be there
-                        if (offset > 0) {
-                            int[] mcaOffsets = positionsToOffsets.computeIfAbsent(i, (ignored) -> new int[regionFilesCount]);
-                            mcaOffsets[regionFileIndex] = offset;
-                        }
+                    // Only record the offset if it's more than 0, the first 4096 is the header, so it's invalid to be there
+                    if (offset > 0) {
+                        int[] mcaOffsets = positionsToOffsets.computeIfAbsent(i, (ignored) -> new int[regionFilesCount]);
+                        mcaOffsets[regionFileIndex] = offset;
                     }
-                } catch (Exception e) {
-                    converter.logNonFatalException(e);
                 }
+            } catch (Exception e) {
+                converter.logNonFatalException(e);
             }
+        }
 
-            // Stage 2. Iterate found regions, lookup each one and combine the results
-            for (Int2ObjectMap.Entry<int[]> columnOffsets : positionsToOffsets.int2ObjectEntrySet()) {
-                ChunkCoordPair localCoords = new ChunkCoordPair(
-                        columnOffsets.getIntKey() & 31,
-                        columnOffsets.getIntKey() >> 5
-                );
-                ChunkCoordPair columnsCoords = region.getChunk(localCoords.chunkX(), localCoords.chunkZ());
+        // Stage 2. Iterate found regions, lookup each one and combine the results.
+        for (Int2ObjectMap.Entry<int[]> columnOffsets : positionsToOffsets.int2ObjectEntrySet()) {
+            ChunkCoordPair localCoords = new ChunkCoordPair(
+                    columnOffsets.getIntKey() & 31,
+                    columnOffsets.getIntKey() >> 5
+            );
+            ChunkCoordPair columnsCoords = region.getChunk(localCoords.chunkX(), localCoords.chunkZ());
+            int[] columnFileOffsets = columnOffsets.getValue();
 
-                // Ignore if this column shouldn't be processed
-                if (!converter.shouldProcessColumn(dimension, columnsCoords)) continue;
+            // Ignore if this column shouldn't be processed
+            if (!converter.shouldProcessColumn(dimension, columnsCoords)) continue;
 
+            // Do the column work in its own task
+            Task.async("Processing column " + columnsCoords, TaskWeight.NORMAL, () -> {
                 // Iterate through each region file
                 List<Task<CompoundTag>> decompressingTasks = new ArrayList<>(regionFilesCount);
                 List<Integer> decompressingTasksIndexes = new ArrayList<>(regionFilesCount);
@@ -247,12 +267,14 @@ public class JavaWorldReader implements WorldReader {
                     if (mcaReader == null) continue;
 
                     // Get the column offset specific for this region file
-                    int offset = columnOffsets.getValue()[regionFileIndex];
+                    int offset = columnFileOffsets[regionFileIndex];
                     if (offset <= 0) continue; // Skip if it's 0 or less as that indicates it's not used in this file
 
                     try {
-                        // Schedule the decompression of this column
-                        decompressingTasks.add(mcaReader.readColumn(columnsCoords, offset));
+                        // Schedule the decompression of the column, we need to do the read sync as this is run in parallel
+                        synchronized (mcaReader) {
+                            decompressingTasks.add(mcaReader.readColumn(columnsCoords, offset));
+                        }
 
                         // Add to the indexes, so we know this file was found
                         decompressingTasksIndexes.add(regionFileIndex);
@@ -260,6 +282,7 @@ public class JavaWorldReader implements WorldReader {
                         converter.logNonFatalException(e);
                     }
                 }
+
                 // Wait for decompression tasks to complete (note: null tasks will be in place of regions that weren't found)
                 Task.join(decompressingTasks)
                         .then("Combining input column NBT", TaskWeight.LOW, (results) -> {
@@ -272,20 +295,10 @@ public class JavaWorldReader implements WorldReader {
                         })
                         .then("Creating Column Reader", TaskWeight.LOW, (column) -> createColumnReader(columnsCoords, column))
                         .thenConsume("Reading Column", TaskWeight.HIGHER, (columnReader) -> columnReader.readColumn(columnConversionHandler));
-
-            }
-        } finally {
-            // Ensure all the region files get closed
-            for (MCAReader mcaReader : mcaReaders) {
-                if (mcaReader == null) continue;
-                try {
-                    mcaReader.close();
-                } catch (IOException e) {
-                    // Failed to close the file
-                    converter.logNonFatalException(e);
-                }
-            }
+            });
         }
+
+        return mcaReaders;
     }
 
     /**

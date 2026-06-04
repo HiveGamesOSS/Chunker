@@ -13,6 +13,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.Chunker
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerGeneratorType;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevel;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevelPlayer;
+import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevelSettings;
 import com.hivemc.chunker.conversion.intermediate.level.map.ChunkerMap;
 import com.hivemc.chunker.nbt.TagType;
@@ -32,6 +33,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A writer for Java levels.
@@ -55,6 +57,14 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         this.version = version;
         this.converter = converter;
         resolvers = buildResolvers(converter).build();
+    }
+
+    @Override
+    public Set<ChunkerBiome.ChunkerVanillaBiome> getSupportedBiomes() {
+        // String identifiers are used >= 1.18.0
+        return version.isGreaterThanOrEqual(1, 18, 0)
+                ? resolvers.biomeNameResolver().getSupportedBiomes()
+                : resolvers.biomeIdResolver().getSupportedBiomes();
     }
 
     @Override

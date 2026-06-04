@@ -15,6 +15,14 @@ public class ColumnReader extends com.hivemc.chunker.conversion.encoding.java.v1
     }
 
     @Override
+    protected void readLightPopulated(ChunkerColumn column) {
+        // 1.14 changed "LightPopulated" to "isLightOn" (async lighting)
+        if (columnNBT.contains("isLightOn")) {
+            column.setLightPopulated(columnNBT.getByte("isLightOn") != (byte) 0);
+        }
+    }
+
+    @Override
     public JavaChunkReader createChunkReader(ChunkerColumn column, ChunkerChunk chunk) {
         return new ChunkReader(converter, resolvers, column, chunk);
     }

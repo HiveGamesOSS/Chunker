@@ -7,7 +7,7 @@ import java.io.IOException;
  * Implements a DataOutput based writer which encodes using big endian.
  */
 class DataOutputWriterBE implements Writer {
-    private final DataOutput dataOutput;
+    protected final DataOutput dataOutput;
 
     protected DataOutputWriterBE(DataOutput dataOutput) {
         this.dataOutput = dataOutput;

@@ -4,9 +4,11 @@ import com.hivemc.chunker.conversion.encoding.EncodingType;
 import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.writer.LevelWriter;
 import com.hivemc.chunker.conversion.encoding.base.writer.WorldWriter;
+import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevel;
 
 import java.io.File;
+import java.util.Set;
 
 /**
  * PreviewLevelWriter is a level writer that outputs a folder with preview images / a binary of present chunks.
@@ -37,5 +39,10 @@ public class PreviewLevelWriter implements LevelWriter {
     @Override
     public Version getVersion() {
         return new Version(1, 0, 0);
+    }
+
+    @Override
+    public Set<ChunkerBiome.ChunkerVanillaBiome> getSupportedBiomes() {
+        return Set.of(); // Biomes aren't used in the PreviewLevelWriter
     }
 }

@@ -109,6 +109,7 @@ public class VanillaBlockStates {
     public static final BlockState<Bool> PERSISTENT = new BlockState<>("persistent", Bool.FALSE, Bool::values);
     public static final BlockState<Pickles> PICKLES = new BlockState<>("pickles", Pickles._1, Pickles::values);
     public static final BlockState<PistonType> PISTON_TYPE = new BlockState<>("type", PistonType.NORMAL, PistonType::values);
+    public static final BlockState<PotentSulfurState> POTENT_SULFUR_STATE = new BlockState<>("potent_sulfur_state", PotentSulfurState.DRY, PotentSulfurState::values);
     public static final BlockState<Power> POWER = new BlockState<>("power", Power._0, Power::values);
     public static final BlockState<Bool> POWERED = new BlockState<>("powered", Bool.FALSE, Bool::values);
     public static final BlockState<RailShape> RAIL_SHAPE = new BlockState<>("shape", RailShape.NORTH_SOUTH, RailShape::values);

@@ -70,7 +70,7 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
         register(new EmptyBlockEntityHandler<>("minecraft:conduit", ConduitBlockEntity.class, ConduitBlockEntity::new));
         if (version.isGreaterThanOrEqual(1, 14, 0)) {
             register(new JavaCampfireBlockEntityHandler());
-            register(new EmptyBlockEntityHandler<>("minecraft:jigsaw", JigsawBlockEntity.class, JigsawBlockEntity::new));
+            register(new JavaJigsawBlockEntityHandler());
             register(new EmptyBlockEntityHandler<>("minecraft:bell", BellBlockEntity.class, BellBlockEntity::new));
             register(new JavaLecternBlockEntityHandler());
             register(new EmptyBlockEntityHandler<>("minecraft:blast_furnace", BlastFurnaceBlockEntity.class, BlastFurnaceBlockEntity::new));

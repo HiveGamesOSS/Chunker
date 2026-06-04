@@ -274,8 +274,8 @@ const createWindow = () => {
 
 // Allow session:// and data:// to be accessed bypassing content security policies
 protocol.registerSchemesAsPrivileged([
-    {scheme: "session", privileges: {bypassCSP: true, supportFetchAPI: true}}, // Bypass CSP to allow it to be loaded from
-    {scheme: "static", privileges: {bypassCSP: true, supportFetchAPI: true}} // Bypass CSP to allow it to be loaded from
+    {scheme: "session", privileges: {standard: true, corsEnabled: true, bypassCSP: true, supportFetchAPI: true}}, // Bypass CSP to allow it to be loaded from
+    {scheme: "static", privileges: {standard: true, corsEnabled: true, bypassCSP: true, supportFetchAPI: true}} // Bypass CSP to allow it to be loaded from
 ]);
 
 app.whenReady().then(() => {

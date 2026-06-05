@@ -733,6 +733,13 @@ public class BedrockStateTypes {
             .mapping(2, Pickles._3)
             .mapping(3, Pickles._4)
             .build();
+    public static final TypeMapping<String, PotentSulfurState> POTENT_SULFUR_STATE = new TypeMapping.Builder<String, PotentSulfurState>()
+            .mapping("dry", PotentSulfurState.DRY)
+            .mapping("wet", PotentSulfurState.WET)
+            .mapping("dormant", PotentSulfurState.DORMANT)
+            .mapping("erupting", PotentSulfurState.ERUPTING)
+            .mapping("continuous", PotentSulfurState.CONTINUOUS)
+            .build();
     public static final TypeMapping<Integer, Power> POWER = new TypeMapping.Builder<Integer, Power>()
             .mapping(0, Power._0)
             .mapping(1, Power._1)

@@ -8,6 +8,7 @@ import com.hivemc.chunker.conversion.encoding.java.base.reader.util.MCAReader;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
 import com.hivemc.chunker.conversion.handlers.LevelConversionHandler;
 import com.hivemc.chunker.conversion.handlers.WorldConversionHandler;
+import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.ChunkCoordPair;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.RegionCoordPair;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
@@ -62,6 +63,14 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
         this.inputVersion = inputVersion;
         this.converter = converter;
         resolvers = buildResolvers(converter).build();
+    }
+
+    @Override
+    public Set<ChunkerBiome.ChunkerVanillaBiome> getSupportedBiomes() {
+        // String identifiers are used >= 1.18.0
+        return inputVersion.isGreaterThanOrEqual(1, 18, 0)
+                ? resolvers.biomeNameResolver().getSupportedBiomes()
+                : resolvers.biomeIdResolver().getSupportedBiomes();
     }
 
     /**
@@ -465,7 +474,7 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
             String generatorName = root.getString("generatorName");
 
             if (generatorName.equals("default")) {
-                return ChunkerGeneratorType.CUSTOM;
+                return ChunkerGeneratorType.NORMAL;
             }
 
             // If it's flat, it may be one of the presets, but we'll do a basic check

@@ -90,4 +90,34 @@ public class BedrockBiomeIDResolverTests {
         assertFalse(value.isEmpty());
         assertEquals(biomeId, value.get());
     }
+
+    @ParameterizedTest
+    @MethodSource("biomeList")
+    public void checkBedrockIdentifierMatches(String biome, int biomeId) {
+        BedrockBiomeIDResolver biomeResolver = new BedrockBiomeIDResolver(Version.LATEST, true);
+
+        // Resolve the ID back to a vanilla biome
+        Optional<ChunkerBiome> mappedValue = biomeResolver.to(biomeId);
+        assertTrue(mappedValue.isPresent());
+        assertInstanceOf(ChunkerBiome.ChunkerVanillaBiome.class, mappedValue.get());
+
+        // Ensure it is present and matches biome_ids.json
+        ChunkerBiome.ChunkerVanillaBiome vanillaBiome = (ChunkerBiome.ChunkerVanillaBiome) mappedValue.get();
+        Optional<String> bedrockIdentifier = vanillaBiome.getBedrockIdentifier();
+        assertTrue(bedrockIdentifier.isPresent());
+        assertEquals("minecraft:" + biome, bedrockIdentifier.get());
+    }
+
+    @Test
+    public void checkBedrockIdentifiersUnique() {
+        // Ensure all the Bedrock identifiers in ChunkerVanillaBiome are unique
+        Set<String> seen = new ObjectOpenHashSet<>();
+        for (ChunkerBiome.ChunkerVanillaBiome biome : ChunkerBiome.ChunkerVanillaBiome.values()) {
+            Optional<String> bedrockIdentifier = biome.getBedrockIdentifier();
+            if (bedrockIdentifier.isEmpty()) continue;
+
+            // Try adding
+            assertTrue(seen.add(bedrockIdentifier.get()));
+        }
+    }
 }

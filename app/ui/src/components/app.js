@@ -7,7 +7,7 @@ import {StepDisplay} from "./page/stepDisplay";
 import {ErrorDisplay} from "./modal/errorDisplay";
 import {Footer} from "./page/footer";
 import {decode} from "base64-arraybuffer"
-import {getVersionName} from "./screen/mode/modeOption";
+import {getFormatName, getVersionName} from "./screen/mode/modeOption";
 
 export class App extends Component {
     errorModal = React.createRef();
@@ -48,6 +48,8 @@ export class App extends Component {
         convertResult: undefined,
         inputBlockSuggestions: [],
         outputBlockSuggestions: [],
+        inputBiomeSuggestions: [],
+        outputBiomeSuggestions: [],
         dimensionMapping: {
             "minecraft:overworld": "minecraft:overworld",
             "minecraft:the_nether": "minecraft:the_nether",
@@ -87,9 +89,17 @@ export class App extends Component {
     };
 
     getBiomeMappingsJSON = () => {
-        const mappings = this.state.biomeMapping;
-        if (Object.keys(mappings).length === 0) return "{}";
-        return JSON.stringify(mappings);
+        // Remove invalid mappings
+        let clone = {};
+        for (const key in this.state.biomeMapping) {
+            const value = this.state.biomeMapping[key];
+
+            // If key and value are present move it to the clone
+            if (key && value) clone[key] = value;
+        }
+
+        if (Object.keys(clone).length === 0) return "{}";
+        return JSON.stringify(clone);
     };
 
     getPruningJSON = () => {
@@ -256,13 +266,13 @@ export class App extends Component {
         // Version info
         let inputVersion;
         if (this.state.inputType) {
-            inputVersion = (this.state.inputType.id.startsWith("JAVA_") ? "Java " : "Bedrock ") + getVersionName(this.state.inputType.id);
+            inputVersion = getFormatName(this.state.inputType.id) + " " + getVersionName(this.state.inputType.id);
         } else {
             inputVersion = "N/A";
         }
         let outputVersion;
         if (this.state.outputType) {
-            outputVersion = (this.state.outputType.id.startsWith("JAVA_") ? "Java " : "Bedrock ") + getVersionName(this.state.outputType.id);
+            outputVersion = getFormatName(this.state.outputType.id) + " " + getVersionName(this.state.outputType.id);
         } else {
             outputVersion = "N/A";
         }

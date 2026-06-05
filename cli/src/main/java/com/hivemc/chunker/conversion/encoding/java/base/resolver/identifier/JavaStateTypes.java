@@ -548,6 +548,13 @@ public class JavaStateTypes {
             .mapping("normal", PistonType.NORMAL)
             .mapping("sticky", PistonType.STICKY)
             .build();
+    public static final TypeMapping<String, PotentSulfurState> POTENT_SULFUR_STATE = new TypeMapping.Builder<String, PotentSulfurState>()
+            .mapping("dry", PotentSulfurState.DRY)
+            .mapping("wet", PotentSulfurState.WET)
+            .mapping("dormant", PotentSulfurState.DORMANT)
+            .mapping("erupting", PotentSulfurState.ERUPTING)
+            .mapping("continuous", PotentSulfurState.CONTINUOUS)
+            .build();
     public static final TypeMapping<String, Power> POWER = new TypeMapping.Builder<String, Power>()
             .mapping("0", Power._0)
             .mapping("1", Power._1)

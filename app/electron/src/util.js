@@ -4,7 +4,7 @@ import fsSync from "fs";
 import zlib from "zlib";
 import {once} from "events";
 import {pipeline} from "stream/promises";
-import archiver from "archiver";
+import {ZipArchive} from "archiver";
 import tarStream from "tar-stream";
 
 export async function countFiles(inputPath) {
@@ -48,7 +48,7 @@ export async function copyRecursive(inputPath, outputPath, singleFileCallback) {
 
 export async function zipRecursive(inputPath, outputPath) {
     let output = fsSync.createWriteStream(outputPath);
-    let archive = archiver("zip", {zlib: {level: 9}});
+    let archive = new ZipArchive({zlib: {level: 9}});
     // Pipe to our output
     archive.pipe(output);
 

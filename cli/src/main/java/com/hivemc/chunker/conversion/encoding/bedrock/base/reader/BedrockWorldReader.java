@@ -80,11 +80,8 @@ public class BedrockWorldReader implements WorldReader {
     public void readRegions(Map<RegionCoordPair, Set<ChunkCoordPair>> regions, ColumnConversionHandler columnConversionHandler) {
         for (Map.Entry<RegionCoordPair, Set<ChunkCoordPair>> region : regions.entrySet()) {
             if (converter.shouldProcessRegion(dimension, region.getKey())) {
-                // Read the region then perform GC, this ensures in systems where the Java process is not bound
-                // we do not consume too much memory and keep it fair to other processes
                 Task.async("Reading region", TaskWeight.NORMAL, () -> readRegion(region, columnConversionHandler))
-                        .then("Region - Flushing", TaskWeight.MEDIUM, () -> columnConversionHandler.flushRegion(region.getKey()))
-                        .then("Region - System::GC", TaskWeight.NONE, System::gc);
+                        .then("Region - Flushing", TaskWeight.MEDIUM, () -> columnConversionHandler.flushRegion(region.getKey()));
             }
         }
     }

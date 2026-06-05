@@ -36,16 +36,11 @@ dependencies {
 }
 
 group = "com.hivemc.chunker"
-version = "1.17.0"
+version = "1.18.1"
 description = "chunker"
 base.archivesName = "chunker-cli"
-java.sourceCompatibility = JavaVersion.VERSION_17
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 publishing {
     publications.create<MavenPublication>("maven") {

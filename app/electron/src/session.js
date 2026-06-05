@@ -66,6 +66,12 @@ export class Session {
             if (files.length === 0) {
                 throw new Error("chunker-cli executable is missing!");
             }
+
+            // The dev build directory can contain multiple versioned jars (e.g. an older
+            // chunker-cli-1.17.0.jar left next to chunker-cli-1.18.1.jar). Sort by name using
+            // numeric ordering so we always launch the newest build instead of whichever the OS
+            // happens to list first.
+            files.sort((a, b) => b.name.localeCompare(a.name, undefined, {numeric: true}));
             executable = path.join(cliDirectory, files[0].name);
         }
 

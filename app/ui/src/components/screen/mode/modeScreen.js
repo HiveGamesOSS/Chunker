@@ -1,17 +1,23 @@
 import React from "react";
 import {BaseScreen} from "../baseScreen";
 import {SettingsScreen} from "../settings/settingsScreen";
-import {ModeOption} from "./modeOption";
+import {ModeOption, getFormatName} from "./modeOption";
 import {ProcessingScreen} from "../processing/processingScreen";
 import api from "../../../api";
 
 const COLLAPSED_COUNT = 3;
 
+// Editions shown first, in this order, with a friendly heading. Any other format
+// is grouped automatically under its own heading so Chunker stays open ended.
+const EDITIONS = [
+    {id: "BEDROCK", label: "Bedrock Edition"},
+    {id: "JAVA", label: "Java Edition"}
+];
+
 export class ModeScreen extends BaseScreen {
     state = {
         selected: undefined,
-        javaExpanded: false,
-        bedrockExpanded: false
+        expanded: {}
     };
 
     getStage = () => {
@@ -71,11 +77,35 @@ export class ModeScreen extends BaseScreen {
     };
 
     toggleExpanded = (edition) => {
-        if (edition === "JAVA") {
-            this.setState({javaExpanded: !this.state.javaExpanded});
-        } else {
-            this.setState({bedrockExpanded: !this.state.bedrockExpanded});
+        this.setState({
+            expanded: {...this.state.expanded, [edition]: !this.state.expanded[edition]}
+        });
+    };
+
+    // Group writers by their format (the text before the first underscore) so every
+    // format gets a section, not just the built-in editions. Known editions come
+    // first in a fixed order; anything else follows in the order it appears.
+    groupWriters = (writers) => {
+        let buckets = new Map();
+        for (let writer of writers) {
+            let edition = writer.id.split("_")[0];
+            if (!buckets.has(edition)) {
+                buckets.set(edition, []);
+            }
+            buckets.get(edition).push(writer);
         }
+
+        let groups = [];
+        for (let edition of EDITIONS) {
+            if (buckets.has(edition.id)) {
+                groups.push({id: edition.id, label: edition.label, writers: buckets.get(edition.id)});
+                buckets.delete(edition.id);
+            }
+        }
+        for (let [edition, group] of buckets) {
+            groups.push({id: edition, label: getFormatName(edition), writers: group});
+        }
+        return groups;
     };
 
     // Pick the writers to display when collapsed: the COLLAPSED_COUNT most recent,
@@ -94,21 +124,19 @@ export class ModeScreen extends BaseScreen {
         return combined.sort((a, b) => writers.indexOf(a) - writers.indexOf(b));
     };
 
-    renderSection(label, edition, writers, expanded, sourceId) {
-        if (writers.length === 0) {
-            return null;
-        }
+    renderSection(group, sourceId) {
+        let {id, label, writers} = group;
         let collapsed = this.pickCollapsed(writers, sourceId);
         // Force the section expanded if the current selection would otherwise be hidden,
         // so the user never loses sight of what they picked.
         let selectionHidden = this.state.selected !== undefined
             && writers.some(w => w.id === this.state.selected)
             && !collapsed.some(w => w.id === this.state.selected);
-        let isExpanded = expanded || selectionHidden;
+        let isExpanded = this.state.expanded[id] || selectionHidden;
         let visible = isExpanded ? writers : collapsed;
         let canToggle = writers.length > COLLAPSED_COUNT && !selectionHidden;
         return (
-            <div className="edition_section">
+            <div className="edition_section" key={id}>
                 <h3 className="edition_heading">{label}</h3>
                 <div className="edition_grid">
                     {visible.map(key => (
@@ -121,7 +149,7 @@ export class ModeScreen extends BaseScreen {
                     <div className="edition_toggle">
                         <button
                             type="button" className="button blue small"
-                            onClick={() => this.toggleExpanded(edition)}>
+                            onClick={() => this.toggleExpanded(id)}>
                             {isExpanded ? "Show Less" : "Show All (" + writers.length + ")"}
                         </button>
                     </div>
@@ -133,8 +161,7 @@ export class ModeScreen extends BaseScreen {
     render() {
         let writers = this.app.state.sessionData.version.writers.slice(0).reverse();
         let sourceId = this.app.state.inputType ? this.app.state.inputType.id : undefined;
-        let javaWriters = writers.filter(w => w.id.startsWith("JAVA_"));
-        let bedrockWriters = writers.filter(w => w.id.startsWith("BEDROCK_"));
+        let groups = this.groupWriters(writers);
         return (
             <div className="maincol">
                 <div className="topbar">
@@ -146,8 +173,7 @@ export class ModeScreen extends BaseScreen {
                         <span>Warning: {this.app.state.sessionData.version.warnings}</span>
                     </div>}
                 <div className="main_content export">
-                    {this.renderSection("Bedrock Edition", "BEDROCK", bedrockWriters, this.state.bedrockExpanded, sourceId)}
-                    {this.renderSection("Java Edition", "JAVA", javaWriters, this.state.javaExpanded, sourceId)}
+                    {groups.map(group => this.renderSection(group, sourceId))}
                 </div>
                 <div className="bottombar">
                     <button

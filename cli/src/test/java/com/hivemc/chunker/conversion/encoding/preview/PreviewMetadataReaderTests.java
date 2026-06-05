@@ -93,7 +93,7 @@ public class PreviewMetadataReaderTests {
         org.iq80.leveldb.DBFactory factory = new org.iq80.leveldb.impl.Iq80DBFactory();
         try (org.iq80.leveldb.DB db = factory.open(dbDir, options)) {
             // Overworld chunk (10, 20), SubChunkPrefix tag (0x2F), subChunkY 0.
-            // Key length = 10: x(4) z(4) subY(1) tag(1)
+            // Key length = 10: x(4) z(4) tag(1) subY(1)
             db.put(bedrockKey(10, 20, 0, true, 0x2F), new byte[]{0x01});
             // Overworld chunk (-3, 7), Data2D tag (0x2D), no subchunk.
             // Key length = 9: x(4) z(4) tag(1)
@@ -106,7 +106,7 @@ public class PreviewMetadataReaderTests {
             // Key length = 13: x(4) z(4) dim(4) tag(1)
             db.put(bedrockKeyWithDim(0, 0, 1, 0x2B), new byte[]{0x04});
             // End chunk (5, -5) with SubChunkPrefix. Dimension 2, with subChunkY 3.
-            // Key length = 14: x(4) z(4) dim(4) subY(1) tag(1)
+            // Key length = 14: x(4) z(4) dim(4) tag(1) subY(1)
             db.put(bedrockKeyDimSub(5, -5, 2, 3, 0x2F), new byte[]{0x05});
             // Junk key that doesn't fit any chunk key length — should be ignored.
             db.put(new byte[]{0x01, 0x02, 0x03}, new byte[]{0x00});
@@ -137,12 +137,13 @@ public class PreviewMetadataReaderTests {
         assertTrue(end.regionHasAnyChunk(0, -1), "End region (0,-1) should contain chunk (5,-5)");
     }
 
-    // Bedrock key builders (little-endian).
+    // Bedrock key builders (little-endian). The type tag precedes the optional sub-chunk Y,
+    // matching the real on-disk layout produced by LevelDBKey.
     private static byte[] bedrockKey(int x, int z, int subY, boolean withSub, int tag) {
         java.nio.ByteBuffer buf = java.nio.ByteBuffer.allocate(withSub ? 10 : 9).order(java.nio.ByteOrder.LITTLE_ENDIAN);
         buf.putInt(x).putInt(z);
-        if (withSub) buf.put((byte) subY);
         buf.put((byte) tag);
+        if (withSub) buf.put((byte) subY);
         return buf.array();
     }
     private static byte[] bedrockKeyNoSub(int x, int z, int dim, int tag) {
@@ -158,7 +159,7 @@ public class PreviewMetadataReaderTests {
     }
     private static byte[] bedrockKeyDimSub(int x, int z, int dim, int subY, int tag) {
         java.nio.ByteBuffer buf = java.nio.ByteBuffer.allocate(14).order(java.nio.ByteOrder.LITTLE_ENDIAN);
-        buf.putInt(x).putInt(z).putInt(dim).put((byte) subY).put((byte) tag);
+        buf.putInt(x).putInt(z).putInt(dim).put((byte) tag).put((byte) subY);
         return buf.array();
     }
 }

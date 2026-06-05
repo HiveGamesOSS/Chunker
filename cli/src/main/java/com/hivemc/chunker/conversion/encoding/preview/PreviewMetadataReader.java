@@ -114,7 +114,6 @@ public final class PreviewMetadataReader {
         }
 
         File dbDir = new File(worldDir, "db");
-        new File(dbDir, "LOCK").delete();
 
         Options options = new Options();
         options.compressionType(CompressionType.ZLIB_RAW);
@@ -136,8 +135,10 @@ public final class PreviewMetadataReader {
         final byte TYPE_BLOCK_ENTITY = 49;
         final byte TYPE_ENTITY = 50;
 
-        try (DB db = new Iq80DBFactory().open(dbDir, options);
-             DBIterator iterator = db.iterator()) {
+        // Open defensively: a stale db/LOCK (or one not yet released) would otherwise fail the
+        // whole metadata pass, leaving the preview with no map.bin and nothing to display.
+        DB db = PreviewLevelDb.withLockRetry(dbDir, () -> new Iq80DBFactory().open(dbDir, options));
+        try (db; DBIterator iterator = db.iterator()) {
             while (iterator.hasNext()) {
                 byte[] key = iterator.next().getKey();
                 int keyLength = key.length;
@@ -151,7 +152,8 @@ public final class PreviewMetadataReader {
                 int x = buffer.getInt();
                 int z = buffer.getInt();
                 int dimensionID = containsDimension ? buffer.getInt() : 0;
-                if (containsSubChunk) buffer.get();
+                // The type byte precedes the optional sub-chunk Y in the key (see LevelDBKey), so
+                // read the type directly; the trailing Y isn't needed to detect chunk presence.
                 byte type = buffer.get();
 
                 if (type != TYPE_DATA_3D && type != TYPE_DATA_2D && type != TYPE_SUB_CHUNK_PREFIX

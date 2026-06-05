@@ -59,6 +59,18 @@ public class ChunkerWorldRegionRgbaSource implements RegionRgbaSource {
     }
 
     private int[] loadRegionLocked(String world, int rx, int rz) throws IOException {
+        File dbDir = new File(worldDir, "db");
+        if (dbDir.isDirectory()) {
+            // Bedrock: every region opens the world's LevelDB afresh (the converter frees — and so
+            // closes — the reader after each region). That open can transiently fail to acquire
+            // db/LOCK, e.g. when the previous region's handle hasn't been released yet, so retry
+            // briefly rather than dropping the tile.
+            return PreviewLevelDb.withLockRetry(dbDir, () -> readRegion(world, rx, rz));
+        }
+        return readRegion(world, rx, rz);
+    }
+
+    private int[] readRegion(String world, int rx, int rz) throws IOException {
         // Compute the chunk range covered by this region
         int minCx = rx * 32;
         int minCz = rz * 32;

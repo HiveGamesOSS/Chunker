@@ -325,14 +325,16 @@ export class SelectWorldScreen extends BaseScreen {
                 </div>
                 {!this.state.selected && !this.state.dragging &&
                     <div className="main_content select_world">
-                        <button onClick={this.showFolderBrowser} className="gray_box">
-                            Choose world folder
-                            <span>Select the world folder, we'll do the rest</span>
-                        </button>
-                        <button onClick={this.showFileBrowser} className="gray_box">
-                            Select archive
-                            <span>Supported types: .zip, .mcworld, .mctemplate, .tar</span>
-                        </button>
+                        <div className="select_world_options">
+                            <button onClick={this.showFolderBrowser} className="gray_box">
+                                Choose world folder
+                                <span>Select the world folder, we'll do the rest</span>
+                            </button>
+                            <button onClick={this.showFileBrowser} className="gray_box">
+                                Select archive
+                                <span>Supported types: .zip, .mcworld, .mctemplate, .tar</span>
+                            </button>
+                        </div>
                     </div>
                 }
                 {!this.state.selected && this.state.dragging &&

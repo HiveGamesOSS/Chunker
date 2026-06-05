@@ -805,6 +805,13 @@ input:checked + .switch:before {
 
 /*---Select World---*/
 
+.select_world_options {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+}
+
 .select_world .gray_box {
     text-align: center;
     width: 34.2%;
@@ -812,6 +819,9 @@ input:checked + .switch:before {
     color: #1d5faa;
     padding-top: 50px;
     padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .select_world .drag_box {

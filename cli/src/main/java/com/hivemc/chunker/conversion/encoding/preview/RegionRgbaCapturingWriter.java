@@ -6,10 +6,13 @@ import com.hivemc.chunker.conversion.encoding.base.writer.ColumnWriter;
 import com.hivemc.chunker.conversion.encoding.base.writer.LevelWriter;
 import com.hivemc.chunker.conversion.encoding.base.writer.WorldWriter;
 import com.hivemc.chunker.conversion.intermediate.column.ChunkerColumn;
+import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.ChunkerBlockIdentifier;
 import com.hivemc.chunker.conversion.intermediate.level.ChunkerLevel;
 import com.hivemc.chunker.conversion.intermediate.world.ChunkerWorld;
 import it.unimi.dsi.fastutil.Pair;
+
+import java.util.Set;
 
 /**
  * A minimal LevelWriter that captures per-column ARGB pixels into a flat int[262144] array
@@ -50,6 +53,11 @@ public class RegionRgbaCapturingWriter implements LevelWriter {
     @Override
     public Version getVersion() {
         return new Version(1, 0, 0);
+    }
+
+    @Override
+    public Set<ChunkerBiome.ChunkerVanillaBiome> getSupportedBiomes() {
+        return Set.of(); // Biomes aren't used in the preview capturing writer
     }
 
     // -------------------------------------------------------------------------

@@ -2,8 +2,8 @@ package com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.biome;
 
 import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
+import com.hivemc.chunker.conversion.encoding.base.resolver.biome.ChunkerBiomeResolver;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerCustomBiome;
-import com.hivemc.chunker.resolver.Resolver;
 import com.hivemc.chunker.util.InvertibleMap;
 
 import java.util.*;
@@ -12,9 +12,8 @@ import java.util.*;
  * Biome ID resolver, used for Bedrock
  */
 @SuppressWarnings("deprecation")
-public class BedrockBiomeIDResolver implements Resolver<Integer, ChunkerBiome> {
+public class BedrockBiomeIDResolver extends ChunkerBiomeResolver<Integer> {
     private static final int MINIMUM_CUSTOM_BIOME_ID = 30000;
-    private final InvertibleMap<ChunkerBiome.ChunkerVanillaBiome, Integer> mapping = InvertibleMap.enumKeys(ChunkerBiome.ChunkerVanillaBiome.class);
     private final InvertibleMap<ChunkerCustomBiome, Integer> customMapping = InvertibleMap.create();
     private final boolean customIdentifierSupported;
     private int customBiomeID = MINIMUM_CUSTOM_BIOME_ID;

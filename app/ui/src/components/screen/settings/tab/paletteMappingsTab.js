@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {BlockMapping} from "./blocks/blockMapping";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {getVersionName} from "../../mode/modeOption";
+import {getFormatName, getVersionName} from "../../mode/modeOption";
 
 
 export class PaletteMappingsTab extends Component {
@@ -44,8 +44,10 @@ export class PaletteMappingsTab extends Component {
 
     render() {
         let inputVersion = getVersionName(this.app.state.inputType.id);
+        let inputFormat = getFormatName(this.app.state.inputType.id);
         let inputJava = this.app.state.inputType.id.startsWith("JAVA_");
         let outputVersion = getVersionName(this.app.state.outputType.id);
+        let outputFormat = getFormatName(this.app.state.outputType.id);
         let outputJava = this.app.state.outputType.id.startsWith("JAVA_");
         return (
             <div>
@@ -67,10 +69,10 @@ export class PaletteMappingsTab extends Component {
                         <div>
                             <div className="mappings-row">
                                 <div className="mappings-entry" align="center">
-                                    <span>Input Block ({inputJava ? "Java" : "Bedrock"} {inputVersion})</span>
+                                    <span>Input Block ({inputFormat} {inputVersion})</span>
                                 </div>
                                 <div className="mappings-entry" align="center">
-                                    <span>Output Block ({outputJava ? "Java" : "Bedrock"} {outputVersion})</span>
+                                    <span>Output Block ({outputFormat} {outputVersion})</span>
                                 </div>
                                 <div className="mappings-delete">
                                     <button className="icon-button" style={{visibility: "hidden"}}>

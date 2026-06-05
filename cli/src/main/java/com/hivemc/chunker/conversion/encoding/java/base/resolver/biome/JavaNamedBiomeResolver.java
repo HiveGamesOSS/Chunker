@@ -2,17 +2,15 @@ package com.hivemc.chunker.conversion.encoding.java.base.resolver.biome;
 
 import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
+import com.hivemc.chunker.conversion.encoding.base.resolver.biome.ChunkerBiomeResolver;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerCustomBiome;
-import com.hivemc.chunker.resolver.Resolver;
-import com.hivemc.chunker.util.InvertibleMap;
 
 import java.util.Optional;
 
 /**
  * Biome name resolver, used for Java 1.18+
  */
-public class JavaNamedBiomeResolver implements Resolver<String, ChunkerBiome> {
-    private final InvertibleMap<ChunkerBiome.ChunkerVanillaBiome, String> mapping = InvertibleMap.enumKeys(ChunkerBiome.ChunkerVanillaBiome.class);
+public class JavaNamedBiomeResolver extends ChunkerBiomeResolver<String> {
     private final boolean customIdentifierSupported;
 
     /**

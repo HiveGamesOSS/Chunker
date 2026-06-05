@@ -56,6 +56,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Messenger {
     private static final Map<UUID, Map<UUID, WorldConverter>> SESSION_ID_TO_WORLD_CONVERTERS = new Object2ObjectOpenHashMap<>();
     private static final Map<UUID, PreviewTileService> SESSION_ID_TO_PREVIEW_SERVICE = new ConcurrentHashMap<>();
+    private static final File BIOMES_DUMMY_DIR = new File(".");
     private static final Gson GSON = new GsonBuilder()
             .registerTypeHierarchyAdapter(BasicMessage.class, new BasicMessageTypeAdapter())
             .create();
@@ -392,6 +393,13 @@ public class Messenger {
                             }
                         }
                     }
+                    case BIOMES -> {
+                        BiomesRequest biomesRequest = (BiomesRequest) message;
+                        JsonObject response = new JsonObject();
+                        response.add("input", getBiomesForInput(biomesRequest.getInputPath()));
+                        response.add("output", getBiomesForOutput(biomesRequest.getOutputType()));
+                        write(new OutputResponse(biomesRequest.getRequestId(), response));
+                    }
                     case KILL -> {
                         KillRequest killRequest = (KillRequest) message;
 
@@ -504,6 +512,62 @@ public class Messenger {
             e.printStackTrace();
             return Optional.empty(); // Unable to make writer
         }
+    }
+
+    /**
+     * Get the supported biome identifiers for an input world.
+     *
+     * @param inputPath the path to the input world.
+     * @return a JSON array of biome name strings, or empty if the format couldn't be detected.
+     */
+    public static JsonArray getBiomesForInput(String inputPath) {
+        // Construct a reader for the input world
+        WorldConverter worldConverter = new WorldConverter(UUID.randomUUID());
+        Optional<? extends LevelReader> reader = EncodingType.findReader(new File(inputPath), worldConverter);
+        if (reader.isEmpty()) return new JsonArray();
+
+        // Collect the supported biome identifiers
+        boolean bedrock = reader.get().getEncodingType() == EncodingType.BEDROCK;
+        Set<ChunkerBiome.ChunkerVanillaBiome> supportedBiomes = reader.get().getSupportedBiomes();
+        JsonArray result = new JsonArray(supportedBiomes.size());
+        for (ChunkerBiome.ChunkerVanillaBiome biome : supportedBiomes) {
+            Optional<String> identifier;
+            if (bedrock) {
+                identifier = biome.getBedrockIdentifier();
+            } else {
+                identifier = biome.getJavaIdentifier();
+            }
+            identifier.ifPresent(result::add);
+        }
+        return result;
+    }
+
+    /**
+     * Get the supported biome identifiers for an output format ID.
+     *
+     * @param id the encoded output format ID.
+     * @return a JSON array of biome name strings, or empty if the format is unknown.
+     */
+    public static JsonArray getBiomesForOutput(String id) {
+        // Construct a writer for the output format
+        WorldConverter worldConverter = new WorldConverter(UUID.randomUUID());
+        Optional<? extends LevelWriter> writer = findWriter(id, worldConverter, BIOMES_DUMMY_DIR);
+        if (writer.isEmpty()) return new JsonArray();
+
+        // Collect the supported biome identifiers
+        boolean bedrock = writer.get().getEncodingType() == EncodingType.BEDROCK;
+        Set<ChunkerBiome.ChunkerVanillaBiome> supportedBiomes = writer.get().getSupportedBiomes();
+        JsonArray result = new JsonArray(supportedBiomes.size());
+        for (ChunkerBiome.ChunkerVanillaBiome biome : supportedBiomes) {
+            Optional<String> identifier;
+            if (bedrock) {
+                identifier = biome.getBedrockIdentifier();
+            } else {
+                identifier = biome.getJavaIdentifier();
+            }
+            identifier.ifPresent(result::add);
+        }
+        return result;
     }
 
     /**

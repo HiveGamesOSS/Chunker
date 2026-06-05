@@ -75,6 +75,8 @@ public abstract class BasicMessage {
         REQUEST_PREVIEW_TILES(RequestPreviewTilesRequest.class),
         @SerializedName("cancel_preview_tiles")
         CANCEL_PREVIEW_TILES(CancelPreviewTilesRequest.class),
+        @SerializedName("biomes")
+        BIOMES(BiomesRequest.class),
 
         // Output
         @SerializedName("response")

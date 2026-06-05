@@ -67,11 +67,10 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
         register(new JavaEndGatewayBlockEntityHandler());
         register(new JavaCommandBlockBlockEntityHandler());
         register(new EmptyBlockEntityHandler<>("minecraft:shulker_box", ShulkerBoxBlockEntity.class, ShulkerBoxBlockEntity::new));
-        register(new EmptyBlockEntityHandler<>("minecraft:bed", BedBlockEntity.class, BedBlockEntity::new));
         register(new EmptyBlockEntityHandler<>("minecraft:conduit", ConduitBlockEntity.class, ConduitBlockEntity::new));
         if (version.isGreaterThanOrEqual(1, 14, 0)) {
             register(new JavaCampfireBlockEntityHandler());
-            register(new EmptyBlockEntityHandler<>("minecraft:jigsaw", JigsawBlockEntity.class, JigsawBlockEntity::new));
+            register(new JavaJigsawBlockEntityHandler());
             register(new EmptyBlockEntityHandler<>("minecraft:bell", BellBlockEntity.class, BellBlockEntity::new));
             register(new JavaLecternBlockEntityHandler());
             register(new EmptyBlockEntityHandler<>("minecraft:blast_furnace", BlastFurnaceBlockEntity.class, BlastFurnaceBlockEntity::new));
@@ -115,6 +114,12 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
         }
         if (version.isGreaterThanOrEqual(26, 2, 0)) {
             register(new EmptyBlockEntityHandler<>("minecraft:potent_sulfur", PotentSulfurBlockEntity.class, PotentSulfurBlockEntity::new));
+
+            // 26.2 removed beds from being block entities
+            register(new JavaBedBlockEntityHandler());
+        } else {
+            // Register the empty block entity handler for older versions
+            register(new EmptyBlockEntityHandler<>("minecraft:bed", BedBlockEntity.class, BedBlockEntity::new));
         }
     }
 

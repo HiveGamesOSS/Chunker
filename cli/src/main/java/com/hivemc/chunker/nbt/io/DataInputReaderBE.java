@@ -9,7 +9,7 @@ import java.io.IOException;
  * Implements a DataInput based reader which decodes using big endian.
  */
 class DataInputReaderBE implements Reader {
-    private final DataInput dataInput;
+    protected final DataInput dataInput;
 
     protected DataInputReaderBE(DataInput dataInput) {
         this.dataInput = dataInput;

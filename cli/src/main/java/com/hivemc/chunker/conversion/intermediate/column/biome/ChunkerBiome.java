@@ -1,9 +1,8 @@
 package com.hivemc.chunker.conversion.intermediate.column.biome;
 
+import com.hivemc.chunker.util.InvertibleMap;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -23,278 +22,207 @@ public interface ChunkerBiome {
      * List of vanilla biome IDs. Deprecated values indicate lossy conversion in future versions.
      */
     enum ChunkerVanillaBiome implements ChunkerBiome {
-        OCEAN,
-        PLAINS,
-        DESERT,
-        WINDSWEPT_HILLS,
-        FOREST,
-        TAIGA,
-        SWAMP,
-        RIVER,
-        NETHER_WASTES,
-        THE_END,
-        FROZEN_OCEAN,
-        FROZEN_RIVER,
-        SNOWY_PLAINS,
-        MUSHROOM_FIELDS,
-        BEACH,
-        JUNGLE,
-        SPARSE_JUNGLE,
-        DEEP_OCEAN,
-        STONY_SHORE,
-        SNOWY_BEACH,
-        BIRCH_FOREST,
-        DARK_FOREST,
-        SNOWY_TAIGA,
-        OLD_GROWTH_PINE_TAIGA,
-        WINDSWEPT_FOREST,
-        SAVANNA,
-        SAVANNA_PLATEAU,
-        BADLANDS,
-        WOODED_BADLANDS,
-        SMALL_END_ISLANDS,
-        END_MIDLANDS,
-        END_HIGHLANDS,
-        END_BARRENS,
-        WARM_OCEAN,
-        LUKEWARM_OCEAN,
-        COLD_OCEAN,
-        DEEP_LUKEWARM_OCEAN,
-        DEEP_COLD_OCEAN,
-        DEEP_FROZEN_OCEAN,
-        THE_VOID,
-        SUNFLOWER_PLAINS,
-        FLOWER_FOREST,
-        ICE_SPIKES,
-        OLD_GROWTH_BIRCH_FOREST,
-        OLD_GROWTH_SPRUCE_TAIGA,
-        WINDSWEPT_GRAVELLY_HILLS,
-        WINDSWEPT_SAVANNA,
-        ERODED_BADLANDS,
-        BAMBOO_JUNGLE,
-        SOUL_SAND_VALLEY,
-        CRIMSON_FOREST,
-        WARPED_FOREST,
-        BASALT_DELTAS,
-        DRIPSTONE_CAVES,
-        LUSH_CAVES,
-        MEADOW,
-        GROVE,
-        SNOWY_SLOPES,
-        FROZEN_PEAKS,
-        JAGGED_PEAKS,
-        STONY_PEAKS,
-        DEEP_DARK,
-        MANGROVE_SWAMP,
-        CHERRY_GROVE,
-        PALE_GARDEN,
-        SULFUR_CAVES,
+        OCEAN("minecraft:ocean"),
+        PLAINS("minecraft:plains"),
+        DESERT("minecraft:desert"),
+        WINDSWEPT_HILLS("minecraft:windswept_hills", "minecraft:extreme_hills"),
+        FOREST("minecraft:forest"),
+        TAIGA("minecraft:taiga"),
+        SWAMP("minecraft:swamp", "minecraft:swampland"),
+        RIVER("minecraft:river"),
+        NETHER_WASTES("minecraft:nether_wastes", "minecraft:hell"),
+        THE_END("minecraft:the_end"),
+        FROZEN_OCEAN("minecraft:frozen_ocean"),
+        FROZEN_RIVER("minecraft:frozen_river"),
+        SNOWY_PLAINS("minecraft:snowy_plains", "minecraft:ice_plains"),
+        MUSHROOM_FIELDS("minecraft:mushroom_fields", "minecraft:mushroom_island"),
+        BEACH("minecraft:beach"),
+        JUNGLE("minecraft:jungle"),
+        SPARSE_JUNGLE("minecraft:sparse_jungle", "minecraft:jungle_edge"),
+        DEEP_OCEAN("minecraft:deep_ocean"),
+        STONY_SHORE("minecraft:stony_shore", "minecraft:stone_beach"),
+        SNOWY_BEACH("minecraft:snowy_beach", "minecraft:cold_beach"),
+        BIRCH_FOREST("minecraft:birch_forest"),
+        DARK_FOREST("minecraft:dark_forest", "minecraft:roofed_forest"),
+        SNOWY_TAIGA("minecraft:snowy_taiga", "minecraft:cold_taiga"),
+        OLD_GROWTH_PINE_TAIGA("minecraft:old_growth_pine_taiga", "minecraft:mega_taiga"),
+        WINDSWEPT_FOREST("minecraft:windswept_forest", "minecraft:extreme_hills_plus_trees"),
+        SAVANNA("minecraft:savanna"),
+        SAVANNA_PLATEAU("minecraft:savanna_plateau"),
+        BADLANDS("minecraft:badlands", "minecraft:mesa"),
+        WOODED_BADLANDS("minecraft:wooded_badlands", "minecraft:mesa_plateau_stone"),
+        SMALL_END_ISLANDS("minecraft:small_end_islands"),
+        END_MIDLANDS("minecraft:end_midlands"),
+        END_HIGHLANDS("minecraft:end_highlands"),
+        END_BARRENS("minecraft:end_barrens"),
+        WARM_OCEAN("minecraft:warm_ocean"),
+        LUKEWARM_OCEAN("minecraft:lukewarm_ocean"),
+        COLD_OCEAN("minecraft:cold_ocean"),
+        DEEP_LUKEWARM_OCEAN("minecraft:deep_lukewarm_ocean"),
+        DEEP_COLD_OCEAN("minecraft:deep_cold_ocean"),
+        DEEP_FROZEN_OCEAN("minecraft:deep_frozen_ocean"),
+        THE_VOID("minecraft:the_void"),
+        SUNFLOWER_PLAINS("minecraft:sunflower_plains"),
+        FLOWER_FOREST("minecraft:flower_forest"),
+        ICE_SPIKES("minecraft:ice_spikes", "minecraft:ice_plains_spikes"),
+        OLD_GROWTH_BIRCH_FOREST("minecraft:old_growth_birch_forest", "minecraft:birch_forest_mutated"),
+        OLD_GROWTH_SPRUCE_TAIGA("minecraft:old_growth_spruce_taiga", "minecraft:redwood_taiga_mutated"),
+        WINDSWEPT_GRAVELLY_HILLS("minecraft:windswept_gravelly_hills", "minecraft:extreme_hills_mutated"),
+        WINDSWEPT_SAVANNA("minecraft:windswept_savanna", "minecraft:savanna_mutated"),
+        ERODED_BADLANDS("minecraft:eroded_badlands", "minecraft:mesa_bryce"),
+        BAMBOO_JUNGLE("minecraft:bamboo_jungle"),
+        SOUL_SAND_VALLEY("minecraft:soul_sand_valley", "minecraft:soulsand_valley"),
+        CRIMSON_FOREST("minecraft:crimson_forest"),
+        WARPED_FOREST("minecraft:warped_forest"),
+        BASALT_DELTAS("minecraft:basalt_deltas"),
+        DRIPSTONE_CAVES("minecraft:dripstone_caves"),
+        LUSH_CAVES("minecraft:lush_caves"),
+        MEADOW("minecraft:meadow"),
+        GROVE("minecraft:grove"),
+        SNOWY_SLOPES("minecraft:snowy_slopes"),
+        FROZEN_PEAKS("minecraft:frozen_peaks"),
+        JAGGED_PEAKS("minecraft:jagged_peaks"),
+        STONY_PEAKS("minecraft:stony_peaks"),
+        DEEP_DARK("minecraft:deep_dark"),
+        MANGROVE_SWAMP("minecraft:mangrove_swamp"),
+        CHERRY_GROVE("minecraft:cherry_grove"),
+        PALE_GARDEN("minecraft:pale_garden"),
+        SULFUR_CAVES("minecraft:sulfur_caves"),
 
         // No longer used in newer versions
         @Deprecated
-        SNOWY_MOUNTAINS(SNOWY_PLAINS),
+        SNOWY_MOUNTAINS(SNOWY_PLAINS, "minecraft:snowy_mountains", "minecraft:ice_mountains"),
         @Deprecated
-        MUSHROOM_FIELD_SHORE(MUSHROOM_FIELDS),
+        MUSHROOM_FIELD_SHORE(MUSHROOM_FIELDS, "minecraft:mushroom_field_shore", "minecraft:mushroom_island_shore"),
         @Deprecated
-        DESERT_HILLS(DESERT),
+        DESERT_HILLS(DESERT, "minecraft:desert_hills", "minecraft:desert_hills"),
         @Deprecated
-        WOODED_HILLS(FOREST),
+        WOODED_HILLS(FOREST, "minecraft:wooded_hills", "minecraft:forest_hills"),
         @Deprecated
-        TAIGA_HILLS(TAIGA),
+        TAIGA_HILLS(TAIGA, "minecraft:taiga_hills", "minecraft:taiga_hills"),
         @Deprecated
-        MOUNTAIN_EDGE(WINDSWEPT_HILLS),
+        MOUNTAIN_EDGE(WINDSWEPT_HILLS, "minecraft:mountain_edge", "minecraft:extreme_hills_edge"),
         @Deprecated
-        JUNGLE_HILLS(JUNGLE),
+        JUNGLE_HILLS(JUNGLE, "minecraft:jungle_hills", "minecraft:jungle_hills"),
         @Deprecated
-        BIRCH_FOREST_HILLS(BIRCH_FOREST),
+        BIRCH_FOREST_HILLS(BIRCH_FOREST, "minecraft:birch_forest_hills", "minecraft:birch_forest_hills"),
         @Deprecated
-        SNOWY_TAIGA_HILLS(SNOWY_TAIGA),
+        SNOWY_TAIGA_HILLS(SNOWY_TAIGA, "minecraft:snowy_taiga_hills", "minecraft:cold_taiga_hills"),
         @Deprecated
-        GIANT_TREE_TAIGA_HILLS(OLD_GROWTH_PINE_TAIGA),
+        GIANT_TREE_TAIGA_HILLS(OLD_GROWTH_PINE_TAIGA, "minecraft:giant_tree_taiga_hills", "minecraft:mega_taiga_hills"),
         @Deprecated
-        BADLANDS_PLATEAU(BADLANDS),
+        BADLANDS_PLATEAU(BADLANDS, "minecraft:badlands_plateau", "minecraft:mesa_plateau"),
         @Deprecated
-        DEEP_WARM_OCEAN(WARM_OCEAN),
+        DEEP_WARM_OCEAN(WARM_OCEAN, "minecraft:deep_warm_ocean", "minecraft:deep_warm_ocean"),
         @Deprecated
-        DESERT_LAKES(DESERT),
+        DESERT_LAKES(DESERT, "minecraft:desert_lakes", "minecraft:desert_mutated"),
         @Deprecated
-        TAIGA_MOUNTAINS(TAIGA),
+        TAIGA_MOUNTAINS(TAIGA, "minecraft:taiga_mountains", "minecraft:taiga_mutated"),
         @Deprecated
-        SWAMP_HILLS(SWAMP),
+        SWAMP_HILLS(SWAMP, "minecraft:swamp_hills", "minecraft:swampland_mutated"),
         @Deprecated
-        MODIFIED_JUNGLE(JUNGLE),
+        MODIFIED_JUNGLE(JUNGLE, "minecraft:modified_jungle", "minecraft:jungle_mutated"),
         @Deprecated
-        MODIFIED_JUNGLE_EDGE(SPARSE_JUNGLE),
+        MODIFIED_JUNGLE_EDGE(SPARSE_JUNGLE, "minecraft:modified_jungle_edge", "minecraft:jungle_edge_mutated"),
         @Deprecated
-        TALL_BIRCH_HILLS(OLD_GROWTH_BIRCH_FOREST),
+        TALL_BIRCH_HILLS(OLD_GROWTH_BIRCH_FOREST, "minecraft:tall_birch_hills", "minecraft:birch_forest_hills_mutated"),
         @Deprecated
-        DARK_FOREST_HILLS(DARK_FOREST),
+        DARK_FOREST_HILLS(DARK_FOREST, "minecraft:dark_forest_hills", "minecraft:roofed_forest_mutated"),
         @Deprecated
-        SNOWY_TAIGA_MOUNTAINS(SNOWY_TAIGA),
+        SNOWY_TAIGA_MOUNTAINS(SNOWY_TAIGA, "minecraft:snowy_taiga_mountains", "minecraft:cold_taiga_mutated"),
         @Deprecated
-        GIANT_SPRUCE_TAIGA_HILLS(OLD_GROWTH_SPRUCE_TAIGA),
+        GIANT_SPRUCE_TAIGA_HILLS(OLD_GROWTH_SPRUCE_TAIGA, "minecraft:giant_spruce_taiga_hills", "minecraft:redwood_taiga_hills_mutated"),
         @Deprecated
-        MODIFIED_GRAVELLY_MOUNTAINS(WINDSWEPT_GRAVELLY_HILLS),
+        MODIFIED_GRAVELLY_MOUNTAINS(WINDSWEPT_GRAVELLY_HILLS, "minecraft:modified_gravelly_mountains", "minecraft:extreme_hills_plus_trees_mutated"),
         @Deprecated
-        SHATTERED_SAVANNA_PLATEAU(WINDSWEPT_SAVANNA),
+        SHATTERED_SAVANNA_PLATEAU(WINDSWEPT_SAVANNA, "minecraft:shattered_savanna_plateau", "minecraft:savanna_plateau_mutated"),
         @Deprecated
-        MODIFIED_WOODED_BADLANDS_PLATEAU(WOODED_BADLANDS),
+        MODIFIED_WOODED_BADLANDS_PLATEAU(WOODED_BADLANDS, "minecraft:modified_wooded_badlands_plateau", "minecraft:mesa_plateau_stone_mutated"),
         @Deprecated
-        MODIFIED_BADLANDS_PLATEAU(BADLANDS),
+        MODIFIED_BADLANDS_PLATEAU(BADLANDS, "minecraft:modified_badlands_plateau", "minecraft:mesa_plateau_mutated"),
         @Deprecated
-        BAMBOO_JUNGLE_HILLS(BAMBOO_JUNGLE),
+        BAMBOO_JUNGLE_HILLS(BAMBOO_JUNGLE, "minecraft:bamboo_jungle_hills", "minecraft:bamboo_jungle_hills"),
         @Deprecated
-        LEGACY_FROZEN_OCEAN(FROZEN_OCEAN),
+        LEGACY_FROZEN_OCEAN(FROZEN_OCEAN, null, "minecraft:legacy_frozen_ocean"),
         ;
 
-        private static final Map<String, ChunkerVanillaBiome> mapping;
+        // Mapping of identifiers <-> ChunkerVanillaBiome (prioritizing the Java name but with aliases for the Bedrock name)
+        private static final InvertibleMap<String, ChunkerVanillaBiome> mapping = InvertibleMap.create();
+
         static {
-            mapping = new HashMap<>();
-            mapping.put("minecraft:ocean", ChunkerVanillaBiome.OCEAN);
-            mapping.put("minecraft:plains", ChunkerVanillaBiome.PLAINS);
-            mapping.put("minecraft:desert", ChunkerVanillaBiome.DESERT);
-            mapping.put("minecraft:forest", ChunkerVanillaBiome.FOREST);
-            mapping.put("minecraft:taiga", ChunkerVanillaBiome.TAIGA);
-            mapping.put("minecraft:swamp", ChunkerVanillaBiome.SWAMP);
-            mapping.put("minecraft:river", ChunkerVanillaBiome.RIVER);
-            mapping.put("minecraft:nether_wastes", ChunkerVanillaBiome.NETHER_WASTES);
-            mapping.put("minecraft:the_end", ChunkerVanillaBiome.THE_END);
-            mapping.put("minecraft:frozen_ocean", ChunkerVanillaBiome.FROZEN_OCEAN);
-            mapping.put("minecraft:frozen_river", ChunkerVanillaBiome.FROZEN_RIVER);
-            mapping.put("minecraft:snowy_plains", ChunkerVanillaBiome.SNOWY_PLAINS);
-            mapping.put("minecraft:mushroom_fields", ChunkerVanillaBiome.MUSHROOM_FIELDS);
-            mapping.put("minecraft:beach", ChunkerVanillaBiome.BEACH);
-            mapping.put("minecraft:windswept_hills", ChunkerVanillaBiome.WINDSWEPT_HILLS);
-            mapping.put("minecraft:jungle", ChunkerVanillaBiome.JUNGLE);
-            mapping.put("minecraft:sparse_jungle", ChunkerVanillaBiome.SPARSE_JUNGLE);
-            mapping.put("minecraft:deep_ocean", ChunkerVanillaBiome.DEEP_OCEAN);
-            mapping.put("minecraft:stony_shore", ChunkerVanillaBiome.STONY_SHORE);
-            mapping.put("minecraft:snowy_beach", ChunkerVanillaBiome.SNOWY_BEACH);
-            mapping.put("minecraft:birch_forest", ChunkerVanillaBiome.BIRCH_FOREST);
-            mapping.put("minecraft:dark_forest", ChunkerVanillaBiome.DARK_FOREST);
-            mapping.put("minecraft:snowy_taiga", ChunkerVanillaBiome.SNOWY_TAIGA);
-            mapping.put("minecraft:old_growth_pine_taiga", ChunkerVanillaBiome.OLD_GROWTH_PINE_TAIGA);
-            mapping.put("minecraft:windswept_forest", ChunkerVanillaBiome.WINDSWEPT_FOREST);
-            mapping.put("minecraft:savanna", ChunkerVanillaBiome.SAVANNA);
-            mapping.put("minecraft:savanna_plateau", ChunkerVanillaBiome.SAVANNA_PLATEAU);
-            mapping.put("minecraft:badlands", ChunkerVanillaBiome.BADLANDS);
-            mapping.put("minecraft:wooded_badlands", ChunkerVanillaBiome.WOODED_BADLANDS);
-            mapping.put("minecraft:small_end_islands", ChunkerVanillaBiome.SMALL_END_ISLANDS);
-            mapping.put("minecraft:end_midlands", ChunkerVanillaBiome.END_MIDLANDS);
-            mapping.put("minecraft:end_highlands", ChunkerVanillaBiome.END_HIGHLANDS);
-            mapping.put("minecraft:end_barrens", ChunkerVanillaBiome.END_BARRENS);
-            mapping.put("minecraft:warm_ocean", ChunkerVanillaBiome.WARM_OCEAN);
-            mapping.put("minecraft:lukewarm_ocean", ChunkerVanillaBiome.LUKEWARM_OCEAN);
-            mapping.put("minecraft:cold_ocean", ChunkerVanillaBiome.COLD_OCEAN);
-            mapping.put("minecraft:deep_lukewarm_ocean", ChunkerVanillaBiome.DEEP_LUKEWARM_OCEAN);
-            mapping.put("minecraft:deep_cold_ocean", ChunkerVanillaBiome.DEEP_COLD_OCEAN);
-            mapping.put("minecraft:deep_frozen_ocean", ChunkerVanillaBiome.DEEP_FROZEN_OCEAN);
-            mapping.put("minecraft:the_void", ChunkerVanillaBiome.THE_VOID);
-            mapping.put("minecraft:sunflower_plains", ChunkerVanillaBiome.SUNFLOWER_PLAINS);
-            mapping.put("minecraft:windswept_gravelly_hills", ChunkerVanillaBiome.WINDSWEPT_GRAVELLY_HILLS);
-            mapping.put("minecraft:flower_forest", ChunkerVanillaBiome.FLOWER_FOREST);
-            mapping.put("minecraft:ice_spikes", ChunkerVanillaBiome.ICE_SPIKES);
-            mapping.put("minecraft:old_growth_birch_forest", ChunkerVanillaBiome.OLD_GROWTH_BIRCH_FOREST);
-            mapping.put("minecraft:old_growth_spruce_taiga", ChunkerVanillaBiome.OLD_GROWTH_SPRUCE_TAIGA);
-            mapping.put("minecraft:windswept_savanna", ChunkerVanillaBiome.WINDSWEPT_SAVANNA);
-            mapping.put("minecraft:eroded_badlands", ChunkerVanillaBiome.ERODED_BADLANDS);
-            mapping.put("minecraft:bamboo_jungle", ChunkerVanillaBiome.BAMBOO_JUNGLE);
-            mapping.put("minecraft:soul_sand_valley", ChunkerVanillaBiome.SOUL_SAND_VALLEY);
-            mapping.put("minecraft:crimson_forest", ChunkerVanillaBiome.CRIMSON_FOREST);
-            mapping.put("minecraft:warped_forest", ChunkerVanillaBiome.WARPED_FOREST);
-            mapping.put("minecraft:basalt_deltas", ChunkerVanillaBiome.BASALT_DELTAS);
-            mapping.put("minecraft:dripstone_caves", ChunkerVanillaBiome.DRIPSTONE_CAVES);
-            mapping.put("minecraft:lush_caves", ChunkerVanillaBiome.LUSH_CAVES);
-            mapping.put("minecraft:meadow", ChunkerVanillaBiome.MEADOW);
-            mapping.put("minecraft:grove", ChunkerVanillaBiome.GROVE);
-            mapping.put("minecraft:snowy_slopes", ChunkerVanillaBiome.SNOWY_SLOPES);
-            mapping.put("minecraft:frozen_peaks", ChunkerVanillaBiome.FROZEN_PEAKS);
-            mapping.put("minecraft:jagged_peaks", ChunkerVanillaBiome.JAGGED_PEAKS);
-            mapping.put("minecraft:stony_peaks", ChunkerVanillaBiome.STONY_PEAKS);
-            mapping.put("minecraft:deep_dark", ChunkerVanillaBiome.DEEP_DARK);
-            mapping.put("minecraft:mangrove_swamp", ChunkerVanillaBiome.MANGROVE_SWAMP);
-            mapping.put("minecraft:cherry_grove", ChunkerVanillaBiome.CHERRY_GROVE);
-            mapping.put("minecraft:pale_garden", ChunkerVanillaBiome.PALE_GARDEN);
-            mapping.put("minecraft:sulfur_caves", ChunkerVanillaBiome.SULFUR_CAVES);
-
-            // Bedrock names
-            mapping.put("minecraft:roofed_forest", ChunkerVanillaBiome.DARK_FOREST);
-            mapping.put("minecraft:mesa_bryce", ChunkerVanillaBiome.ERODED_BADLANDS);
-            mapping.put("minecraft:ice_plains_spikes", ChunkerVanillaBiome.ICE_SPIKES);
-            mapping.put("minecraft:mushroom_island", ChunkerVanillaBiome.MUSHROOM_FIELDS);
-            mapping.put("minecraft:birch_forest_mutated", ChunkerVanillaBiome.OLD_GROWTH_BIRCH_FOREST);
-            mapping.put("minecraft:mega_taiga", ChunkerVanillaBiome.OLD_GROWTH_PINE_TAIGA);
-            mapping.put("minecraft:redwood_taiga_mutated", ChunkerVanillaBiome.OLD_GROWTH_SPRUCE_TAIGA);
-            mapping.put("minecraft:cold_beach", ChunkerVanillaBiome.SNOWY_BEACH);
-            mapping.put("minecraft:ice_plains", ChunkerVanillaBiome.SNOWY_PLAINS);
-            mapping.put("minecraft:cold_taiga", ChunkerVanillaBiome.SNOWY_TAIGA);
-            mapping.put("minecraft:jungle_edge", ChunkerVanillaBiome.SPARSE_JUNGLE);
-            mapping.put("minecraft:stone_beach", ChunkerVanillaBiome.STONY_SHORE);
-            mapping.put("minecraft:swampland", ChunkerVanillaBiome.SWAMP);
-            mapping.put("minecraft:extreme_hills_plus_trees", ChunkerVanillaBiome.WINDSWEPT_FOREST);
-            mapping.put("minecraft:extreme_hills_mutated", ChunkerVanillaBiome.WINDSWEPT_GRAVELLY_HILLS);
-            mapping.put("minecraft:extreme_hills", ChunkerVanillaBiome.WINDSWEPT_HILLS);
-            mapping.put("minecraft:savanna_mutated", ChunkerVanillaBiome.WINDSWEPT_SAVANNA);
-            mapping.put("minecraft:mesa_plateau_stone", ChunkerVanillaBiome.WOODED_BADLANDS);
-            mapping.put("minecraft:hell", ChunkerVanillaBiome.NETHER_WASTES);
-
-            mapping.put("minecraft:bamboo_jungle_hills", ChunkerVanillaBiome.BAMBOO_JUNGLE_HILLS);
-            mapping.put("minecraft:birch_forest_hills", ChunkerVanillaBiome.BIRCH_FOREST_HILLS);
-            mapping.put("minecraft:birch_forest_hills_mutated", ChunkerVanillaBiome.TALL_BIRCH_HILLS);
-            mapping.put("minecraft:cold_taiga_hills", ChunkerVanillaBiome.SNOWY_TAIGA_HILLS);
-            mapping.put("minecraft:cold_taiga_mutated", ChunkerVanillaBiome.SNOWY_TAIGA_MOUNTAINS);
-            mapping.put("minecraft:deep_warm_ocean", ChunkerVanillaBiome.DEEP_WARM_OCEAN);
-            mapping.put("minecraft:desert_hills", ChunkerVanillaBiome.DESERT_HILLS);
-            mapping.put("minecraft:desert_mutated", ChunkerVanillaBiome.DESERT_LAKES);
-            mapping.put("minecraft:extreme_hills_edge", ChunkerVanillaBiome.MOUNTAIN_EDGE);
-            mapping.put("minecraft:extreme_hills_plus_trees_mutated", ChunkerVanillaBiome.MODIFIED_GRAVELLY_MOUNTAINS);
-            mapping.put("minecraft:forest_hills", ChunkerVanillaBiome.WOODED_HILLS);
-            mapping.put("minecraft:ice_mountains", ChunkerVanillaBiome.SNOWY_MOUNTAINS);
-            mapping.put("minecraft:jungle_edge_mutated", ChunkerVanillaBiome.MODIFIED_JUNGLE_EDGE);
-            mapping.put("minecraft:jungle_hills", ChunkerVanillaBiome.JUNGLE_HILLS);
-            mapping.put("minecraft:jungle_mutated", ChunkerVanillaBiome.MODIFIED_JUNGLE);
-            mapping.put("minecraft:legacy_frozen_ocean", ChunkerVanillaBiome.LEGACY_FROZEN_OCEAN);
-            mapping.put("minecraft:mega_taiga_hills", ChunkerVanillaBiome.GIANT_TREE_TAIGA_HILLS);
-            mapping.put("minecraft:mesa", ChunkerVanillaBiome.BADLANDS);
-            mapping.put("minecraft:mesa_plateau", ChunkerVanillaBiome.BADLANDS_PLATEAU);
-            mapping.put("minecraft:mesa_plateau_mutated", ChunkerVanillaBiome.MODIFIED_BADLANDS_PLATEAU);
-            mapping.put("minecraft:mesa_plateau_stone_mutated", ChunkerVanillaBiome.MODIFIED_WOODED_BADLANDS_PLATEAU);
-            mapping.put("minecraft:mushroom_island_shore", ChunkerVanillaBiome.MUSHROOM_FIELD_SHORE);
-            mapping.put("minecraft:redwood_taiga_hills_mutated", ChunkerVanillaBiome.GIANT_SPRUCE_TAIGA_HILLS);
-            mapping.put("minecraft:roofed_forest_mutated", ChunkerVanillaBiome.DARK_FOREST_HILLS);
-            mapping.put("minecraft:savanna_plateau_mutated", ChunkerVanillaBiome.SHATTERED_SAVANNA_PLATEAU);
-            mapping.put("minecraft:soulsand_valley", ChunkerVanillaBiome.SOUL_SAND_VALLEY);
-            mapping.put("minecraft:swampland_mutated", ChunkerVanillaBiome.SWAMP_HILLS);
-            mapping.put("minecraft:taiga_hills", ChunkerVanillaBiome.TAIGA_HILLS);
-            mapping.put("minecraft:taiga_mutated", ChunkerVanillaBiome.TAIGA_MOUNTAINS);
+            for (ChunkerVanillaBiome biome : values()) {
+                if (biome.javaIdentifier != null) {
+                    mapping.put(biome.javaIdentifier, biome);
+                }
+                if (biome.bedrockIdentifier != null && !biome.bedrockIdentifier.equals(biome.javaIdentifier)) {
+                    mapping.put(biome.bedrockIdentifier, biome);
+                }
+            }
         }
 
         /**
          * Find vanilla biome by name
+         *
          * @param value The string name of the biome
          * @return Biome if found otherwise empty optional
          */
         public static Optional<ChunkerVanillaBiome> find(String value) {
-            return Optional.ofNullable(mapping.get(value));
+            return Optional.ofNullable(mapping.forward().get(value));
+        }
+
+        /**
+         * Get the Java-style string identifier for the vanilla biome.
+         *
+         * @return the Java identifier, or empty if this biome has no Java identifier.
+         */
+        public Optional<String> getJavaIdentifier() {
+            return Optional.ofNullable(javaIdentifier);
+        }
+
+        /**
+         * Get the Bedrock-style string identifier for the vanilla biome.
+         *
+         * @return the Bedrock identifier, or empty if this biome has no Bedrock identifier.
+         */
+        public Optional<String> getBedrockIdentifier() {
+            return Optional.ofNullable(bedrockIdentifier);
         }
 
         private final ChunkerVanillaBiome fallback;
+        private final String javaIdentifier;
+        private final String bedrockIdentifier;
 
         /**
-         * Create a Vanilla biome.
+         * Create a Vanilla biome where the Java and Bedrock identifiers are the same.
          *
-         * @param fallback the fallback to use if this biome isn't supported, this should be used when a biome has been
-         *                 split or merged.
+         * @param identifier the identifier used by both Java and Bedrock.
          */
-        ChunkerVanillaBiome(ChunkerVanillaBiome fallback) {
-            this.fallback = fallback;
+        ChunkerVanillaBiome(String identifier) {
+            this(null, identifier, identifier);
         }
 
         /**
-         * Create a Vanilla biome with no fallback.
+         * Create a Vanilla biome with separate Java and Bedrock identifiers.
+         *
+         * @param javaIdentifier    the Java identifier, or null if this biome has no Java identifier.
+         * @param bedrockIdentifier the Bedrock identifier, or null if this biome has no Bedrock identifier.
          */
-        ChunkerVanillaBiome() {
-            this(null);
+        ChunkerVanillaBiome(@Nullable String javaIdentifier, @Nullable String bedrockIdentifier) {
+            this(null, javaIdentifier, bedrockIdentifier);
+        }
+
+        /**
+         * Create a Vanilla biome with a fallback and separate Java and Bedrock identifiers.
+         *
+         * @param fallback          the fallback to use if this biome isn't supported, this should be used when a biome
+         *                          has been split or merged.
+         * @param javaIdentifier    the Java identifier, or null if this biome has no Java identifier.
+         * @param bedrockIdentifier the Bedrock identifier, or null if this biome has no Bedrock identifier.
+         */
+        ChunkerVanillaBiome(ChunkerVanillaBiome fallback, @Nullable String javaIdentifier, @Nullable String bedrockIdentifier) {
+            this.fallback = fallback;
+            this.javaIdentifier = javaIdentifier;
+            this.bedrockIdentifier = bedrockIdentifier;
         }
 
         @Override

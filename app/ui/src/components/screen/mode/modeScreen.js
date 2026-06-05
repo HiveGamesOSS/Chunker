@@ -7,13 +7,6 @@ import api from "../../../api";
 
 const COLLAPSED_COUNT = 3;
 
-// Editions shown first, in this order, with a friendly heading. Any other format
-// is grouped automatically under its own heading so Chunker stays open ended.
-const EDITIONS = [
-    {id: "BEDROCK", label: "Bedrock Edition"},
-    {id: "JAVA", label: "Java Edition"}
-];
-
 export class ModeScreen extends BaseScreen {
     state = {
         selected: undefined,
@@ -82,28 +75,28 @@ export class ModeScreen extends BaseScreen {
         });
     };
 
-    // Group writers by their format (the text before the first underscore) so every
-    // format gets a section, not just the built-in editions. Known editions come
-    // first in a fixed order; anything else follows in the order it appears.
-    groupWriters = (writers) => {
+    // Group writers by their format so every format gets a section, not just the
+    // built-in editions. The backend supplies the formats (id + label) in the order
+    // they should be listed; any format it doesn't list follows in the order it appears.
+    groupWriters = (writers, formats) => {
         let buckets = new Map();
         for (let writer of writers) {
-            let edition = writer.id.split("_")[0];
-            if (!buckets.has(edition)) {
-                buckets.set(edition, []);
+            let format = writer.type || writer.id.split("_")[0];
+            if (!buckets.has(format)) {
+                buckets.set(format, []);
             }
-            buckets.get(edition).push(writer);
+            buckets.get(format).push(writer);
         }
 
         let groups = [];
-        for (let edition of EDITIONS) {
-            if (buckets.has(edition.id)) {
-                groups.push({id: edition.id, label: edition.label, writers: buckets.get(edition.id)});
-                buckets.delete(edition.id);
+        for (let format of formats) {
+            if (buckets.has(format.id)) {
+                groups.push({id: format.id, label: format.label, writers: buckets.get(format.id)});
+                buckets.delete(format.id);
             }
         }
-        for (let [edition, group] of buckets) {
-            groups.push({id: edition, label: getFormatName(edition), writers: group});
+        for (let [format, group] of buckets) {
+            groups.push({id: format, label: getFormatName(format), writers: group});
         }
         return groups;
     };
@@ -160,8 +153,9 @@ export class ModeScreen extends BaseScreen {
 
     render() {
         let writers = this.app.state.sessionData.version.writers.slice(0).reverse();
+        let formats = this.app.state.sessionData.version.formats || [];
         let sourceId = this.app.state.inputType ? this.app.state.inputType.id : undefined;
-        let groups = this.groupWriters(writers);
+        let groups = this.groupWriters(writers, formats);
         return (
             <div className="maincol">
                 <div className="topbar">

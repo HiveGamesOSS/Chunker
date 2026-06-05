@@ -75,6 +75,7 @@ public class Messenger {
                             JsonObject response = new JsonObject();
                             response.add("input", toEncodedObject(levelReader.getEncodingType(), levelReader.getVersion()));
                             response.add("writers", getWriters());
+                            response.add("formats", getFormats());
 
                             // Add warnings
                             String warnings = levelReader.getWarnings();
@@ -679,6 +680,33 @@ public class Messenger {
             }
         }
         return writers;
+    }
+
+    /**
+     * Get the user-facing formats used to group the writers, ordered by their UI order.
+     * Each entry describes a format group (id and friendly label); the front-end groups the
+     * writers by their type and lists the groups in this order. Internal formats are excluded.
+     *
+     * @return a JsonArray of JsonObjects in the format {"id": "BEDROCK", "label": "Bedrock Edition"}.
+     */
+    public static JsonArray getFormats() {
+        // Collect the writeable, user-facing formats then sort them by their UI order
+        List<EncodingType> formats = new ArrayList<>();
+        for (EncodingType encodingType : EncodingType.getWriteableTypes()) {
+            if (encodingType.isInternal()) continue; // Don't list internal
+            formats.add(encodingType);
+        }
+        formats.sort(Comparator.comparingInt(EncodingType::getOrder));
+
+        // Encode each format with its id (matching the writer "type") and friendly label
+        JsonArray result = new JsonArray();
+        for (EncodingType encodingType : formats) {
+            JsonObject format = new JsonObject();
+            format.addProperty("id", encodingType.getName().toUpperCase(Locale.ROOT));
+            format.addProperty("label", encodingType.getLabel());
+            result.add(format);
+        }
+        return result;
     }
 
     /**

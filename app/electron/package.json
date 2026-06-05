@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node src/hook/pre-build.js && electron .",
     "package": "node src/hook/pre-build.js && electron-builder --dir",
-    "publish": "node src/hook/pre-build.js && electron-builder"
+    "publish": "node src/hook/pre-build.js && electron-builder",
+    "test": "node --test"
   },
   "keywords": [],
   "author": "Hive Games Limited <chunker-public@hivemc.com>",
@@ -53,6 +54,7 @@
     ],
     "files": [
       "**/*",
+      "!test/**/*",
       {
         "from": "../ui/build",
         "filter": [

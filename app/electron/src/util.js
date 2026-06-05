@@ -6,6 +6,7 @@ import {once} from "events";
 import {pipeline} from "stream/promises";
 import {ZipArchive} from "archiver";
 import tarStream from "tar-stream";
+import jszip from "jszip";
 
 export async function countFiles(inputPath) {
     const files = await fs.readdir(inputPath);
@@ -218,4 +219,57 @@ export async function extractTar(inputPath, outputPath, progressCallback) {
         stream.resume();
         await once(stream, "end");
     });
+}
+
+// Extract a zip archive (also .mcworld / .mctemplate) into the output directory.
+// The contents below the level.dat are extracted, mirroring the behaviour for tar archives.
+export async function extractZip(inputPath, outputPath, progressCallback) {
+    const zipContents = await fs.readFile(inputPath);
+    const zip = await jszip.loadAsync(zipContents);
+
+    // Find the level.dat
+    const levelDataFiles = zip.file(/level\.dat$/g);
+    if (levelDataFiles.length === 0) {
+        const error = new Error("Provided file does not contain a Minecraft world.");
+        error.reason = "NO_WORLD";
+        throw error;
+    }
+
+    // Use the level.dat to determine the world root inside the archive
+    const selectedDat = levelDataFiles[0];
+    const pathPrefix = selectedDat.name.substring(0, selectedDat.name.lastIndexOf("/") + 1);
+    const totalFiles = Object.keys(zip.files).length;
+    let filesExtracted = 0;
+
+    // Extract everything below the level.dat
+    await Promise.all(Object.keys(zip.files).map(async (filename) => {
+        if (!filename.startsWith(pathPrefix)) return;
+
+        // Grab the file
+        const file = zip.files[filename];
+
+        // Join the paths to get the output path
+        const entryOutputPath = path.join(outputPath, filename.substring(pathPrefix.length));
+
+        // Ignore paths which aren't safe
+        if (!path.normalize(entryOutputPath).startsWith(outputPath)) {
+            return;
+        }
+
+        // Create the directory if it's one otherwise write the file data
+        if (file.dir) {
+            await fs.mkdir(entryOutputPath, {recursive: true});
+        } else {
+            // Ensure the directory is present then write the file contents
+            await fs.mkdir(path.dirname(entryOutputPath), {recursive: true});
+            const fileData = await file.async("nodebuffer");
+            await fs.writeFile(entryOutputPath, fileData);
+        }
+
+        // Update progress
+        filesExtracted++;
+        if (progressCallback) {
+            progressCallback(totalFiles === 0 ? 1 : filesExtracted / totalFiles);
+        }
+    }));
 }

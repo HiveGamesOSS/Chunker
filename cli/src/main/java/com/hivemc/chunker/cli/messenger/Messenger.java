@@ -714,7 +714,7 @@ public class Messenger {
      *
      * @param encodingType the format being encoded.
      * @param version      the version being encoded.
-     * @return encoded as a JsonObject in the format {"id": "JAVA_1_20_5", "version":"1.20.5", "type":"JAVA"}
+     * @return encoded as a JsonObject in the format {"id": "JAVA_1_20_5", "version":"1.20.5", "type":"JAVA", "label":"Java Edition"}
      */
     public static JsonObject toEncodedObject(EncodingType encodingType, @Nullable Version version) {
         JsonObject encoding = new JsonObject();
@@ -725,6 +725,7 @@ public class Messenger {
             encoding.addProperty("id", encodingType.getName().toUpperCase(Locale.ROOT));
         }
         encoding.addProperty("type", encodingType.getName().toUpperCase(Locale.ROOT));
+        encoding.addProperty("label", encodingType.getLabel());
         return encoding;
     }
 

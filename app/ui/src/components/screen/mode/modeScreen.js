@@ -113,8 +113,7 @@ export class ModeScreen extends BaseScreen {
         if (sourceIndex === -1 || sourceIndex < COLLAPSED_COUNT) {
             return top;
         }
-        let combined = top.slice(0, COLLAPSED_COUNT - 1).concat([writers[sourceIndex]]);
-        return combined.sort((a, b) => writers.indexOf(a) - writers.indexOf(b));
+        return top.slice(0, COLLAPSED_COUNT - 1).concat([writers[sourceIndex]]);
     };
 
     renderSection(group, sourceId) {

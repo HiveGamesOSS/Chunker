@@ -66,6 +66,12 @@ export class Session {
             if (files.length === 0) {
                 throw new Error("chunker-cli executable is missing!");
             }
+
+            // The dev build directory can contain multiple versioned jars (e.g. an older
+            // chunker-cli-1.17.0.jar left next to chunker-cli-1.18.1.jar). Sort by name using
+            // numeric ordering so we always launch the newest build instead of whichever the OS
+            // happens to list first.
+            files.sort((a, b) => b.name.localeCompare(a.name, undefined, {numeric: true}));
             executable = path.join(cliDirectory, files[0].name);
         }
 
@@ -276,6 +282,12 @@ export class Session {
                 break;
             case "generate_preview":
                 await this.generatePreview(data.requestId);
+                break;
+            case "request_preview_tiles":
+                await this.requestPreviewTiles(data);
+                break;
+            case "cancel_preview_tiles":
+                await this.cancelPreviewTiles(data);
                 break;
             case "convert":
                 await this.convertWorld(data.outputType, data.requestId, data);
@@ -665,12 +677,32 @@ export class Session {
             outputPath: previewOutputPath
         }
 
-        // Send the preview request
-        this.sendToProcess(request, async (response) => {
-            // Use the base64 of the map.bin for output
-            response.output = (await fs.readFile(path.join(previewOutputPath, "map.bin"))).toString("base64");
+        // Send the preview request. The renderer fetches map.bin via session:// URL after
+        // receiving the success response — no base64 payload on the wire.
+        this.sendToProcess(request);
+    }
 
-            return response;
+    requestPreviewTiles(data) {
+        this.sendToProcess({
+            type: "request_preview_tiles",
+            requestId: data.requestId,
+            anonymousId: this._sessionID,
+            world: data.world,
+            lod: data.lod,
+            minTx: data.minTx,
+            minTz: data.minTz,
+            maxTx: data.maxTx,
+            maxTz: data.maxTz
+        });
+    }
+
+    cancelPreviewTiles(data) {
+        this.sendToProcess({
+            type: "cancel_preview_tiles",
+            requestId: data.requestId,
+            anonymousId: this._sessionID,
+            world: data.world,
+            lod: data.lod
         });
     }
 

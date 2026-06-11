@@ -1,15 +1,22 @@
 import React, {Component} from "react";
-import "./previewComponent.css"
-import "leaflet/dist/leaflet.css"
+import "./previewComponent.css";
+import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "leaflet-draw";
 import {ProgressComponent} from "../../../../progress";
 import "leaflet-mouse-position/src/L.Control.MousePosition.css";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import {getDimensionDisplayName} from "../dimensionPruningTab";
+import {worldBoundsForAutoFit} from "./mapBin";
+import {computeMinZoom} from "./autoFit";
+import {ChunkerPreviewLayer} from "./chunkerPreviewLayer";
+import {CenterCoordsControl} from "./centerCoordsControl";
+import {ZoomIndicator} from "./zoomIndicator";
+import {LoadingIndicator} from "./loadingIndicator";
+import api from "../../../../../api";
 
-require("leaflet-mouse-position/src/L.Control.MousePosition"); // As it adds new controls, need to be required
-require("leaflet-fullscreen/dist/Leaflet.fullscreen"); // As it adds new controls, need to be required
+require("leaflet-mouse-position/src/L.Control.MousePosition");
+require("leaflet-fullscreen/dist/Leaflet.fullscreen");
 
 // Fix leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -24,16 +31,33 @@ export class PreviewComponent extends Component {
     app = this.props.app;
 
     render() {
+        const settingsDone = this.app.settingsProgress.isComplete();
+        const genDone = this.app.previewProgress.isComplete();
+        const data = this.app.state.previewData;
+        const tilesDone = this.app.previewTileProgress.isComplete();
         return (
             <React.Fragment>
-                {!this.app.previewProgress.isComplete() &&
+                {!settingsDone &&
+                    <div className="main_content main_content_progress">
+                        <ProgressComponent progress={this.app.settingsProgress}/>
+                    </div>
+                }
+                {settingsDone && !genDone &&
                     <div className="main_content main_content_progress">
                         <ProgressComponent progress={this.app.previewProgress}/>
                     </div>
                 }
-                {this.app.previewProgress.isComplete() && this.app.state.previewData !== undefined &&
+                {/* Covers the gap between generation completing and previewData arriving from
+                 * the map.bin fetch, as well as the actual tile pre-load phase. */}
+                {settingsDone && genDone && !tilesDone &&
+                    <div className="main_content main_content_progress">
+                        <ProgressComponent progress={this.app.previewTileProgress}/>
+                    </div>
+                }
+                {settingsDone && genDone && tilesDone && data !== undefined &&
                     <Map
-                        session={this.props.session} data={this.app.state.previewData} app={this.app}
+                        session={this.props.session} data={data} app={this.app}
+                        clientTileCache={this.app.clientTileCache}
                         pruningSettings={this.app.state.pruningSettings}/>
                 }
             </React.Fragment>
@@ -46,79 +70,151 @@ export class Map extends Component {
     app = this.props.app;
 
     componentDidMount() {
-        let self = this;
-        // Render map
+        const self = this;
+        // this.props.data is the already-parsed map.bin (Task 14).
+        this._mapBin = this.props.data;
+        // App owns the cache so tiles pre-loaded before mount survive into the layer here.
+        this._cache = this.props.clientTileCache;
+
+        const dimensions = this.app.state.settings.dimensions;
+        const defaultIdentifier = (this.app.state.previewState && this.app.state.previewState.layer) || dimensions[0];
+        const minZoom = computeMinZoom(worldBoundsForAutoFit(this._mapBin, defaultIdentifier));
+
+        // Resolve the initial view BEFORE constructing the map so we can pass it to L.map().
+        // Without this, the layer's addTo() runs while the map is at its default state
+        // (no view set) and triggers tile loads at the wrong zoom, then setView() reshuffles
+        // everything — that race left some tiles in flight at the old LOD that never get
+        // their tile_ready honoured, manifesting as "2 of 4 tiles missing on first open".
+        let initialCenter;
+        let initialZoom;
+        let defaultLayerIdentifier;
+        if (this.app.state.previewState !== undefined) {
+            initialCenter = this.app.state.previewState.center;
+            initialZoom = this.app.state.previewState.zoom;
+            defaultLayerIdentifier = this.app.state.previewState.layer;
+        } else {
+            defaultLayerIdentifier = dimensions[0];
+            const bounds = worldBoundsForAutoFit(this._mapBin, defaultLayerIdentifier);
+            if (bounds) {
+                // Frame the map on the world bounds. Centring on SpawnX/SpawnZ at a fixed
+                // zoom of 2 leaves worlds with content built far from spawn opening onto an
+                // empty viewport — the tiles exist, just off-screen. Auto-fit puts the actual
+                // content in front of the user from the start.
+                const centerX = (bounds.minX + bounds.maxX + 1) * 8;
+                const centerZ = (bounds.minZ + bounds.maxZ + 1) * 8;
+                initialCenter = xy(centerX, centerZ);
+                initialZoom = computeMinZoom(bounds);
+            } else {
+                const centerX = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnX")[0].value;
+                const centerZ = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnZ")[0].value;
+                initialCenter = xy(centerX, centerZ);
+                initialZoom = 2;
+            }
+        }
+
         this.mymap = L.map("map", {
             crs: L.CRS.Simple,
-            minZoom: -5,
+            minZoom,
             maxZoom: 5,
-            attributionControl: false
+            attributionControl: false,
+            center: initialCenter,
+            zoom: initialZoom
         });
 
-        let worlds = this.app.state.settings.dimensions.map((a, k) => {
-            return L.tileLayer("session://{session}/preview/{world}.{x}.{y}.png", {
-                maxNativeZoom: 0,
-                minNativeZoom: 0,
-                minZoom: -5,
-                maxZoom: 5,
-                world: a.replace(":", "_"),
-                id: "blocks",
-                session: self.props.session,
-                tileSize: 512,
-                noWrap: true,
-                identifier: a,
-                index: k,
-                continuousWorld: true
-            });
-        });
-
-        if (this.app.state.previewState === undefined) {
-            // Default
-            let defaultWorld = worlds.length > 0 ? worlds[0] : undefined;
-            if (defaultWorld !== undefined) {
-                defaultWorld.addTo(this.mymap);
-                let centerX = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnX")[0].value;
-                let centerZ = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnZ")[0].value;
-
-                // L.marker(xy(centerX * 16, centerZ * 16)).addTo(mymap).bindPopup("Center (" + (centerX * 16) + "," + (centerZ * 16) + ")");
-                this.mymap.setView(xy(centerX, centerZ), 2);
+        const worlds = dimensions.map((identifier, k) => new ChunkerPreviewLayer({
+            id: "blocks",
+            identifier,
+            world: identifier.replace(":", "_"),
+            session: self.props.session,
+            index: k,
+            continuousWorld: true,
+            mapBin: this._mapBin,
+            tileCache: this._cache,
+            ipc: {
+                requestTiles: (req) => api.send({type: "flow", method: "request_preview_tiles", ...req}, () => {}),
+                cancelTiles: (req) => api.send({type: "flow", method: "cancel_preview_tiles", ...req}, () => {}),
+                onTileReady: (cb) => api.addListener("tile_ready", cb),
+                onTileError: (cb) => api.addListener("tile_error", cb)
             }
-        } else {
-            let defaultWorld = worlds.filter(a => this.app.state.previewState.layer === a.options.identifier)[0];
-            defaultWorld.addTo(this.mymap);
-            this.mymap.setView(this.app.state.previewState.center, this.app.state.previewState.zoom, {animate: false});
-        }
+        }));
+
+        const defaultWorld = worlds.find(a => a.options.identifier === defaultLayerIdentifier) || worlds[0];
+        if (defaultWorld) defaultWorld.addTo(this.mymap);
 
         this.renderPruningRegion();
 
-        // Add controls
-        let baseMaps = {};
+        const baseMaps = {};
         worlds.forEach(a => {
             baseMaps[getDimensionDisplayName(a.options.identifier)] = a;
         });
 
-        // Mouse position
         L.control.mousePosition({
             emptyString: "0, 0 (0, 0)",
             formatter: this.formatCoords,
             wrapLng: false
         }).addTo(this.mymap);
 
-        // Zoom + Layers
         this.mymap.zoomControl.setPosition("bottomleft");
         L.control.fullscreen({position: "bottomright"}).addTo(this.mymap);
         L.control.layers(baseMaps, null, {position: "bottomright"}).addTo(this.mymap);
 
-        // Add handler for pruning render
+        new CenterCoordsControl({
+            getBounds: () => worldBoundsForAutoFit(this._mapBin, this._currentWorld())
+        }).addTo(this.mymap);
+
+        // Adding the zoom indicator after the (relocated) zoom control causes it to stack
+        // above the +/- buttons in the bottom-left corner.
+        new ZoomIndicator().addTo(this.mymap);
+
+        new LoadingIndicator().addTo(this.mymap);
+
         this.mymap.on("baselayerchange", function (e) {
             self.renderPruningRegion();
         });
+
+        this.mymap.on("fullscreenchange", () => {
+            // Aggressive evict before the renderer holds two viewports' worth of tiles at once.
+            self._cache.evictAllExcept([]);
+        });
+
+        // Leaflet measures the container size at construction time and only loads tiles for
+        // that viewport. If the #map element wasn't fully laid out yet (mid-React-mount, or the
+        // preview tab was hidden when the layer was added) the initial viewport can be 0px
+        // wide and almost no tiles get requested. Force one recomputation now, then keep
+        // watching for size changes so the same fix applies when the user switches tabs and
+        // comes back, resizes the window, or toggles fullscreen. `_update()` is the additive
+        // version of `redraw()`: it requests any tiles that are currently missing from the
+        // viewport without disturbing the ones already on screen — no visible flicker.
+        const mapEl = document.getElementById("map");
+        const refreshTiles = () => {
+            if (!this.mymap) return;
+            this.mymap.invalidateSize({pan: false});
+            this.mymap.eachLayer((layer) => {
+                if (layer instanceof L.GridLayer && typeof layer._update === "function") {
+                    layer._update();
+                }
+            });
+        };
+        setTimeout(refreshTiles, 0);
+        setTimeout(refreshTiles, 200);
+        if (typeof ResizeObserver !== "undefined" && mapEl) {
+            this._resizeObserver = new ResizeObserver(refreshTiles);
+            this._resizeObserver.observe(mapEl);
+        }
+    }
+
+    _currentWorld() {
+        let id;
+        this.mymap.eachLayer((layer) => {
+            if (layer.options && layer.options.identifier) id = layer.options.identifier;
+        });
+        return id || this.app.state.settings.dimensions[0];
     }
 
     formatCoords = (long, lat) => {
-        let x = long;
-        let z = -lat;
-        return Math.floor(x) + ", " + Math.floor(z) + " (" + Math.floor(x / 16) + ", " + Math.floor(z / 16) + ")"
+        const x = long;
+        const z = -lat;
+        return Math.floor(x) + ", " + Math.floor(z) + " (" + Math.floor(x / 16) + ", " + Math.floor(z / 16) + ")";
     };
 
     componentWillUnmount() {
@@ -136,62 +232,58 @@ export class Map extends Component {
                 layer: currentLayer
             });
         }
+
+        if (this._resizeObserver) {
+            this._resizeObserver.disconnect();
+            this._resizeObserver = null;
+        }
     }
 
     moveRegion = (world, regionIndex, minX, minZ, maxX, maxZ) => {
         this.app.setState((prevState) => {
-            let pruningSettingsClone = JSON.parse(JSON.stringify(prevState.pruningSettings));
-
-            // Add new state
+            const pruningSettingsClone = JSON.parse(JSON.stringify(prevState.pruningSettings));
             pruningSettingsClone[world].regions[regionIndex] = {
-                ...pruningSettingsClone[world].regions[regionIndex], // Merge old settings
+                ...pruningSettingsClone[world].regions[regionIndex],
                 minChunkX: Math.floor(Math.min(minX, maxX)),
                 minChunkZ: Math.floor(Math.min(minZ, maxZ)),
                 maxChunkX: Math.ceil(Math.max(minX, maxX)) - 1,
                 maxChunkZ: Math.ceil(Math.max(minZ, maxZ)) - 1
             };
-
             return {pruningSettings: pruningSettingsClone};
         }, () => {
-            // Force re-render
             this.renderPruningRegion();
         });
     }
-    renderPruningRegion = () => {
-        let self = this;
 
-        // Get selected map
+    renderPruningRegion = () => {
+        const self = this;
         this.mymap.eachLayer(function (layer) {
             if (layer.options.identifier !== undefined) {
                 self.renderWorldPruningRegion(layer.options.identifier);
             }
             if (layer.options.region) {
-                // Remove old polygons
                 self.mymap.removeLayer(layer);
             }
         });
     };
 
     renderWorldPruningRegion = (world) => {
-        if (!(this.app.state.pruningSettings[world] && this.app.state.pruningSettings[world].regions)) return; // No regions
+        if (!(this.app.state.pruningSettings[world] && this.app.state.pruningSettings[world].regions)) return;
 
-        let pruningRegions = this.app.state.pruningSettings[world];
+        const pruningRegions = this.app.state.pruningSettings[world];
 
         pruningRegions.regions.forEach((region, index) => {
-            // Drawing the region
-            let minX = Math.min(region.minChunkX, region.maxChunkX) * 16;
-            let minZ = Math.min(region.minChunkZ, region.maxChunkZ) * 16;
+            const minX = Math.min(region.minChunkX, region.maxChunkX) * 16;
+            const minZ = Math.min(region.minChunkZ, region.maxChunkZ) * 16;
 
-            let maxX = (Math.max(region.minChunkX, region.maxChunkX) * 16) + 16;
-            let maxZ = (Math.max(region.minChunkZ, region.maxChunkZ) * 16) + 16;
+            const maxX = (Math.max(region.minChunkX, region.maxChunkX) * 16) + 16;
+            const maxZ = (Math.max(region.minChunkZ, region.maxChunkZ) * 16) + 16;
 
-            // Draw rectangle
-            let rect = L.rectangle([xy(minX, minZ), xy(minX, maxZ), xy(maxX, maxZ), xy(maxX, minZ)], {
+            const rect = L.rectangle([xy(minX, minZ), xy(minX, maxZ), xy(maxX, maxZ), xy(maxX, minZ)], {
                 color: pruningRegions.include ? "green" : "red",
                 region: true
             });
 
-            // Add a label for the region if there are multiple (or if it's named)
             if (pruningRegions.regions.length > 1 || region.name) {
                 rect.bindTooltip(region.name ?? ("Region " + (index + 1)), {
                     direction: "center",
@@ -199,13 +291,10 @@ export class Map extends Component {
                 });
             }
 
-            // Add event for edit
-            let self = this;
+            const self = this;
             rect.on("edit", function (e) {
-                let max = rect.getBounds().getNorthEast();
-                let min = rect.getBounds().getSouthWest();
-
-                // Reverse lat long into co-ords
+                const max = rect.getBounds().getNorthEast();
+                const min = rect.getBounds().getSouthWest();
                 self.moveRegion(world, index, min.lng / 16, -min.lat / 16, max.lng / 16, -max.lat / 16);
             });
             rect.addTo(this.mymap);
@@ -218,11 +307,9 @@ export class Map extends Component {
     }
 }
 
-let xy = function (x, y) {
-    if (L.Util.isArray(x)) {    // When doing xy([x, y]);
+const xy = function (x, y) {
+    if (L.Util.isArray(x)) {
         return xy(x[0], x[1]);
     }
-
-    // Modified specifically for this leaflet scale of 512
-    return [-y, x];  // When doing xy(x, y);
+    return [-y, x];
 };

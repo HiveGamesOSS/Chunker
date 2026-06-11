@@ -3,8 +3,7 @@ import {freemem, totalmem} from "os"
 import {app} from "electron"
 import path from "path"
 import fs from "fs-extra"
-import jszip from "jszip"
-import {copyRecursive, countFiles, zipRecursive} from "./util.js";
+import {copyRecursive, countFiles, detectArchiveType, extractTar, extractZip, zipRecursive} from "./util.js";
 import {download} from "electron-dl";
 import log from "electron-log";
 
@@ -413,67 +412,16 @@ export class Session {
         let worldInputPath = path.join(this._sessionPath, "input");
         await fs.mkdir(worldInputPath);
 
-        // Copy / Extract the world (if it's a zip)
+        // Copy / Extract the world (if it's an archive)
         let pathStat = await fs.stat(inputPath);
-        if (pathStat.isFile()) {
-            // Extract zip
+        let archiveType = pathStat.isFile() ? await detectArchiveType(inputPath) : undefined;
+        if (pathStat.isFile() && archiveType === "zip") {
+            // Extract zip (also .mcworld / .mctemplate)
+            let lastProgress = 0;
             try {
-                let zipContents = await fs.readFile(inputPath);
-                let zip = await jszip.loadAsync(zipContents);
-
-                // Find the level.dat
-                let levelDataFiles = zip.file(/level\.dat$/g);
-                if (levelDataFiles.length === 0) {
-                    // Reply with error
-                    this.sendMessage({
-                        requestId: requestId,
-                        type: "error",
-                        error: "Provided file does not contain a Minecraft world."
-                    });
-                    return;
-                }
-
-                let selectedDat = levelDataFiles[0];
-                let pathPrefix = selectedDat.name.substring(0, selectedDat.name.lastIndexOf("/") + 1);
-                let filesExtracted = 0;
-                let totalFiles = Object.keys(zip.files).length;
-                let lastProgress = 0;
-
-                // Extract everything below the level.dat
-                await Promise.all(Object.keys(zip.files).map(async (filename) => {
-                    if (!filename.startsWith(pathPrefix)) return;
-
-                    // Grab the file
-                    const file = zip.files[filename];
-
-                    // Join the paths to get the output path
-                    const outputPath = path.join(worldInputPath, filename.substring(pathPrefix.length));
-
-                    // Ignores paths which aren't safe
-                    if (!path.normalize(outputPath).startsWith(worldInputPath)) {
-                        return;
-                    }
-
-                    // Create the directory if it's one otherwise copy the file data
-                    if (file.dir) {
-                        await fs.mkdir(outputPath, {recursive: true});
-                    } else {
-                        // Ensure the directory is present
-                        let outputPathFolder = path.dirname(outputPath);
-                        await fs.mkdir(outputPathFolder, {recursive: true});
-
-                        // Otherwise, write the file contents to the output path
-                        const fileData = await file.async('nodebuffer');
-                        await fs.writeFile(outputPath, fileData);
-                    }
-
-                    // Update progress
-                    filesExtracted++;
-                    let progress = filesExtracted / totalFiles;
-
+                await extractZip(inputPath, worldInputPath, (progress) => {
                     // Only update the client if the progress differs by 1%
                     if (progress - lastProgress > 0.01) {
-                        // Update client
                         this.sendMessage({
                             requestId: requestId,
                             type: "progress",
@@ -482,8 +430,18 @@ export class Session {
                         });
                         lastProgress = progress;
                     }
-                }));
+                });
             } catch (e) {
+                // The archive didn't contain a Minecraft world
+                if (e.reason === "NO_WORLD") {
+                    this.sendMessage({
+                        requestId: requestId,
+                        type: "error",
+                        error: "Provided file does not contain a Minecraft world."
+                    });
+                    return;
+                }
+
                 log.error("Failed to read input zip", e);
 
                 // Specific handling for file too large
@@ -506,6 +464,55 @@ export class Session {
                 });
                 return;
             }
+        } else if (pathStat.isFile() && archiveType === "tar") {
+            // Extract tar (optionally gzip / brotli compressed)
+            let lastProgress = 0;
+            try {
+                await extractTar(inputPath, worldInputPath, (progress) => {
+                    // Only update the client if the progress differs by 1%
+                    if (progress - lastProgress > 0.01) {
+                        this.sendMessage({
+                            requestId: requestId,
+                            type: "progress",
+                            percentage: progress,
+                            continue: true
+                        });
+                        lastProgress = progress;
+                    }
+                });
+            } catch (e) {
+                // The archive didn't contain a Minecraft world
+                if (e.reason === "NO_WORLD") {
+                    this.sendMessage({
+                        requestId: requestId,
+                        type: "error",
+                        error: "Provided file does not contain a Minecraft world."
+                    });
+                    return;
+                }
+
+                log.error("Failed to read input tar", e);
+
+                // Reply with error
+                this.sendMessage({
+                    requestId: requestId,
+                    type: "error",
+                    error: "Failed to open selected file, please ensure you don't have it open anywhere else.",
+                    stackTrace: e.stack.toString() + "\n"
+                });
+                return;
+            }
+        } else if (pathStat.isFile()) {
+            // Unsupported archive type
+            log.error("Unsupported archive", inputPath);
+
+            // Reply with error
+            this.sendMessage({
+                requestId: requestId,
+                type: "error",
+                error: "Provided file is not a supported archive."
+            });
+            return;
         } else if (pathStat.isDirectory()) {
             // Copy files to the output path
             let totalFiles = await countFiles(inputPath);

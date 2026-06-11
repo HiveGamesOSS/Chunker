@@ -30,6 +30,8 @@ public class EncodingType {
      */
     public static final EncodingType JAVA = register(
             "Java",
+            "Java Edition",
+            20,
             false,
             JavaEncoders::createReader,
             JavaEncoders::createWriter,
@@ -41,6 +43,8 @@ public class EncodingType {
      */
     public static final EncodingType BEDROCK = register(
             "Bedrock",
+            "Bedrock Edition",
+            10,
             false,
             BedrockEncoders::createReader,
             BedrockEncoders::createWriter,
@@ -52,6 +56,8 @@ public class EncodingType {
      */
     public static final EncodingType PREVIEW = register(
             "Preview",
+            "Preview",
+            0,
             true,
             null,
             (directory, version, settings) -> Optional.of(new PreviewLevelWriter(directory)),
@@ -63,6 +69,8 @@ public class EncodingType {
      */
     public static final EncodingType SETTINGS = register(
             "Settings",
+            "Settings",
+            0,
             true,
             null,
             (directory, version, settings) -> Optional.of(new SettingsLevelWriter(directory)),
@@ -72,6 +80,8 @@ public class EncodingType {
 
     // Fields
     private final String name;
+    private final String label;
+    private final int order;
     private final boolean internal;
     private final EncoderLevelReaderConstructor<?> readerConstructor;
     private final EncoderLevelWriterConstructor<?> writerConstructor;
@@ -81,13 +91,17 @@ public class EncodingType {
      * Create a new encoding type.
      *
      * @param name              the name of the encoding type in English.
+     * @param label             the user-facing label shown as the section heading, e.g. "Java Edition".
+     * @param order             the order this format is listed in the user-interface (lower is first).
      * @param internal          whether the encoding type should be listed to users.
      * @param readerConstructor the constructor for creating level readers.
      * @param writerConstructor the constructor for creating level writers.
      * @param supportedVersions a list of versions this encoding type supports.
      */
-    public EncodingType(String name, boolean internal, EncoderLevelReaderConstructor<?> readerConstructor, EncoderLevelWriterConstructor<?> writerConstructor, Collection<Version> supportedVersions) {
+    public EncodingType(String name, String label, int order, boolean internal, EncoderLevelReaderConstructor<?> readerConstructor, EncoderLevelWriterConstructor<?> writerConstructor, Collection<Version> supportedVersions) {
         this.name = name;
+        this.label = label;
+        this.order = order;
         this.internal = internal;
         this.readerConstructor = readerConstructor;
         this.writerConstructor = writerConstructor;
@@ -98,14 +112,16 @@ public class EncodingType {
      * Create and register a new encoding type.
      *
      * @param name              the name of the encoding type in English.
+     * @param label             the user-facing label shown as the section heading, e.g. "Java Edition".
+     * @param order             the order this format is listed in the user-interface (lower is first).
      * @param internal          whether the encoding type should be listed to users.
      * @param reader            the constructor for creating level readers.
      * @param writer            the constructor for creating level writers.
      * @param supportedVersions a list of versions this encoding type supports.
      */
-    public static EncodingType register(String name, boolean internal, EncoderLevelReaderConstructor<?> reader, EncoderLevelWriterConstructor<?> writer, Collection<Version> supportedVersions) {
+    public static EncodingType register(String name, String label, int order, boolean internal, EncoderLevelReaderConstructor<?> reader, EncoderLevelWriterConstructor<?> writer, Collection<Version> supportedVersions) {
         // Create the encoding type
-        EncodingType encodingType = new EncodingType(name, internal, reader, writer, supportedVersions);
+        EncodingType encodingType = new EncodingType(name, label, order, internal, reader, writer, supportedVersions);
 
         // Add to the main types
         TYPES.add(encodingType);
@@ -185,6 +201,24 @@ public class EncodingType {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Get the user-facing label shown as the section heading, e.g. "Java Edition".
+     *
+     * @return the label.
+     */
+    public String getLabel() {
+        return label;
+    }
+
+    /**
+     * Get the order this format is listed in the user-interface (lower is first).
+     *
+     * @return the order.
+     */
+    public int getOrder() {
+        return order;
     }
 
     /**

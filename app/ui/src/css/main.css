@@ -850,10 +850,34 @@ input:checked + .switch:before {
 /*---Export---*/
 
 #content .main_content.export {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40px;
+    flex-grow: 0;
+}
+
+.export .edition_section {
+    display: flex;
+    flex-direction: column;
+}
+
+.export .edition_heading {
+    font: 14px/1.2em 'MetropolisBold', Arial, sans-serif;
+    color: #2f2f2f;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+}
+
+.export .edition_grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 30px;
-    flex-grow: 0;
+}
+
+.export .edition_toggle {
+    margin: 18px 0 0;
+    text-align: center;
 }
 
 .export .gray_box {

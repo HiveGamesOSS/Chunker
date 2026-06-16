@@ -30,7 +30,7 @@ export class ModeOption extends Component {
         let java = this.props.type.startsWith("JAVA_");
         let bedrock = this.props.type.startsWith("BEDROCK_");
         let beta = (bedrock && version === "1.26.30") || (java && version === "26.2.0"); // Beta label
-        let label = getFormatName(this.props.type) + ((java || bedrock) ? " Edition" : "");
+        let label = this.props.value.label;
         return (
             <div>
                 <input type="radio" value={this.props.type} checked={this.props.selected === this.props.type}

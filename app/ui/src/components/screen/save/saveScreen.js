@@ -2,7 +2,7 @@ import React from "react";
 import {BaseScreen} from "../baseScreen";
 import api from "../../../api";
 import {Round2DP} from "../../progress";
-import {getFormatName, getVersionName} from "../mode/modeOption";
+import {getVersionName} from "../mode/modeOption";
 
 export class SaveScreen extends BaseScreen {
     state = {
@@ -50,7 +50,7 @@ export class SaveScreen extends BaseScreen {
     render() {
         // Version info
         let version = getVersionName(this.app.state.outputType.id);
-        let format = getFormatName(this.app.state.outputType.id);
+        let label = this.app.state.outputType.label;
 
         // Error IDs
         let errorIds = this.app.state.convertResult.anonymousId !== "" ? this.app.state.convertResult.anonymousId : undefined;
@@ -64,7 +64,7 @@ export class SaveScreen extends BaseScreen {
             <div className="maincol">
                 <div className="topbar">
                     <h1>Save World</h1>
-                    <h2>Your {format} Edition {version} world is ready to be saved.</h2>
+                    <h2>Your {label} {version} world is ready to be saved.</h2>
                 </div>
                 <div className="main_content main_content_progress">
                     {!this.state.saved && !this.state.saving && <h3>Ready To Save</h3>}

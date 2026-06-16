@@ -75,6 +75,7 @@ public class Messenger {
                             JsonObject response = new JsonObject();
                             response.add("input", toEncodedObject(levelReader.getEncodingType(), levelReader.getVersion()));
                             response.add("writers", getWriters());
+                            response.add("formats", getFormats());
 
                             // Add warnings
                             String warnings = levelReader.getWarnings();
@@ -682,11 +683,38 @@ public class Messenger {
     }
 
     /**
+     * Get the user-facing formats used to group the writers, ordered by their UI order.
+     * Each entry describes a format group (id and friendly label); the front-end groups the
+     * writers by their type and lists the groups in this order. Internal formats are excluded.
+     *
+     * @return a JsonArray of JsonObjects in the format {"id": "BEDROCK", "label": "Bedrock Edition"}.
+     */
+    public static JsonArray getFormats() {
+        // Collect the writeable, user-facing formats then sort them by their UI order
+        List<EncodingType> formats = new ArrayList<>();
+        for (EncodingType encodingType : EncodingType.getWriteableTypes()) {
+            if (encodingType.isInternal()) continue; // Don't list internal
+            formats.add(encodingType);
+        }
+        formats.sort(Comparator.comparingInt(EncodingType::getOrder));
+
+        // Encode each format with its id (matching the writer "type") and friendly label
+        JsonArray result = new JsonArray();
+        for (EncodingType encodingType : formats) {
+            JsonObject format = new JsonObject();
+            format.addProperty("id", encodingType.getName().toUpperCase(Locale.ROOT));
+            format.addProperty("label", encodingType.getLabel());
+            result.add(format);
+        }
+        return result;
+    }
+
+    /**
      * Transform an encoding type and version to a JSON representation.
      *
      * @param encodingType the format being encoded.
      * @param version      the version being encoded.
-     * @return encoded as a JsonObject in the format {"id": "JAVA_1_20_5", "version":"1.20.5", "type":"JAVA"}
+     * @return encoded as a JsonObject in the format {"id": "JAVA_1_20_5", "version":"1.20.5", "type":"JAVA", "label":"Java Edition"}
      */
     public static JsonObject toEncodedObject(EncodingType encodingType, @Nullable Version version) {
         JsonObject encoding = new JsonObject();
@@ -697,6 +725,7 @@ public class Messenger {
             encoding.addProperty("id", encodingType.getName().toUpperCase(Locale.ROOT));
         }
         encoding.addProperty("type", encodingType.getName().toUpperCase(Locale.ROOT));
+        encoding.addProperty("label", encodingType.getLabel());
         return encoding;
     }
 

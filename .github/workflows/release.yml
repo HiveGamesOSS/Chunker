@@ -28,7 +28,7 @@ jobs:
             gradle-args: 'build -x test'
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: true
           submodules: recursive
@@ -81,7 +81,7 @@ jobs:
             unpacked-dir: win-arm64-unpacked
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: true
           submodules: recursive
@@ -142,7 +142,7 @@ jobs:
         os: [macos-latest, macos-15-intel]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: true
           submodules: recursive

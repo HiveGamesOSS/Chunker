@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: github.event.inputs.build_linux == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: true
           submodules: recursive
@@ -76,7 +76,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: github.event.inputs.build_windows == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: true
           submodules: recursive
@@ -138,7 +138,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: github.event.inputs.build_mac == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: true
           submodules: recursive

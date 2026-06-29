@@ -413,8 +413,23 @@ export class Session {
         await fs.mkdir(worldInputPath);
 
         // Copy / Extract the world (if it's an archive)
-        let pathStat = await fs.stat(inputPath);
-        let archiveType = pathStat.isFile() ? await detectArchiveType(inputPath) : undefined;
+        let pathStat;
+        let archiveType;
+        try {
+            pathStat = await fs.stat(inputPath);
+            archiveType = pathStat.isFile() ? await detectArchiveType(inputPath) : undefined;
+        } catch (e) {
+            log.error("Failed to read input", e);
+
+            // Reply with error
+            this.sendMessage({
+                requestId: requestId,
+                type: "error",
+                error: "Failed to open selected file, please ensure you don't have it open anywhere else.",
+                stackTrace: e.stack.toString() + "\n"
+            });
+            return;
+        }
         if (pathStat.isFile() && archiveType === "zip") {
             // Extract zip (also .mcworld / .mctemplate)
             let lastProgress = 0;

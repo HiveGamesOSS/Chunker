@@ -1,57 +1,61 @@
 let api = {
     connection: undefined,
     replyHandlers: {},
+    listeners: {},
     connect: function (connectHandler) {
         let handlers = {};
 
-        // Connection open handler
         handlers.onopen = function () {
             connectHandler();
         };
 
-        // Connection close handler
         handlers.onclose = function (e) {
             api.connection = undefined;
-            if (e.code === 1000) return; // Don't show error, as it was completed cleanly (and successful!)
+            if (e.code === 1000) return;
             if (e.code === 200) {
-                // Connection closed intentionally (eg. inactive)
-            } else {
-                // Connection closed for other reason, should reconnect?
+                // intentional close
             }
             connectHandler(e.code);
         };
 
-        // Connection message handler
         handlers.onmessage = function (e) {
             let msg = JSON.parse(e.data);
             let requestId = msg.requestId;
-            if (api.replyHandlers[requestId] === undefined) {
-                console.warn("No reply handler found: ", msg);
-            } else {
-                let handler = api.replyHandlers[requestId];
-
-                // Check if handler needs removing
+            let handler = api.replyHandlers[requestId];
+            if (handler !== undefined) {
                 if (msg.continue === undefined || msg.continue === false) {
-                    // Remove as it's done
                     delete api.replyHandlers[requestId];
                 }
-
-                // Call handler
                 handler(msg);
+                return;
             }
+
+            let typed = api.listeners[msg.type];
+            if (typed && typed.length > 0) {
+                for (let cb of typed) cb(msg);
+                return;
+            }
+
+            console.warn("No reply handler or listener found: ", msg);
         };
 
-        // Set connection
         this.connection = window.chunker.connect(handlers);
     },
     send: function (obj, replyHandler) {
-        obj.requestId = crypto.randomUUID();// Generate random id
+        obj.requestId = crypto.randomUUID();
         if (this.connection !== undefined) {
             this.replyHandlers[obj.requestId] = replyHandler;
             this.connection.send(JSON.stringify(obj));
         } else {
             throw Error("Not connected!");
         }
+    },
+    addListener: function (type, callback) {
+        if (!this.listeners[type]) this.listeners[type] = [];
+        this.listeners[type].push(callback);
+        return () => {
+            this.listeners[type] = (this.listeners[type] || []).filter(cb => cb !== callback);
+        };
     },
     isConnected: function () {
         return this.connection !== undefined;

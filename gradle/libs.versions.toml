@@ -17,7 +17,7 @@ junit = "6.1.1"
 junit-platform-launcher = "6.1.1"
 
 # Plugins
-shadow = "9.5.1"
+shadow = "9.6.1"
 gitVersion = "5.0.0"
 jpackage = "2.1.0"
 node = "7.1.0"

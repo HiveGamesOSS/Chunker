@@ -245,8 +245,10 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
             CompoundTag entries = new CompoundTag(4);
 
             for (Dimension dimension : converter.getDimensionRegistry().getDimensions()) {
-                if (dimension.getBedrockID() < 1000) continue;
-                entries.put(dimension.getIdentifier(), dimension.getBedrockID());
+                // Only write dimension identifiers which are actually used
+                Dimension newDimension = converter.getNewDimension(dimension).orElse(null);
+                if (newDimension == null || newDimension.getBedrockID() < DimensionRegistry.BEDROCK_CUSTOM_DIMENSION_ID_START) continue;
+                entries.put(newDimension.getIdentifier(), newDimension.getBedrockID());
             }
 
             if (entries.size() > 0) {
@@ -385,6 +387,11 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
     @Override
     public void writeCustomLevelSetting(ChunkerLevelSettings chunkerLevelSettings, CompoundTag output, String targetName, Object value) {
         // Check for next update
+        if (targetName.equals("AutumnDrop2026")) {
+            // Not supported
+            return;
+        }
+
         if (targetName.equals("SummerDrop2026")) {
             // Not supported
             return;

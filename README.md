@@ -18,7 +18,7 @@ Supported Formats:
     - 1.19.0 - 1.19.80
     - 1.20.0 - 1.20.80
     - 1.21.0 - 1.21.130
-    - 1.26.0 - 1.26.30
+    - 1.26.0 - 1.26.40
 - Java
     - 1.8.8
     - 1.9.0 - 1.9.3
@@ -34,7 +34,7 @@ Supported Formats:
     - 1.19.0 - 1.19.4
     - 1.20.0 - 1.20.6
     - 1.21.0 - 1.21.11
-    - 26.1 - 26.2
+    - 26.1 - 26.3
 
 **Microsoft Creator Docs:**
 https://learn.microsoft.com/en-us/minecraft/creator/documents/chunkeroverview?view=minecraft-bedrock-stable
@@ -72,7 +72,7 @@ The following parameters are required:
 - `-i` / `--inputDirectory` - the path relative to the application which should be used as the input directory.
 - `-o` / `--outputDirectory` - the path relative to the application which should be used as the output directory.
 - `-f` / `--outputFormat` - the output format to convert the world to in the form `EDITION_X_Y_Z`,
-  e.g. `JAVA_1_20_5`, `JAVA_1_20`, `BEDROCK_1_19_30`.
+  e.g. `JAVA_1_20_5`, `JAVA_1_20`, `BEDROCK_1_19_30`, `INPUT` to match the input version.
 
 Additionally, the following parameters are supported:
 
@@ -80,7 +80,9 @@ Additionally, the following parameters are supported:
 - `-s` / `--worldSettings` - a path to a json file or a json object containing world settings.
 - `-p` / `--pruning` - a path to a json file or a json object containing pruning settings.
 - `-c` / `--converterSettings` - a path to a json file or a json object containing converter settings.
+- `-r` / `--dimensionRegistry` - a path to a json file or a json object containing custom dimension definitions.
 - `-d` / `--dimensionMappings` - a path to a json file or a json object containing dimension mappings.
+- `-b` / `--biomeMappings` - a path to a json file or a json object containing biome mappings.
 - `-k` / `--keepOriginalNBT` - indicates that NBT should be copied from the input to output where processed by Chunker,
   this is only supported where the output format is the same as the input and for optimal results you will want to copy
   the input world to the output folder prior to conversion.

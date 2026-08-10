@@ -53,7 +53,7 @@ public class PreviewWorldWriter implements WorldWriter {
             // Encode bytes
             writer.writeInt(worldDataList.size());
             for (WorldData worldData : worldDataList) {
-                writer.writeInt(worldData.dimension.getBedrockID());
+                writer.writeString(worldData.dimension.getIdentifier());
                 writer.writeInt(worldData.minX);
                 writer.writeInt(worldData.minZ);
                 writer.writeInt(worldData.maxX);

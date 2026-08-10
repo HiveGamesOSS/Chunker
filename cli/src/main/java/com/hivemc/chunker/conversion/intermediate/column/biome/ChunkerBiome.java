@@ -88,6 +88,7 @@ public interface ChunkerBiome {
         CHERRY_GROVE("minecraft:cherry_grove"),
         PALE_GARDEN("minecraft:pale_garden"),
         SULFUR_CAVES("minecraft:sulfur_caves"),
+        DAPPLED_FOREST("minecraft:dappled_forest"),
 
         // No longer used in newer versions
         @Deprecated

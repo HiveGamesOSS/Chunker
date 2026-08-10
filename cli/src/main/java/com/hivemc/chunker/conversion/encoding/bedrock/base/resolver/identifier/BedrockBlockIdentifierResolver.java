@@ -795,6 +795,7 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
                         .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_OPEN_EYEBLOSSOM)
                         .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_CLOSED_EYEBLOSSOM)
                         .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_GOLDEN_DANDELION)
+                        .put("minecraft:flower_pot", ChunkerVanillaBlockType.POTTED_POPLAR_SAPLING)
                         .build(),
                 BedrockStateGroups.FLOWER_POT));
 
@@ -3077,6 +3078,95 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
         // R26U3
         if (version.isGreaterThanOrEqual(1, 26, 30)) {
             register(BlockMapping.of("minecraft:sulfur_spike", ChunkerVanillaBlockType.SULFUR_SPIKE, BedrockStateGroups.POINTED_DRIPSTONE));
+        }
+
+        // R26U4
+        if (version.isGreaterThanOrEqual(1, 26, 40)) {
+            // New poplar blocks
+            register(BlockMapping.of("minecraft:poplar_sapling", ChunkerVanillaBlockType.POPLAR_SAPLING, BedrockStateGroups.SAPLING));
+            register(BlockMapping.of("minecraft:orange_poplar_leaves", ChunkerVanillaBlockType.ORANGE_POPLAR_LEAVES, BedrockStateGroups.LEAVES));
+            register(BlockMapping.of("minecraft:red_poplar_leaves", ChunkerVanillaBlockType.RED_POPLAR_LEAVES, BedrockStateGroups.LEAVES));
+            register(BlockMapping.of("minecraft:yellow_poplar_leaves", ChunkerVanillaBlockType.YELLOW_POPLAR_LEAVES, BedrockStateGroups.LEAVES));
+            register(BlockMapping.of("minecraft:poplar_log", ChunkerVanillaBlockType.POPLAR_LOG, BedrockStateGroups.PILLAR_BLOCK));
+            register(BlockMapping.of("minecraft:poplar_wood", ChunkerVanillaBlockType.POPLAR_WOOD, BedrockStateGroups.PILLAR_BLOCK));
+            register(BlockMapping.of("minecraft:stripped_poplar_log", ChunkerVanillaBlockType.STRIPPED_POPLAR_LOG, BedrockStateGroups.PILLAR_BLOCK));
+            register(BlockMapping.of("minecraft:stripped_poplar_wood", ChunkerVanillaBlockType.STRIPPED_POPLAR_WOOD, BedrockStateGroups.PILLAR_BLOCK));
+            register(BlockMapping.of("minecraft:poplar_button", ChunkerVanillaBlockType.POPLAR_BUTTON, BedrockStateGroups.BUTTON));
+            register(BlockMapping.of("minecraft:poplar_door", ChunkerVanillaBlockType.POPLAR_DOOR, BedrockStateGroups.DOOR));
+            register(BlockMapping.of("minecraft:poplar_fence", ChunkerVanillaBlockType.POPLAR_FENCE, BedrockStateGroups.CONNECTABLE_HORIZONTAL));
+            register(BlockMapping.of("minecraft:poplar_fence_gate", ChunkerVanillaBlockType.POPLAR_FENCE_GATE, BedrockStateGroups.FENCE_GATE));
+            register(BlockMapping.of("minecraft:poplar_planks", ChunkerVanillaBlockType.POPLAR_PLANKS));
+            register(BlockMapping.of("minecraft:poplar_pressure_plate", ChunkerVanillaBlockType.POPLAR_PRESSURE_PLATE, BedrockStateGroups.PRESSURE_PLATE));
+            register(BlockMapping.of("minecraft:poplar_slab", ChunkerVanillaBlockType.POPLAR_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:poplar_double_slab", ChunkerVanillaBlockType.POPLAR_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:poplar_stairs", ChunkerVanillaBlockType.POPLAR_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:poplar_trapdoor", ChunkerVanillaBlockType.POPLAR_TRAPDOOR, BedrockStateGroups.TRAPDOOR));
+            register(BlockMapping.of("minecraft:poplar_shelf", ChunkerVanillaBlockType.POPLAR_SHELF, BedrockStateGroups.SHELF));
+
+            // New poplar signs
+            register(BlockMapping.of("minecraft:poplar_hanging_sign", "hanging", false, ChunkerVanillaBlockType.POPLAR_WALL_HANGING_SIGN, BedrockStateGroups.HANGING_WALL_SIGN));
+            register(BlockMapping.of("minecraft:poplar_hanging_sign", "hanging", true, ChunkerVanillaBlockType.POPLAR_HANGING_SIGN, BedrockStateGroups.HANGING_SIGN));
+            register(BlockMapping.of("minecraft:poplar_standing_sign", ChunkerVanillaBlockType.POPLAR_SIGN, BedrockStateGroups.SIGN));
+            register(BlockMapping.of("minecraft:poplar_wall_sign", ChunkerVanillaBlockType.POPLAR_WALL_SIGN, BedrockStateGroups.FACING_DIRECTION_HORIZONTAL));
+
+            // New straw bed
+            register(BlockMapping.of("minecraft:straw_bed", ChunkerVanillaBlockType.STRAW_BED, BedrockStateGroups.STRAW_BED));
+
+            // New plants
+            register(BlockMapping.of("minecraft:red_shrub", ChunkerVanillaBlockType.RED_SHRUB));
+            register(BlockMapping.of("minecraft:shelf_mushroom", ChunkerVanillaBlockType.SHELF_MUSHROOM, BedrockStateGroups.SHELF_MUSHROOM));
+
+            // New wool slabs
+            register(BlockMapping.of("minecraft:white_wool_slab", ChunkerVanillaBlockType.WHITE_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:white_wool_double_slab", ChunkerVanillaBlockType.WHITE_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:orange_wool_slab", ChunkerVanillaBlockType.ORANGE_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:orange_wool_double_slab", ChunkerVanillaBlockType.ORANGE_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:magenta_wool_slab", ChunkerVanillaBlockType.MAGENTA_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:magenta_wool_double_slab", ChunkerVanillaBlockType.MAGENTA_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:light_blue_wool_slab", ChunkerVanillaBlockType.LIGHT_BLUE_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:light_blue_wool_double_slab", ChunkerVanillaBlockType.LIGHT_BLUE_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:yellow_wool_slab", ChunkerVanillaBlockType.YELLOW_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:yellow_wool_double_slab", ChunkerVanillaBlockType.YELLOW_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:lime_wool_slab", ChunkerVanillaBlockType.LIME_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:lime_wool_double_slab", ChunkerVanillaBlockType.LIME_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:pink_wool_slab", ChunkerVanillaBlockType.PINK_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:pink_wool_double_slab", ChunkerVanillaBlockType.PINK_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:gray_wool_slab", ChunkerVanillaBlockType.GRAY_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:gray_wool_double_slab", ChunkerVanillaBlockType.GRAY_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:light_gray_wool_slab", ChunkerVanillaBlockType.LIGHT_GRAY_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:light_gray_wool_double_slab", ChunkerVanillaBlockType.LIGHT_GRAY_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:cyan_wool_slab", ChunkerVanillaBlockType.CYAN_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:cyan_wool_double_slab", ChunkerVanillaBlockType.CYAN_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:purple_wool_slab", ChunkerVanillaBlockType.PURPLE_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:purple_wool_double_slab", ChunkerVanillaBlockType.PURPLE_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:blue_wool_slab", ChunkerVanillaBlockType.BLUE_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:blue_wool_double_slab", ChunkerVanillaBlockType.BLUE_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:brown_wool_slab", ChunkerVanillaBlockType.BROWN_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:brown_wool_double_slab", ChunkerVanillaBlockType.BROWN_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:green_wool_slab", ChunkerVanillaBlockType.GREEN_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:green_wool_double_slab", ChunkerVanillaBlockType.GREEN_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:red_wool_slab", ChunkerVanillaBlockType.RED_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:red_wool_double_slab", ChunkerVanillaBlockType.RED_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:black_wool_slab", ChunkerVanillaBlockType.BLACK_WOOL_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:black_wool_double_slab", ChunkerVanillaBlockType.BLACK_WOOL_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+
+            // New wool stairs
+            register(BlockMapping.of("minecraft:white_wool_stairs", ChunkerVanillaBlockType.WHITE_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:orange_wool_stairs", ChunkerVanillaBlockType.ORANGE_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:magenta_wool_stairs", ChunkerVanillaBlockType.MAGENTA_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:light_blue_wool_stairs", ChunkerVanillaBlockType.LIGHT_BLUE_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:yellow_wool_stairs", ChunkerVanillaBlockType.YELLOW_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:lime_wool_stairs", ChunkerVanillaBlockType.LIME_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:pink_wool_stairs", ChunkerVanillaBlockType.PINK_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:gray_wool_stairs", ChunkerVanillaBlockType.GRAY_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:light_gray_wool_stairs", ChunkerVanillaBlockType.LIGHT_GRAY_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:cyan_wool_stairs", ChunkerVanillaBlockType.CYAN_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:purple_wool_stairs", ChunkerVanillaBlockType.PURPLE_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:blue_wool_stairs", ChunkerVanillaBlockType.BLUE_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:brown_wool_stairs", ChunkerVanillaBlockType.BROWN_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:green_wool_stairs", ChunkerVanillaBlockType.GREEN_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:red_wool_stairs", ChunkerVanillaBlockType.RED_WOOL_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:black_wool_stairs", ChunkerVanillaBlockType.BLACK_WOOL_STAIRS, BedrockStateGroups.STAIRS));
         }
     }
 }

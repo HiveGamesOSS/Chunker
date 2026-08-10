@@ -6,17 +6,17 @@
   "description": "Provides mappings for mapping one dimension to another or removing a dimension.",
   "default": {
     "minecraft:overworld": "minecraft:overworld",
-    "minecraft:nether": "minecraft:nether",
+    "minecraft:the_nether": "minecraft:the_nether",
     "minecraft:the_end": "minecraft:the_end"
   },
   "examples": [
     {
       "minecraft:overworld": "minecraft:overworld",
-      "minecraft:nether": "minecraft:nether",
+      "minecraft:the_nether": "minecraft:the_nether",
       "minecraft:the_end": "minecraft:the_end"
     },
     {
-      "minecraft:overworld": "minecraft:nether",
+      "minecraft:overworld": "minecraft:the_nether",
       "minecraft:the_end": "minecraft:the_end"
     },
     {

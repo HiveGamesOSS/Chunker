@@ -4,6 +4,7 @@ import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.resolver.entity.EmptyEntityHandler;
 import com.hivemc.chunker.conversion.encoding.base.resolver.entity.EntityResolver;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.BedrockResolvers;
+import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.entity.handlers.BedrockCushionEntityHandler;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.entity.handlers.BedrockEntityHandler;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.entity.handlers.BedrockHangingEntityHandler;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.entity.handlers.BedrockItemFrameEntityHandler;
@@ -41,6 +42,10 @@ public class BedrockEntityResolver extends EntityResolver<BedrockResolvers, Comp
         register(new EmptyEntityHandler<>(ChunkerVanillaEntityType.GLOW_ITEM_FRAME, GlowItemFrameEntity.class, () -> {
             throw new IllegalArgumentException("Glow item frames cannot be read from Bedrock.");
         }));
+
+        if (version.isGreaterThanOrEqual(1, 26, 40)) {
+            register(new BedrockCushionEntityHandler());
+        }
     }
 
     @Override

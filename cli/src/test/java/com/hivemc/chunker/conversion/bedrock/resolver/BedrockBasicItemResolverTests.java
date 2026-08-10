@@ -87,6 +87,7 @@ public class BedrockBasicItemResolverTests {
                     ChunkerVanillaEntityType.PALE_OAK_BOAT,
                     ChunkerVanillaEntityType.MANGROVE_BOAT,
                     ChunkerVanillaEntityType.BAMBOO_RAFT,
+                    ChunkerVanillaEntityType.POPLAR_BOAT,
                     ChunkerVanillaEntityType.OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.SPRUCE_CHEST_BOAT,
                     ChunkerVanillaEntityType.BIRCH_CHEST_BOAT,
@@ -97,7 +98,9 @@ public class BedrockBasicItemResolverTests {
                     ChunkerVanillaEntityType.PALE_OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT,
                     ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT,
-                    ChunkerVanillaEntityType.MANNEQUIN
+                    ChunkerVanillaEntityType.POPLAR_CHEST_BOAT,
+                    ChunkerVanillaEntityType.MANNEQUIN,
+                    ChunkerVanillaEntityType.CUSHION
             )
     );
     // Mock converter with two mock maps

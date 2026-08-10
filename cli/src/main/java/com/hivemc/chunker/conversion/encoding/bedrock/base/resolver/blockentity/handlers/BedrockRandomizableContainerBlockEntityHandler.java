@@ -43,35 +43,53 @@ public class BedrockRandomizableContainerBlockEntityHandler extends BlockEntityH
     public void read(@NotNull BedrockResolvers resolvers, @NotNull CompoundTag input, @NotNull RandomizableContainerBlockEntity blockEntity) {
         String lootTable = input.getString("LootTable", null);
         if (lootTable != null && !lootTable.isEmpty() && enableLootTables) {
-
-            // Remove bedrock formatting
-            lootTable = lootTable.replace("loot_tables/", "minecraft:").replace(".json", "");
-
-            // Fix any renames
-            lootTable = LOOT_TABLE_OLD_NAME_TO_CHUNKER.getOrDefault(lootTable, lootTable);
-            blockEntity.setLootTable(lootTable);
+            blockEntity.setLootTable(bedrockLootTableToChunker(lootTable));
         }
     }
 
     @Override
     public void write(@NotNull BedrockResolvers resolvers, @NotNull CompoundTag output, @NotNull RandomizableContainerBlockEntity blockEntity) {
         if (blockEntity.getLootTable() != null && !blockEntity.getLootTable().isEmpty() && !UNSUPPORTED_LOOT_TABLES.contains(blockEntity.getLootTable()) && enableLootTables) {
-            String bedrockLootTable = blockEntity.getLootTable();
-
-            // Fix any renames
-            bedrockLootTable = LOOT_TABLE_OLD_NAME_TO_CHUNKER.inverse().getOrDefault(bedrockLootTable, bedrockLootTable);
-
-            // Convert to path
-            if (bedrockLootTable.startsWith("minecraft:")) {
-                bedrockLootTable = "loot_tables/" + bedrockLootTable.substring(10);
-            }
-
-            // Ensure it ends in .json
-            if (!bedrockLootTable.endsWith(".json")) {
-                bedrockLootTable = bedrockLootTable + ".json";
-            }
-
-            output.put("LootTable", bedrockLootTable);
+            output.put("LootTable", chunkerLootTableToBedrock(blockEntity.getLootTable()));
         }
+    }
+
+    /**
+     * Convert a bedrock loot table path to the chunker loot table (java).
+     *
+     * @param lootTable the bedrock loot table path.
+     * @return the chunker loot table (java format).
+     */
+    public static String bedrockLootTableToChunker(String lootTable) {
+        // Remove bedrock formatting
+        lootTable = lootTable.replace("loot_tables/", "minecraft:").replace(".json", "");
+
+        // Fix any renames
+        return LOOT_TABLE_OLD_NAME_TO_CHUNKER.getOrDefault(lootTable, lootTable);
+    }
+
+    /**
+     * Convert a chunker loot table (java) to the bedrock loot table path.
+     *
+     * @param lootTable the chunker loot table (java format).
+     * @return the bedrock loot table path.
+     */
+    public static String chunkerLootTableToBedrock(String lootTable) {
+        // Fix any renames
+        lootTable = LOOT_TABLE_OLD_NAME_TO_CHUNKER.inverse().getOrDefault(lootTable, lootTable);
+
+        // Convert to path
+        if (lootTable.startsWith("minecraft:")) {
+            lootTable = "loot_tables/" + lootTable.substring(10);
+        } else if (!lootTable.startsWith("loot_tables/")) {
+            lootTable = "loot_tables/" + lootTable;
+        }
+
+        // Ensure it ends in .json
+        if (!lootTable.endsWith(".json")) {
+            lootTable = lootTable + ".json";
+        }
+
+        return lootTable;
     }
 }

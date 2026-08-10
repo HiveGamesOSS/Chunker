@@ -32,7 +32,8 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.WAXED_EXPOSED_COPPER_DOOR,
             ChunkerVanillaBlockType.WAXED_OXIDIZED_COPPER_DOOR,
             ChunkerVanillaBlockType.OXIDIZED_COPPER_DOOR,
-            ChunkerVanillaBlockType.WEATHERED_COPPER_DOOR
+            ChunkerVanillaBlockType.WEATHERED_COPPER_DOOR,
+            ChunkerVanillaBlockType.POPLAR_DOOR
     );
     /**
      * Group of all the fence gates.
@@ -49,7 +50,8 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.WARPED_FENCE_GATE,
             ChunkerVanillaBlockType.CRIMSON_FENCE_GATE,
             ChunkerVanillaBlockType.MANGROVE_FENCE_GATE,
-            ChunkerVanillaBlockType.BAMBOO_FENCE_GATE
+            ChunkerVanillaBlockType.BAMBOO_FENCE_GATE,
+            ChunkerVanillaBlockType.POPLAR_FENCE_GATE
     );
     /**
      * Group of all the bars and glass panes.
@@ -152,7 +154,10 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.OAK_SHELF,
             ChunkerVanillaBlockType.PALE_OAK_SHELF,
             ChunkerVanillaBlockType.SPRUCE_SHELF,
-            ChunkerVanillaBlockType.WARPED_SHELF
+            ChunkerVanillaBlockType.WARPED_SHELF,
+            ChunkerVanillaBlockType.POPLAR_PRESSURE_PLATE,
+            ChunkerVanillaBlockType.POPLAR_BUTTON,
+            ChunkerVanillaBlockType.POPLAR_SHELF
     );
     /**
      * Group of blocks which cause grass below to turn to a snowy variant.
@@ -237,7 +242,24 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.CINNABAR_BRICK_STAIRS,
             ChunkerVanillaBlockType.SULFUR_STAIRS,
             ChunkerVanillaBlockType.POLISHED_SULFUR_STAIRS,
-            ChunkerVanillaBlockType.SULFUR_BRICK_STAIRS
+            ChunkerVanillaBlockType.SULFUR_BRICK_STAIRS,
+            ChunkerVanillaBlockType.WHITE_WOOL_STAIRS,
+            ChunkerVanillaBlockType.ORANGE_WOOL_STAIRS,
+            ChunkerVanillaBlockType.MAGENTA_WOOL_STAIRS,
+            ChunkerVanillaBlockType.LIGHT_BLUE_WOOL_STAIRS,
+            ChunkerVanillaBlockType.YELLOW_WOOL_STAIRS,
+            ChunkerVanillaBlockType.LIME_WOOL_STAIRS,
+            ChunkerVanillaBlockType.PINK_WOOL_STAIRS,
+            ChunkerVanillaBlockType.GRAY_WOOL_STAIRS,
+            ChunkerVanillaBlockType.LIGHT_GRAY_WOOL_STAIRS,
+            ChunkerVanillaBlockType.CYAN_WOOL_STAIRS,
+            ChunkerVanillaBlockType.PURPLE_WOOL_STAIRS,
+            ChunkerVanillaBlockType.BLUE_WOOL_STAIRS,
+            ChunkerVanillaBlockType.BROWN_WOOL_STAIRS,
+            ChunkerVanillaBlockType.GREEN_WOOL_STAIRS,
+            ChunkerVanillaBlockType.RED_WOOL_STAIRS,
+            ChunkerVanillaBlockType.BLACK_WOOL_STAIRS,
+            ChunkerVanillaBlockType.POPLAR_STAIRS
     );
     /**
      * Group of all the wall blocks.
@@ -291,7 +313,8 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.WARPED_FENCE,
             ChunkerVanillaBlockType.CRIMSON_FENCE,
             ChunkerVanillaBlockType.MANGROVE_FENCE,
-            ChunkerVanillaBlockType.BAMBOO_FENCE
+            ChunkerVanillaBlockType.BAMBOO_FENCE,
+            ChunkerVanillaBlockType.POPLAR_FENCE
     );
     /**
      * Group of all the chests which can be double chests.

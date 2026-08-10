@@ -511,6 +511,10 @@ public class BedrockStateTypes {
             .mapping("side", GrindstoneAttachmentType.WALL)
             .mapping("multiple", GrindstoneAttachmentType.MULTIPLE)
             .build();
+    public static final TypeMapping<Integer, Age_1> GROWTH = new TypeMapping.Builder<Integer, Age_1>()
+            .mapping(0, Age_1._0)
+            .mapping(1, Age_1._1)
+            .build();
     public static final TypeMapping<Boolean, Half> HALF = new TypeMapping.Builder<Boolean, Half>()
             .mapping(false, Half.BOTTOM)
             .mapping(true, Half.TOP)

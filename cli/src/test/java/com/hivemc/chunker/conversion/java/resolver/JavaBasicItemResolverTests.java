@@ -91,6 +91,7 @@ public class JavaBasicItemResolverTests {
                     ChunkerVanillaEntityType.PALE_OAK_BOAT,
                     ChunkerVanillaEntityType.MANGROVE_BOAT,
                     ChunkerVanillaEntityType.BAMBOO_RAFT,
+                    ChunkerVanillaEntityType.POPLAR_BOAT,
                     ChunkerVanillaEntityType.OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.SPRUCE_CHEST_BOAT,
                     ChunkerVanillaEntityType.BIRCH_CHEST_BOAT,
@@ -101,6 +102,7 @@ public class JavaBasicItemResolverTests {
                     ChunkerVanillaEntityType.PALE_OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT,
                     ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT,
+                    ChunkerVanillaEntityType.POPLAR_CHEST_BOAT,
 
                     // 1.21.6
                     ChunkerVanillaEntityType.HAPPY_GHAST,
@@ -116,7 +118,10 @@ public class JavaBasicItemResolverTests {
                     ChunkerVanillaEntityType.ZOMBIE_NAUTILUS,
 
                     // Summer Drop
-                    ChunkerVanillaEntityType.SULFUR_CUBE
+                    ChunkerVanillaEntityType.SULFUR_CUBE,
+
+                    // Autumn Drop
+                    ChunkerVanillaEntityType.CUSHION
 
             ),
             ChunkerPotionType.class, Set.of(

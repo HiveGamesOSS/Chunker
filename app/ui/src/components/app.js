@@ -8,6 +8,7 @@ import {ErrorDisplay} from "./modal/errorDisplay";
 import {Footer} from "./page/footer";
 import {decode} from "base64-arraybuffer"
 import {getFormatName, getVersionName} from "./screen/mode/modeOption";
+import {isValidDimensionIdentifier, VANILLA_DIMENSIONS} from "./screen/settings/tab/dimensionPruningTab";
 
 export class App extends Component {
     errorModal = React.createRef();
@@ -50,25 +51,34 @@ export class App extends Component {
         outputBlockSuggestions: [],
         inputBiomeSuggestions: [],
         outputBiomeSuggestions: [],
-        dimensionMapping: {
-            "minecraft:overworld": "minecraft:overworld",
-            "minecraft:the_nether": "minecraft:the_nether",
-            "minecraft:the_end": "minecraft:the_end"
-        },
+        dimensionMapping: {},
         biomeMapping: {},
         customDimensions: {},
         converterSettings: {}
     };
 
+    // The dimensions which can be an output, vanilla is always present even if the input world doesn't have it
+    getKnownDimensions = () => new Set([
+        ...VANILLA_DIMENSIONS,
+        ...(this.state.settings?.dimensions ?? []),
+        ...this.getCustomDimensions().dimensions.map(dimension => dimension.identifier)
+    ]);
+
+    getDimensionMappings = () => {
+        const known = this.getKnownDimensions();
+
+        // Fix mappings that output to an unknown dimension (likely deleted)
+        return Object.fromEntries(Object.entries(this.state.dimensionMapping)
+            .map(([input, output]) => [input, known.has(output) ? output : input]));
+    };
+
     getDimensionMappingsJSON = () => {
-        const mapping = this.state.dimensionMapping;
-        const keys = Object.keys(mapping);
-        const defaultCount = this.state.settings?.dimensions?.length ?? 3;
-        if (keys.length !== defaultCount || keys.some(key => mapping[key] !== key)) {
-            return JSON.stringify(mapping);
-        } else {
-            return "{}";
-        }
+        const mapping = this.getDimensionMappings();
+
+        // Use the default if the dimensions are unchanged
+        const inputs = this.state.settings?.dimensions ?? [];
+        if (Object.keys(mapping).length === inputs.length && inputs.every(input => mapping[input] === input)) return "{}";
+        return JSON.stringify(mapping);
     };
 
     getBlockMappingsJSON = () => {
@@ -81,11 +91,15 @@ export class App extends Component {
         return mappings.length === 18 ? "{}" : mappings;
     };
 
+    getCustomDimensions = () => ({
+        dimensions: (this.state.customDimensions?.dimensions ?? [])
+            .filter(dimension => isValidDimensionIdentifier(dimension.identifier))
+    });
+
     getCustomDimensionsJSON = () => {
-        const json = this.state.customDimensions;
-        const dimensions = json?.dimensions;
-        if (!dimensions || dimensions.length === 0) return "{}";
-        return JSON.stringify(json);
+        const custom = this.getCustomDimensions();
+        if (custom.dimensions.length === 0) return "{}";
+        return JSON.stringify(custom);
     };
 
     getBiomeMappingsJSON = () => {
@@ -119,15 +133,6 @@ export class App extends Component {
     };
 
     updateSession = (sessionData) => {
-        let dimensions = sessionData?.preloaded_settings?.dimension_mappings ?? {};
-        if (Object.keys(dimensions).length === 0) {
-            dimensions = {
-                "minecraft:overworld": "minecraft:overworld",
-                "minecraft:the_nether": "minecraft:the_nether",
-                "minecraft:the_end": "minecraft:the_end"
-            };
-        }
-
         let mappings = sessionData?.preloaded_settings?.block_mappings ?? sessionData?.preloaded_settings?.mappings ?? {
             identifiers: []
         };
@@ -149,7 +154,7 @@ export class App extends Component {
             mappings: mappings,
             editedSettings: sessionData?.preloaded_settings?.world_settings ?? {},
             converterSettings: sessionData?.preloaded_settings?.converter_settings ?? {},
-            dimensionMapping: dimensions,
+            dimensionMapping: sessionData?.preloaded_settings?.dimension_mappings ?? {},
             pruningSettings: pruning,
             biomeMapping: biomeMapping,
             customDimensions: customDimensions
@@ -184,9 +189,13 @@ export class App extends Component {
                     self.showError("Failed to get world settings", message.error, message.errorId, message.stackTrace, false);
                 }
             } else if (message.type === "response") {
-                self.setState({
-                    settings: message.output
-                });
+                self.setState((prevState) => ({
+                    settings: message.output,
+
+                    // Update the dimension mappings with the discovered dimensions
+                    dimensionMapping: Object.keys(prevState.dimensionMapping).length > 0 ? prevState.dimensionMapping
+                        : Object.fromEntries(message.output.dimensions.map(identifier => [identifier, identifier]))
+                }));
 
                 if (self.state.requestPreview) {
                     // Start preview
@@ -213,17 +222,19 @@ export class App extends Component {
 
                 if (base64.length > 0) {
                     let buffer = decode(base64);
-                    let worlds = [];
+                    let worlds = {};
                     let dataView = new DataView(buffer);
                     let bufferIndex = 0;
                     let worldCount = dataView.getInt32(bufferIndex, true);
                     bufferIndex += 4;
 
                     for (let i = 0; i < worldCount; i++) {
-                        let worldIndex = dataView.getInt32(bufferIndex, true);
-                        bufferIndex += 4;
+                        // The dimension identifier, written as a short prefixed string
+                        let identifierLength = dataView.getUint16(bufferIndex, true);
+                        bufferIndex += 2;
+                        let worldIndex = new TextDecoder().decode(new DataView(buffer, bufferIndex, identifierLength));
+                        bufferIndex += identifierLength;
 
-                        // World Index
                         worlds[worldIndex] = {};
                         worlds[worldIndex].minX = dataView.getInt32(bufferIndex, true);
                         bufferIndex += 4;
@@ -241,7 +252,7 @@ export class App extends Component {
                     self.setState({previewData: worlds});
                 } else {
                     // Set to empty data (meaning preview is streamed)
-                    self.setState({previewData: []});
+                    self.setState({previewData: {}});
                 }
             } else {
                 console.info("Unknown response", message);

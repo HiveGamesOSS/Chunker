@@ -175,6 +175,13 @@ public class ChunkerLevelSettings {
     @Hidden
     public boolean SummerDrop2026 = false;
 
+    @CustomType
+    @Category(Category.Type.WORLD_SETTINGS)
+    @Bedrock
+    @Java
+    @Hidden
+    public boolean AutumnDrop2026 = false;
+
     @Bedrock
     @Category(Category.Type.GAME_RULES)
     public boolean falldamage = true;

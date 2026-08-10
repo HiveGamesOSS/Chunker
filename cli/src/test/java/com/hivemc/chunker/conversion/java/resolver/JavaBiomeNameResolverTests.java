@@ -32,7 +32,8 @@ public class JavaBiomeNameResolverTests {
             ChunkerBiome.ChunkerVanillaBiome.MANGROVE_SWAMP,
             ChunkerBiome.ChunkerVanillaBiome.CHERRY_GROVE,
             ChunkerBiome.ChunkerVanillaBiome.PALE_GARDEN,
-            ChunkerBiome.ChunkerVanillaBiome.SULFUR_CAVES
+            ChunkerBiome.ChunkerVanillaBiome.SULFUR_CAVES,
+            ChunkerBiome.ChunkerVanillaBiome.DAPPLED_FOREST
     );
 
     public static Stream<Arguments> biomeList() throws IOException {

@@ -13,6 +13,7 @@ import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
 import com.hivemc.chunker.nbt.tags.primitive.StringTag;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ import java.util.Optional;
  * Handler for Decorated Pot Block Entities which also handles item components.
  */
 public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaResolvers, CompoundTag, DecoratedPotBlockEntity> implements CustomItemNBTBlockEntityHandler<JavaResolvers, DecoratedPotBlockEntity> {
+    private static final List<String> SIDES = List.of("back", "left", "right", "front");
+
     public JavaDecoratedPotBlockEntityHandler() {
         super("minecraft:decorated_pot", DecoratedPotBlockEntity.class, DecoratedPotBlockEntity::new);
     }
@@ -30,7 +33,9 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
     @Override
     public void read(@NotNull JavaResolvers resolvers, @NotNull CompoundTag input, @NotNull DecoratedPotBlockEntity value) {
         String tagName = input.contains("sherds") ? "sherds" : "shards";
-        List<String> sherds = input.getListValues(tagName, StringTag.class, null);
+        List<String> sherds = resolvers.dataVersion().getVersion().isGreaterThanOrEqual(26, 3, 0)
+                ? readSherdMap(input.getCompound(tagName))
+                : input.getListValues(tagName, StringTag.class, null);
         if (sherds != null && !sherds.isEmpty()) {
             List<ChunkerItemStackIdentifier> items = new ArrayList<>(sherds.size());
             for (String sherd : sherds) {
@@ -64,7 +69,11 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getRight())).getIdentifier()));
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(value.getFront())).getIdentifier()));
 
-        output.put(resolvers.dataVersion().getVersion().isLessThan(1, 20, 0) ? "shards" : "sherds", sherds);
+        if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(26, 3, 0)) {
+            output.put("sherds", writeSherdMap(sherds));
+        } else {
+            output.put(resolvers.dataVersion().getVersion().isLessThan(1, 20, 0) ? "shards" : "sherds", sherds);
+        }
 
         // Write the item stored in the pot (1.20.30 and above)
         if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 20, 3)) {
@@ -81,7 +90,9 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
         if (components == null) return false;
 
         // Grab the pot decorations
-        List<String> sherds = components.getListValues("minecraft:pot_decorations", StringTag.class, null);
+        List<String> sherds = resolvers.dataVersion().getVersion().isGreaterThanOrEqual(26, 3, 0)
+                ? readSherdMap(components.getCompound("minecraft:pot_decorations"))
+                : components.getListValues("minecraft:pot_decorations", StringTag.class, null);
         if (sherds != null && !sherds.isEmpty()) {
             List<ChunkerItemStackIdentifier> items = new ArrayList<>(sherds.size());
             for (String sherd : sherds) {
@@ -135,7 +146,11 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
         sherds.add(new StringTag(resolvers.writeItemIdentifier(new ChunkerItemStack(input.getFront())).getIdentifier()));
 
         // Write to the output
-        components.put("minecraft:pot_decorations", sherds);
+        if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(26, 3, 0)) {
+            components.put("minecraft:pot_decorations", writeSherdMap(sherds));
+        } else {
+            components.put("minecraft:pot_decorations", sherds);
+        }
 
         // Write item if present (with the container component)
         if (input.getItem() != null && !input.getItem().getIdentifier().isAir()) {
@@ -156,5 +171,38 @@ public class JavaDecoratedPotBlockEntityHandler extends BlockEntityHandler<JavaR
         }
 
         return false; // Block entity not needed
+    }
+
+    /**
+     * Read the modern sherd map from a CompoundTag
+     *
+     * @param sherds the input tag.
+     * @return a list of values in the order of SIDES.
+     */
+    protected @Nullable List<String> readSherdMap(@Nullable CompoundTag sherds) {
+        if (sherds == null) return null;
+
+        List<String> ids = new ArrayList<>(SIDES.size());
+        for (String side : SIDES) {
+            CompoundTag sherd = sherds.getCompound(side);
+            ids.add(sherd == null ? "minecraft:brick" : sherd.getString("id", "minecraft:brick"));
+        }
+        return ids;
+    }
+
+    /**
+     * Write the sherd map from a list tag of the sherds.
+     *
+     * @param sherds the list tag in order of SIDES.
+     * @return the compound tag with key -> value of the sherds.
+     */
+    protected CompoundTag writeSherdMap(@NotNull ListTag<StringTag, String> sherds) {
+        CompoundTag map = new CompoundTag(SIDES.size());
+        for (int i = 0; i < SIDES.size() && i < sherds.size(); i++) {
+            CompoundTag sherd = new CompoundTag(1);
+            sherd.put("id", sherds.get(i).getValue());
+            map.put(SIDES.get(i), sherd);
+        }
+        return map;
     }
 }

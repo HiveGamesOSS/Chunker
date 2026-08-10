@@ -212,6 +212,10 @@ public class BedrockEntityTypeResolver implements Resolver<String, ChunkerEntity
         if (bedrockVersion.isGreaterThanOrEqual(1, 26, 20)) {
             mapping.put(ChunkerVanillaEntityType.SULFUR_CUBE, "minecraft:sulfur_cube");
         }
+
+        if (bedrockVersion.isGreaterThanOrEqual(1, 26, 40)) {
+            mapping.put(ChunkerVanillaEntityType.CUSHION, "minecraft:cushion");
+        }
     }
 
     @Override

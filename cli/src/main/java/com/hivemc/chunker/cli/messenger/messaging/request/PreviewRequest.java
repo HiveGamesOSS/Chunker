@@ -3,7 +3,6 @@ package com.hivemc.chunker.cli.messenger.messaging.request;
 import com.hivemc.chunker.cli.messenger.messaging.BasicMessage;
 import com.hivemc.chunker.cli.messenger.messaging.DimensionPruningList;
 import com.hivemc.chunker.cli.messenger.messaging.InvokesWorldConverterRequest;
-import com.hivemc.chunker.conversion.intermediate.world.Dimension;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -17,7 +16,7 @@ public class PreviewRequest extends BasicMessage implements InvokesWorldConverte
     private final String inputPath;
     private final String outputPath;
     @Nullable
-    private final Map<Dimension, Dimension> inputToOutputDimension;
+    private final Map<String, String> inputToOutputDimension;
     @Nullable
     private final DimensionPruningList pruningList;
 
@@ -30,7 +29,7 @@ public class PreviewRequest extends BasicMessage implements InvokesWorldConverte
      * @param inputToOutputDimension if present, dimension mapping on how to remap dimensions.
      * @param pruningList            a list of pruning rules to apply to the input world.
      */
-    public PreviewRequest(UUID anonymousId, String inputPath, String outputPath, @Nullable Map<Dimension, Dimension> inputToOutputDimension, @Nullable DimensionPruningList pruningList) {
+    public PreviewRequest(UUID anonymousId, String inputPath, String outputPath, @Nullable Map<String, String> inputToOutputDimension, @Nullable DimensionPruningList pruningList) {
         this.anonymousId = anonymousId;
         this.inputPath = inputPath;
         this.outputPath = outputPath;
@@ -48,7 +47,7 @@ public class PreviewRequest extends BasicMessage implements InvokesWorldConverte
      * @param inputToOutputDimension if present, dimension mapping on how to remap dimensions.
      * @param pruningList            a list of pruning rules to apply to the input world.
      */
-    public PreviewRequest(UUID requestId, UUID anonymousId, String inputPath, String outputPath, @Nullable Map<Dimension, Dimension> inputToOutputDimension, @Nullable DimensionPruningList pruningList) {
+    public PreviewRequest(UUID requestId, UUID anonymousId, String inputPath, String outputPath, @Nullable Map<String, String> inputToOutputDimension, @Nullable DimensionPruningList pruningList) {
         super(requestId);
         this.anonymousId = anonymousId;
         this.inputPath = inputPath;
@@ -91,7 +90,7 @@ public class PreviewRequest extends BasicMessage implements InvokesWorldConverte
      * @return null if the input should map to the output otherwise a map of dimensions.
      */
     @Nullable
-    public Map<Dimension, Dimension> getInputToOutputDimension() {
+    public Map<String, String> getInputToOutputDimension() {
         return inputToOutputDimension;
     }
 

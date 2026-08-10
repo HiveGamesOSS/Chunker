@@ -1,5 +1,6 @@
 package com.hivemc.chunker.conversion.intermediate.world;
 
+import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.primitive.ByteTag;
 import com.hivemc.chunker.nbt.tags.primitive.IntTag;
@@ -8,15 +9,17 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Registry of dimensions that are registered to this world or the output world
  */
 public class DimensionRegistry {
+    /**
+     * The first valid ID for custom dimensions on Bedrock.
+     */
+    public static final int BEDROCK_CUSTOM_DIMENSION_ID_START = 1000;
+
     private final HashMap<String, Dimension> dimensionByIdentifier = new HashMap<>();
     private final Int2ObjectMap<Dimension> dimensionByJavaId = new Int2ObjectOpenHashMap<>();
     private final Int2ObjectMap<Dimension> dimensionByBedrockId = new Int2ObjectOpenHashMap<>();
@@ -32,6 +35,7 @@ public class DimensionRegistry {
 
     /**
      * Get the dimensions registered
+     *
      * @return Collection of Dimensions registered
      */
     public Collection<Dimension> getDimensions() {
@@ -40,17 +44,70 @@ public class DimensionRegistry {
 
     /**
      * Registers a dimension
+     *
      * @param identifier the identifier of the Dimension
      * @param dimension  the dimension to be added
      */
     public void register(String identifier, Dimension dimension) {
-        this.dimensionByIdentifier.put(identifier, dimension);
+        // If this a replacement, we need to remove old BedrockIDs / JavaIDs
+        Dimension replaced = this.dimensionByIdentifier.put(identifier, dimension);
+        if (replaced != null) {
+            this.dimensionByBedrockId.remove(replaced.getBedrockID(), replaced);
+            replaced.getJavaID().ifPresent(javaID -> this.dimensionByJavaId.remove(javaID, replaced));
+        }
+
+        // Register the Dimension
         this.dimensionByBedrockId.put(dimension.getBedrockID(), dimension);
-        this.dimensionByJavaId.put(dimension.getJavaID(), dimension);
+        dimension.getJavaID().ifPresent(javaID -> this.dimensionByJavaId.put(javaID, dimension));
+    }
+
+    /**
+     * Check whether a dimension is a vanilla built-in dimension.
+     *
+     * @param dimension the input dimension.
+     * @return true if it's one of the built-in dimensions (compares against the constants in Dimension).
+     */
+    public static boolean isVanilla(@Nullable Dimension dimension) {
+        return dimension == Dimension.OVERWORLD || dimension == Dimension.NETHER || dimension == Dimension.THE_END;
+    }
+
+    /**
+     * Util method to copy a dimension with a different bedrock ID.
+     *
+     * @param dimension the dimension
+     * @param bedrockID the bedrock ID.
+     * @return a new dimension with the bedrock ID.
+     */
+    protected static Dimension cloneWithBedrockID(Dimension dimension, int bedrockID) {
+        return new Dimension(null, bedrockID, dimension.getIdentifier(), dimension.getFallbackBiome(), dimension.getBiomeHeight());
+    }
+
+    /**
+     * Create a custom dimension.
+     *
+     * @param identifier the namespaced identifier of the dimension.
+     * @param bedrockID  the Bedrock ID to use.
+     * @return the custom dimension.
+     */
+    public Dimension createCustom(String identifier, OptionalInt bedrockID) {
+        int resolvedBedrockID = bedrockID.orElseGet(this::getNextCustomBedrockID);
+        return new Dimension(null, resolvedBedrockID, identifier, ChunkerBiome.ChunkerVanillaBiome.PLAINS, 24);
+    }
+
+    /**
+     * Generate the next dimension ID to use a custom bedrock dimension.
+     *
+     * @return an unused ID at or above {@link #BEDROCK_CUSTOM_DIMENSION_ID_START}.
+     */
+    public int getNextCustomBedrockID() {
+        int bedrockID = BEDROCK_CUSTOM_DIMENSION_ID_START;
+        while (dimensionByBedrockId.containsKey(bedrockID)) bedrockID++;
+        return bedrockID;
     }
 
     /**
      * Finds a dimension by it's registered identifier
+     *
      * @param identifier the identifier of the Dimension to be found
      * @return The dimension if found, null otherwise
      */
@@ -125,6 +182,54 @@ public class DimensionRegistry {
      */
     public Dimension fromBedrock(int id, Dimension fallback) {
         return dimensionByBedrockId.getOrDefault(id, fallback);
+    }
+
+    /**
+     * Register a custom dimension from world data, if the dimension already exists it is returned.
+     *
+     * @param identifier the identifier to use for the world.
+     * @param bedrockID  the Bedrock dimension ID used.
+     * @return the registered dimension.
+     */
+    public Dimension registerFromWorld(String identifier, OptionalInt bedrockID) {
+        // Check if the identifier has already been used
+        Dimension declared = dimensionByIdentifier.get(identifier);
+        if (declared != null) {
+            if (isVanilla(declared)) return declared; // Don't reregister vanilla dimensions
+
+            // Already declared with the ID the world uses or the world didn't provide one
+            if (bedrockID.isEmpty() || declared.getBedrockID() == bedrockID.getAsInt()) return declared;
+
+            // The ID differs, so we need to check if there is a dimension that already uses this ID
+            Dimension declaredByID = dimensionByBedrockId.get(bedrockID.getAsInt());
+            if (isVanilla(declaredByID)) return declaredByID; // Don't rebind a vanilla ID
+
+            // Another dimension was given this ID before the world was read, so give it a new ID instead
+            if (declaredByID != null) {
+                register(declaredByID.getIdentifier(), cloneWithBedrockID(declaredByID, getNextCustomBedrockID()));
+            }
+
+            // Keep the settings it was declared with but update it to use the ID from the world
+            Dimension dimension = cloneWithBedrockID(declared, bedrockID.getAsInt());
+            register(identifier, dimension);
+            return dimension;
+        }
+
+        // The identifier is new, so we need to check if there is a dimension that already uses this ID
+        if (bedrockID.isPresent()) {
+            Dimension declaredByID = dimensionByBedrockId.get(bedrockID.getAsInt());
+            if (isVanilla(declaredByID)) return declaredByID; // Don't rebind a vanilla ID
+
+            // Another dimension was given this ID before the world was read so update it to a new one
+            if (declaredByID != null) {
+                register(declaredByID.getIdentifier(), cloneWithBedrockID(declaredByID, getNextCustomBedrockID()));
+            }
+        }
+
+        // Register it as a new custom dimension, allocating an ID if the world didn't provide one
+        Dimension dimension = createCustom(identifier, bedrockID);
+        register(identifier, dimension);
+        return dimension;
     }
 
     /**

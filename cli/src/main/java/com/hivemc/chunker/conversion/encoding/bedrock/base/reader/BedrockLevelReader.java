@@ -22,6 +22,7 @@ import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
 import com.hivemc.chunker.nbt.tags.primitive.FloatTag;
+import com.hivemc.chunker.nbt.tags.primitive.IntTag;
 import com.hivemc.chunker.scheduling.task.FutureTask;
 import com.hivemc.chunker.scheduling.task.ProgressiveTask;
 import com.hivemc.chunker.scheduling.task.Task;
@@ -120,6 +121,9 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
     public void readLevel(LevelConversionHandler levelConversionHandler) throws IOException {
         // Open database
         openDatabase();
+
+        // Read custom dimensions
+        readCustomDimensions();
 
         // Collect level data
         FutureTask<WorldConversionHandler> levelDataCollection = Task.asyncUnwrap("Collecting Level Data", TaskWeight.MEDIUM, this::collectLevelData, levelConversionHandler);
@@ -252,8 +256,38 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
         output.setOriginalLevelData(level);
     }
 
+    /**
+     * Register all the custom dimensions that the world contains to the DimensionRegistry.
+     */
+    protected void readCustomDimensions() {
+        try {
+            byte[] value = database.get(LevelDBKey.DIMENSION_NAME_ID_TABLE);
+            if (value == null) return;
+
+            CompoundTag root = Tag.readBedrockNBT(value);
+            if (root == null) return;
+
+            CompoundTag entries = root.getCompound("entries");
+            if (entries == null) return;
+
+            for (Map.Entry<String, Tag<?>> entry : entries) {
+                // Only register custom dimensions
+                if (entry.getValue() instanceof IntTag id && id.getValue() >= DimensionRegistry.BEDROCK_CUSTOM_DIMENSION_ID_START) {
+                    converter.getDimensionRegistry().registerFromWorld(entry.getKey(), OptionalInt.of(id.getValue()));
+                }
+            }
+        } catch (Exception e) {
+            converter.logNonFatalException(new Exception("Failed to read custom dimensions", e));
+        }
+    }
+
     @Override
     public @Nullable Object readCustomLevelSetting(@NotNull CompoundTag root, @NotNull ChunkerLevelSettings chunkerLevelSettings, @NotNull String targetName, @NotNull Class<?> type) {
+        // Check for AutumnDrop2026 support
+        if (targetName.equals("AutumnDrop2026")) {
+            return false;
+        }
+
         // Check for SummerDrop2026 support
         if (targetName.equals("SummerDrop2026")) {
             return false;

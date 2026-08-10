@@ -29,6 +29,7 @@ public enum ChunkerVanillaEntityType implements ChunkerEntityType {
     COW(true),
     CREAKING(true),
     CREEPER(true),
+    CUSHION,
     DOLPHIN(true),
     DONKEY(true),
     DRAGON_FIREBALL,
@@ -117,6 +118,7 @@ public enum ChunkerVanillaEntityType implements ChunkerEntityType {
     SQUID(true),
     STRAY(true),
     STRIDER(true),
+    SULFUR_CUBE(true),
     TADPOLE(true),
     TEXT_DISPLAY,
     TNT,
@@ -155,6 +157,7 @@ public enum ChunkerVanillaEntityType implements ChunkerEntityType {
     PALE_OAK_BOAT,
     MANGROVE_BOAT,
     BAMBOO_RAFT,
+    POPLAR_BOAT,
     OAK_CHEST_BOAT,
     SPRUCE_CHEST_BOAT,
     BIRCH_CHEST_BOAT,
@@ -165,7 +168,7 @@ public enum ChunkerVanillaEntityType implements ChunkerEntityType {
     PALE_OAK_CHEST_BOAT,
     MANGROVE_CHEST_BOAT,
     BAMBOO_CHEST_RAFT,
-    SULFUR_CUBE(true);
+    POPLAR_CHEST_BOAT;
 
     private final boolean vanillaSpawnEgg;
 

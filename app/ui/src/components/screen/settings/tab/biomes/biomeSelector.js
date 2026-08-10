@@ -23,6 +23,7 @@ export class BiomeSelector extends PureComponent {
     };
 
     isValidNewOption = (val) => {
+        if (this.props.allowCustom === false) return false;
         if (val.indexOf(":") === -1 || val.indexOf(":") === val.length - 1) return false; // Must be valid namespace
         if (val.startsWith("minecraft:")) return false; // Must not be minecraft namespace
         return true; // Seems fine

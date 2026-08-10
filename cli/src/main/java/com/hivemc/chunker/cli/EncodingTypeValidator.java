@@ -40,10 +40,14 @@ public class EncodingTypeValidator implements CommandLine.ITypeConverter<String>
 
     @Override
     public String convert(String value) throws Exception {
+        // INPUT is a special value which resolves to the input world version
+        if (value.equalsIgnoreCase("INPUT")) return value;
+
         WorldConverter dummy = new WorldConverter(null);
         Optional<?> writer = Messenger.findWriter(value, dummy, null);
         if (writer.isEmpty()) {
             List<String> writers = getWriterIDs();
+            writers.add(0, "INPUT"); // Add input as it's also allowed
             throw new CommandLine.TypeConversionException("Invalid value '" + value + "', should be one of the following values: " + String.join(", ", writers));
         }
         return value;

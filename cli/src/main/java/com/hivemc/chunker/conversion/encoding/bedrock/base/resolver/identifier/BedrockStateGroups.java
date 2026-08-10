@@ -790,6 +790,10 @@ public class BedrockStateGroups {
             .state("powered_bit", VanillaBlockStates.POWERED, BedrockStateTypes.BOOL)
             .state("powered_shelf_type", VanillaBlockStates.SIDE_CHAIN, BedrockStateTypes.POWERED_SHELF_TYPE)
             .build();
+    public static final StateMappingGroup SHELF_MUSHROOM = new StateMappingGroup.Builder()
+            .state("minecraft:cardinal_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.CARDINAL_DIRECTION)
+            .state("growth", VanillaBlockStates.AGE_1, BedrockStateTypes.GROWTH)
+            .build();
     public static final StateMappingGroup SHULKER_BOX = new StateMappingGroup.Builder()
             .defaultOutput(VanillaBlockStates.FACING_ALL, FacingDirection.UP)
             .build();
@@ -869,6 +873,11 @@ public class BedrockStateGroups {
             .version(new Version(1, 20, 40), new StateMappingGroup.Builder()
                     .state("minecraft:cardinal_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.CARDINAL_DIRECTION)
                     .build())
+            .build();
+    public static final StateMappingGroup STRAW_BED = new StateMappingGroup.Builder()
+            .state("minecraft:cardinal_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.CARDINAL_DIRECTION)
+            .state("occupied_bit", VanillaBlockStates.OCCUPIED, BedrockStateTypes.BOOL)
+            .state("head_piece_bit", VanillaBlockStates.BED_PART, BedrockStateTypes.BED_PART)
             .build();
     public static final VersionedStateMappingGroup STRIPPED_NETHER_WOOD = new VersionedStateMappingGroup.Builder()
             .defaults(new StateMappingGroup.Builder()

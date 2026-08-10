@@ -1,22 +1,23 @@
 {
   "name": "chunker-electron",
   "private": true,
-  "version": "1.18.1",
+  "version": "1.19.1",
   "description": "Convert worlds between Java and Bedrock.",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
     "start": "node src/hook/pre-build.js && electron .",
     "package": "node src/hook/pre-build.js && electron-builder --dir",
-    "publish": "node src/hook/pre-build.js && electron-builder"
+    "publish": "node src/hook/pre-build.js && electron-builder",
+    "test": "node --test"
   },
   "keywords": [],
   "author": "Hive Games Limited <chunker-public@hivemc.com>",
   "homepage": "https://github.com/HiveGamesOSS/Chunker",
   "license": "MIT",
   "devDependencies": {
-    "electron": "42.2.0",
-    "electron-builder": "26.8.1",
+    "electron": "43.1.0",
+    "electron-builder": "26.15.3",
     "git-last-commit": "^1.0.1"
   },
   "build": {
@@ -53,6 +54,7 @@
     ],
     "files": [
       "**/*",
+      "!test/**/*",
       {
         "from": "../ui/build",
         "filter": [
@@ -65,8 +67,9 @@
     "archiver": "^8.0.0",
     "electron-dl": "^4.0.0",
     "electron-log": "^5.4.4",
-    "fs-extra": "^11.3.5",
-    "jszip": "^3.10.1"
+    "fs-extra": "^11.3.6",
+    "jszip": "^3.10.1",
+    "tar-stream": "^3.2.0"
   },
   "optionalDependencies": {
     "dmg-license": "^1.0.11"

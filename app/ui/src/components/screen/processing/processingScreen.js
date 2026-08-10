@@ -3,7 +3,7 @@ import {BaseScreen} from "../baseScreen";
 import {SaveScreen} from "../save/saveScreen";
 import api from "../../../api";
 import {ProgressComponent, ProgressTracker} from "../../progress";
-import {getFormatName, getVersionName} from "../mode/modeOption";
+import {getVersionName} from "../mode/modeOption";
 
 export class ProcessingScreen extends BaseScreen {
     mounted = true;
@@ -79,7 +79,7 @@ export class ProcessingScreen extends BaseScreen {
         api.send({
             type: "settings",
             method: "set_dimension_registry",
-            dimensions: self.app.state.customDimensions
+            dimensions: self.app.getCustomDimensions()
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set custom dimensions: " + message.error);
@@ -97,7 +97,7 @@ export class ProcessingScreen extends BaseScreen {
         api.send({
             type: "mappings",
             method: "set_dimension_mappings",
-            dimensions: self.app.state.dimensionMapping
+            dimensions: self.app.getDimensionMappings()
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set dimension mappings: " + message.error);
@@ -207,14 +207,14 @@ export class ProcessingScreen extends BaseScreen {
 
     render() {
         let version = getVersionName(this.app.state.outputType.id);
-        let format = getFormatName(this.app.state.outputType.id);
+        let label = this.app.state.outputType.label;
 
         return (
             <div className="maincol">
                 <div className="topbar">
                     <h1>Converting</h1>
                     <h2>We're currently converting your world
-                        to {format} Edition {version}</h2>
+                        to {label} {version}</h2>
                 </div>
                 {!this.progress.isErrored() && !this.progress.isCancelled() &&
                     <div className="main_content main_content_progress">

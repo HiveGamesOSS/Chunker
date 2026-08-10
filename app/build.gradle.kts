@@ -10,8 +10,8 @@ dependencies {
 }
 
 node {
-    version.set("24.14.1")
-    npmVersion.set("11.12.0")
+    version.set("24.18.0")
+    npmVersion.set("11.18.0")
     download.set(true)
 }
 
@@ -28,6 +28,15 @@ tasks.register<NpmTask>("installDependencies") {
     args.set(listOf("install"))
 }
 
+tasks.register<NpmTask>("test") {
+    group = "verification"
+    description = "Run electron unit tests"
+    args.set(listOf("test"))
+
+    // Ensure dependencies are installed before running the tests
+    dependsOn("installDependencies")
+}
+
 tasks.register<NpmTask>("build") {
     group = "build"
     description = "Run npm build"
@@ -38,9 +47,9 @@ tasks.register<NpmTask>("build") {
         delete(layout.projectDirectory.dir("electron").dir("dist"))
     }
 
-    // Ensure dependencies are installed and we have a packagedChunker
+    // Ensure dependencies are installed, the tests pass and we have a packagedChunker
     val jpackage = project(":cli").tasks.named("jpackage");
-    dependsOn("installDependencies", jpackage)
+    dependsOn("installDependencies", "test", jpackage)
 
     // Copy results
     var buildType = "unknown";

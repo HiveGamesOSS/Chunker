@@ -120,6 +120,7 @@ public class JavaLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.PALE_OAK_BOAT,
                     ChunkerVanillaEntityType.MANGROVE_BOAT,
                     ChunkerVanillaEntityType.BAMBOO_RAFT,
+                    ChunkerVanillaEntityType.POPLAR_BOAT,
                     ChunkerVanillaEntityType.OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.SPRUCE_CHEST_BOAT,
                     ChunkerVanillaEntityType.BIRCH_CHEST_BOAT,
@@ -130,6 +131,7 @@ public class JavaLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.PALE_OAK_CHEST_BOAT,
                     ChunkerVanillaEntityType.MANGROVE_CHEST_BOAT,
                     ChunkerVanillaEntityType.BAMBOO_CHEST_RAFT,
+                    ChunkerVanillaEntityType.POPLAR_CHEST_BOAT,
                     ChunkerVanillaEntityType.PHANTOM,
                     ChunkerVanillaEntityType.TURTLE,
                     ChunkerVanillaEntityType.COD,
@@ -153,7 +155,8 @@ public class JavaLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.NAUTILUS,
                     ChunkerVanillaEntityType.PARCHED,
                     ChunkerVanillaEntityType.ZOMBIE_NAUTILUS,
-                    ChunkerVanillaEntityType.SULFUR_CUBE
+                    ChunkerVanillaEntityType.SULFUR_CUBE,
+                    ChunkerVanillaEntityType.CUSHION
             ),
             ChunkerPotionType.class, Set.of(
                     ChunkerPotionType.EMPTY,

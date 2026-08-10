@@ -254,6 +254,12 @@ public class JavaEntityTypeResolver implements Resolver<String, ChunkerEntityTyp
         if (version.isGreaterThanOrEqual(26, 2, 0)) {
             mapping.put(ChunkerVanillaEntityType.SULFUR_CUBE, "minecraft:sulfur_cube");
         }
+
+        if (version.isGreaterThanOrEqual(26, 3, 0)) {
+            mapping.put(ChunkerVanillaEntityType.CUSHION, "minecraft:cushion");
+            mapping.put(ChunkerVanillaEntityType.POPLAR_BOAT, "minecraft:poplar_boat");
+            mapping.put(ChunkerVanillaEntityType.POPLAR_CHEST_BOAT, "minecraft:poplar_chest_boat");
+        }
     }
 
     @Override

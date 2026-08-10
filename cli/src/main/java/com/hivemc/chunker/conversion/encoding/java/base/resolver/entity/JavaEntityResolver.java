@@ -4,6 +4,7 @@ import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.resolver.entity.EmptyEntityHandler;
 import com.hivemc.chunker.conversion.encoding.base.resolver.entity.EntityResolver;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.JavaResolvers;
+import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.handlers.JavaCushionEntityHandler;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.handlers.JavaEntityHandler;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.handlers.JavaHangingEntityHandler;
 import com.hivemc.chunker.conversion.encoding.java.base.resolver.entity.handlers.JavaItemFrameEntityHandler;
@@ -39,6 +40,10 @@ public class JavaEntityResolver extends EntityResolver<JavaResolvers, CompoundTa
         register(new JavaPaintingEntityHandler());
         register(new JavaItemFrameEntityHandler());
         register(new EmptyEntityHandler<>(ChunkerVanillaEntityType.GLOW_ITEM_FRAME, GlowItemFrameEntity.class, GlowItemFrameEntity::new));
+
+        if (version.isGreaterThanOrEqual(26, 3, 0)) {
+            register(new JavaCushionEntityHandler());
+        }
     }
 
     @Override

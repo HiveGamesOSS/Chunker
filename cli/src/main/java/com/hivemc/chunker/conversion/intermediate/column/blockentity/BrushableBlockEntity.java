@@ -13,6 +13,8 @@ public class BrushableBlockEntity extends BlockEntity {
     private int brushCount;
     @Nullable
     private ChunkerItemStack item;
+    @Nullable
+    private String lootTable;
 
     /**
      * Get the face which is being brushed.
@@ -69,16 +71,35 @@ public class BrushableBlockEntity extends BlockEntity {
         this.item = item;
     }
 
+    /**
+     * Get the loot table path for this block entity.
+     *
+     * @return the qualified path for the loot table.
+     */
+    @Nullable
+    public String getLootTable() {
+        return lootTable;
+    }
+
+    /**
+     * Set the loot table path for this block entity.
+     *
+     * @param lootTable the qualified path for the loot table.
+     */
+    public void setLootTable(@Nullable String lootTable) {
+        this.lootTable = lootTable;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BrushableBlockEntity that)) return false;
         if (!super.equals(o)) return false;
-        return getBrushDirection() == that.getBrushDirection() && getBrushCount() == that.getBrushCount() && Objects.equals(getItem(), that.getItem());
+        return getBrushDirection() == that.getBrushDirection() && getBrushCount() == that.getBrushCount() && Objects.equals(getItem(), that.getItem()) && Objects.equals(getLootTable(), that.getLootTable());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getBrushDirection(), getBrushCount(), getItem());
+        return Objects.hash(super.hashCode(), getBrushDirection(), getBrushCount(), getItem(), getLootTable());
     }
 }

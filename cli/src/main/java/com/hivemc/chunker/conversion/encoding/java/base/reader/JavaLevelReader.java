@@ -15,6 +15,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.Chunker
 import com.hivemc.chunker.conversion.intermediate.level.*;
 import com.hivemc.chunker.conversion.intermediate.level.map.ChunkerMap;
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;
+import com.hivemc.chunker.conversion.intermediate.world.DimensionRegistry;
 import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
@@ -85,6 +86,9 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
 
     @Override
     public void readLevel(LevelConversionHandler levelConversionHandler) {
+        // Collect custom dimensions used
+        readCustomDimensions();
+
         // Collect level data
         FutureTask<WorldConversionHandler> levelDataCollection = Task.asyncUnwrap("Collecting Level Data", TaskWeight.MEDIUM, this::collectLevelData, levelConversionHandler);
 
@@ -110,6 +114,34 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
 
         // Flush the level after all the worlds have been read
         worldReading.then("Flushing Level", TaskWeight.MEDIUM, levelConversionHandler::flushLevel);
+    }
+
+    /**
+     * Register all the custom dimensions that the world contains to the DimensionRegistry.
+     */
+    protected void readCustomDimensions() {
+        // Look through all the files in the dimensions folder for namespaces
+        File[] namespaces = new File(getLevelDirectory(), "dimensions").listFiles(File::isDirectory);
+        if (namespaces == null) return;
+
+        DimensionRegistry registry = converter.getDimensionRegistry();
+
+        // Loop through each possible namespace for valid keys
+        for (File namespace : namespaces) {
+            File[] dimensions = namespace.listFiles(File::isDirectory);
+            if (dimensions == null) continue;
+
+            // Loop through each possible key and check if the region folder is present
+            for (File dimension : dimensions) {
+                if (!new File(dimension, "region").isDirectory()) continue;
+
+                // Register the dimension based on the directory names
+                String identifier = namespace.getName() + ":" + dimension.getName();
+                if (registry.getByIdentifier(identifier) == null) {
+                    registry.registerFromWorld(identifier, OptionalInt.empty());
+                }
+            }
+        }
     }
 
     /**
@@ -425,6 +457,10 @@ public class JavaLevelReader implements LevelReader, JavaReaderWriter {
     @Override
     public @Nullable Object readCustomLevelSetting(@NotNull CompoundTag root, @NotNull ChunkerLevelSettings chunkerLevelSettings, @NotNull String targetName, @NotNull Class<?> type) {
         // Check for next update
+        if (targetName.equals("AutumnDrop2026")) {
+            return false;
+        }
+
         if (targetName.equals("SummerDrop2026")) {
             return false;
         }

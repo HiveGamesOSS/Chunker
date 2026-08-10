@@ -148,7 +148,8 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         CompoundTag mapData = chunkerMap.getOriginalNBT() != null ? chunkerMap.getOriginalNBT() : new CompoundTag(11);
 
         // Copy over the other settings
-        mapData.put("dimension", (byte) chunkerMap.getDimension().getJavaID());
+        // Only used before 1.16, which has no custom dimensions, so one without a Java ID becomes the Overworld
+        mapData.put("dimension", (byte) chunkerMap.getDimension().getJavaID().orElse(0));
         mapData.put("width", (short) chunkerMap.getWidth());
         mapData.put("height", (short) chunkerMap.getHeight());
         mapData.put("xCenter", chunkerMap.getXCenter());
@@ -198,6 +199,11 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
     @Override
     public void writeCustomLevelSetting(ChunkerLevelSettings chunkerLevelSettings, CompoundTag output, String targetName, Object value) {
         // Check for next update
+        if (targetName.equals("AutumnDrop2026")) {
+            // Not supported
+            return;
+        }
+
         if (targetName.equals("SummerDrop2026")) {
             // Not supported
             return;
@@ -374,7 +380,7 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
         )));
 
         // Write the dimension ID
-        playerTag.put("Dimension", player.getDimension().getJavaID());
+        playerTag.put("Dimension", player.getDimension().getJavaID().orElse(0));
 
         // Write the game type
         int gameType = player.getGameType();

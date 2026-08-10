@@ -9,7 +9,7 @@
   "examples": [
     {
       "minecraft:beach": "minecraft:deep_cold_ocean",
-      "minecraft:dark_forest": "minecraft:forest",
+      "minecraft:dark_forest": "minecraft:forest"
     },
     {
       "minecraft:beach": "minecraft:deep_cold_ocean"

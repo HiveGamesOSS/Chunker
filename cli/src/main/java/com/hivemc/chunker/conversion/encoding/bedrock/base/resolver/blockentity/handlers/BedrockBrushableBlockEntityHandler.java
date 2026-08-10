@@ -17,8 +17,11 @@ import org.jetbrains.annotations.NotNull;
  * Handler for Suspicious Blocks which holds an additional type field of the block type.
  */
 public class BedrockBrushableBlockEntityHandler extends BlockEntityHandler<BedrockResolvers, CompoundTag, BedrockBrushableBlockEntity> implements UpdateBeforeWriteBlockEntityHandler<BedrockResolvers, BrushableBlockEntity>, UpdateBeforeProcessBlockEntityHandler<BedrockResolvers, BrushableBlockEntity> {
-    public BedrockBrushableBlockEntityHandler() {
+    private final boolean enableLootTables;
+
+    public BedrockBrushableBlockEntityHandler(boolean enableLootTables) {
         super("BrushableBlock", BedrockBrushableBlockEntity.class, BedrockBrushableBlockEntity::new);
+        this.enableLootTables = enableLootTables;
     }
 
     @Override
@@ -32,6 +35,11 @@ public class BedrockBrushableBlockEntityHandler extends BlockEntityHandler<Bedro
         if (item != null) {
             value.setItem(resolvers.readItem(item));
         }
+
+        String lootTable = input.getString("LootTable", null);
+        if (lootTable != null && !lootTable.isEmpty() && enableLootTables) {
+            value.setLootTable(BedrockRandomizableContainerBlockEntityHandler.bedrockLootTableToChunker(lootTable));
+        }
     }
 
     @Override
@@ -42,6 +50,10 @@ public class BedrockBrushableBlockEntityHandler extends BlockEntityHandler<Bedro
 
         if (value.getItem() != null && !value.getItem().getIdentifier().isAir()) {
             resolvers.writeItem(value.getItem()).ifPresent(item -> output.put("item", item));
+        }
+
+        if (value.getLootTable() != null && !value.getLootTable().isEmpty() && enableLootTables) {
+            output.put("LootTable", BedrockRandomizableContainerBlockEntityHandler.chunkerLootTableToBedrock(value.getLootTable()));
         }
     }
 

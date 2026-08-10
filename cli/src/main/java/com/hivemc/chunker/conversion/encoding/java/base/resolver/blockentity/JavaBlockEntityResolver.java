@@ -91,7 +91,7 @@ public class JavaBlockEntityResolver extends BlockEntityResolver<JavaResolvers, 
             register(new JavaChiseledBookshelfBlockEntityHandler());
         }
         if (version.isGreaterThanOrEqual(1, 19, 4)) {
-            register(new JavaBrushableBlockEntityHandler());
+            register(new JavaBrushableBlockEntityHandler(resolvers.converter().shouldProcessLootTables()));
             register(new JavaDecoratedPotBlockEntityHandler());
         }
         if (version.isGreaterThanOrEqual(1, 20, 0)) {

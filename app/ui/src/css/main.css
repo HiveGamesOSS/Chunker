@@ -728,6 +728,26 @@ input:checked + .switch:before {
     top: 0;
 }
 
+.tabs.dimension_tabs {
+    flex-wrap: wrap;
+    row-gap: 5px;
+}
+
+.tabs.dimension_tabs li {
+    min-width: 0;
+    max-width: min(280px, 40%);
+}
+
+.tabs.dimension_tabs li button.identifier,
+.settings input[type="radio"] + label.identifier {
+    text-transform: none;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+}
+
 #content .bottombar {
     margin-top: auto;
     background: #f2f2f2;
@@ -805,6 +825,13 @@ input:checked + .switch:before {
 
 /*---Select World---*/
 
+.select_world_options {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+}
+
 .select_world .gray_box {
     text-align: center;
     width: 34.2%;
@@ -812,6 +839,9 @@ input:checked + .switch:before {
     color: #1d5faa;
     padding-top: 50px;
     padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .select_world .drag_box {
@@ -850,10 +880,34 @@ input:checked + .switch:before {
 /*---Export---*/
 
 #content .main_content.export {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40px;
+    flex-grow: 0;
+}
+
+.export .edition_section {
+    display: flex;
+    flex-direction: column;
+}
+
+.export .edition_heading {
+    font: 14px/1.2em 'MetropolisBold', Arial, sans-serif;
+    color: #2f2f2f;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+}
+
+.export .edition_grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 30px;
-    flex-grow: 0;
+}
+
+.export .edition_toggle {
+    margin: 18px 0 0;
+    text-align: center;
 }
 
 .export .gray_box {
@@ -952,6 +1006,11 @@ input:checked + .switch:before {
     border: 1px solid #d96666;
 }
 
+.settings input[type="radio"] + label[data-color="magenta"] {
+    color: #c95eca;
+    border: 1px solid #c95eca;
+}
+
 .settings input[type="radio"] + label:hover {
     border-color: #858585;
 }
@@ -971,6 +1030,31 @@ input:checked + .switch:before {
 
 .settings input[type="radio"]:checked + label[data-color="red"] {
     background: #d96666;
+}
+
+.settings input[type="radio"]:checked + label[data-color="magenta"] {
+    background: #c95eca;
+}
+
+.settings .white_box .biome_field {
+    width: 100%;
+    max-width: 320px;
+    margin-left: auto;
+    text-align: left;
+}
+
+#content .main_content.settings.dimensions .white_box {
+    flex-wrap: wrap;
+    row-gap: 5px;
+}
+
+#content .main_content.settings.dimensions .white_box .fields {
+    min-width: 0;
+}
+
+.settings input[type="text"]:invalid {
+    border-color: #d96666;
+    background: #fdf3f3;
 }
 
 .settings input[type="number"] {

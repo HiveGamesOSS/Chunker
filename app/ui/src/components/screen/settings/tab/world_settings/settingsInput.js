@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {BiomeSelector} from "../biomes/biomeSelector";
 
 export class SliderType extends Component {
     onChangeValue = (event) => {
@@ -31,7 +32,9 @@ export class ButtonListType extends Component {
                         <input type="radio" value={index} checked={this.props.value === value.value}
                                name={"id-" + this.props.name} onChange={this.onChangeValue}
                                id={"id-" + this.props.name + "-" + index} onBlur={this.props.onBlur}/>
-                        <label htmlFor={"id-" + this.props.name + "-" + index} data-color={value.color}>
+                        <label htmlFor={"id-" + this.props.name + "-" + index} data-color={value.color}
+                               className={value.raw ? "identifier" : undefined}
+                               title={value.raw ? value.name : undefined}>
                             {value.name}
                         </label>
                     </React.Fragment>
@@ -48,7 +51,8 @@ export class StringInputType extends Component {
 
     render() {
         return (
-            <input type="text" value={this.props.value} onChange={this.onChangeValue} onBlur={this.props.onBlur}/>
+            <input type="text" value={this.props.value} pattern={this.props.pattern} onChange={this.onChangeValue}
+                   onBlur={this.props.onBlur}/>
         );
     }
 }
@@ -127,8 +131,8 @@ export class SettingsInput extends Component {
                 </label>)}
                 <div className="fields">
                     {this.props.base.type === "String" &&
-                        <StringInputType value={this.props.base.value} onChangeValue={this.onChangeValue}
-                                         onBlur={this.props.onBlur}/>
+                        <StringInputType value={this.props.base.value} pattern={this.props.base.pattern}
+                                         onChangeValue={this.onChangeValue} onBlur={this.props.onBlur}/>
                     }
                     {(this.props.base.type === "Byte" || this.props.base.type === "Single" || this.props.base.type === "Int16" || this.props.base.type === "Int32" || this.props.base.type === "Int64" || this.props.base.type === "Double") &&
                         <NumberInputType value={this.props.base.value} min={this.props.base.min}
@@ -143,6 +147,15 @@ export class SettingsInput extends Component {
                         <ButtonListType name={this.props.name} options={this.props.base.options}
                                         value={this.props.base.value} onChangeValue={this.onChangeValue}
                                         onBlur={this.props.onBlur}/>
+                    }
+                    {this.props.base.type === "Biome" &&
+                        <div className="biome_field">
+                            <BiomeSelector placeholder={this.props.base.placeholder}
+                                           identifier={this.props.base.value}
+                                           suggestions={this.props.base.suggestions}
+                                           allowCustom={this.props.base.allowCustom}
+                                           onChange={this.onChangeValue}/>
+                        </div>
                     }
                     {this.props.base.type === "Slider" &&
                         <SliderType value={this.props.base.value} min={this.props.base.min} max={this.props.base.max}

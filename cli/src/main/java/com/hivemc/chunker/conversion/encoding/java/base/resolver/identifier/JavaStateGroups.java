@@ -575,6 +575,10 @@ public class JavaStateGroups {
             .state("side_chain", VanillaBlockStates.SIDE_CHAIN, JavaStateTypes.SIDE_CHAIN)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
             .build();
+    public static final StateMappingGroup SHELF_MUSHROOM = new StateMappingGroup.Builder()
+            .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
+            .state("age", VanillaBlockStates.AGE_1, JavaStateTypes.AGE_1)
+            .build();
     public static final VersionedStateMappingGroup SIGN = new StateMappingGroup.Builder()
             .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)

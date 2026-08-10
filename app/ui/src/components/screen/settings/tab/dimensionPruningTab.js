@@ -4,41 +4,70 @@ import {SettingsInput} from "./world_settings/settingsInput";
 
 export function getDimensionDisplayName(identifier) {
     switch (identifier) {
-        case "minecraft:overworld": return "Overworld";
-        case "minecraft:the_nether": return "The Nether";
-        case "minecraft:the_end": return "The End";
-        default: {
-            const parts = identifier.split(":");
-            return parts.map(p => p.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase())).join(": ");
-        }
+        case "minecraft:overworld":
+            return "Overworld";
+        case "minecraft:the_nether":
+            return "The Nether";
+        case "minecraft:the_end":
+            return "The End";
+        default:
+            return identifier;
     }
 }
 
+export const VANILLA_DIMENSIONS = ["minecraft:overworld", "minecraft:the_nether", "minecraft:the_end"];
+
+export function isVanillaDimension(identifier) {
+    return VANILLA_DIMENSIONS.includes(identifier);
+}
+
+// Identifier pattern which excludes vanilla dimensions
+const IDENTIFIER_PATTERN = "(?!(?:" + VANILLA_DIMENSIONS.join("|") + ")$)[\\w\\-]+:[\\w\\-]+";
+const VALID_IDENTIFIER = new RegExp("^(?:" + IDENTIFIER_PATTERN + ")$");
+
+export function isValidDimensionIdentifier(identifier) {
+    return VALID_IDENTIFIER.test(identifier);
+}
+
+const DIMENSION_DEFAULTS = {identifier: "", biomeHeight: 24, fallbackBiome: "minecraft:plains"};
+const DEFAULT_IDENTIFIER_PREFIX = "my:world_";
+
+const CUSTOM_DIMENSION_FIELDS = [
+    {
+        "display": "Identifier", "name": "identifier", "type": "String", "identifierOnly": true,
+        "description": "Namespaced identifier in the format namespace:id (can't be a vanilla dimension).",
+        "pattern": IDENTIFIER_PATTERN,
+        "coerce": (value) => value.trim().toLowerCase()
+    },
+    {
+        "display": "Biome Height", "name": "biomeHeight", "type": "Int32", "min": 1, "max": 256,
+        "description": "Number of biome sections (1-256)",
+        "coerce": (value) => parseInt(value)
+    },
+    {
+        "display": "Fallback Biome", "name": "fallbackBiome", "type": "Biome",
+        "description": "The biome used as a fallback for padding / when a biome can't be converted.",
+        "placeholder": "Select a fallback biome",
+        "allowCustom": false,
+        "coerce": (value) => value || DIMENSION_DEFAULTS.fallbackBiome
+    }
+];
+
 function getDimensionColor(identifier) {
     switch (identifier) {
-        case "minecraft:overworld": return "green";
-        case "minecraft:the_nether": return "red";
-        case "minecraft:the_end": return "yellow";
-        default: return "blue";
+        case "minecraft:overworld":
+            return "green";
+        case "minecraft:the_nether":
+            return "red";
+        case "minecraft:the_end":
+            return "yellow";
+        default:
+            return "magenta";
     }
 }
 
 export class DimensionPruningTab extends Component {
     app = this.props.app;
-
-    onChange = (input, output) => {
-        this.app.setState((prevState) => {
-            let dimensionMapping2 = Object.assign({}, prevState.dimensionMapping);
-
-            if (output === "NONE") {
-                delete dimensionMapping2[input];
-            } else {
-                dimensionMapping2[input] = output;
-            }
-
-            return {dimensionMapping: dimensionMapping2};
-        });
-    };
 
     validateSetting = (tab, setting) => {
         if (setting.type !== "Int32") return; // Don't validate any other settings
@@ -163,23 +192,95 @@ export class DimensionPruningTab extends Component {
         this.app.setState({dimensionSettingsTab: name});
     };
 
-    toDimensionOption = (input, output) => {
-        let dimensions = this.app.state.settings?.dimensions ?? [];
+    isPreExistingDimension = (identifier) => !isVanillaDimension(identifier)
+        && (this.app.state.settings?.dimensions ?? []).includes(identifier);
+
+    addCustomDimension = (e) => {
+        e.preventDefault();
+        this.app.setState((prevState) => {
+            let dimensions = prevState.customDimensions?.dimensions ?? [];
+
+            // Find a default name to use
+            let taken = new Set((this.app.state.settings?.dimensions ?? [])
+                .concat(dimensions.map(dimension => dimension.identifier)));
+            let suffix = 1;
+            while (taken.has(DEFAULT_IDENTIFIER_PREFIX + suffix)) suffix++;
+
+            // Return the new entry
+            return {
+                customDimensions: {
+                    dimensions: dimensions.concat([Object.assign({}, DIMENSION_DEFAULTS, {
+                        identifier: DEFAULT_IDENTIFIER_PREFIX + suffix
+                    })])
+                },
+                dimensionSettingsTab: "#" + dimensions.length
+            };
+        });
+    };
+
+    deleteCustomDimension = (index) => {
+        this.app.setState((prevState) => {
+            let dimensions = prevState.customDimensions?.dimensions ?? [];
+
+            return {
+                customDimensions: {dimensions: dimensions.filter((dim, i) => i !== index)},
+                dimensionSettingsTab: undefined
+            };
+        });
+    };
+
+    updateCustomDimension = (index, target, field, value) => {
+        this.app.setState((prevState) => {
+            // Create the entry
+            let dimensions = (prevState.customDimensions?.dimensions ?? []).slice();
+            let previous = dimensions[index] ?? target;
+            let entry = Object.assign({}, previous, {[field.name]: field.coerce ? field.coerce(value) : value});
+
+            // -1 indicates a new entry
+            dimensions[index === -1 ? dimensions.length : index] = entry;
+
+            let state = {customDimensions: {dimensions: dimensions}};
+
+            // Ensure we rename previous identifiers
+            if (previous.identifier && previous.identifier !== entry.identifier) {
+                state.dimensionMapping = Object.fromEntries(Object.entries(prevState.dimensionMapping)
+                    .map(([input, output]) => [input, output === previous.identifier ? entry.identifier : output]));
+            }
+            return state;
+        });
+    };
+
+    validateCustomDimension = (index, entry, field) => {
+        if (index === -1 || field.type !== "Int32") return; // No need to validate non numbers
+
+        // Ensure the field is within max and min
+        this.updateCustomDimension(index, entry, field, Math.min(field.max, Math.max(field.min, entry[field.name] || field.min)));
+    };
+
+    toCustomDimensionOptions = (entry) => {
+        return CUSTOM_DIMENSION_FIELDS.filter(field => !field.identifierOnly || !this.isPreExistingDimension(entry.identifier))
+            .map(field => Object.assign({}, field, {
+                "value": entry[field.name],
+                "suggestions": field.type === "Biome" ? this.app.state.outputBiomeSuggestions : undefined
+            }));
+    }
+
+    toDimensionOption = (input) => {
+        let identifiers = [...this.app.getKnownDimensions()];
         return {
             "name": "Dimension",
             "description": "The dimension to change " + getDimensionDisplayName(input) + " to.",
             "type": "Radio",
-            "value": output || "NONE",
+            "value": this.app.getDimensionMappings()[input] ?? "NONE",
             "options": [
                 {
                     "name": "None",
                     "color": "blue",
                     "value": "NONE"
                 },
-                ...dimensions.map(dim => ({
-                    "name": getDimensionDisplayName(dim),
-                    "color": getDimensionColor(dim),
-                    "value": dim
+                ...identifiers.map(dim => ({
+                    "name": getDimensionDisplayName(dim), "color": getDimensionColor(dim),
+                    "raw": !isVanillaDimension(dim), "value": dim
                 }))
             ]
         };
@@ -291,12 +392,43 @@ export class DimensionPruningTab extends Component {
     };
 
     render() {
+        let customDimensions = this.app.state.customDimensions?.dimensions ?? [];
         let tab = this.app.state.dimensionSettingsTab;
-        if (this.app.state.dimensionSettingsTab === undefined && this.app.settingsProgress.isComplete()) {
+
+        // The tab is either an index of the custom dimension or the identifier in the world
+        let isCustomTab = tab != null && tab.startsWith("#");
+
+        // Check whether the dimension exists
+        if (isCustomTab) {
+            let declared = customDimensions[parseInt(tab.substring(1))];
+            if (declared != null && this.isPreExistingDimension(declared.identifier)) {
+                tab = declared.identifier;
+                isCustomTab = false;
+            }
+        }
+
+        if (tab === undefined && this.app.settingsProgress.isComplete()) {
             tab = this.app.state.settings.dimensions[0];
         }
 
-        let pruningSettings = this.getOptions(tab);
+        let customIndex = isCustomTab ? parseInt(tab.substring(1)) : customDimensions.findIndex(dim => dim.identifier === tab);
+
+        let customEntry;
+        if (isCustomTab) {
+            customEntry = customDimensions[customIndex];
+        } else if (tab != null && !isVanillaDimension(tab)) {
+            customEntry = customDimensions[customIndex] ?? Object.assign({}, DIMENSION_DEFAULTS, {identifier: tab});
+        }
+
+        // Dimensions which are new can't have pruning settings (since there is no existing data)
+        let mappingKey = isCustomTab ? null : tab;
+        let pruningSettings = mappingKey ? this.getOptions(mappingKey) : [];
+
+        let tabs = (this.app.state.settings?.dimensions ?? []).map(identifier => ({
+            id: identifier, label: getDimensionDisplayName(identifier), raw: !isVanillaDimension(identifier)
+        })).concat(customDimensions.flatMap((dim, index) => this.isPreExistingDimension(dim.identifier) ? [] : [{
+            id: "#" + index, label: dim.identifier || "Custom #" + (index + 1), raw: !!dim.identifier
+        }]));
         return (
             <div>
                 {(this.app.settingsProgress.isComplete() &&
@@ -305,25 +437,51 @@ export class DimensionPruningTab extends Component {
                             <h1>Dimensions/Pruning</h1>
                             <h2>You can change one dimension to another, you can also enter co-ordinates of chunks you
                                 want to include in the conversion.</h2>
-                            <ul className="tabs">
-                                {this.app.state.settings.dimensions.map(name => (
-                                    <li key={name}>
-                                        <button className={tab === name ? "active" : ""}
-                                                onClick={(e) => this.setTab(name, e)}>{getDimensionDisplayName(name)}</button>
+                            {(customDimensions.length > 0 || tabs.some(({raw}) => raw)) &&
+                                <h2><strong>Note: </strong> Chunker does not provide datapacks to load custom
+                                    dimensions, please ensure they are present before loading the world.</h2>}
+                            <ul className="tabs dimension_tabs">
+                                {tabs.map(({id, label, raw}) => (
+                                    <li key={id}>
+                                        <button
+                                            className={[tab === id && "active", raw && "identifier"].filter(Boolean).join(" ")}
+                                            title={raw ? label : undefined}
+                                            onClick={(e) => this.setTab(id, e)}>{label}</button>
                                     </li>
                                 ))}
+                                <li>
+                                    <button title="Add a custom dimension"
+                                            onClick={this.addCustomDimension}>+
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                         <div className="main_content settings dimensions" id={tab}>
-                            <SettingsInput base={this.toDimensionOption(tab, this.app.state.dimensionMapping[tab])}
-                                           name={"Output Dimension"}
-                                           onChange={(name, value) => this.updateSetting(tab, name, value)}/>
+                            {customEntry != null && this.toCustomDimensionOptions(customEntry).map(setting => (
+                                <SettingsInput key={setting.name} base={setting} name={setting.display}
+                                               onChange={(name, value) => this.updateCustomDimension(customIndex, customEntry, setting, value)}
+                                               onBlur={() => this.validateCustomDimension(customIndex, customEntry, setting)}/>
+                            ))}
+                            {mappingKey &&
+                                <SettingsInput base={this.toDimensionOption(mappingKey)}
+                                               name={"Output Dimension"}
+                                               onChange={(name, value) => this.updateSetting(mappingKey, name, value)}/>}
                             {pruningSettings.map(setting => (
                                 <SettingsInput key={setting.name + ":" + setting.region} base={setting}
                                                name={setting.display}
-                                               onChange={(name, value) => this.updateSetting(tab, name, value, setting)}
-                                               onBlur={() => this.validateSetting(tab, setting)}/>
+                                               onChange={(name, value) => this.updateSetting(mappingKey, name, value, setting)}
+                                               onBlur={() => this.validateSetting(mappingKey, setting)}/>
                             ))}
+                            {customEntry != null && !this.isPreExistingDimension(customEntry.identifier) &&
+                                <SettingsInput base={{
+                                    "display": "Delete Custom Dimension",
+                                    "borderless": true,
+                                    "name": "delete",
+                                    "description": "Remove this custom dimension",
+                                    "value": "Delete",
+                                    "type": "Button"
+                                }} name={"Delete Custom Dimension"}
+                                               onChange={() => this.deleteCustomDimension(customIndex)}/>}
                         </div>
                     </React.Fragment>
                 )}

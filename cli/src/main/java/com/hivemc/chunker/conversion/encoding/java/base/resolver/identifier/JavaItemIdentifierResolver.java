@@ -750,5 +750,34 @@ public class JavaItemIdentifierResolver extends ChunkerItemIdentifierResolver {
             register(ItemMapping.of("minecraft:sulfur_cube_spawn_egg", ChunkerVanillaItemType.SPAWN_EGG, ChunkerItemProperty.SPAWN_EGG_MOB, ChunkerVanillaEntityType.SULFUR_CUBE));
             register(ItemMapping.of("minecraft:music_disc_bounce", ChunkerVanillaItemType.MUSIC_DISC_BOUNCE));
         }
+
+        // 26.3
+        if (version.isGreaterThanOrEqual(26, 3, 0)) {
+            // New poplar boat
+            register(ItemMapping.of("minecraft:poplar_boat", ChunkerVanillaItemType.POPLAR_BOAT));
+            register(ItemMapping.of("minecraft:poplar_chest_boat", ChunkerVanillaItemType.POPLAR_CHEST_BOAT));
+
+            // New poplar signs
+            register(ItemMapping.of("minecraft:poplar_sign", ChunkerVanillaItemType.POPLAR_SIGN));
+            register(ItemMapping.of("minecraft:poplar_hanging_sign", ChunkerVanillaItemType.POPLAR_HANGING_SIGN));
+
+            // New cushions
+            register(ItemMapping.of("minecraft:white_cushion", ChunkerVanillaItemType.WHITE_CUSHION));
+            register(ItemMapping.of("minecraft:orange_cushion", ChunkerVanillaItemType.ORANGE_CUSHION));
+            register(ItemMapping.of("minecraft:magenta_cushion", ChunkerVanillaItemType.MAGENTA_CUSHION));
+            register(ItemMapping.of("minecraft:light_blue_cushion", ChunkerVanillaItemType.LIGHT_BLUE_CUSHION));
+            register(ItemMapping.of("minecraft:yellow_cushion", ChunkerVanillaItemType.YELLOW_CUSHION));
+            register(ItemMapping.of("minecraft:lime_cushion", ChunkerVanillaItemType.LIME_CUSHION));
+            register(ItemMapping.of("minecraft:pink_cushion", ChunkerVanillaItemType.PINK_CUSHION));
+            register(ItemMapping.of("minecraft:gray_cushion", ChunkerVanillaItemType.GRAY_CUSHION));
+            register(ItemMapping.of("minecraft:light_gray_cushion", ChunkerVanillaItemType.LIGHT_GRAY_CUSHION));
+            register(ItemMapping.of("minecraft:cyan_cushion", ChunkerVanillaItemType.CYAN_CUSHION));
+            register(ItemMapping.of("minecraft:purple_cushion", ChunkerVanillaItemType.PURPLE_CUSHION));
+            register(ItemMapping.of("minecraft:blue_cushion", ChunkerVanillaItemType.BLUE_CUSHION));
+            register(ItemMapping.of("minecraft:brown_cushion", ChunkerVanillaItemType.BROWN_CUSHION));
+            register(ItemMapping.of("minecraft:green_cushion", ChunkerVanillaItemType.GREEN_CUSHION));
+            register(ItemMapping.of("minecraft:red_cushion", ChunkerVanillaItemType.RED_CUSHION));
+            register(ItemMapping.of("minecraft:black_cushion", ChunkerVanillaItemType.BLACK_CUSHION));
+        }
     }
 }

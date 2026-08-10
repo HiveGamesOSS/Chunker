@@ -68,9 +68,9 @@ public class WorldConverter implements Converter {
     );
     // Settings
     @Nullable
-    private Map<Dimension, PruningConfig> pruningConfigs;
+    private Map<String, PruningConfig> pruningConfigs;
     @Nullable
-    private Map<Dimension, Dimension> dimensionMapping;
+    private Map<String, String> dimensionMapping;
     private DimensionRegistry dimensionRegistry = new DimensionRegistry();
     @Nullable
     private Map<ChunkerBiome, ChunkerBiome> biomeMapping;
@@ -120,7 +120,7 @@ public class WorldConverter implements Converter {
      *
      * @param pruningConfigs the configurations or null if none present.
      */
-    public void setPruningConfigs(@Nullable Map<Dimension, PruningConfig> pruningConfigs) {
+    public void setPruningConfigs(@Nullable Map<String, PruningConfig> pruningConfigs) {
         this.pruningConfigs = pruningConfigs;
     }
 
@@ -130,7 +130,7 @@ public class WorldConverter implements Converter {
      *
      * @param dimensionMapping the mappings or null if it should keep the same input as output.
      */
-    public void setDimensionMapping(@Nullable Map<Dimension, Dimension> dimensionMapping) {
+    public void setDimensionMapping(@Nullable Map<String, String> dimensionMapping) {
         this.dimensionMapping = dimensionMapping;
     }
 
@@ -335,7 +335,7 @@ public class WorldConverter implements Converter {
 
     @Override
     public boolean shouldProcessDimension(Dimension dimension) {
-        return dimensionMapping == null || dimensionMapping.containsKey(dimension);
+        return getNewDimension(dimension).isPresent();
     }
 
     /**
@@ -369,7 +369,7 @@ public class WorldConverter implements Converter {
     public boolean shouldProcessRegion(Dimension dimension, RegionCoordPair regionPair) {
         if (pruningConfigs == null || pruningConfigs.isEmpty()) return true;
 
-        PruningConfig pruningConfig = pruningConfigs.get(dimension);
+        PruningConfig pruningConfig = pruningConfigs.get(dimension.getIdentifier());
 
         // Ensure the config / regions are present
         if (pruningConfig == null || pruningConfig.getRegions() == null || pruningConfig.getRegions().isEmpty())
@@ -403,7 +403,7 @@ public class WorldConverter implements Converter {
     public boolean shouldProcessColumn(Dimension dimension, ChunkCoordPair columnPair) {
         if (pruningConfigs == null || pruningConfigs.isEmpty()) return true;
 
-        PruningConfig pruningConfig = pruningConfigs.get(dimension);
+        PruningConfig pruningConfig = pruningConfigs.get(dimension.getIdentifier());
 
         // Ensure the config / regions are present
         if (pruningConfig == null || pruningConfig.getRegions() == null || pruningConfig.getRegions().isEmpty())
@@ -456,7 +456,8 @@ public class WorldConverter implements Converter {
 
     @Override
     public Optional<Dimension> getNewDimension(Dimension dimension) {
-        return dimensionMapping == null ? Optional.of(dimension) : Optional.ofNullable(dimensionMapping.get(dimension));
+        return dimensionMapping == null ? Optional.of(dimension)
+                : Optional.ofNullable(dimensionMapping.get(dimension.getIdentifier())).map(dimensionRegistry::getByIdentifier);
     }
 
     @Override

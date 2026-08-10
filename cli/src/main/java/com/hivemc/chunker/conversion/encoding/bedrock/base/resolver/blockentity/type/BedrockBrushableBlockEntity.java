@@ -29,6 +29,7 @@ public class BedrockBrushableBlockEntity extends BrushableBlockEntity {
         setBrushDirection(original.getBrushDirection());
         setBrushCount(original.getBrushCount());
         setItem(original.getItem());
+        setLootTable(original.getLootTable());
     }
 
     /**
@@ -46,6 +47,7 @@ public class BedrockBrushableBlockEntity extends BrushableBlockEntity {
         brushableBlockEntity.setBrushDirection(getBrushDirection());
         brushableBlockEntity.setBrushCount(getBrushCount());
         brushableBlockEntity.setItem(getItem());
+        brushableBlockEntity.setLootTable(getLootTable());
         return brushableBlockEntity;
     }
 

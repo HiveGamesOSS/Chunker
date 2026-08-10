@@ -6,7 +6,7 @@ import "leaflet-draw";
 import {ProgressComponent} from "../../../../progress";
 import "leaflet-mouse-position/src/L.Control.MousePosition.css";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
-import {getDimensionDisplayName} from "../dimensionPruningTab";
+import {getDimensionDisplayName, isVanillaDimension} from "../dimensionPruningTab";
 
 require("leaflet-mouse-position/src/L.Control.MousePosition"); // As it adds new controls, need to be required
 require("leaflet-fullscreen/dist/Leaflet.fullscreen"); // As it adds new controls, need to be required
@@ -77,15 +77,11 @@ export class Map extends Component {
             let defaultWorld = worlds.length > 0 ? worlds[0] : undefined;
             if (defaultWorld !== undefined) {
                 defaultWorld.addTo(this.mymap);
-                let centerX = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnX")[0].value;
-                let centerZ = self.app.state.settings.settings["World Settings"].filter(a => a.name === "SpawnZ")[0].value;
-
-                // L.marker(xy(centerX * 16, centerZ * 16)).addTo(mymap).bindPopup("Center (" + (centerX * 16) + "," + (centerZ * 16) + ")");
-                this.mymap.setView(xy(centerX, centerZ), 2);
+                this.updateWorldView(defaultWorld);
             }
         } else {
             let defaultWorld = worlds.filter(a => this.app.state.previewState.layer === a.options.identifier)[0];
-            defaultWorld.addTo(this.mymap);
+            defaultWorld?.addTo(this.mymap);
             this.mymap.setView(this.app.state.previewState.center, this.app.state.previewState.zoom, {animate: false});
         }
 
@@ -112,8 +108,24 @@ export class Map extends Component {
         // Add handler for pruning render
         this.mymap.on("baselayerchange", function (e) {
             self.renderPruningRegion();
+            self.updateWorldView(e.layer);
         });
     }
+
+    updateWorldView = (world) => {
+        let identifier = world?.options?.identifier;
+        let bounds = this.props.data?.[identifier];
+
+        // Vanilla uses the spawn for the world, otherwise we fit based on the bounds of the present regions
+        if (!isVanillaDimension(identifier) && bounds && bounds.minX <= bounds.maxX) {
+            this.mymap.fitBounds(L.latLngBounds(xy(bounds.minX * 16, bounds.minZ * 16),
+                xy(bounds.maxX * 16 + 16, bounds.maxZ * 16 + 16)), {maxZoom: 2});
+        } else {
+            let worldSettings = this.app.state.settings.settings["World Settings"];
+            let spawn = (name) => worldSettings.filter(a => a.name === name)[0].value;
+            this.mymap.setView(xy(spawn("SpawnX"), spawn("SpawnZ")), 2);
+        }
+    };
 
     formatCoords = (long, lat) => {
         let x = long;

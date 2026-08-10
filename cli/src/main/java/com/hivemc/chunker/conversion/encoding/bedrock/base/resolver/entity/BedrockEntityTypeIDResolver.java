@@ -206,6 +206,9 @@ public class BedrockEntityTypeIDResolver implements Resolver<Integer, ChunkerEnt
         if (bedrockVersion.isGreaterThanOrEqual(1, 26, 20)) {
             mapping.put(ChunkerVanillaEntityType.SULFUR_CUBE, 153);
         }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 26, 40)) {
+            mapping.put(ChunkerVanillaEntityType.CUSHION, 154);
+        }
     }
 
     @Override

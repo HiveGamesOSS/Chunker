@@ -12,10 +12,10 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.palette.SingleVal
 import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 import com.hivemc.chunker.nbt.tags.collection.ListTag;
+import com.hivemc.chunker.nbt.tags.primitive.StringTag;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ChunkReader extends com.hivemc.chunker.conversion.encoding.java.v1_17.reader.ChunkReader {
     public ChunkReader(Converter converter, JavaResolvers resolvers, ChunkerColumn column, ChunkerChunk chunk) {
@@ -27,22 +27,19 @@ public class ChunkReader extends com.hivemc.chunker.conversion.encoding.java.v1_
         // 1.18+ wraps the values in block_states
         nbt = nbt.getCompound("block_states", nbt);
 
-        // Get the keys (palette/ShortBasedPalette, can be lowercase P depending on version)
-        ListTag<CompoundTag, Map<String, Tag<?>>> keysList = nbt.getList("palette", CompoundTag.class, null);
-
-        // Get the values (data/BlockStates, depending on version)
-        long[] encodedValues = nbt.getLongArray("data", null);
-
-        // If the keys aren't named as palette then it's likely an older chunk (if the data tag is missing it's likely a single value palette)
-        if (keysList == null) {
+        // Older chunks name the keys Palette instead, which the previous version reads
+        if (!(nbt.get("palette") instanceof ListTag<?, ?> keysList)) {
             super.readPalette(nbt);
             return;
         }
 
+        // Get the values (data/BlockStates, depending on version)
+        long[] encodedValues = nbt.getLongArray("data", null);
+
         // Create the keys
         List<ChunkerBlockIdentifier> keys = new ArrayList<>(keysList.size());
-        for (CompoundTag key : keysList) {
-            keys.add(resolvers.readBlock(key));
+        for (Tag<?> key : keysList) {
+            keys.add(resolvers.readBlock(convertKeyToCompoundTag(key)));
         }
 
         // Special conditions to skip the full reading of the palette
@@ -59,5 +56,36 @@ public class ChunkReader extends com.hivemc.chunker.conversion.encoding.java.v1_
 
         // Create the palette and assign it
         chunk.setPalette(new ShortBasedPalette<>(keys, values));
+    }
+
+    /**
+     * Turn a palette entry into the compound form used by the block resolver.
+     *
+     * @param key the palette entry.
+     * @return the compound holding the block state.
+     */
+    protected CompoundTag convertKeyToCompoundTag(Tag<?> key) {
+        // Mixed lists wrap each entry in a compound which uses an empty name
+        if (key instanceof CompoundTag compoundTag && compoundTag.size() == 1) {
+            Tag<?> unwrapped = compoundTag.get("");
+            if (unwrapped != null) {
+                key = unwrapped;
+            }
+        }
+
+        // Block states which have properties use a compound
+        if (key instanceof CompoundTag compoundTag) return compoundTag;
+
+        // 26.3+ writes the default block state as just the identifier
+        if (key instanceof StringTag stringTag) {
+            String identifier = stringTag.getValue();
+            if (identifier == null) throw new IllegalArgumentException("Palette key is missing an identifier");
+
+            CompoundTag blockState = new CompoundTag(1);
+            blockState.put("id", identifier);
+            return blockState;
+        }
+
+        throw new IllegalArgumentException("Unsupported palette key type: " + key.getClass().getName());
     }
 }

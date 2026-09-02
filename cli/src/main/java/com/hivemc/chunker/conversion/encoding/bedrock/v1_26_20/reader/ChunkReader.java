@@ -5,7 +5,7 @@ import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.BedrockResol
 import com.hivemc.chunker.conversion.intermediate.column.chunk.ChunkerChunk;
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;
 
-public class ChunkReader extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_110.reader.ChunkReader {
+public class ChunkReader extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_120.reader.ChunkReader {
     public ChunkReader(BedrockResolvers resolvers, Converter converter, Dimension dimension, ChunkerChunk chunk) {
         super(resolvers, converter, dimension, chunk);
     }

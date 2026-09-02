@@ -10,6 +10,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.b
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.item.ChunkerVanillaItemType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemProperty;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.horn.ChunkerHornInstrument;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerExplorerMap;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerEffectType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerPotionType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.stew.ChunkerStewEffect;
@@ -43,6 +44,11 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
         register(ItemMapping.of("minecraft:frame", ChunkerVanillaItemType.ITEM_FRAME));
         register(ItemMapping.of("minecraft:muttonraw", ChunkerVanillaItemType.MUTTON));
         register(ItemMapping.of("minecraft:muttoncooked", ChunkerVanillaItemType.COOKED_MUTTON));
+
+        // Explorer maps, the data value is the MapType which indicates the structure the map leads to
+        register(ItemMapping.of("minecraft:map", 3, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.OCEAN_MONUMENT));
+        register(ItemMapping.of("minecraft:map", 4, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.WOODLAND_MANSION));
+        register(ItemMapping.of("minecraft:map", 5, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.BURIED_TREASURE));
 
         // Create a potion ID resolver for resolving the IDs
         BedrockPotionIDResolver potionIDResolver = new BedrockPotionIDResolver(version);
@@ -630,6 +636,9 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
             registerOverrideOutput(ItemMapping.of("minecraft:charcoal", ChunkerVanillaItemType.CHARCOAL));
             registerOverrideOutput(ItemMapping.of("minecraft:lodestone_compass", ChunkerVanillaItemType.LODESTONE_COMPASS));
             registerOverrideOutput(ItemMapping.of("minecraft:filled_map", ChunkerVanillaItemType.FILLED_MAP));
+            registerOverrideOutput(ItemMapping.of("minecraft:filled_map", 3, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.OCEAN_MONUMENT));
+            registerOverrideOutput(ItemMapping.of("minecraft:filled_map", 4, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.WOODLAND_MANSION));
+            registerOverrideOutput(ItemMapping.of("minecraft:filled_map", 5, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.BURIED_TREASURE));
             registerOverrideOutput(ItemMapping.of("minecraft:enchanted_golden_apple", ChunkerVanillaItemType.ENCHANTED_GOLDEN_APPLE));
             registerOverrideOutput(ItemMapping.of("minecraft:popped_chorus_fruit", ChunkerVanillaItemType.POPPED_CHORUS_FRUIT));
             registerOverrideOutput(ItemMapping.of("minecraft:sugar_cane", ChunkerVanillaBlockType.SUGAR_CANE));
@@ -969,6 +978,18 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
             register(ItemMapping.of("minecraft:music_disc_relic", ChunkerVanillaItemType.MUSIC_DISC_RELIC));
         }
 
+        // R20U4
+        if (version.isGreaterThanOrEqual(1, 20, 40)) {
+            // New explorer maps for the villages, the jungle temple and the swamp hut
+            register(ItemMapping.of("minecraft:filled_map", 7, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.SNOWY_VILLAGE));
+            register(ItemMapping.of("minecraft:filled_map", 8, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.TAIGA_VILLAGE));
+            register(ItemMapping.of("minecraft:filled_map", 9, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.PLAINS_VILLAGE));
+            register(ItemMapping.of("minecraft:filled_map", 10, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.SAVANNA_VILLAGE));
+            register(ItemMapping.of("minecraft:filled_map", 11, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.DESERT_VILLAGE));
+            register(ItemMapping.of("minecraft:filled_map", 12, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.JUNGLE_PYRAMID));
+            register(ItemMapping.of("minecraft:filled_map", 13, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.SWAMP_HUT));
+        }
+
         // R20U5
         if (version.isGreaterThanOrEqual(1, 20, 50)) {
             register(ItemMapping.of("minecraft:copper_door", ChunkerVanillaBlockType.COPPER_DOOR));
@@ -1035,6 +1056,9 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
             register(ItemMapping.of("minecraft:ominous_bottle", 4, ChunkerVanillaItemType.OMINOUS_BOTTLE, ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER, 4));
 
             register(ItemMapping.of("minecraft:ominous_trial_key", ChunkerVanillaItemType.OMINOUS_TRIAL_KEY));
+
+            // New explorer map for the trial chambers
+            register(ItemMapping.of("minecraft:filled_map", 14, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.BURIED_TRIAL_CHAMBERS));
         }
 
         // R21U4
@@ -1232,6 +1256,26 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
             register(ItemMapping.of("minecraft:green_cushion", ChunkerVanillaItemType.GREEN_CUSHION));
             register(ItemMapping.of("minecraft:red_cushion", ChunkerVanillaItemType.RED_CUSHION));
             register(ItemMapping.of("minecraft:black_cushion", ChunkerVanillaItemType.BLACK_CUSHION));
+        }
+
+        // R26U5
+        if (version.isGreaterThanOrEqual(1, 26, 50)) {
+            // Bedrock has an abandoned camp map per biome but Java only has the one item, so the bamboo jungle is
+            // used when writing and every biome is accepted when reading
+            register(ItemMapping.of("minecraft:filled_map", 15, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.ABANDONED_CAMP)); // Bamboo jungle
+            registerDuplicateOutput(ItemMapping.of("minecraft:filled_map", 16, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.ABANDONED_CAMP)); // Birch forest
+            registerDuplicateOutput(ItemMapping.of("minecraft:filled_map", 17, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.ABANDONED_CAMP)); // Cherry grove
+            registerDuplicateOutput(ItemMapping.of("minecraft:filled_map", 18, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.ABANDONED_CAMP)); // Dappled forest
+            registerDuplicateOutput(ItemMapping.of("minecraft:filled_map", 19, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.ABANDONED_CAMP)); // Windswept forest
+            registerDuplicateOutput(ItemMapping.of("minecraft:filled_map", 20, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.ABANDONED_CAMP)); // Flower forest
+            registerDuplicateOutput(ItemMapping.of("minecraft:filled_map", 21, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.ABANDONED_CAMP)); // Pale garden
+            registerDuplicateOutput(ItemMapping.of("minecraft:filled_map", 22, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.ABANDONED_CAMP)); // Swamp
+
+            // New explorer maps for the ancient city, the mineshaft, the desert pyramid and the warm ocean ruins
+            register(ItemMapping.of("minecraft:filled_map", 23, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.BURIED_ANCIENT_CITY));
+            register(ItemMapping.of("minecraft:filled_map", 24, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.BURIED_MINESHAFT));
+            register(ItemMapping.of("minecraft:filled_map", 25, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.DESERT_PYRAMID));
+            register(ItemMapping.of("minecraft:filled_map", 26, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.WARM_OCEAN_RUINS));
         }
     }
 }

@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
-public class LevelReader extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_110.reader.LevelReader {
+public class LevelReader extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_120.reader.LevelReader {
     public LevelReader(File inputDirectory, Version inputVersion, Converter converter) {
         super(inputDirectory, inputVersion, converter);
     }

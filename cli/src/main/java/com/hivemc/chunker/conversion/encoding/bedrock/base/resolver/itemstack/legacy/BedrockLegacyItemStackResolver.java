@@ -599,8 +599,11 @@ public class BedrockLegacyItemStackResolver extends ItemStackResolver<BedrockRes
                         tag.remove("isMovable");
                         tag.remove("id");
 
-                        // Add the tag
-                        state.value().put("tag", tag);
+                        // Merge into the tag
+                        CompoundTag itemTag = state.value().getOrCreateCompound("tag");
+                        for (Map.Entry<String, Tag<?>> pair : tag) {
+                            itemTag.put(pair.getKey(), pair.getValue());
+                        }
                     }
                 }
             }

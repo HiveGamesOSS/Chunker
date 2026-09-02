@@ -7,6 +7,7 @@ import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.ChunkerIt
 import com.hivemc.chunker.conversion.encoding.base.resolver.identifier.ItemMapping;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.item.ChunkerVanillaItemType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemProperty;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerExplorerMap;
 import com.hivemc.chunker.conversion.intermediate.column.entity.type.ChunkerVanillaEntityType;
 
 /**
@@ -778,6 +779,24 @@ public class JavaItemIdentifierResolver extends ChunkerItemIdentifierResolver {
             register(ItemMapping.of("minecraft:green_cushion", ChunkerVanillaItemType.GREEN_CUSHION));
             register(ItemMapping.of("minecraft:red_cushion", ChunkerVanillaItemType.RED_CUSHION));
             register(ItemMapping.of("minecraft:black_cushion", ChunkerVanillaItemType.BLACK_CUSHION));
+
+            // Explorer maps, each of them now has its own identifier
+            register(ItemMapping.of("minecraft:abandoned_camp_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.ABANDONED_CAMP));
+            register(ItemMapping.of("minecraft:buried_ancient_city_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.BURIED_ANCIENT_CITY));
+            register(ItemMapping.of("minecraft:buried_mineshaft_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.BURIED_MINESHAFT));
+            register(ItemMapping.of("minecraft:buried_treasure_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.BURIED_TREASURE));
+            register(ItemMapping.of("minecraft:buried_trial_chambers_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.BURIED_TRIAL_CHAMBERS));
+            register(ItemMapping.of("minecraft:desert_pyramid_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.DESERT_PYRAMID));
+            register(ItemMapping.of("minecraft:desert_village_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.DESERT_VILLAGE));
+            register(ItemMapping.of("minecraft:jungle_pyramid_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.JUNGLE_PYRAMID));
+            register(ItemMapping.of("minecraft:ocean_monument_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.OCEAN_MONUMENT));
+            register(ItemMapping.of("minecraft:plains_village_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.PLAINS_VILLAGE));
+            register(ItemMapping.of("minecraft:savanna_village_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.SAVANNA_VILLAGE));
+            register(ItemMapping.of("minecraft:snowy_village_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.SNOWY_VILLAGE));
+            register(ItemMapping.of("minecraft:swamp_hut_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.SWAMP_HUT));
+            register(ItemMapping.of("minecraft:taiga_village_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.TAIGA_VILLAGE));
+            register(ItemMapping.of("minecraft:warm_ocean_ruins_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.WARM_OCEAN_RUINS));
+            register(ItemMapping.of("minecraft:woodland_mansion_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.WOODLAND_MANSION));
         }
     }
 }

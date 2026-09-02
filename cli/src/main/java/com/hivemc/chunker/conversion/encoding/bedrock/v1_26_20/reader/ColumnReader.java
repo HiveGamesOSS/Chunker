@@ -8,7 +8,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.ChunkerChunk;
 import com.hivemc.chunker.conversion.intermediate.world.Dimension;
 import org.iq80.leveldb.DB;
 
-public class ColumnReader extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_110.reader.ColumnReader {
+public class ColumnReader extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_120.reader.ColumnReader {
     public ColumnReader(BedrockResolvers resolvers, Converter converter, DB database, Dimension dimension, ChunkCoordPair columnCoords) {
         super(resolvers, converter, database, dimension, columnCoords);
     }

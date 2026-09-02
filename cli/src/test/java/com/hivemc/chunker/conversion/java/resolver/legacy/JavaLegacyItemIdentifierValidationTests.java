@@ -17,13 +17,12 @@ import com.hivemc.chunker.mapping.identifier.Identifier;
 import com.hivemc.chunker.mapping.identifier.states.StateValue;
 import com.hivemc.chunker.mapping.identifier.states.StateValueString;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -68,28 +67,42 @@ public class JavaLegacyItemIdentifierValidationTests {
         }
     }
 
-    public static Stream<Arguments> items() throws IOException {
+    /**
+     * A legacy identifier / data value pair with the flattened identifier it should produce.
+     *
+     * @param identifier the legacy item identifier.
+     * @param data       the legacy data value.
+     * @param expected   the flattened identifier the pair should produce.
+     */
+    private record LegacyItem(String identifier, int data, Identifier expected) {
+    }
+
+    private static Stream<LegacyItem> items() {
         // Convert to inputIdentifier, inputDataValue -> expected
-        return ITEMS.entrySet().stream().flatMap(entry -> {
+        List<LegacyItem> items = ITEMS.entrySet().stream().flatMap(entry -> {
             if (entry.getValue().getAsJsonObject().has("tool") && entry.getValue().getAsJsonObject().get("tool").getAsBoolean()) {
-                return Stream.of(Arguments.of(
+                return Stream.of(new LegacyItem(
                         entry.getKey(),
                         1000,
                         new Identifier(entry.getKey())
                 ));
             } else {
-                return entry.getValue().getAsJsonObject().get("data").getAsJsonObject().entrySet().stream().map(dataEntry -> Arguments.of(
+                return entry.getValue().getAsJsonObject().get("data").getAsJsonObject().entrySet().stream().map(dataEntry -> new LegacyItem(
                         entry.getKey(),
-                        Integer.valueOf(dataEntry.getKey()),
+                        Integer.parseInt(dataEntry.getKey()),
                         parseIdentifier(dataEntry.getValue().getAsJsonObject())
                 ));
             }
-        });
+        }).toList();
+
+        // Ensure items were present for the test
+        assertFalse(items.isEmpty(), "No items were loaded from pre_1_13_items.json");
+        return items.stream();
     }
 
-    public static Stream<Arguments> chunkerCombinations() throws IOException {
+    private static Stream<ChunkerItemStack> chunkerCombinations() {
         return Stream.of(ChunkerVanillaItemType.values())
-                .map(input -> Arguments.of(new ChunkerItemStack(input)));
+                .map(ChunkerItemStack::new);
     }
 
     private static Identifier parseIdentifier(JsonObject block) {
@@ -105,16 +118,24 @@ public class JavaLegacyItemIdentifierValidationTests {
         );
     }
 
-    @ParameterizedTest
-    @MethodSource("items")
-    public void checkInputIdentifier(String inputIdentifier, int data, Identifier expected) {
-        Optional<ChunkerItemStack> intermediate = LEGACY_RESOLVER.to(Identifier.fromData(inputIdentifier, OptionalInt.of(data)));
+    @Test
+    public void checkInputIdentifier() {
+        assertAll(items().map(item -> () -> assertInputIdentifier(item)));
+    }
+
+    @Test
+    public void checkIdentifierInputStates() {
+        assertAll(chunkerCombinations().map(itemStack -> () -> assertIdentifierInputStates(itemStack)));
+    }
+
+    private void assertInputIdentifier(LegacyItem item) {
+        Optional<ChunkerItemStack> intermediate = LEGACY_RESOLVER.to(Identifier.fromData(item.identifier(), OptionalInt.of(item.data())));
         if (intermediate.isEmpty()) {
-            intermediate = LEGACY_BLOCK_RESOLVER.to(Identifier.fromData(inputIdentifier, OptionalInt.of(data))).map(ChunkerItemStack::new);
+            intermediate = LEGACY_BLOCK_RESOLVER.to(Identifier.fromData(item.identifier(), OptionalInt.of(item.data()))).map(ChunkerItemStack::new);
         }
 
         // Check it's present
-        assertTrue(intermediate.isPresent(), "Missing mapping for " + inputIdentifier + ":" + data);
+        assertTrue(intermediate.isPresent(), "Missing mapping for " + item.identifier() + ":" + item.data());
 
         // Convert to 1.13
         Optional<Identifier> output = RESOLVER.from(intermediate.get());
@@ -126,15 +147,13 @@ public class JavaLegacyItemIdentifierValidationTests {
         }
 
         // Check it's present
-        assertTrue(output.isPresent(), "Missing backwards conversion for intermediate " + intermediate.get());
+        assertTrue(output.isPresent(), "Missing backwards conversion for " + item.identifier() + ":" + item.data() + " using " + intermediate.get());
 
         // Now check it against the expected
-        assertEquals(expected, output.get(), "Got: " + output.get() + ", Expected: " + expected);
+        assertEquals(item.expected(), output.get(), "Got: " + output.get() + ", Expected: " + item.expected());
     }
 
-    @ParameterizedTest
-    @MethodSource("chunkerCombinations")
-    public void checkIdentifierInputStates(ChunkerItemStack chunkerItemStack) {
+    private void assertIdentifierInputStates(ChunkerItemStack chunkerItemStack) {
         // If the block is present it shouldn't be an
         // unsupported block
         Optional<Identifier> output = LEGACY_RESOLVER.from(chunkerItemStack);
@@ -142,16 +161,14 @@ public class JavaLegacyItemIdentifierValidationTests {
             Identifier outputIdentifier = output.get();
 
             JsonElement item = ITEMS.get(outputIdentifier.getIdentifier());
-            assertNotNull(item, "Missing item " + outputIdentifier.getIdentifier());
+            assertNotNull(item, () -> "Missing item " + outputIdentifier.getIdentifier() + " for input " + chunkerItemStack);
 
             // Ensure data is present
-            assertTrue(outputIdentifier.getDataValue().isPresent(), "Missing data value for " + outputIdentifier.getIdentifier());
+            assertTrue(outputIdentifier.getDataValue().isPresent(), () -> "Missing data value for " + outputIdentifier.getIdentifier() + " for input " + chunkerItemStack);
 
             // Validate data
             int dataValue = outputIdentifier.getDataValue().getAsInt();
-            if (item.getAsJsonObject().has("tool") && item.getAsJsonObject().get("tool").getAsBoolean()) {
-                assertTrue(true);
-            } else {
+            if (!item.getAsJsonObject().has("tool") || !item.getAsJsonObject().get("tool").getAsBoolean()) {
                 JsonObject data = item.getAsJsonObject().get("data").getAsJsonObject();
                 assertTrue(data.has(String.valueOf(dataValue)), () -> "Invalid data value " + dataValue + " for " + outputIdentifier.getIdentifier());
             }

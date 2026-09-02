@@ -350,6 +350,28 @@
       "display": "Multiplayer Game",
       "description": "Whether this is a multiplayer game."
     },
+    "playerPermissionsLevel": {
+      "display": "Player Permissions",
+      "description": "The default permissions a player has, operator is required to use commands.",
+      "type": "Radio",
+      "options": [
+        {
+          "name": "Visitor",
+          "color": "blue",
+          "value": 0
+        },
+        {
+          "name": "Member",
+          "color": "green",
+          "value": 1
+        },
+        {
+          "name": "Operator",
+          "color": "red",
+          "value": 2
+        }
+      ]
+    },
     "texturePacksRequired": {
       "display": "Texture Packs Required",
       "description": "Whether texture packs are required for the map."

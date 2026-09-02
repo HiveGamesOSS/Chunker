@@ -86,6 +86,7 @@ public class JavaStateGroups {
             .build();
     public static final StateMappingGroup BUBBLE_COLUMN = new StateMappingGroup.Builder()
             .state("drag", VanillaBlockStates.DRAG, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.DRAG, Bool.TRUE)
             .defaultOutput(VanillaBlockStates.WATERLOGGED, Bool.TRUE)
             .build();
     public static final StateMappingGroup BULB = new StateMappingGroup.Builder()
@@ -96,6 +97,8 @@ public class JavaStateGroups {
             .state("face", VanillaBlockStates.ATTACHMENT_TYPE, JavaStateTypes.ATTACHMENT_TYPE)
             .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
             .state("powered", VanillaBlockStates.POWERED, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.ATTACHMENT_TYPE, AttachmentType.WALL)
+            .defaultOutput(VanillaBlockStates.FACING_HORIZONTAL, FacingDirectionHorizontal.NORTH)
             .build();
     public static final StateMappingGroup CAKE = new StateMappingGroup.Builder()
             .state("bites", VanillaBlockStates.BITES, JavaStateTypes.BITES)
@@ -111,6 +114,7 @@ public class JavaStateGroups {
             .state("lit", VanillaBlockStates.LIT, JavaStateTypes.BOOL)
             .state("signal_fire", VanillaBlockStates.SIGNAL_FIRE, JavaStateTypes.BOOL)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.LIT, Bool.TRUE)
             .build();
     public static final StateMappingGroup CANDLE = new StateMappingGroup.Builder()
             .state("candles", VanillaBlockStates.CANDLES, JavaStateTypes.CANDLES)
@@ -119,6 +123,7 @@ public class JavaStateGroups {
             .build();
     public static final StateMappingGroup CAULDRON = new StateMappingGroup.Builder()
             .state("level", VanillaBlockStates.CAULDRON_LEVEL, JavaStateTypes.CAULDRON_LEVEL)
+            .defaultOutput(VanillaBlockStates.CAULDRON_LEVEL, CauldronLevel._2)
             .build();
     public static final StateMappingGroup CAVE_VINES_BODY = new StateMappingGroup.Builder()
             .state("berries", VanillaBlockStates.BERRIES, JavaStateTypes.BOOL)
@@ -179,6 +184,7 @@ public class JavaStateGroups {
             // 1.13.1 made conduit waterloggable
             .version(new Version(1, 13, 1), new StateMappingGroup.Builder()
                     .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.WATERLOGGED, Bool.TRUE)
                     .build()
             ).build();
     public static final StateMappingGroup CONNECTABLE = new StateMappingGroup.Builder()
@@ -217,11 +223,18 @@ public class JavaStateGroups {
             // 1.13.1 made coral waterloggable
             .version(new Version(1, 13, 1), new StateMappingGroup.Builder()
                     .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.WATERLOGGED, Bool.TRUE)
                     .build()
             ).build();
     public static final StateMappingGroup CORAL_FAN = new StateMappingGroup.Builder()
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.WATERLOGGED, Bool.TRUE)
             .defaultOutput(VanillaBlockStates.CORAL_FAN_DIRECTION, CoralFanDirection.EAST_WEST)
+            .build();
+    public static final StateMappingGroup CORAL_WALL_FAN = new StateMappingGroup.Builder()
+            .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
+            .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.WATERLOGGED, Bool.TRUE)
             .build();
     public static final StateMappingGroup CRAFTER = new StateMappingGroup.Builder()
             .state("crafting", VanillaBlockStates.CRAFTING, JavaStateTypes.BOOL)
@@ -239,6 +252,7 @@ public class JavaStateGroups {
                     .state("axis", VanillaBlockStates.AXIS, JavaStateTypes.AXIS)
                     .state("active", VanillaBlockStates.CREAKING, JavaStateTypes.CREAKING_BOOL)
                     .state("natural", VanillaBlockStates.NATURAL, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.CREAKING, Creaking.DORMANT)
                     .build()
             )
             // 1.21.5 removed the active state and added creaking_heart_state
@@ -284,10 +298,12 @@ public class JavaStateGroups {
             .build();
     public static final StateMappingGroup FACING_ALL = new StateMappingGroup.Builder()
             .state("facing", VanillaBlockStates.FACING_ALL, JavaStateTypes.FACING_ALL)
+            .defaultOutput(VanillaBlockStates.FACING_ALL, FacingDirection.UP)
             .build();
     public static final StateMappingGroup FACING_ALL_WATERLOGGED = new StateMappingGroup.Builder()
             .state("facing", VanillaBlockStates.FACING_ALL, JavaStateTypes.FACING_ALL)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.FACING_ALL, FacingDirection.UP)
             .build();
     public static final StateMappingGroup FACING_HORIZONTAL = new StateMappingGroup.Builder()
             .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
@@ -325,15 +341,25 @@ public class JavaStateGroups {
     public static final StateMappingGroup GRINDSTONE = new StateMappingGroup.Builder()
             .state("face", VanillaBlockStates.GRINDSTONE_ATTACHMENT_TYPE, JavaStateTypes.GRINDSTSTONE_ATTACHMENT_TYPE)
             .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
+            .defaultOutput(VanillaBlockStates.GRINDSTONE_ATTACHMENT_TYPE, GrindstoneAttachmentType.WALL)
             .build();
     public static final StateMappingGroup HALF = new StateMappingGroup.Builder()
             .state("half", VanillaBlockStates.HALF, JavaStateTypes.UPPER_LOWER_TO_HALF)
             .build();
-    public static final StateMappingGroup HANGING_SIGN = new StateMappingGroup.Builder()
-            .state("attached", VanillaBlockStates.ATTACHED, JavaStateTypes.BOOL)
-            .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
-            .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
-            .build();
+    public static final VersionedStateMappingGroup HANGING_SIGN = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("attached", VanillaBlockStates.ATTACHED, JavaStateTypes.BOOL)
+                    .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
+                    .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+                    .build())
+            // 26.1 changed the default rotation
+            .version(new Version(26, 1, 0), new StateMappingGroup.Builder()
+                    .state("attached", VanillaBlockStates.ATTACHED, JavaStateTypes.BOOL)
+                    .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
+                    .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.ROTATION, Rotation._8)
+                    .build()
+            ).build();
     public static final StateMappingGroup HOPPER = new StateMappingGroup.Builder()
             .state("enabled", VanillaBlockStates.ENABLED, JavaStateTypes.BOOL)
             .state("facing", VanillaBlockStates.FACING_HORIZONTAL_DOWN, JavaStateTypes.FACING_HORIZONTAL_DOWN)
@@ -341,6 +367,7 @@ public class JavaStateGroups {
     public static final VersionedStateMappingGroup JIGSAW = new VersionedStateMappingGroup.Builder()
             .defaults(new StateMappingGroup.Builder()
                     .state("facing", VanillaBlockStates.ORIENTATION, JavaStateTypes.FACING_TO_ORIENTATION)
+                    .defaultOutput(VanillaBlockStates.ORIENTATION, Orientation.UP_NORTH)
                     .build())
             // 1.16 added further directions introducing orientation
             .version(new Version(1, 16, 0), new StateMappingGroup.Builder()
@@ -376,6 +403,7 @@ public class JavaStateGroups {
             .defaults(new StateMappingGroup.Builder()
                     .state("distance", VanillaBlockStates.DISTANCE, JavaStateTypes.DISTANCE_6)
                     .state("persistent", VanillaBlockStates.PERSISTENT, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.DISTANCE, Distance._7)
                     .defaultOutput(VanillaBlockStates.WATERLOGGED, Bool.FALSE)
                     .defaultOutput(VanillaBlockStates.UPDATE, Bool.FALSE)
                     .build())
@@ -384,6 +412,7 @@ public class JavaStateGroups {
                     .state("distance", VanillaBlockStates.DISTANCE, JavaStateTypes.DISTANCE_6)
                     .state("persistent", VanillaBlockStates.PERSISTENT, JavaStateTypes.BOOL)
                     .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.DISTANCE, Distance._7)
                     .defaultOutput(VanillaBlockStates.UPDATE, Bool.FALSE)
                     .build()
             ).build();
@@ -396,10 +425,12 @@ public class JavaStateGroups {
             .state("facing", VanillaBlockStates.FACING_ALL, JavaStateTypes.FACING_ALL)
             .state("powered", VanillaBlockStates.POWERED, JavaStateTypes.BOOL)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.FACING_ALL, FacingDirection.UP)
             .build();
     public static final StateMappingGroup LIGHT_BLOCK = new StateMappingGroup.Builder()
             .state("level", VanillaBlockStates.LIGHT_LEVEL, JavaStateTypes.LIGHT_LEVEL)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.LIGHT_LEVEL, LightLevel._15)
             .build();
     public static final StateMappingGroup LIQUID = new StateMappingGroup.Builder()
             .state("level", VanillaBlockStates.LIQUID_LEVEL, JavaStateTypes.LIQUID_LEVEL)
@@ -423,6 +454,20 @@ public class JavaStateGroups {
     public static final StateMappingGroup MOVING_PISTON = new StateMappingGroup.Builder()
             .state("type", VanillaBlockStates.PISTON_TYPE, JavaStateTypes.PISTON_TYPE)
             .state("facing", VanillaBlockStates.FACING_ALL, JavaStateTypes.FACING_ALL)
+            .build();
+    public static final StateMappingGroup MUSHROOM_BLOCK = new StateMappingGroup.Builder()
+            .state("north", VanillaBlockStates.NORTH, JavaStateTypes.BOOL)
+            .state("east", VanillaBlockStates.EAST, JavaStateTypes.BOOL)
+            .state("south", VanillaBlockStates.SOUTH, JavaStateTypes.BOOL)
+            .state("west", VanillaBlockStates.WEST, JavaStateTypes.BOOL)
+            .state("up", VanillaBlockStates.UP, JavaStateTypes.BOOL)
+            .state("down", VanillaBlockStates.DOWN, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.NORTH, Bool.TRUE)
+            .defaultOutput(VanillaBlockStates.EAST, Bool.TRUE)
+            .defaultOutput(VanillaBlockStates.SOUTH, Bool.TRUE)
+            .defaultOutput(VanillaBlockStates.WEST, Bool.TRUE)
+            .defaultOutput(VanillaBlockStates.UP, Bool.TRUE)
+            .defaultOutput(VanillaBlockStates.DOWN, Bool.TRUE)
             .build();
     public static final StateMappingGroup NETHER_PORTAL = new StateMappingGroup.Builder()
             .state("axis", VanillaBlockStates.AXIS_HORIZONTAL, JavaStateTypes.AXIS_HORIZONTAL)
@@ -457,6 +502,7 @@ public class JavaStateGroups {
     public static final StateMappingGroup OBSERVER = new StateMappingGroup.Builder()
             .state("facing", VanillaBlockStates.FACING_ALL, JavaStateTypes.FACING_ALL)
             .state("powered", VanillaBlockStates.POWERED, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.FACING_ALL, FacingDirection.SOUTH)
             .build();
     public static final StateMappingGroup PALE_HANGING_MOSS = new StateMappingGroup.Builder()
             .state("tip", VanillaBlockStates.TIP, JavaStateTypes.BOOL)
@@ -467,6 +513,7 @@ public class JavaStateGroups {
             .state("south", VanillaBlockStates.WALL_SOUTH, JavaStateTypes.WALL_HEIGHT)
             .state("west", VanillaBlockStates.WALL_WEST, JavaStateTypes.WALL_HEIGHT)
             .state("bottom", VanillaBlockStates.BOTTOM, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.BOTTOM, Bool.TRUE)
             .build();
     public static final StateMappingGroup PINK_PETALS = new StateMappingGroup.Builder()
             .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
@@ -523,6 +570,11 @@ public class JavaStateGroups {
                     .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
                     .build()
             ).build();
+    public static final StateMappingGroup REDSTONE_WALL_TORCH = new StateMappingGroup.Builder()
+            .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
+            .state("lit", VanillaBlockStates.LIT, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.LIT, Bool.TRUE)
+            .build();
     public static final StateMappingGroup REDSTONE_WIRE = new StateMappingGroup.Builder()
             .state("power", VanillaBlockStates.POWER, JavaStateTypes.POWER)
             .state("north", VanillaBlockStates.REDSTONE_NORTH, JavaStateTypes.REDSTONE_CONNECTION)
@@ -539,9 +591,16 @@ public class JavaStateGroups {
     public static final StateMappingGroup RESPAWN_ANCHOR = new StateMappingGroup.Builder()
             .state("charges", VanillaBlockStates.RESPAWN_ANCHOR_CHARGES, JavaStateTypes.CHARGES)
             .build();
-    public static final StateMappingGroup ROTATION = new StateMappingGroup.Builder()
-            .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
-            .build();
+    public static final VersionedStateMappingGroup ROTATION = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
+                    .build())
+            // 26.1 changed the default rotation
+            .version(new Version(26, 1, 0), new StateMappingGroup.Builder()
+                    .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
+                    .defaultOutput(VanillaBlockStates.ROTATION, Rotation._8)
+                    .build()
+            ).build();
     public static final StateMappingGroup SAPLING = new StateMappingGroup.Builder()
             .state("stage", VanillaBlockStates.STAGE, JavaStateTypes.STAGE)
             .build();
@@ -549,6 +608,7 @@ public class JavaStateGroups {
             .state("bottom", VanillaBlockStates.BOTTOM, JavaStateTypes.BOOL)
             .state("distance", VanillaBlockStates.STABILITY_DISTANCE, JavaStateTypes.STABILITY_DISTANCE)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.STABILITY_DISTANCE, StabilityDistance._7)
             .build();
     public static final StateMappingGroup SCULK_CATALYST = new StateMappingGroup.Builder()
             .state("bloom", VanillaBlockStates.BLOOM, JavaStateTypes.BOOL)
@@ -568,6 +628,7 @@ public class JavaStateGroups {
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
             // In Java if the pickle is waterlogged it is not dead
             .state("waterlogged", VanillaBlockStates.DEAD, JavaStateTypes.INVERSE_BOOL)
+            .defaultOutput(VanillaBlockStates.WATERLOGGED, Bool.TRUE)
             .build();
     public static final StateMappingGroup SHELF = new StateMappingGroup.Builder()
             .state("powered", VanillaBlockStates.POWERED, JavaStateTypes.BOOL)
@@ -579,10 +640,18 @@ public class JavaStateGroups {
             .state("facing", VanillaBlockStates.FACING_HORIZONTAL, JavaStateTypes.FACING_HORIZONTAL)
             .state("age", VanillaBlockStates.AGE_1, JavaStateTypes.AGE_1)
             .build();
-    public static final VersionedStateMappingGroup SIGN = new StateMappingGroup.Builder()
-            .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
-            .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
-            .build();
+    public static final VersionedStateMappingGroup SIGN = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
+                    .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+                    .build())
+            // 26.1 changed the default rotation
+            .version(new Version(26, 1, 0), new StateMappingGroup.Builder()
+                    .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
+                    .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.ROTATION, Rotation._8)
+                    .build()
+            ).build();
     public static final VersionedStateMappingGroup SKULL = new VersionedStateMappingGroup.Builder()
             .defaults(new StateMappingGroup.Builder()
                     .state("rotation", VanillaBlockStates.ROTATION, JavaStateTypes.ROTATION)
@@ -623,9 +692,17 @@ public class JavaStateGroups {
             .state("shape", VanillaBlockStates.STAIR_SHAPE, JavaStateTypes.STAIR_SHAPE)
             .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
             .build();
-    public static final StateMappingGroup STRUCTURE_BLOCK = new StateMappingGroup.Builder()
-            .state("mode", VanillaBlockStates.STRUCTURE_BLOCK_MODE, JavaStateTypes.STRUCTURE_BLOCK_MODE)
-            .build();
+    public static final VersionedStateMappingGroup STRUCTURE_BLOCK = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("mode", VanillaBlockStates.STRUCTURE_BLOCK_MODE, JavaStateTypes.STRUCTURE_BLOCK_MODE)
+                    .defaultOutput(VanillaBlockStates.STRUCTURE_BLOCK_MODE, StructureBlockMode.SAVE)
+                    .build())
+            // 1.17 changed the default mode to load
+            .version(new Version(1, 17, 0), new StateMappingGroup.Builder()
+                    .state("mode", VanillaBlockStates.STRUCTURE_BLOCK_MODE, JavaStateTypes.STRUCTURE_BLOCK_MODE)
+                    .defaultOutput(VanillaBlockStates.STRUCTURE_BLOCK_MODE, StructureBlockMode.LOAD)
+                    .build()
+            ).build();
     public static final StateMappingGroup STRUCTURE_VOID = new StateMappingGroup.Builder()
             .defaultOutput(VanillaBlockStates.STRUCTURE_VOID_TYPE, StructureVoidType.VOID)
             .build();
@@ -716,6 +793,7 @@ public class JavaStateGroups {
                     .state("south", VanillaBlockStates.WALL_SOUTH, JavaStateTypes.BOOL_TO_WALL_HEIGHT)
                     .state("west", VanillaBlockStates.WALL_WEST, JavaStateTypes.BOOL_TO_WALL_HEIGHT)
                     .state("up", VanillaBlockStates.UP, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.UP, Bool.TRUE)
                     .build())
             // 1.16 added tall wall height (switching from a boolean)
             .version(new Version(1, 16, 0), new StateMappingGroup.Builder()
@@ -725,6 +803,7 @@ public class JavaStateGroups {
                     .state("south", VanillaBlockStates.WALL_SOUTH, JavaStateTypes.WALL_HEIGHT)
                     .state("west", VanillaBlockStates.WALL_WEST, JavaStateTypes.WALL_HEIGHT)
                     .state("up", VanillaBlockStates.UP, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.UP, Bool.TRUE)
                     .build()
             ).build();
     public static final StateMappingGroup WALL_HANGING_SIGN = new StateMappingGroup.Builder()

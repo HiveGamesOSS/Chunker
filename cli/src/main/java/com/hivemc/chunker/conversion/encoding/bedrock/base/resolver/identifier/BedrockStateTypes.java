@@ -318,6 +318,13 @@ public class BedrockStateTypes {
             .mapping(0, CoralFanDirection.EAST_WEST)
             .mapping(1, CoralFanDirection.NORTH_SOUTH)
             .build();
+    public static final TypeMapping<String, StairShape> CORNER = new TypeMapping.Builder<String, StairShape>()
+            .mapping("none", StairShape.STRAIGHT)
+            .mapping("inner_left", StairShape.INNER_LEFT)
+            .mapping("inner_right", StairShape.INNER_RIGHT)
+            .mapping("outer_left", StairShape.OUTER_LEFT)
+            .mapping("outer_right", StairShape.OUTER_RIGHT)
+            .build();
     public static final TypeMapping<Boolean, Creaking> CREAKING_BOOL = new TypeMapping.Builder<Boolean, Creaking>()
             .mapping(false, Creaking.DORMANT)
             .mapping(false, Creaking.DISABLED)

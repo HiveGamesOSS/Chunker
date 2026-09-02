@@ -14,6 +14,26 @@ public class SignBlockEntity extends BlockEntity {
     private final SignFace front = new SignFace();
     private final SignFace back = new SignFace();
     private boolean waxed;
+    private boolean allowOpFeatures = true;
+
+    /**
+     * Whether the click events in the sign text are run when the sign is clicked. Signs made before 26.3 always allowed
+     * them, so it defaults to true.
+     *
+     * @return true if the click events can be run.
+     */
+    public boolean isAllowOpFeatures() {
+        return allowOpFeatures;
+    }
+
+    /**
+     * Set whether the click events in the sign text are run when the sign is clicked.
+     *
+     * @param allowOpFeatures true if the click events can be run.
+     */
+    public void setAllowOpFeatures(boolean allowOpFeatures) {
+        this.allowOpFeatures = allowOpFeatures;
+    }
 
     /**
      * Whether the sign is sealed from editing.
@@ -56,12 +76,12 @@ public class SignBlockEntity extends BlockEntity {
         if (this == o) return true;
         if (!(o instanceof SignBlockEntity that)) return false;
         if (!super.equals(o)) return false;
-        return isWaxed() == that.isWaxed() && Objects.equals(getFront(), that.getFront()) && Objects.equals(getBack(), that.getBack());
+        return isWaxed() == that.isWaxed() && isAllowOpFeatures() == that.isAllowOpFeatures() && Objects.equals(getFront(), that.getFront()) && Objects.equals(getBack(), that.getBack());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), isWaxed(), getFront(), getBack());
+        return Objects.hash(super.hashCode(), isWaxed(), isAllowOpFeatures(), getFront(), getBack());
     }
 
     /**

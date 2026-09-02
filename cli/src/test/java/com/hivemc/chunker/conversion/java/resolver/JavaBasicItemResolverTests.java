@@ -24,6 +24,8 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.enchant
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworkExplosion;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworkShape;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworks;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerExplorerMap;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerMapDecoration;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerEffectType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerPotionType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.stew.ChunkerStewEffect;
@@ -62,9 +64,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JavaBasicItemResolverTests {
     public static final Map<ChunkerItemProperty<?>, Object> DEFAULTS = Map.of(ChunkerItemProperty.AMOUNT, 1);
     public static final Set<ChunkerItemProperty<?>> SKIPPED_PROPERTIES = Set.of(
-            ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER
+            ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER,
+            ChunkerItemProperty.EXPLORER_MAP // Inferred from the map decoration
     );
     public static final Map<Class<? extends Enum<?>>, Set<?>> UNSUPPORTED_ENUMS = Map.of(
+            ChunkerExplorerMap.class, Set.of(
+                    ChunkerExplorerMap.ABANDONED_CAMP,
+                    ChunkerExplorerMap.BURIED_ANCIENT_CITY,
+                    ChunkerExplorerMap.BURIED_MINESHAFT,
+                    ChunkerExplorerMap.BURIED_TRIAL_CHAMBERS,
+                    ChunkerExplorerMap.DESERT_PYRAMID,
+                    ChunkerExplorerMap.WARM_OCEAN_RUINS
+            ),
             ChunkerVanillaEntityType.class, Set.of(
                     ChunkerVanillaEntityType.ELDER_GUARDIAN_GHOST,
                     ChunkerVanillaEntityType.LINGERING_POTION,
@@ -305,6 +316,10 @@ public class JavaBasicItemResolverTests {
                     paintingEntity,
                     paintingEntity2
             };
+        } else if (asClass.equals(ChunkerMapDecoration.class)) {
+            return (T[]) Stream.of(generatePropertyValues(ChunkerExplorerMap.class, property))
+                    .map(a -> new ChunkerMapDecoration((ChunkerExplorerMap) a, 12.5D, -34.5D, 180F))
+                    .toArray(ChunkerMapDecoration[]::new);
         } else if (asClass.equals(ChunkerStewEffect.class)) {
             return (T[]) Stream.of(generatePropertyValues(ChunkerEffectType.class, property))
                     .filter(a -> a != ChunkerEffectType.EMPTY)

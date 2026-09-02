@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.DynamicContainer.dynamicContainer;
@@ -97,6 +98,8 @@ public class BedrockItemIdentifierValidationTests {
             "minecraft:compound",
             "minecraft:ice_bomb",
             "minecraft:medicine",
+            "minecraft:photo_item",
+            "minecraft:portfolio",
             "minecraft:rapid_fertilizer",
             "minecraft:sparkler"
     );
@@ -108,29 +111,30 @@ public class BedrockItemIdentifierValidationTests {
         directories.sort(Comparator.comparing((File a) -> Version.fromString(a.getName())));
 
         return directories.stream().<DynamicNode>map(dataDirectory -> {
-            Version version = Version.fromString(dataDirectory.getName());
+            String versionName = dataDirectory.getName();
+            Version version = Version.fromString(versionName);
 
             File itemList = new File(dataDirectory, "item_names.json");
 
             // Create the test class
             VersionTest versionTest = new VersionTest(version, itemList);
             Set<String> items = versionTest.items();
-            return dynamicContainer("Bedrock " + dataDirectory.getName(), Stream.of(
-                    dynamicContainer("Bedrock identifiers map to a Chunker output", items
-                            .stream()
-                            .map(input -> dynamicTest(input, () -> versionTest.checkInputIdentifierMapped(new Identifier(input))))
+            return dynamicContainer("Bedrock " + versionName, Stream.of(
+                    dynamicTest("Bedrock " + versionName + " identifiers map to a Chunker output",
+                            () -> assertAll(items.stream().map(input -> () -> versionTest.checkInputIdentifierMapped(new Identifier(input))))
                     ),
-                    dynamicContainer("Bedrock identifiers are lossless (Bedrock -> Chunker -> Bedrock)", items
-                            .stream()
-                            .map(input -> dynamicTest(input, () -> versionTest.checkInputIdentifierSymmetry(new Identifier(input))))
+                    dynamicTest("Bedrock " + versionName + " identifiers are lossless (Bedrock -> Chunker -> Bedrock)",
+                            () -> assertAll(items.stream().map(input -> () -> versionTest.checkInputIdentifierSymmetry(new Identifier(input))))
                     ),
-                    dynamicContainer("Chunker identifiers maps to a Bedrock input", Stream.of(ChunkerVanillaItemType.values())
-                            .filter(versionTest::isSupported)
-                            .map(input -> dynamicTest(input.name(), () -> versionTest.checkOutputIdentifierMapped(new ChunkerItemStack(input))))
+                    dynamicTest("Chunker identifiers maps to a Bedrock " + versionName + " input",
+                            () -> assertAll(Stream.of(ChunkerVanillaItemType.values())
+                                    .filter(versionTest::isSupported)
+                                    .map(input -> () -> versionTest.checkOutputIdentifierMapped(new ChunkerItemStack(input))))
                     ),
-                    dynamicContainer("Chunker identifiers maps to a valid Bedrock input", Stream.of(ChunkerVanillaItemType.values())
-                            .filter(versionTest::isSupported)
-                            .map(input -> dynamicTest(input.name(), () -> versionTest.checkOutputIdentifierValid(new ChunkerItemStack(input))))
+                    dynamicTest("Chunker identifiers maps to a valid Bedrock " + versionName + " input",
+                            () -> assertAll(Stream.of(ChunkerVanillaItemType.values())
+                                    .filter(versionTest::isSupported)
+                                    .map(input -> () -> versionTest.checkOutputIdentifierValid(new ChunkerItemStack(input))))
                     )
             ));
         }).filter(Objects::nonNull);

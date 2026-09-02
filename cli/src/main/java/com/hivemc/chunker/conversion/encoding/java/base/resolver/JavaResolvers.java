@@ -12,6 +12,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.Chunker
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.banner.ChunkerBannerPattern;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.enchantment.ChunkerEnchantmentType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.horn.ChunkerHornInstrument;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerExplorerMap;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerEffectType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerPotionType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimMaterial;
@@ -313,6 +314,20 @@ public interface JavaResolvers {
      * @return a resolver from integer IDs to enchantment types.
      */
     Resolver<Integer, ChunkerEnchantmentType> enchantmentIDResolver();
+
+    /**
+     * Get the resolver which can turn decoration types into the structure a filled map was made for.
+     *
+     * @return a resolver from decoration types to explorer maps.
+     */
+    Resolver<String, ChunkerExplorerMap> mapDecorationResolver();
+
+    /**
+     * Get the resolver which can turn decoration type indexes into the structure a filled map was made for.
+     *
+     * @return a resolver from decoration type indexes to explorer maps.
+     */
+    Resolver<Integer, ChunkerExplorerMap> mapDecorationIDResolver();
 
     /**
      * Get the resolver used for armor trim patterns.

@@ -112,13 +112,6 @@ public class JavaLegacyReaderPreTransformManager extends PreTransformManager {
             }
         }, ChunkerVanillaBlockGroups.BARS_AND_GLASS_PANES);
 
-        // Trip Wire handler
-        registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
-            public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
-                return relative.getType().equals(source.getType()) || relative.getType().equals(ChunkerVanillaBlockType.TRIPWIRE_HOOK);
-            }
-        }, ChunkerVanillaBlockType.TRIPWIRE);
-
         // Chorus Plant handler
         registerHandler(new ConnectableBlockPreTransformHandler() {
             public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {

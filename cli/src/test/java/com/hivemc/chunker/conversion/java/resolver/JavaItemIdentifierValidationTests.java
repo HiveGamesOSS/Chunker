@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.DynamicContainer.dynamicContainer;
@@ -42,7 +43,8 @@ public class JavaItemIdentifierValidationTests {
         directories.sort(Comparator.comparing((File a) -> Version.fromString(a.getName())));
 
         return directories.stream().<DynamicNode>map(dataDirectory -> {
-            Version version = Version.fromString(dataDirectory.getName());
+            String versionName = dataDirectory.getName();
+            Version version = Version.fromString(versionName);
 
             File blockStates = new File(dataDirectory, "blocks.json");
             File itemList = new File(dataDirectory, "items.json");
@@ -50,22 +52,22 @@ public class JavaItemIdentifierValidationTests {
             // Create the test class
             VersionTest versionTest = new VersionTest(version, blockStates, itemList);
             Set<String> items = versionTest.items();
-            return dynamicContainer("Java " + dataDirectory.getName(), Stream.of(
-                    dynamicContainer("Java identifiers map to a Chunker output", items
-                            .stream()
-                            .map(input -> dynamicTest(input, () -> versionTest.checkInputIdentifierMapped(new Identifier(input))))
+            return dynamicContainer("Java " + versionName, Stream.of(
+                    dynamicTest("Java " + versionName + " identifiers map to a Chunker output",
+                            () -> assertAll(items.stream().map(input -> () -> versionTest.checkInputIdentifierMapped(new Identifier(input))))
                     ),
-                    dynamicContainer("Java identifiers are lossless (Java -> Chunker -> Java)", items
-                            .stream()
-                            .map(input -> dynamicTest(input, () -> versionTest.checkInputIdentifierSymmetry(new Identifier(input))))
+                    dynamicTest("Java " + versionName + " identifiers are lossless (Java -> Chunker -> Java)",
+                            () -> assertAll(items.stream().map(input -> () -> versionTest.checkInputIdentifierSymmetry(new Identifier(input))))
                     ),
-                    dynamicContainer("Chunker identifiers maps to a Java input", Stream.of(ChunkerVanillaItemType.values())
-                            .filter(versionTest::isSupported)
-                            .map(input -> dynamicTest(input.name(), () -> versionTest.checkOutputIdentifierMapped(new ChunkerItemStack(input))))
+                    dynamicTest("Chunker identifiers maps to a Java " + versionName + " input",
+                            () -> assertAll(Stream.of(ChunkerVanillaItemType.values())
+                                    .filter(versionTest::isSupported)
+                                    .map(input -> () -> versionTest.checkOutputIdentifierMapped(new ChunkerItemStack(input))))
                     ),
-                    dynamicContainer("Chunker identifiers maps to a valid Java input", Stream.of(ChunkerVanillaItemType.values())
-                            .filter(versionTest::isSupported)
-                            .map(input -> dynamicTest(input.name(), () -> versionTest.checkOutputIdentifierValid(new ChunkerItemStack(input))))
+                    dynamicTest("Chunker identifiers maps to a valid Java " + versionName + " input",
+                            () -> assertAll(Stream.of(ChunkerVanillaItemType.values())
+                                    .filter(versionTest::isSupported)
+                                    .map(input -> () -> versionTest.checkOutputIdentifierValid(new ChunkerItemStack(input))))
                     )
             ));
         }).filter(Objects::nonNull);

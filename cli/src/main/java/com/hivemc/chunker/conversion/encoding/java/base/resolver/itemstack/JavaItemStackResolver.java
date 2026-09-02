@@ -18,6 +18,8 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firewor
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworkShape;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworks;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.horn.ChunkerHornInstrument;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerExplorerMap;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerMapDecoration;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerEffectType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerPotionType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.stew.ChunkerStewEffect;
@@ -289,6 +291,51 @@ public class JavaItemStackResolver extends ItemStackResolver<JavaResolvers, Comp
                 // Finally add the tag
                 String name = state.key().getIdentifier().getItemStackType() == ChunkerVanillaItemType.ENCHANTED_BOOK ? "StoredEnchantments" : "Enchantments";
                 state.value().getOrCreateCompound("tag").put(name, enchantments);
+            }
+        });
+
+        // The decoration which points at the structure the map was made for is named +
+        registerContextualHandler(ChunkerItemProperty.MAP_DECORATION, new PropertyHandler<>() {
+            @Override
+            public Optional<ChunkerMapDecoration> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
+                CompoundTag tag = state.value().getCompound("tag");
+                if (tag == null) return Optional.empty();
+
+                ListTag<CompoundTag, Map<String, Tag<?>>> decorations = tag.getList("Decorations", CompoundTag.class, null);
+                if (decorations == null) return Optional.empty();
+
+                for (CompoundTag decoration : decorations) {
+                    if (!"+".equals(decoration.getString("id", null))) continue;
+
+                    Optional<ChunkerExplorerMap> structure = resolvers.mapDecorationIDResolver().to((int) decoration.getByte("type", (byte) -1));
+                    if (structure.isEmpty()) return Optional.empty();
+
+                    // The decoration is the only thing which says which explorer map it is
+                    state.key().put(ChunkerItemProperty.EXPLORER_MAP, structure.get());
+
+                    return Optional.of(new ChunkerMapDecoration(
+                            structure.get(),
+                            decoration.getDouble("x", 0),
+                            decoration.getDouble("z", 0),
+                            (float) decoration.getDouble("rot", 0)
+                    ));
+                }
+                return Optional.empty();
+            }
+
+            @Override
+            public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerMapDecoration mapDecoration) {
+                Optional<Integer> type = resolvers.mapDecorationIDResolver().from(mapDecoration.structure());
+                if (type.isEmpty()) return; // The structure doesn't have a decoration on this version
+
+                CompoundTag decoration = new CompoundTag(5);
+                decoration.put("id", "+");
+                decoration.put("type", (byte) (int) type.get());
+                decoration.put("x", mapDecoration.x());
+                decoration.put("z", mapDecoration.z());
+                decoration.put("rot", (double) mapDecoration.rotation());
+
+                state.value().getOrCreateCompound("tag").put("Decorations", new ListTag<>(List.of(decoration)));
             }
         });
 

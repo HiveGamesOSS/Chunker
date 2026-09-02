@@ -553,72 +553,57 @@ public class BedrockBlockIdentifierValidationTests {
         directories.sort(Comparator.comparing((File a) -> Version.fromString(a.getName())));
 
         return directories.stream().<DynamicNode>map(dataDirectory -> {
-            Version version = Version.fromString(dataDirectory.getName());
+            String versionName = dataDirectory.getName();
+            Version version = Version.fromString(versionName);
             File blockStates = new File(dataDirectory, "block_states.json");
             // Create the test class
             VersionTest versionTest = new VersionTest(version, blockStates);
             Map<String, Set<Map<String, StateValue<?>>>> blocks = versionTest.blocks();
-            return dynamicContainer("Bedrock " + dataDirectory.getName(), Stream.of(
-                    dynamicContainer("Bedrock identifiers map to a Chunker output", blocks
-                            .entrySet()
-                            .stream()
-                            .map(input -> dynamicTest(input.getKey(),
-                                    () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
-                                        Identifier identifier = new Identifier(input.getKey(), values);
-                                        return () -> versionTest.checkInputIdentifierMapped(identifier);
-                                    }))
-                            ))
+            return dynamicContainer("Bedrock " + versionName, Stream.of(
+                    dynamicTest("Bedrock " + versionName + " identifiers map to a Chunker output",
+                            () -> assertAll(blocks.entrySet().stream().map(input -> () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
+                                Identifier identifier = new Identifier(input.getKey(), values);
+                                return () -> versionTest.checkInputIdentifierMapped(identifier);
+                            }))))
                     ),
-                    dynamicContainer("Bedrock to Chunker produces valid output (all states present)", blocks
-                            .entrySet()
-                            .stream()
-                            .map(input -> dynamicTest(input.getKey(),
-                                    () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
-                                        Identifier identifier = new Identifier(input.getKey(), values);
-                                        return () -> versionTest.checkIdentifierOutputStates(identifier);
-                                    }))
-                            ))
+                    dynamicTest("Bedrock " + versionName + " to Chunker produces valid output (all states present)",
+                            () -> assertAll(blocks.entrySet().stream().map(input -> () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
+                                Identifier identifier = new Identifier(input.getKey(), values);
+                                return () -> versionTest.checkIdentifierOutputStates(identifier);
+                            }))))
                     ),
-                    dynamicContainer("Bedrock identifiers are lossless (Bedrock -> Chunker -> Bedrock)", blocks
-                            .entrySet()
-                            .stream()
-                            .map(input -> dynamicTest(input.getKey(),
-                                    () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
-                                        Identifier identifier = new Identifier(input.getKey(), values);
-                                        return () -> versionTest.checkInputIdentifierSymmetry(identifier);
-                                    }))
-                            ))
+                    dynamicTest("Bedrock " + versionName + " identifiers are lossless (Bedrock -> Chunker -> Bedrock)",
+                            () -> assertAll(blocks.entrySet().stream().map(input -> () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
+                                Identifier identifier = new Identifier(input.getKey(), values);
+                                return () -> versionTest.checkInputIdentifierSymmetry(identifier);
+                            }))))
                     ),
-                    dynamicContainer("Chunker identifiers maps to a Bedrock input", Stream.of(ChunkerVanillaBlockType.values())
-                            .filter(versionTest::isSupported)
-                            .map(input -> dynamicTest(input.name(),
-                                    () -> assertAll(input.name(),
-                                            Lists.cartesianProduct(input.getStates().stream()
-                                                            .map(a -> List.of(a.getValues())).collect(Collectors.toList()))
-                                                    .stream()
-                                                    .map(a -> Streams.zip(input.getStates().stream(), a.stream(), Maps::immutableEntry).collect(Collectors.toMap(
-                                                            Map.Entry::getKey, Map.Entry::getValue
-                                                    )))
-                                                    .map((states) -> {
-                                                        ChunkerBlockIdentifier identifier = new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states);
-                                                        return () -> versionTest.checkOutputIdentifierMapped(identifier);
-                                                    }))
-                            ))
+                    dynamicTest("Chunker identifiers maps to a Bedrock " + versionName + " input",
+                            () -> assertAll(Stream.of(ChunkerVanillaBlockType.values())
+                                    .filter(versionTest::isSupported)
+                                    .map(input -> () -> assertAll(input.name(), Lists.cartesianProduct(input.getStates().stream()
+                                                    .map(a -> List.of(a.getValues())).collect(Collectors.toList()))
+                                            .stream()
+                                            .map(a -> Streams.zip(input.getStates().stream(), a.stream(), Maps::immutableEntry).collect(Collectors.toMap(
+                                                    Map.Entry::getKey, Map.Entry::getValue
+                                            )))
+                                            .map((states) -> {
+                                                ChunkerBlockIdentifier identifier = new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states);
+                                                return () -> versionTest.checkOutputIdentifierMapped(identifier);
+                                            }))))
                     ),
-                    dynamicContainer("Chunker to Bedrock produces valid output (all states present)", Stream.of(ChunkerVanillaBlockType.values())
-                            .map(input -> dynamicTest(input.name(),
-                                    () -> assertAll(input.name(),
-                                            Lists.cartesianProduct(input.getStates().stream()
-                                                            .map(a -> List.of(a.getValues())).collect(Collectors.toList()))
-                                                    .stream()
-                                                    .map(a -> Streams.zip(input.getStates().stream(), a.stream(), Maps::immutableEntry).collect(Collectors.toMap(
-                                                            Map.Entry::getKey, Map.Entry::getValue
-                                                    )))
-                                                    .map((states) -> {
-                                                        ChunkerBlockIdentifier identifier = new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states);
-                                                        return () -> versionTest.checkIdentifierInputStates(blocks, identifier);
-                                                    }))
-                            ))
+                    dynamicTest("Chunker to Bedrock " + versionName + " produces valid output (all states present)",
+                            () -> assertAll(Stream.of(ChunkerVanillaBlockType.values())
+                                    .map(input -> () -> assertAll(input.name(), Lists.cartesianProduct(input.getStates().stream()
+                                                    .map(a -> List.of(a.getValues())).collect(Collectors.toList()))
+                                            .stream()
+                                            .map(a -> Streams.zip(input.getStates().stream(), a.stream(), Maps::immutableEntry).collect(Collectors.toMap(
+                                                    Map.Entry::getKey, Map.Entry::getValue
+                                            )))
+                                            .map((states) -> {
+                                                ChunkerBlockIdentifier identifier = new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states);
+                                                return () -> versionTest.checkIdentifierInputStates(blocks, identifier);
+                                            }))))
                     )
             ));
         }).filter(Objects::nonNull);
@@ -734,7 +719,7 @@ public class BedrockBlockIdentifierValidationTests {
                 ChunkerBlockIdentifier outputIdentifier = output.get();
 
                 // Ensure it's a vanilla block
-                assertInstanceOf(ChunkerVanillaBlockType.class, outputIdentifier.getType());
+                assertInstanceOf(ChunkerVanillaBlockType.class, outputIdentifier.getType(), () -> "Non-vanilla output for input " + input);
 
                 // Ensure all states are present
                 ChunkerVanillaBlockType vanillaBlockType = (ChunkerVanillaBlockType) outputIdentifier.getType();

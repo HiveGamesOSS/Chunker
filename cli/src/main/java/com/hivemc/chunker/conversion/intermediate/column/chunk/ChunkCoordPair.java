@@ -14,7 +14,7 @@ public record ChunkCoordPair(int chunkX, int chunkZ) {
      * @return a 10-bit index.
      */
     public int to10BitIndex() {
-        return ((chunkX & 31) << 4) | (chunkZ & 31);
+        return ((chunkX & 31) << 5) | (chunkZ & 31);
     }
 
     /**

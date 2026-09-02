@@ -25,6 +25,11 @@ public class JavaSignBlockEntityHandler extends BlockEntityHandler<JavaResolvers
     public void read(@NotNull JavaResolvers resolvers, @NotNull CompoundTag input, @NotNull SignBlockEntity value) {
         value.setWaxed(input.getByte("is_waxed", (byte) 0) == (byte) 1);
 
+        // 26.3 made the click events in the sign text opt-in, older signs always allowed them
+        if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(26, 3, 0)) {
+            value.setAllowOpFeatures(input.getByte("allow_op_features", (byte) 0) == (byte) 1);
+        }
+
         // Use FrontText for the front face, otherwise default to the root
         readSignFace(input.getCompound("front_text", input), value.getFront());
 
@@ -76,6 +81,11 @@ public class JavaSignBlockEntityHandler extends BlockEntityHandler<JavaResolvers
     public void write(@NotNull JavaResolvers resolvers, @NotNull CompoundTag output, @NotNull SignBlockEntity value) {
         if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 20, 0)) {
             output.put("is_waxed", value.isWaxed() ? (byte) 1 : (byte) 0);
+
+            // 26.3 made the click events in the sign text opt-in
+            if (resolvers.dataVersion().getVersion().isGreaterThanOrEqual(26, 3, 0)) {
+                output.put("allow_op_features", value.isAllowOpFeatures() ? (byte) 1 : (byte) 0);
+            }
 
             // Write faces
             writeSignFace(resolvers, output.getOrCreateCompound("front_text"), value.getFront());

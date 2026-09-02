@@ -8,7 +8,7 @@ import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
 
 import java.io.File;
 
-public class LevelWriter extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_110.writer.LevelWriter {
+public class LevelWriter extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_120.writer.LevelWriter {
     public LevelWriter(File outputFolder, Version version, Converter converter) {
         super(outputFolder, version, converter);
     }

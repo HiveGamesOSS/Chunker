@@ -41,6 +41,13 @@ public class JavaBlockIdentifierValidationTests {
     public static final Set<String> UNSUPPORTED_BLOCKS = ImmutableSet.of(
             // Debug/Technical blocks
     );
+    /**
+     * Identifiers which use a state to pick the block type, so they can't be resolved without their states.
+     */
+    public static final Set<String> AMBIGUOUS_WITHOUT_STATES = ImmutableSet.of(
+            // Before 1.17 the level was used to indicate whether the cauldron held water
+            "minecraft:cauldron"
+    );
     private static final Gson gson = new Gson();
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -50,73 +57,64 @@ public class JavaBlockIdentifierValidationTests {
         directories.sort(Comparator.comparing((File a) -> Version.fromString(a.getName())));
 
         return directories.stream().<DynamicNode>map(dataDirectory -> {
-            Version version = Version.fromString(dataDirectory.getName());
+            String versionName = dataDirectory.getName();
+            Version version = Version.fromString(versionName);
 
             File blockStates = new File(dataDirectory, "blocks.json");
             // Create the test class
             VersionTest versionTest = new VersionTest(version, blockStates);
             Map<String, Set<Map<String, StateValue<?>>>> blocks = versionTest.blocks();
-            return dynamicContainer("Java " + dataDirectory.getName(), Stream.of(
-                    dynamicContainer("Java identifiers map to a Chunker output", blocks
-                            .entrySet()
-                            .stream()
-                            .map(input -> dynamicTest(input.getKey(),
-                                    () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
-                                        Identifier identifier = new Identifier(input.getKey(), values);
-                                        return () -> versionTest.checkInputIdentifierMapped(identifier);
-                                    }))
-                            ))
+            return dynamicContainer("Java " + versionName, Stream.of(
+                    dynamicTest("Java " + versionName + " identifiers map to a Chunker output",
+                            () -> assertAll(blocks.entrySet().stream().map(input -> () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
+                                Identifier identifier = new Identifier(input.getKey(), values);
+                                return () -> versionTest.checkInputIdentifierMapped(identifier);
+                            }))))
                     ),
-                    dynamicContainer("Java to Chunker produces valid output (all states present)", blocks
-                            .entrySet()
-                            .stream()
-                            .map(input -> dynamicTest(input.getKey(),
-                                    () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
-                                        Identifier identifier = new Identifier(input.getKey(), values);
-                                        return () -> versionTest.checkIdentifierOutputStates(identifier);
-                                    }))
-                            ))
+                    dynamicTest("Java " + versionName + " to Chunker produces valid output (all states present)",
+                            () -> assertAll(blocks.entrySet().stream().map(input -> () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
+                                Identifier identifier = new Identifier(input.getKey(), values);
+                                return () -> versionTest.checkIdentifierOutputStates(identifier);
+                            }))))
                     ),
-                    dynamicContainer("Java identifiers are lossless (Java -> Chunker -> Java)", blocks
-                            .entrySet()
-                            .stream()
-                            .map(input -> dynamicTest(input.getKey(),
-                                    () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
-                                        Identifier identifier = new Identifier(input.getKey(), values);
-                                        return () -> versionTest.checkInputIdentifierSymmetry(identifier);
-                                    }))
-                            ))
+                    dynamicTest("Java " + versionName + " default states are used when an identifier has no states",
+                            () -> assertAll(versionTest.defaultStates()
+                                    .entrySet()
+                                    .stream()
+                                    .map(input -> () -> versionTest.checkDefaultStates(input.getKey(), input.getValue())))
                     ),
-                    dynamicContainer("Chunker identifiers maps to a Java input", Stream.of(ChunkerVanillaBlockType.values())
-                            .filter(versionTest::isSupported)
-                            .map(input -> dynamicTest(input.name(),
-                                    () -> assertAll(input.name(),
-                                            Lists.cartesianProduct(input.getStates().stream()
-                                                            .map(a -> List.of(a.getValues())).collect(Collectors.toList()))
-                                                    .stream()
-                                                    .map(a -> Streams.zip(input.getStates().stream(), a.stream(), Maps::immutableEntry).collect(Collectors.toMap(
-                                                            Map.Entry::getKey, Map.Entry::getValue
-                                                    )))
-                                                    .map((states) -> {
-                                                        ChunkerBlockIdentifier identifier = new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states);
-                                                        return () -> versionTest.checkOutputIdentifierMapped(blocks, identifier);
-                                                    }))
-                            ))
+                    dynamicTest("Java " + versionName + " identifiers are lossless (Java -> Chunker -> Java)",
+                            () -> assertAll(blocks.entrySet().stream().map(input -> () -> assertAll(input.getKey(), input.getValue().stream().map((values) -> {
+                                Identifier identifier = new Identifier(input.getKey(), values);
+                                return () -> versionTest.checkInputIdentifierSymmetry(identifier);
+                            }))))
                     ),
-                    dynamicContainer("Chunker to Java produces valid output (all states present)", Stream.of(ChunkerVanillaBlockType.values())
-                            .map(input -> dynamicTest(input.name(),
-                                    () -> assertAll(input.name(),
-                                            Lists.cartesianProduct(input.getStates().stream()
-                                                            .map(a -> List.of(a.getValues())).collect(Collectors.toList()))
-                                                    .stream()
-                                                    .map(a -> Streams.zip(input.getStates().stream(), a.stream(), Maps::immutableEntry).collect(Collectors.toMap(
-                                                            Map.Entry::getKey, Map.Entry::getValue
-                                                    )))
-                                                    .map((states) -> {
-                                                        ChunkerBlockIdentifier identifier = new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states);
-                                                        return () -> versionTest.checkIdentifierInputStates(blocks, identifier);
-                                                    }))
-                            ))
+                    dynamicTest("Chunker identifiers maps to a Java " + versionName + " input",
+                            () -> assertAll(Stream.of(ChunkerVanillaBlockType.values())
+                                    .filter(versionTest::isSupported)
+                                    .map(input -> () -> assertAll(input.name(), Lists.cartesianProduct(input.getStates().stream()
+                                                    .map(a -> List.of(a.getValues())).collect(Collectors.toList()))
+                                            .stream()
+                                            .map(a -> Streams.zip(input.getStates().stream(), a.stream(), Maps::immutableEntry).collect(Collectors.toMap(
+                                                    Map.Entry::getKey, Map.Entry::getValue
+                                            )))
+                                            .map((states) -> {
+                                                ChunkerBlockIdentifier identifier = new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states);
+                                                return () -> versionTest.checkOutputIdentifierMapped(blocks, identifier);
+                                            }))))
+                    ),
+                    dynamicTest("Chunker to Java " + versionName + " produces valid output (all states present)",
+                            () -> assertAll(Stream.of(ChunkerVanillaBlockType.values())
+                                    .map(input -> () -> assertAll(input.name(), Lists.cartesianProduct(input.getStates().stream()
+                                                    .map(a -> List.of(a.getValues())).collect(Collectors.toList()))
+                                            .stream()
+                                            .map(a -> Streams.zip(input.getStates().stream(), a.stream(), Maps::immutableEntry).collect(Collectors.toMap(
+                                                    Map.Entry::getKey, Map.Entry::getValue
+                                            )))
+                                            .map((states) -> {
+                                                ChunkerBlockIdentifier identifier = new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states);
+                                                return () -> versionTest.checkIdentifierInputStates(blocks, identifier);
+                                            }))))
                     )
             ));
         }).filter(Objects::nonNull);
@@ -158,6 +156,49 @@ public class JavaBlockIdentifierValidationTests {
                 }
             }
             return blocks;
+        }
+
+        public Map<String, Map<String, StateValue<?>>> defaultStates() {
+            Map<String, Map<String, StateValue<?>>> defaultStates = new TreeMap<>();
+            for (Map.Entry<String, JsonElement> entry : this.blocks.entrySet()) {
+                JsonObject block = entry.getValue().getAsJsonObject();
+                for (JsonElement element : block.getAsJsonArray("states")) {
+                    JsonObject blockState = element.getAsJsonObject();
+                    if (!blockState.has("default") || !blockState.get("default").getAsBoolean()) continue;
+
+                    // Create a map of the states
+                    Map<String, StateValue<?>> stateMap = new Object2ObjectOpenHashMap<>();
+                    if (blockState.has("properties")) {
+                        for (Map.Entry<String, JsonElement> propertyEntry : blockState.get("properties").getAsJsonObject().entrySet()) {
+                            stateMap.put(propertyEntry.getKey(), new StateValueString(propertyEntry.getValue().getAsString()));
+                        }
+                    }
+                    defaultStates.put(entry.getKey(), stateMap);
+                }
+            }
+            return defaultStates;
+        }
+
+        public void checkDefaultStates(String identifier, Map<String, StateValue<?>> defaultStates) {
+            if (UNSUPPORTED_BLOCKS.contains(identifier) || AMBIGUOUS_WITHOUT_STATES.contains(identifier)) return;
+
+            // An identifier without states uses the default state, so both should produce the same block
+            Optional<ChunkerBlockIdentifier> expected = resolver.to(new Identifier(identifier, defaultStates));
+            Optional<ChunkerBlockIdentifier> actual = resolver.to(new Identifier(identifier, Collections.emptyMap()));
+            assertEquals(expected.isPresent(), actual.isPresent(), () -> identifier + " is not mapped without states.");
+            if (expected.isEmpty()) return;
+
+            ChunkerBlockIdentifier expectedIdentifier = expected.get();
+            ChunkerBlockIdentifier actualIdentifier = actual.get();
+            assertEquals(expectedIdentifier.getType(), actualIdentifier.getType(), () -> identifier + " produces a different type without states.");
+            if (!(expectedIdentifier.getType() instanceof ChunkerVanillaBlockType vanillaBlockType)) return;
+
+            // Ensure each state is using the default
+            assertAll(identifier, vanillaBlockType.getStates().stream().map((state) -> () -> assertEquals(
+                    expectedIdentifier.getState(state),
+                    actualIdentifier.getState(state),
+                    () -> "Wrong default for " + state.getName() + " on " + identifier
+            )));
         }
 
         public void checkInputIdentifierMapped(Identifier input) {
@@ -213,7 +254,7 @@ public class JavaBlockIdentifierValidationTests {
                 ChunkerBlockIdentifier outputIdentifier = output.get();
 
                 // Ensure it's a vanilla block
-                assertInstanceOf(ChunkerVanillaBlockType.class, outputIdentifier.getType());
+                assertInstanceOf(ChunkerVanillaBlockType.class, outputIdentifier.getType(), () -> "Non-vanilla output for input " + input);
 
                 // Ensure all states are present
                 ChunkerVanillaBlockType vanillaBlockType = (ChunkerVanillaBlockType) outputIdentifier.getType();

@@ -62,7 +62,9 @@ public class BedrockBasicItemResolverTests {
             ChunkerItemProperty.POTION, // Inferred from item ID
             ChunkerItemProperty.STEW_EFFECT, // Inferred from item ID
             ChunkerItemProperty.ENTITY, // Not supported AFAIK
-            ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER // Inferred from item ID
+            ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER, // Inferred from item ID
+            ChunkerItemProperty.EXPLORER_MAP, // Inferred from item ID
+            ChunkerItemProperty.MAP_DECORATION // Stored in the map data rather than on the item
     );
     public static final Map<Class<? extends Enum<?>>, Set<?>> UNSUPPORTED_ENUMS = Map.of(
             ChunkerEnchantmentType.class, Set.of(ChunkerEnchantmentType.SWEEPING_EDGE),

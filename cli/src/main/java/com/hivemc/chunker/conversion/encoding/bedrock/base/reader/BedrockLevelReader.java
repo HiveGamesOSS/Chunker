@@ -328,6 +328,16 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
             return root.getInt("WorldVersion", 0);
         }
 
+        // Read the default permissions given to players
+        if (targetName.equals("playerPermissionsLevel")) {
+            // Before 1.19.10 the permissions were held inside the abilities compound
+            CompoundTag source = root.contains(targetName) ? root : root.getCompound("abilities");
+            if (source == null) return null;
+
+            // Use a number as the field isn't always written as an int
+            return source.getOptionalValue(targetName, Number.class).map(Number::intValue).orElse(null);
+        }
+
         // Default implementation for seed
         if (targetName.equals("RandomSeed")) {
             // After StorageVersion 8, seed became based on a long

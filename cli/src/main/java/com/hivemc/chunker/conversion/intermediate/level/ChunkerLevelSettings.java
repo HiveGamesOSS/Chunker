@@ -301,6 +301,11 @@ public class ChunkerLevelSettings {
     public int NetherScale = 8;
 
     @Bedrock
+    @CustomType
+    @Category(Category.Type.RESTRICTIONS)
+    public int playerPermissionsLevel = 2;
+
+    @Bedrock
     @Category(Category.Type.WEATHER)
     public float rainLevel = 0;
 
@@ -887,6 +892,7 @@ public class ChunkerLevelSettings {
                 ", MultiplayerGameIntent=" + MultiplayerGameIntent +
                 ", naturalregeneration=" + naturalregeneration +
                 ", NetherScale=" + NetherScale +
+                ", playerPermissionsLevel=" + playerPermissionsLevel +
                 ", rainLevel=" + rainLevel +
                 ", rainTime=" + rainTime +
                 ", RandomSeed='" + RandomSeed + '\'' +

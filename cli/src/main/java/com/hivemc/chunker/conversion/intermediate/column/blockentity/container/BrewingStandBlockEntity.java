@@ -6,9 +6,14 @@ import java.util.Objects;
  * Represents a Brewing Stand Block Entity.
  */
 public class BrewingStandBlockEntity extends ContainerBlockEntity {
+    /**
+     * The number of brews a full fuel item provides.
+     */
+    public static final short DEFAULT_FUEL_TOTAL = 20;
+
     private short brewTime;
     private short fuel;
-    private short fuelTotal;
+    private short fuelTotal = DEFAULT_FUEL_TOTAL;
 
     /**
      * Get the brewing time.

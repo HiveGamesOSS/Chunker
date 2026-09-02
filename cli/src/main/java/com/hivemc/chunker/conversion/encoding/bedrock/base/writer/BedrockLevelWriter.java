@@ -247,7 +247,8 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
             for (Dimension dimension : converter.getDimensionRegistry().getDimensions()) {
                 // Only write dimension identifiers which are actually used
                 Dimension newDimension = converter.getNewDimension(dimension).orElse(null);
-                if (newDimension == null || newDimension.getBedrockID() < DimensionRegistry.BEDROCK_CUSTOM_DIMENSION_ID_START) continue;
+                if (newDimension == null || newDimension.getBedrockID() < DimensionRegistry.BEDROCK_CUSTOM_DIMENSION_ID_START)
+                    continue;
                 entries.put(newDimension.getIdentifier(), newDimension.getBedrockID());
             }
 
@@ -318,8 +319,7 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         // Copy over the other settings
         if (dimensionShouldUseByte) {
             mapData.put("dimension", (byte) chunkerMap.getDimension().getBedrockID());
-        }
-        else {
+        } else {
             mapData.put("dimension", chunkerMap.getDimension().getBedrockID());
         }
         mapData.put("width", (short) chunkerMap.getWidth());
@@ -430,6 +430,12 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
         // Write flat world version
         if (targetName.equals("FlatWorldVersion")) {
             output.put("WorldVersion", (int) value);
+            return;
+        }
+
+        // Write the permissions
+        if (targetName.equals("playerPermissionsLevel")) {
+            writePermissions(output, (int) value);
             return;
         }
 
@@ -549,6 +555,51 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
 
         // Write the level.dat
         Tag.writeBedrockNBT(new File(outputFolder, "level.dat"), resolvers.dataVersion().getStorageVersion(), data);
+    }
+
+    /**
+     * Write the permission NBT for the level.
+     *
+     * @param output                 the root tag, which holds the copied level.dat when NBT copying is enabled.
+     * @param playerPermissionsLevel the default permission level for players, 0 for visitor, 1 for member and 2 for
+     *                               operator.
+     */
+    protected void writePermissions(CompoundTag output, int playerPermissionsLevel) {
+        // Cap the level in the case it's invalid
+        int level = Math.max(0, Math.min(2, playerPermissionsLevel));
+        boolean member = level >= 1;
+        boolean operator = level == 2;
+
+        // Use the permissionsLevel from the original if it's already present
+        CompoundTag copied = output.contains("permissionsLevel") ? output : output.getCompound("abilities");
+        int permissionsLevel = copied == null ? 0 : copied.getOptionalValue("permissionsLevel", Number.class).map(Number::intValue).orElse(0);
+
+        // Before 1.19.10 the permissions were held inside the abilities compound
+        boolean useAbilities = getVersion().isLessThan(1, 19, 10);
+        CompoundTag target = useAbilities ? output.getOrCreateCompound("abilities") : output;
+
+        // Write the level for players followed by the level which grants operator
+        target.put("playerPermissionsLevel", level);
+        target.put("permissionsLevel", Math.max(operator ? 2 : 0, permissionsLevel));
+
+        // Before 1.19.10 the abilities also gate what players can do, only write them when not editing a world
+        if (useAbilities && !converter.shouldAllowNBTCopying()) {
+            target.put("attackmobs", member ? (byte) 1 : (byte) 0);
+            target.put("attackplayers", member ? (byte) 1 : (byte) 0);
+            target.put("build", member ? (byte) 1 : (byte) 0);
+            target.put("doorsandswitches", member ? (byte) 1 : (byte) 0);
+            target.put("flySpeed", 0.05F);
+            target.put("flying", (byte) 0);
+            target.put("instabuild", (byte) 0);
+            target.put("invulnerable", (byte) 0);
+            target.put("lightning", (byte) 0);
+            target.put("mayfly", (byte) 0);
+            target.put("mine", member ? (byte) 1 : (byte) 0);
+            target.put("op", operator ? (byte) 1 : (byte) 0);
+            target.put("opencontainers", member ? (byte) 1 : (byte) 0);
+            target.put("teleport", operator ? (byte) 1 : (byte) 0);
+            target.put("walkSpeed", 0.1F);
+        }
     }
 
     /**

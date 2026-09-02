@@ -9,6 +9,8 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.enchant
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworkExplosion;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworks;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.horn.ChunkerHornInstrument;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerExplorerMap;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerMapDecoration;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerPotionType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.stew.ChunkerStewEffect;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrim;
@@ -108,6 +110,13 @@ public class ChunkerItemProperty<V> extends Property<ChunkerItemStack, V> implem
             Entity.class
     );
     /**
+     * The structure a filled map was made for.
+     */
+    public static final ChunkerItemProperty<ChunkerExplorerMap> EXPLORER_MAP = new ChunkerItemProperty<>(
+            "explorer_map",
+            ChunkerExplorerMap.class
+    );
+    /**
      * The firework effects when it is launched.
      */
     public static final ChunkerItemProperty<ChunkerFireworks> FIREWORKS = new ChunkerItemProperty<>(
@@ -127,6 +136,13 @@ public class ChunkerItemProperty<V> extends Property<ChunkerItemStack, V> implem
     public static final ChunkerItemProperty<ChunkerHornInstrument> HORN_INSTRUMENT = new ChunkerItemProperty<>(
             "horn_instrument",
             ChunkerHornInstrument.class
+    );
+    /**
+     * The decoration on a filled map which points at the structure it was made for.
+     */
+    public static final ChunkerItemProperty<ChunkerMapDecoration> MAP_DECORATION = new ChunkerItemProperty<>(
+            "map_decoration",
+            ChunkerMapDecoration.class
     );
     /**
      * The index of the map from the level to use when shown in-game.

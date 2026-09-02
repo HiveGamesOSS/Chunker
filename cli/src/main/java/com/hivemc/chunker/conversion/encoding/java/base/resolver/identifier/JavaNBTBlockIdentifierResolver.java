@@ -18,6 +18,7 @@ import java.util.Optional;
  */
 public class JavaNBTBlockIdentifierResolver implements Resolver<CompoundTag, Identifier> {
     protected final Version version;
+    private final boolean renamedFields;
 
     /**
      * Create a new Java NBT block identifier resolver.
@@ -26,15 +27,18 @@ public class JavaNBTBlockIdentifierResolver implements Resolver<CompoundTag, Ide
      */
     public JavaNBTBlockIdentifierResolver(Version version) {
         this.version = version;
+
+        // 26.3 renamed Name/Properties to id/properties
+        renamedFields = version.isGreaterThanOrEqual(26, 3, 0);
     }
 
     @Override
     public Optional<Identifier> to(CompoundTag input) {
-        String identifier = input.getString("Name", null);
+        String identifier = input.getString("id", input.getString("Name", null));
         if (identifier == null) return Optional.empty(); // Not possible to decode
 
         // Read the states
-        CompoundTag statesTag = input.getCompound("Properties");
+        CompoundTag statesTag = input.getCompound("properties", input.getCompound("Properties"));
         Map<String, StateValue<?>> states;
         if (statesTag == null) {
             states = Collections.emptyMap();
@@ -53,7 +57,7 @@ public class JavaNBTBlockIdentifierResolver implements Resolver<CompoundTag, Ide
     public Optional<CompoundTag> from(Identifier input) {
         // Create the block compound tag
         CompoundTag output = new CompoundTag(2);
-        output.put("Name", input.getIdentifier());
+        output.put(renamedFields ? "id" : "Name", input.getIdentifier());
 
         // Write the states
         if (!input.getStates().isEmpty()) {
@@ -61,7 +65,7 @@ public class JavaNBTBlockIdentifierResolver implements Resolver<CompoundTag, Ide
             for (Map.Entry<String, StateValue<?>> entry : input.getStates().entrySet()) {
                 states.put(entry.getKey(), entry.getValue().toNBT());
             }
-            output.put("Properties", states);
+            output.put(renamedFields ? "properties" : "Properties", states);
         }
 
         // Return the CompoundTag

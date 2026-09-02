@@ -259,7 +259,23 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.GREEN_WOOL_STAIRS,
             ChunkerVanillaBlockType.RED_WOOL_STAIRS,
             ChunkerVanillaBlockType.BLACK_WOOL_STAIRS,
-            ChunkerVanillaBlockType.POPLAR_STAIRS
+            ChunkerVanillaBlockType.POPLAR_STAIRS,
+            ChunkerVanillaBlockType.WHITE_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.ORANGE_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.MAGENTA_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.LIGHT_BLUE_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.YELLOW_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.LIME_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.PINK_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.GRAY_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.LIGHT_GRAY_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.CYAN_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.PURPLE_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.BLUE_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.BROWN_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.GREEN_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.RED_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.BLACK_CONCRETE_STAIRS
     );
     /**
      * Group of all the wall blocks.

@@ -17,6 +17,8 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firewor
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworkShape;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.firework.ChunkerFireworks;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.horn.ChunkerHornInstrument;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerExplorerMap;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerMapDecoration;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerEffectType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerPotionType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.stew.ChunkerStewEffect;
@@ -333,6 +335,53 @@ public class JavaComponentItemStackResolver extends ItemStackResolver<JavaResolv
                 } else {
                     state.value().getOrCreateCompound("components").getOrCreateCompound(name).put("levels", enchantments);
                 }
+            }
+        });
+
+        // The decoration which points at the structure the map was made for is named +
+        registerContextualHandler(ChunkerItemProperty.MAP_DECORATION, new PropertyHandler<>() {
+            @Override
+            public Optional<ChunkerMapDecoration> read(@NotNull Pair<ChunkerItemStack, CompoundTag> state) {
+                CompoundTag components = state.value().getCompound("components");
+                if (components == null) return Optional.empty();
+
+                CompoundTag decorations = components.getCompound("minecraft:map_decorations");
+                if (decorations == null) return Optional.empty();
+
+                CompoundTag decoration = decorations.getCompound("+");
+                if (decoration == null) return Optional.empty();
+
+                Optional<ChunkerExplorerMap> structure = decoration.getOptionalValue("type", String.class)
+                        .flatMap(resolvers.mapDecorationResolver()::to);
+                if (structure.isEmpty()) return Optional.empty();
+
+                // Before 26.3 the decoration is the only thing which says which explorer map it is
+                if (resolvers.dataVersion().getVersion().isLessThan(26, 3, 0)) {
+                    state.key().put(ChunkerItemProperty.EXPLORER_MAP, structure.get());
+                }
+
+                return Optional.of(new ChunkerMapDecoration(
+                        structure.get(),
+                        decoration.getDouble("x", 0),
+                        decoration.getDouble("z", 0),
+                        decoration.getFloat("rotation", 0)
+                ));
+            }
+
+            @Override
+            public void write(@NotNull Pair<ChunkerItemStack, CompoundTag> state, @NotNull ChunkerMapDecoration mapDecoration) {
+                Optional<String> type = resolvers.mapDecorationResolver().from(mapDecoration.structure());
+                if (type.isEmpty()) return; // The structure doesn't have a decoration on this version
+
+                CompoundTag decoration = new CompoundTag(4);
+                decoration.put("type", type.get());
+                decoration.put("x", mapDecoration.x());
+                decoration.put("z", mapDecoration.z());
+                decoration.put("rotation", mapDecoration.rotation());
+
+                state.value().getOrCreateCompound("components")
+                        .getOrCreateCompound("minecraft:map_decorations")
+                        .put("+", decoration);
             }
         });
 

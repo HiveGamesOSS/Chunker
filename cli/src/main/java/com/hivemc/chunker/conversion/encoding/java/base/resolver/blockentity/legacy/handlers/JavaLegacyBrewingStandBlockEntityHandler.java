@@ -17,7 +17,6 @@ public class JavaLegacyBrewingStandBlockEntityHandler extends BlockEntityHandler
     @Override
     public void read(@NotNull JavaResolvers resolvers, @NotNull CompoundTag input, @NotNull BrewingStandBlockEntity value) {
         value.setFuel(input.getByte("Fuel", (byte) 0));
-        value.setFuelTotal(input.getByte("Fuel", (byte) 0));
         value.setBrewTime(input.getShort("BrewTime", (short) 0));
     }
 

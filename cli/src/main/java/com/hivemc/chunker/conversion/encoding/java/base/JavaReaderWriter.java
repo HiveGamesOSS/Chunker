@@ -63,6 +63,8 @@ public interface JavaReaderWriter extends LevelReaderWriter {
                 .paintingMotiveResolver(new JavaLegacyPaintingMotiveResolver(version))
                 .potionTypeResolver(new JavaPotionTypeResolver(version))
                 .mapColorsResolver(new JavaMapColorsResolver(version))
+                .mapDecorationResolver(new JavaMapDecorationResolver(version))
+                .mapDecorationIDResolver(new JavaMapDecorationIDResolver(version))
                 .trimPatternResolver(new JavaTrimPatternResolver(version))
                 .trimMaterialResolver(new JavaTrimMaterialResolver(version))
                 .bannerPatternShortNameResolver(new JavaBannerPatternShortNameResolver(version))

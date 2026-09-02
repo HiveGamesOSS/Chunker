@@ -29,7 +29,7 @@ export class ModeOption extends Component {
         let version = this.props.value.version ? this.props.value.version : getVersionName(this.props.type);
         let java = this.props.type.startsWith("JAVA_");
         let bedrock = this.props.type.startsWith("BEDROCK_");
-        let beta = (bedrock && version === "1.26.40") || (java && version === "26.3.0"); // Beta label
+        let beta = (bedrock && version === "1.26.50") || (java && version === "26.3.0"); // Beta label
         let label = this.props.value.label;
         return (
             <div>

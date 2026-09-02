@@ -204,6 +204,23 @@
                 8
             ]
         },
+        "playerPermissionsLevel": {
+            "type": "number",
+            "title": "Player Permissions",
+            "description": "The default permissions a player has, operator is required to use commands. (Bedrock only)",
+            "default": 2,
+            "examples": [
+                0,
+                1,
+                2
+            ],
+            "enum": [
+                0,
+                1,
+                2
+            ],
+            "$comment": "Options: 0 (Visitor), 1 (Member), 2 (Operator)"
+        },
         "BorderCenterX": {
             "type": "number",
             "title": "World Border Center X",

@@ -13,6 +13,7 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.Chunker
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.banner.ChunkerBannerPattern;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.enchantment.ChunkerEnchantmentType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.horn.ChunkerHornInstrument;
+import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.map.ChunkerExplorerMap;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerEffectType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.potion.ChunkerPotionType;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.trim.ChunkerTrimMaterial;
@@ -54,6 +55,8 @@ public class JavaResolversBuilder {
     private Resolver<String, PaintingEntity.Motive> paintingMotiveResolver;
     private Resolver<String, ChunkerPotionType> potionTypeResolver;
     private Resolver<byte[], byte[]> mapColorsResolver;
+    private Resolver<String, ChunkerExplorerMap> mapDecorationResolver;
+    private Resolver<Integer, ChunkerExplorerMap> mapDecorationIDResolver;
     private Resolver<String, ChunkerTrimPattern> trimPatternResolver;
     private Resolver<String, ChunkerTrimMaterial> trimMaterialResolver;
     private Resolver<String, ChunkerBannerPattern> bannerPatternResolver;
@@ -427,6 +430,16 @@ public class JavaResolversBuilder {
             }
 
             @Override
+            public Resolver<String, ChunkerExplorerMap> mapDecorationResolver() {
+                return mapDecorationResolver;
+            }
+
+            @Override
+            public Resolver<Integer, ChunkerExplorerMap> mapDecorationIDResolver() {
+                return mapDecorationIDResolver;
+            }
+
+            @Override
             public Resolver<String, ChunkerTrimPattern> trimPatternResolver() {
                 return trimPatternResolver;
             }
@@ -550,6 +563,16 @@ public class JavaResolversBuilder {
 
     public JavaResolversBuilder blockIDResolver(Resolver<Integer, String> resolver) {
         blockIDResolver = resolver;
+        return this;
+    }
+
+    public JavaResolversBuilder mapDecorationResolver(Resolver<String, ChunkerExplorerMap> resolver) {
+        mapDecorationResolver = resolver;
+        return this;
+    }
+
+    public JavaResolversBuilder mapDecorationIDResolver(Resolver<Integer, ChunkerExplorerMap> resolver) {
+        mapDecorationIDResolver = resolver;
         return this;
     }
 

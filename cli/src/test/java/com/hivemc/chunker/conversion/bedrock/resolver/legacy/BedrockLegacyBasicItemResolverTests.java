@@ -66,7 +66,9 @@ public class BedrockLegacyBasicItemResolverTests {
             ChunkerItemProperty.TRIM, // Not supported in 1.12
             ChunkerItemProperty.OMINOUS_BOTTLE_AMPLIFIER, // Not supported in 1.12
             ChunkerItemProperty.BUNDLE_CONTENTS, // Not supported in 1.12,
-            ChunkerItemProperty.LODESTONE_DATA // Not supported in 1.12,
+            ChunkerItemProperty.LODESTONE_DATA, // Not supported in 1.12,
+            ChunkerItemProperty.EXPLORER_MAP, // Inferred from item ID
+            ChunkerItemProperty.MAP_DECORATION // Stored in the map data rather than on the item
     );
     public static final Map<Class<? extends Enum<?>>, Set<?>> UNSUPPORTED_ENUMS = Map.of(
             ChunkerEnchantmentType.class, Set.of(

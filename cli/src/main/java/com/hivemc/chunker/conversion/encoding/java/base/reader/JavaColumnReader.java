@@ -40,6 +40,7 @@ public class JavaColumnReader implements ColumnReader {
             "surface",
             "carvers",
             "liquid_carvers",
+            "terrain",
             "minecraft:empty",
             "minecraft:structure_starts",
             "minecraft:structure_references",
@@ -47,7 +48,8 @@ public class JavaColumnReader implements ColumnReader {
             "minecraft:noise",
             "minecraft:surface",
             "minecraft:carvers",
-            "minecraft:liquid_carvers"
+            "minecraft:liquid_carvers",
+            "minecraft:terrain"
     );
 
     protected final Converter converter;

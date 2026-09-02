@@ -19,9 +19,7 @@ import com.hivemc.chunker.mapping.identifier.Identifier;
 import com.hivemc.chunker.mapping.identifier.states.StateValue;
 import com.hivemc.chunker.mapping.identifier.states.StateValueString;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,24 +60,38 @@ public class JavaLegacyBlockIdentifierValidationTests {
         }
     }
 
-    public static Stream<Arguments> blocks() throws IOException {
+    /**
+     * A legacy identifier / data value pair with the flattened identifier it should produce.
+     *
+     * @param identifier the legacy block identifier.
+     * @param data       the legacy data value.
+     * @param expected   the flattened identifier the pair should produce.
+     */
+    private record LegacyBlock(String identifier, int data, Identifier expected) {
+    }
+
+    private static Stream<LegacyBlock> blocks() {
         // Convert to inputIdentifier, inputDataValue -> expected
-        return BLOCKS.entrySet().stream().flatMap(entry -> entry.getValue().getAsJsonObject().get("data").getAsJsonObject().entrySet().stream().map(dataEntry -> Arguments.of(
+        List<LegacyBlock> blocks = BLOCKS.entrySet().stream().flatMap(entry -> entry.getValue().getAsJsonObject().get("data").getAsJsonObject().entrySet().stream().map(dataEntry -> new LegacyBlock(
                 entry.getKey(),
-                Integer.valueOf(dataEntry.getKey()),
+                Integer.parseInt(dataEntry.getKey()),
                 parseIdentifier(dataEntry.getValue().getAsJsonObject())
-        )));
+        ))).toList();
+
+        // Ensure blocks were present for the test
+        assertFalse(blocks.isEmpty(), "No blocks were loaded from pre_1_13_blocks.json");
+        return blocks.stream();
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static Stream<Arguments> chunkerCombinations() throws IOException {
+    private static Stream<ChunkerBlockIdentifier> chunkerCombinations() {
         return Stream.of(ChunkerVanillaBlockType.values())
                 .flatMap(input -> Lists.cartesianProduct(input.getStates().stream().map(a -> List.of(a.getValues())).collect(Collectors.toList()))
                         .stream()
                         .map(a -> Streams.zip(input.getStates().stream(), a.stream(), Maps::immutableEntry).collect(Collectors.toMap(
                                 Map.Entry::getKey, Map.Entry::getValue
                         )))
-                        .map((states) -> Arguments.of(new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states))));
+                        .map((states) -> new ChunkerBlockIdentifier(input, (Map<BlockState<?>, BlockStateValue>) (Map) states)));
     }
 
     private static Identifier parseIdentifier(JsonObject block) {
@@ -95,24 +107,39 @@ public class JavaLegacyBlockIdentifierValidationTests {
         );
     }
 
-    @ParameterizedTest
-    @MethodSource("blocks")
-    public void checkInputIdentifier(String inputIdentifier, int data, Identifier expected) {
-        Optional<ChunkerBlockIdentifier> intermediate = LEGACY_RESOLVER.to(Identifier.fromData(inputIdentifier, OptionalInt.of(data)));
+    @Test
+    public void checkInputIdentifier() {
+        assertAll(blocks().map(block -> () -> assertInputIdentifier(block)));
+    }
+
+    @Test
+    public void checkIdentifierOutputStates() {
+        assertAll(blocks().map(block -> () -> assertIdentifierOutputStates(block)));
+    }
+
+    @Test
+    public void checkIdentifierInputStates() {
+        assertAll(chunkerCombinations().map(identifier -> () -> assertIdentifierInputStates(identifier)));
+    }
+
+    private void assertInputIdentifier(LegacyBlock block) {
+        Identifier input = Identifier.fromData(block.identifier(), OptionalInt.of(block.data()));
+        Optional<ChunkerBlockIdentifier> intermediate = LEGACY_RESOLVER.to(input);
 
         // Check it's present
-        assertTrue(intermediate.isPresent());
+        assertTrue(intermediate.isPresent(), () -> "Missing mapping for " + input);
 
         // Convert to 1.13
         Optional<Identifier> output = RESOLVER.from(intermediate.get());
 
         // Check it's present
-        assertTrue(output.isPresent());
+        assertTrue(output.isPresent(), () -> "Missing backwards conversion for " + input + " using " + intermediate.get());
 
         // Remove waterlogged
         output.get().getStates().remove("waterlogged");
 
         // Rename decayable and invert
+        Identifier expected = block.expected();
         if (expected.getStates().containsKey("decayable")) {
             expected.getStates().put("persistent", expected.getStates().remove("decayable").getBoxed().equals("true") ? new StateValueString("false") : new StateValueString("true"));
 
@@ -125,45 +152,42 @@ public class JavaLegacyBlockIdentifierValidationTests {
         expected.getStates().remove("nodrop");
 
         // Now check it against the expected
-        assertEquals(expected, output.get());
+        assertEquals(expected, output.get(), () -> "Wrong output for " + input);
     }
 
-    @ParameterizedTest
-    @MethodSource("blocks")
-    public void checkIdentifierOutputStates(String inputIdentifier, int data) {
-        Optional<ChunkerBlockIdentifier> intermediate = LEGACY_RESOLVER.to(Identifier.fromData(inputIdentifier, OptionalInt.of(data)));
+    private void assertIdentifierOutputStates(LegacyBlock block) {
+        Identifier input = Identifier.fromData(block.identifier(), OptionalInt.of(block.data()));
+        Optional<ChunkerBlockIdentifier> intermediate = LEGACY_RESOLVER.to(input);
 
         // Check it's present
-        assertTrue(intermediate.isPresent());
+        assertTrue(intermediate.isPresent(), () -> "Missing mapping for " + input);
 
         ChunkerBlockIdentifier outputIdentifier = intermediate.get();
 
         // Ensure it's a vanilla block
-        assertInstanceOf(ChunkerVanillaBlockType.class, outputIdentifier.getType());
+        assertInstanceOf(ChunkerVanillaBlockType.class, outputIdentifier.getType(), () -> "Non-vanilla output for input " + input);
 
         // Ensure all states are present
         ChunkerVanillaBlockType vanillaBlockType = (ChunkerVanillaBlockType) outputIdentifier.getType();
         for (BlockState<?> state : vanillaBlockType.getStates()) {
-            assertTrue(outputIdentifier.containsState(state), () -> "Missing output state " + state + " for input " + inputIdentifier + ":" + data);
+            assertTrue(outputIdentifier.containsState(state), () -> "Missing output state " + state + " for input " + input);
         }
         for (BlockState<?> state : outputIdentifier.getPresentStates().keySet()) {
-            assertTrue(vanillaBlockType.getStates().contains(state), () -> "Invalid output state " + state + " for input " + inputIdentifier + ":" + data);
+            assertTrue(vanillaBlockType.getStates().contains(state), () -> "Invalid output state " + state + " for input " + input);
         }
     }
 
-    @ParameterizedTest
-    @MethodSource("chunkerCombinations")
-    public void checkIdentifierInputStates(ChunkerBlockIdentifier chunkerBlockIdentifier) {
+    private void assertIdentifierInputStates(ChunkerBlockIdentifier chunkerBlockIdentifier) {
         // If the block is present it shouldn't be an unsupported block
         Optional<Identifier> output = LEGACY_RESOLVER.from(chunkerBlockIdentifier);
         if (output.isPresent()) {
             Identifier outputIdentifier = output.get();
 
             JsonElement block = BLOCKS.get(outputIdentifier.getIdentifier());
-            assertNotNull(block, "Missing block " + outputIdentifier.getIdentifier());
+            assertNotNull(block, () -> "Missing block " + outputIdentifier.getIdentifier() + " for input " + chunkerBlockIdentifier);
 
             // Ensure data is present
-            assertTrue(outputIdentifier.getDataValue().isPresent(), "Missing data value for " + outputIdentifier.getIdentifier());
+            assertTrue(outputIdentifier.getDataValue().isPresent(), () -> "Missing data value for " + outputIdentifier.getIdentifier() + " for input " + chunkerBlockIdentifier);
 
             // Validate data
             int dataValue = outputIdentifier.getDataValue().getAsInt();

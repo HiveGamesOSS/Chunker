@@ -54,44 +54,46 @@ public class BedrockDataVersion implements Comparable<BedrockDataVersion> {
     public static final BedrockDataVersion V1_19_10 = register(534, 9, new Version(1, 19, 10));
     public static final BedrockDataVersion V1_19_20 = register(544, 9, new Version(1, 19, 20));
     public static final BedrockDataVersion V1_19_30 = register(554, 9, new Version(1, 19, 30));
-    public static final BedrockDataVersion V1_19_40 = register(557, 9, new Version(1, 19, 40));
-    public static final BedrockDataVersion V1_19_50 = register(560, 9, new Version(1, 19, 50));
-    public static final BedrockDataVersion V1_19_60 = register(568, 9, new Version(1, 19, 60));
-    public static final BedrockDataVersion V1_19_70 = register(575, 9, new Version(1, 19, 70));
-    public static final BedrockDataVersion V1_19_80 = register(582, 9, new Version(1, 19, 80));
+    // 1.19.40 onwards writes level.dat with StorageVersion 10
+    public static final BedrockDataVersion V1_19_40 = register(557, 10, new Version(1, 19, 40));
+    public static final BedrockDataVersion V1_19_50 = register(560, 10, new Version(1, 19, 50));
+    public static final BedrockDataVersion V1_19_60 = register(568, 10, new Version(1, 19, 60));
+    public static final BedrockDataVersion V1_19_70 = register(575, 10, new Version(1, 19, 70));
+    public static final BedrockDataVersion V1_19_80 = register(582, 10, new Version(1, 19, 80));
 
     // 1.20 (1.20 itself needs an extra state version to avoid blocks being incorrectly upgraded)
-    public static final BedrockDataVersion V1_20_0 = register(588, 9, 33, new Version(1, 20, 0));
-    public static final BedrockDataVersion V1_20_10 = register(594, 9, new Version(1, 20, 10));
-    public static final BedrockDataVersion V1_20_30 = register(618, 9, new Version(1, 20, 30));
-    public static final BedrockDataVersion V1_20_40 = register(622, 9, new Version(1, 20, 40));
-    public static final BedrockDataVersion V1_20_50 = register(630, 9, new Version(1, 20, 50));
-    public static final BedrockDataVersion V1_20_60 = register(649, 9, new Version(1, 20, 60));
-    public static final BedrockDataVersion V1_20_70 = register(662, 9, new Version(1, 20, 70));
-    public static final BedrockDataVersion V1_20_80 = register(671, 9, new Version(1, 20, 80));
+    public static final BedrockDataVersion V1_20_0 = register(588, 10, 33, new Version(1, 20, 0));
+    public static final BedrockDataVersion V1_20_10 = register(594, 10, new Version(1, 20, 10));
+    public static final BedrockDataVersion V1_20_30 = register(618, 10, new Version(1, 20, 30));
+    public static final BedrockDataVersion V1_20_40 = register(622, 10, new Version(1, 20, 40));
+    public static final BedrockDataVersion V1_20_50 = register(630, 10, new Version(1, 20, 50));
+    public static final BedrockDataVersion V1_20_60 = register(649, 10, new Version(1, 20, 60));
+    public static final BedrockDataVersion V1_20_70 = register(662, 10, new Version(1, 20, 70));
+    public static final BedrockDataVersion V1_20_80 = register(671, 10, new Version(1, 20, 80));
 
     // 1.21
-    public static final BedrockDataVersion V1_21_0 = register(685, 9, new Version(1, 21, 0));
-    public static final BedrockDataVersion V1_21_20 = register(712, 9, new Version(1, 21, 20));
-    public static final BedrockDataVersion V1_21_30 = register(729, 9, new Version(1, 21, 30));
-    public static final BedrockDataVersion V1_21_40 = register(748, 9, new Version(1, 21, 40));
-    public static final BedrockDataVersion V1_21_50 = register(766, 9, new Version(1, 21, 50));
-    public static final BedrockDataVersion V1_21_60 = register(776, 9, new Version(1, 21, 60));
-    public static final BedrockDataVersion V1_21_70 = register(786, 9, new Version(1, 21, 70));
-    public static final BedrockDataVersion V1_21_80 = register(800, 9, new Version(1, 21, 80));
-    public static final BedrockDataVersion V1_21_90 = register(818, 9, new Version(1, 21, 90));
-    public static final BedrockDataVersion V1_21_93 = register(819, 9, new Version(1, 21, 93));
-    public static final BedrockDataVersion V1_21_100 = register(827, 9, new Version(1, 21, 100));
-    public static final BedrockDataVersion V1_21_110 = register(843, 9, new Version(1, 21, 110));
-    public static final BedrockDataVersion V1_21_120 = register(859, 9, new Version(1, 21, 120));
-    public static final BedrockDataVersion V1_21_130 = register(898, 9, new Version(1, 21, 130));
+    public static final BedrockDataVersion V1_21_0 = register(685, 10, new Version(1, 21, 0));
+    public static final BedrockDataVersion V1_21_20 = register(712, 10, new Version(1, 21, 20));
+    public static final BedrockDataVersion V1_21_30 = register(729, 10, new Version(1, 21, 30));
+    public static final BedrockDataVersion V1_21_40 = register(748, 10, new Version(1, 21, 40));
+    public static final BedrockDataVersion V1_21_50 = register(766, 10, new Version(1, 21, 50));
+    public static final BedrockDataVersion V1_21_60 = register(776, 10, new Version(1, 21, 60));
+    public static final BedrockDataVersion V1_21_70 = register(786, 10, new Version(1, 21, 70));
+    public static final BedrockDataVersion V1_21_80 = register(800, 10, new Version(1, 21, 80));
+    public static final BedrockDataVersion V1_21_90 = register(818, 10, new Version(1, 21, 90));
+    public static final BedrockDataVersion V1_21_93 = register(819, 10, new Version(1, 21, 93));
+    public static final BedrockDataVersion V1_21_100 = register(827, 10, new Version(1, 21, 100));
+    public static final BedrockDataVersion V1_21_110 = register(843, 10, new Version(1, 21, 110));
+    public static final BedrockDataVersion V1_21_120 = register(859, 10, new Version(1, 21, 120));
+    public static final BedrockDataVersion V1_21_130 = register(898, 10, new Version(1, 21, 130));
 
     // 1.26
-    public static final BedrockDataVersion V1_26_0 = register(924, 9, new Version(1, 26, 0));
-    public static final BedrockDataVersion V1_26_10 = register(944, 9, new Version(1, 26, 10));
-    public static final BedrockDataVersion V1_26_20 = register(974, 9, new Version(1, 26, 20));
-    public static final BedrockDataVersion V1_26_30 = register(1001, 9, new Version(1, 26, 30));
-    public static final BedrockDataVersion V1_26_40 = register(2168, 9, new Version(1, 26, 40));
+    public static final BedrockDataVersion V1_26_0 = register(924, 10, new Version(1, 26, 0));
+    public static final BedrockDataVersion V1_26_10 = register(944, 10, new Version(1, 26, 10));
+    public static final BedrockDataVersion V1_26_20 = register(974, 10, new Version(1, 26, 20));
+    public static final BedrockDataVersion V1_26_30 = register(1001, 10, new Version(1, 26, 30));
+    public static final BedrockDataVersion V1_26_40 = register(2168, 10, new Version(1, 26, 40));
+    public static final BedrockDataVersion V1_26_50 = register(2192, 10, new Version(1, 26, 50));
 
     private final int protocolVersion;
     private final int storageVersion;

@@ -11,7 +11,7 @@ import org.iq80.leveldb.DB;
 import java.util.Map;
 import java.util.Set;
 
-public class WorldReader extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_110.reader.WorldReader {
+public class WorldReader extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_120.reader.WorldReader {
     public WorldReader(BedrockResolvers resolvers, Converter converter, DB database, Map<RegionCoordPair, Set<ChunkCoordPair>> presentRegions, Dimension dimension) {
         super(resolvers, converter, database, presentRegions, dimension);
     }

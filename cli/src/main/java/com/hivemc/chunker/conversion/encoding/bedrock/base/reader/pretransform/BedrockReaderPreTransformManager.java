@@ -50,54 +50,53 @@ public class BedrockReaderPreTransformManager extends PreTransformManager {
             );
         }
 
-        // Trip wire handler
-        registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
-            public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
-                return relative.getType().equals(ChunkerVanillaBlockType.TRIPWIRE)
-                        || relative.getType().equals(ChunkerVanillaBlockType.TRIPWIRE_HOOK);
-            }
-        }, ChunkerVanillaBlockType.TRIPWIRE);
-
-        // Fence handler
-        registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
-            public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
-                if (ChunkerVanillaBlockGroups.FENCE_GATES.contains(relative.getType())) {
-                    // If it's a fence gate, the fence connects to either side of it
-                    FacingDirectionHorizontal facing = relative.getState(VanillaBlockStates.FACING_HORIZONTAL);
-                    return Objects.requireNonNull(facing).isAdjacent(direction.asFacingDirectionHorizontal());
+        // Connections and stair shapes need inferring before 1.26.50 started storing them as states
+        if (version.isLessThan(1, 26, 50)) {
+            // Trip wire handler
+            registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
+                public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
+                    return relative.getType().equals(ChunkerVanillaBlockType.TRIPWIRE)
+                            || relative.getType().equals(ChunkerVanillaBlockType.TRIPWIRE_HOOK);
                 }
-                return ChunkerVanillaBlockGroups.WOODEN_FENCES.contains(relative.getType()) || relative.getType().isAllFacesSolid();
-            }
-        }, ChunkerVanillaBlockGroups.WOODEN_FENCES);
+            }, ChunkerVanillaBlockType.TRIPWIRE);
 
-        // Nether Brick Fence handler
-        registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
-            public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
-                if (ChunkerVanillaBlockGroups.FENCE_GATES.contains(relative.getType())) {
-                    // If it's a fence gate, the fence connects to either side of it
-                    FacingDirectionHorizontal facing = relative.getState(VanillaBlockStates.FACING_HORIZONTAL);
-                    return Objects.requireNonNull(facing).isAdjacent(direction.asFacingDirectionHorizontal());
+            // Fence handler
+            registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
+                public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
+                    if (ChunkerVanillaBlockGroups.FENCE_GATES.contains(relative.getType())) {
+                        // If it's a fence gate, the fence connects to either side of it
+                        FacingDirectionHorizontal facing = relative.getState(VanillaBlockStates.FACING_HORIZONTAL);
+                        return Objects.requireNonNull(facing).isAdjacent(direction.asFacingDirectionHorizontal());
+                    }
+                    return ChunkerVanillaBlockGroups.WOODEN_FENCES.contains(relative.getType()) || relative.getType().isAllFacesSolid();
                 }
-                return relative.getType().equals(ChunkerVanillaBlockType.NETHER_BRICK_FENCE) || relative.getType().isAllFacesSolid();
-            }
-        }, ChunkerVanillaBlockType.NETHER_BRICK_FENCE);
+            }, ChunkerVanillaBlockGroups.WOODEN_FENCES);
+
+            // Nether Brick Fence handler
+            registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
+                public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
+                    if (ChunkerVanillaBlockGroups.FENCE_GATES.contains(relative.getType())) {
+                        // If it's a fence gate, the fence connects to either side of it
+                        FacingDirectionHorizontal facing = relative.getState(VanillaBlockStates.FACING_HORIZONTAL);
+                        return Objects.requireNonNull(facing).isAdjacent(direction.asFacingDirectionHorizontal());
+                    }
+                    return relative.getType().equals(ChunkerVanillaBlockType.NETHER_BRICK_FENCE) || relative.getType().isAllFacesSolid();
+                }
+            }, ChunkerVanillaBlockType.NETHER_BRICK_FENCE);
+
+            // Glass Pane / Iron Bar handler
+            registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
+                public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
+                    return ChunkerVanillaBlockGroups.BARS_AND_GLASS_PANES.contains(relative.getType()) || ChunkerVanillaBlockGroups.WALLS.contains(relative.getType()) || relative.getType().isAllFacesSolid();
+                }
+            }, ChunkerVanillaBlockGroups.BARS_AND_GLASS_PANES);
+
+            // Stairs (Adds the shape)
+            registerHandler(new BedrockStairShapePreTransformHandler(), ChunkerVanillaBlockGroups.STAIRS);
+        }
 
         // Fence gate handler
         registerHandler(new BedrockFenceGatePreTransformHandler(), ChunkerVanillaBlockGroups.FENCE_GATES);
-
-        // Glass Pane / Iron Bar handler
-        registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
-            public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
-                return ChunkerVanillaBlockGroups.BARS_AND_GLASS_PANES.contains(relative.getType()) || ChunkerVanillaBlockGroups.WALLS.contains(relative.getType()) || relative.getType().isAllFacesSolid();
-            }
-        }, ChunkerVanillaBlockGroups.BARS_AND_GLASS_PANES);
-
-        // Trip Wire handler
-        registerHandler(new HorizontalConnectableBlockPreTransformHandler() {
-            public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
-                return relative.getType().equals(source.getType()) || relative.getType().equals(ChunkerVanillaBlockType.TRIPWIRE_HOOK);
-            }
-        }, ChunkerVanillaBlockType.TRIPWIRE);
 
         // Chorus Plant handler
         registerHandler(new ConnectableBlockPreTransformHandler() {
@@ -134,9 +133,6 @@ public class BedrockReaderPreTransformManager extends PreTransformManager {
 
         // Doors (Adds the other states)
         registerHandler(new BedrockDoorPreTransformHandler(), ChunkerVanillaBlockGroups.DOORS);
-
-        // Stairs (Adds the shape)
-        registerHandler(new BedrockStairShapePreTransformHandler(), ChunkerVanillaBlockGroups.STAIRS);
 
         // Redstone (Wire direction)
         registerHandler(new BedrockRedstonePreTransformHandler(), ChunkerVanillaBlockType.REDSTONE_WIRE);

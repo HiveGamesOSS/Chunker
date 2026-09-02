@@ -8,7 +8,7 @@ import org.iq80.leveldb.DB;
 
 import java.io.File;
 
-public class WorldWriter extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_110.writer.WorldWriter {
+public class WorldWriter extends com.hivemc.chunker.conversion.encoding.bedrock.v1_21_120.writer.WorldWriter {
     public WorldWriter(File outputFolder, Converter converter, BedrockResolvers resolvers, DB database) {
         super(outputFolder, converter, resolvers, database);
     }

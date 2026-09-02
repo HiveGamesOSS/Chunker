@@ -26,7 +26,7 @@
     "leaflet-mouse-position": "^1.2.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.2",
+    "react-router-dom": "^7.18.3",
     "react-scripts": "^5.0.1",
     "react-select": "^5.10.2",
     "seedrandom": "^3.0.5"

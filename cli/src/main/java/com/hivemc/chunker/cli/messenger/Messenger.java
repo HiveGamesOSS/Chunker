@@ -138,7 +138,10 @@ public class Messenger {
                                 new PreviewLevelWriter(new File(previewRequest.getOutputPath()))
                         );
 
-                        worldConverter.setDimensionMapping(previewRequest.getInputToOutputDimension());
+                        Map<String, String> rawDimensionMapping = previewRequest.getInputToOutputDimension();
+                        if (rawDimensionMapping != null && !rawDimensionMapping.isEmpty()) {
+                            worldConverter.setDimensionMapping(rawDimensionMapping);
+                        }
 
                         // Set pruning configs if they're present
                         if (previewRequest.getPruningList() != null && previewRequest.getPruningList().getConfigs() != null && !previewRequest.getPruningList().getConfigs().isEmpty()) {
@@ -216,7 +219,7 @@ public class Messenger {
 
                         // Apply dimension mappings
                         Map<String, String> rawDimensionMapping = convertRequest.getInputToOutputDimension();
-                        if (rawDimensionMapping != null) {
+                        if (rawDimensionMapping != null && !rawDimensionMapping.isEmpty()) {
                             worldConverter.setDimensionMapping(rawDimensionMapping);
                         }
 

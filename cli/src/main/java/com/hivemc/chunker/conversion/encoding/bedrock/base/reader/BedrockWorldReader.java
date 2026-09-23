@@ -15,6 +15,10 @@ import com.hivemc.chunker.scheduling.task.TaskWeight;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.iq80.leveldb.DB;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,11 +26,16 @@ import java.util.Set;
  * A reader for Bedrock dimensions.
  */
 public class BedrockWorldReader implements WorldReader {
+    public static final int MAX_IN_FLIGHT_REGIONS = 4;
+    public static final Comparator<RegionCoordPair> REGION_ORDER = Comparator
+            .comparingInt(RegionCoordPair::regionX)
+            .thenComparingInt(RegionCoordPair::regionZ);
     protected final BedrockResolvers resolvers;
     protected final Converter converter;
     protected final Map<RegionCoordPair, Set<ChunkCoordPair>> presentRegions;
     protected final Dimension dimension;
     protected final DB database;
+    private final int maxInFlightRegions;
 
     /**
      * Create a new Bedrock world reader.
@@ -38,11 +47,24 @@ public class BedrockWorldReader implements WorldReader {
      * @param dimension      the dimension being converted.
      */
     public BedrockWorldReader(BedrockResolvers resolvers, Converter converter, DB database, Map<RegionCoordPair, Set<ChunkCoordPair>> presentRegions, Dimension dimension) {
+        this(resolvers, converter, database, presentRegions, dimension, MAX_IN_FLIGHT_REGIONS);
+    }
+
+    /**
+     * Create a reader with an explicit in-flight region limit. Every region is still processed; this only limits how
+     * many may enter the expensive conversion pipeline at once. Kept package-private for tests and benchmarks.
+     */
+    BedrockWorldReader(BedrockResolvers resolvers, Converter converter, DB database,
+                       Map<RegionCoordPair, Set<ChunkCoordPair>> presentRegions, Dimension dimension,
+                       int maxInFlightRegions) {
+        if (maxInFlightRegions <= 0) throw new IllegalArgumentException("Maximum in-flight regions must be positive");
+
         this.database = database;
         this.resolvers = resolvers;
         this.converter = converter;
         this.presentRegions = presentRegions;
         this.dimension = dimension;
+        this.maxInFlightRegions = maxInFlightRegions;
     }
 
     @Override
@@ -78,12 +100,68 @@ public class BedrockWorldReader implements WorldReader {
      * @param columnConversionHandler the handler to submit the read columns to.
      */
     public void readRegions(Map<RegionCoordPair, Set<ChunkCoordPair>> regions, ColumnConversionHandler columnConversionHandler) {
-        for (Map.Entry<RegionCoordPair, Set<ChunkCoordPair>> region : regions.entrySet()) {
-            if (converter.shouldProcessRegion(dimension, region.getKey())) {
-                Task.async("Reading region", TaskWeight.NORMAL, () -> readRegion(region, columnConversionHandler))
-                        .then("Region - Flushing", TaskWeight.MEDIUM, () -> columnConversionHandler.flushRegion(region.getKey()));
+        scheduleNextRegionBatch(orderRegions(regions.keySet()).iterator(), regions, columnConversionHandler);
+    }
+
+    /**
+     * Schedule a small spatially local group of regions. The next group starts only after every column and writer task
+     * in the current group completes, providing a hard upper bound on in-flight full-column data.
+     */
+    protected void scheduleNextRegionBatch(Iterator<RegionCoordPair> orderedRegions,
+                                           Map<RegionCoordPair, Set<ChunkCoordPair>> regions,
+                                           ColumnConversionHandler columnConversionHandler) {
+        List<Task<Void>> batch = new ArrayList<>(maxInFlightRegions);
+        while (orderedRegions.hasNext() && batch.size() < maxInFlightRegions) {
+            RegionCoordPair region = orderedRegions.next();
+            Set<ChunkCoordPair> columns = regions.remove(region);
+            if (columns == null || !converter.shouldProcessRegion(dimension, region)) continue;
+
+            batch.add(Task.async("Reading region", TaskWeight.NORMAL,
+                            () -> readRegion(region, columns, columnConversionHandler))
+                    .then("Region - Flushing", TaskWeight.MEDIUM,
+                            () -> columnConversionHandler.flushRegion(region)));
+        }
+
+        if (orderedRegions.hasNext()) {
+            // Reserve the same reading/flushing weight for every region still waiting to be scheduled.
+            int remainingWeight = Math.toIntExact((long) regions.size()
+                    * (TaskWeight.NORMAL.getWeight() + TaskWeight.MEDIUM.getWeight()));
+            Task.join(batch).then("Scheduling next region batch", new TaskWeight(remainingWeight),
+                    () -> scheduleNextRegionBatch(orderedRegions, regions, columnConversionHandler));
+        }
+    }
+
+    /**
+     * Order regions as a breadth-first walk over each connected component. This keeps the boundary between processed
+     * and unprocessed regions compact, which limits the number of full columns retained for neighbour pre-transforms.
+     */
+    protected static List<RegionCoordPair> orderRegions(Set<RegionCoordPair> regions) {
+        List<RegionCoordPair> seeds = new ArrayList<>(regions);
+        seeds.sort(REGION_ORDER);
+
+        Set<RegionCoordPair> remaining = new ObjectOpenHashSet<>(regions);
+        List<RegionCoordPair> ordered = new ArrayList<>(regions.size());
+
+        for (RegionCoordPair seed : seeds) {
+            if (!remaining.remove(seed)) continue;
+            int next = ordered.size();
+            ordered.add(seed);
+
+            while (next < ordered.size()) {
+                RegionCoordPair current = ordered.get(next++);
+
+                for (int offsetZ = -1; offsetZ <= 1; offsetZ++) {
+                    for (int offsetX = -1; offsetX <= 1; offsetX++) {
+                        if (offsetX == 0 && offsetZ == 0) continue;
+
+                        RegionCoordPair neighbor = new RegionCoordPair(current.regionX() + offsetX, current.regionZ() + offsetZ);
+                        if (remaining.remove(neighbor)) ordered.add(neighbor);
+                    }
+                }
             }
         }
+
+        return ordered;
     }
 
     /**
@@ -92,8 +170,8 @@ public class BedrockWorldReader implements WorldReader {
      * @param region                  the region to read with columns.
      * @param columnConversionHandler the handler to submit the columns to.
      */
-    public void readRegion(Map.Entry<RegionCoordPair, Set<ChunkCoordPair>> region, ColumnConversionHandler columnConversionHandler) {
-        for (ChunkCoordPair chunkCoordPair : region.getValue()) {
+    public void readRegion(RegionCoordPair region, Set<ChunkCoordPair> columns, ColumnConversionHandler columnConversionHandler) {
+        for (ChunkCoordPair chunkCoordPair : columns) {
             if (!converter.shouldProcessColumn(dimension, chunkCoordPair)) continue;
             Task.async("Creating Column Reader", TaskWeight.LOW, () -> createColumnReader(chunkCoordPair))
                     .thenConsume("Reading Column", TaskWeight.HIGHER, (columnReader) -> columnReader.readColumn(columnConversionHandler));

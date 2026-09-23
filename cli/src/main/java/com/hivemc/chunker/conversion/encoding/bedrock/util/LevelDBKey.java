@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * Utility class to create keys for the LevelDB database.
@@ -22,6 +23,46 @@ public class LevelDBKey {
     public static final byte[] PORTALS = "portals".getBytes(StandardCharsets.UTF_8);
     public static final byte[] POS_TRACK_DB = "PosTrackDB-0x".getBytes(StandardCharsets.UTF_8);
     public static final byte[] POS_TRACK_DB_LAST_ID = "PositionTrackDB-LastId".getBytes(StandardCharsets.UTF_8);
+
+    /**
+     * Check whether a database key identifies column data used during chunk discovery.
+     *
+     * @param key the database key.
+     * @return true if the key has a supported column type and layout.
+     */
+    public static boolean isColumnKey(byte[] key) {
+        int length = key.length;
+        if (length != 9 && length != 10 && length != 13 && length != 14) return false;
+        if (LevelDBKey.startsWith(key, LevelDBKey.MAP_PREFIX)
+                || LevelDBKey.startsWith(key, LevelDBKey.ACTOR_PREFIX)
+                || LevelDBKey.startsWith(key, LevelDBKey.DIGP_PREFIX)
+                || Arrays.equals(key, LevelDBKey.LOCAL_PLAYER)) {
+            return false;
+        }
+
+        boolean subChunk = length == 10 || length == 14;
+        byte type = key[subChunk ? length - 2 : length - 1];
+        if (subChunk) return type == LevelDBChunkType.SUB_CHUNK_PREFIX.getId();
+
+        return type == LevelDBChunkType.DATA_2D.getId()
+                || type == LevelDBChunkType.DATA_3D.getId()
+                || type == LevelDBChunkType.ENTITY.getId()
+                || type == LevelDBChunkType.BLOCK_ENTITY.getId();
+    }
+
+    /**
+     * Read a signed little-endian integer without allocating a buffer.
+     *
+     * @param input the bytes containing the integer.
+     * @param offset the first of four bytes to read.
+     * @return the decoded integer.
+     */
+    public static int readLittleEndianInt(byte[] input, int offset) {
+        return (input[offset] & 0xFF)
+                | (input[offset + 1] & 0xFF) << 8
+                | (input[offset + 2] & 0xFF) << 16
+                | input[offset + 3] << 24;
+    }
 
     /**
      * Check if a key starts with a prefix.

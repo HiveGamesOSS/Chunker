@@ -811,6 +811,8 @@ public class BedrockItemStackResolver extends ItemStackResolver<BedrockResolvers
                 name = "minecraft:air"; // In local player inventory air can be written as empty string
             }
             identifier = Identifier.fromData(name, OptionalInt.of(input.getShort("Damage", (short) 0)));
+        } else if (input.size() == 0) {
+            identifier = new Identifier("minecraft:air"); // Empty armor / offhand slots are written as an empty compound
         } else {
             return Optional.empty(); // Unable to read item / block
         }

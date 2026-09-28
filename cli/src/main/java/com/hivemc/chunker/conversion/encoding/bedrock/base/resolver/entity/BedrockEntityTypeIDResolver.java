@@ -209,6 +209,9 @@ public class BedrockEntityTypeIDResolver implements Resolver<Integer, ChunkerEnt
         if (bedrockVersion.isGreaterThanOrEqual(1, 26, 40)) {
             mapping.put(ChunkerVanillaEntityType.CUSHION, 154);
         }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 26, 60)) {
+            mapping.put(ChunkerVanillaEntityType.FROSTBITE, 155);
+        }
     }
 
     @Override

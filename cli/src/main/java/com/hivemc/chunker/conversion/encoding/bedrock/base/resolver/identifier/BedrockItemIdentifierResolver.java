@@ -1277,5 +1277,10 @@ public class BedrockItemIdentifierResolver extends ChunkerItemIdentifierResolver
             register(ItemMapping.of("minecraft:filled_map", 25, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.DESERT_PYRAMID));
             register(ItemMapping.of("minecraft:filled_map", 26, ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.WARM_OCEAN_RUINS));
         }
+
+        // R26U6
+        if (version.isGreaterThanOrEqual(1, 26, 60)) {
+            register(ItemMapping.of("minecraft:frostbite_spawn_egg", ChunkerVanillaItemType.SPAWN_EGG, ChunkerItemProperty.SPAWN_EGG_MOB, ChunkerVanillaEntityType.FROSTBITE));
+        }
     }
 }

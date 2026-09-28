@@ -175,7 +175,8 @@ public class JavaLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.PARCHED,
                     ChunkerVanillaEntityType.ZOMBIE_NAUTILUS,
                     ChunkerVanillaEntityType.SULFUR_CUBE,
-                    ChunkerVanillaEntityType.CUSHION
+                    ChunkerVanillaEntityType.CUSHION,
+                    ChunkerVanillaEntityType.FROSTBITE
             ),
             ChunkerPotionType.class, Set.of(
                     ChunkerPotionType.EMPTY,

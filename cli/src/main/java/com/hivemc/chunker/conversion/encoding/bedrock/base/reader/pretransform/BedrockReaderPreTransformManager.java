@@ -98,14 +98,23 @@ public class BedrockReaderPreTransformManager extends PreTransformManager {
         // Fence gate handler
         registerHandler(new BedrockFenceGatePreTransformHandler(), ChunkerVanillaBlockGroups.FENCE_GATES);
 
-        // Chorus Plant handler
-        registerHandler(new ConnectableBlockPreTransformHandler() {
-            public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
-                return relative.getType().equals(source.getType()) ||
-                        relative.getType().equals(ChunkerVanillaBlockType.CHORUS_FLOWER) ||
-                        direction == Direction.DOWN && relative.getType().equals(ChunkerVanillaBlockType.END_STONE);
-            }
-        }, ChunkerVanillaBlockType.CHORUS_PLANT);
+        // Chorus plant, redstone and fire connections need inferring before 1.26.60 started storing them as states
+        if (version.isLessThan(1, 26, 60)) {
+            // Chorus Plant handler
+            registerHandler(new ConnectableBlockPreTransformHandler() {
+                public boolean canConnect(ChunkerBlockIdentifier source, Direction direction, ChunkerBlockIdentifier relative) {
+                    return relative.getType().equals(source.getType()) ||
+                            relative.getType().equals(ChunkerVanillaBlockType.CHORUS_FLOWER) ||
+                            direction == Direction.DOWN && relative.getType().equals(ChunkerVanillaBlockType.END_STONE);
+                }
+            }, ChunkerVanillaBlockType.CHORUS_PLANT);
+
+            // Redstone (Wire direction)
+            registerHandler(new BedrockRedstonePreTransformHandler(), ChunkerVanillaBlockType.REDSTONE_WIRE);
+
+            // Fire handler (connects to blocks)
+            registerHandler(new BedrockFirePreTransformHandler(), ChunkerVanillaBlockType.FIRE);
+        }
 
         // Walls handler (adds post aka up and wall height on older versions)
         registerHandler(new BedrockWallPreTransformHandler(version), ChunkerVanillaBlockGroups.WALLS);
@@ -134,14 +143,8 @@ public class BedrockReaderPreTransformManager extends PreTransformManager {
         // Doors (Adds the other states)
         registerHandler(new BedrockDoorPreTransformHandler(), ChunkerVanillaBlockGroups.DOORS);
 
-        // Redstone (Wire direction)
-        registerHandler(new BedrockRedstonePreTransformHandler(), ChunkerVanillaBlockType.REDSTONE_WIRE);
-
         // Note block (Instrument)
         registerHandler(new BedrockNoteBlockPreTransformHandler(), ChunkerVanillaBlockType.NOTE_BLOCK);
-
-        // Fire handler (connects to blocks)
-        registerHandler(new BedrockFirePreTransformHandler(), ChunkerVanillaBlockType.FIRE);
 
         // Kelp (needs plants below the top)
         registerHandler(new BedrockHangingPlantPreTransformHandler(

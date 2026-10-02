@@ -51,6 +51,7 @@ public enum ChunkerVanillaEntityType implements ChunkerEntityType {
     FIREWORK_ROCKET,
     FOX(true),
     FROG(true),
+    FROSTBITE(true),
     FURNACE_MINECART,
     GHAST(true),
     GIANT,

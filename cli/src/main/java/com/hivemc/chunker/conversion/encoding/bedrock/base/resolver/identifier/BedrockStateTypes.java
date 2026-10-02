@@ -793,6 +793,11 @@ public class BedrockStateTypes {
             .mapping(14, RailShape.NORTH_SOUTH) // Legacy state which falls back to north-south
             .mapping(15, RailShape.NORTH_SOUTH) // Legacy state which falls back to north-south
             .build();
+    public static final TypeMapping<String, RedstoneConnection> REDSTONE_CONNECTION = new TypeMapping.Builder<String, RedstoneConnection>()
+            .mapping("none", RedstoneConnection.NONE)
+            .mapping("side", RedstoneConnection.SIDE)
+            .mapping("up", RedstoneConnection.UP)
+            .build();
     public static final TypeMapping<Integer, Bool> REDSTONE_SIGNAL_TO_BOOL = new TypeMapping.Builder<Integer, Bool>()
             .mapping(0, Bool.FALSE)
             .mapping(1, Bool.TRUE)

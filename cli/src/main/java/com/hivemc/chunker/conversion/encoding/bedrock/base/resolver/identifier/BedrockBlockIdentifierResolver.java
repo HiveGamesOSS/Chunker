@@ -3223,5 +3223,12 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
             register(BlockMapping.of("minecraft:red_concrete_stairs", ChunkerVanillaBlockType.RED_CONCRETE_STAIRS, BedrockStateGroups.STAIRS));
             register(BlockMapping.of("minecraft:black_concrete_stairs", ChunkerVanillaBlockType.BLACK_CONCRETE_STAIRS, BedrockStateGroups.STAIRS));
         }
+
+        // R26U6
+        if (version.isGreaterThanOrEqual(1, 26, 60)) {
+            register(BlockMapping.of("minecraft:icicle", ChunkerVanillaBlockType.ICICLE, BedrockStateGroups.ICICLE));
+            register(BlockMapping.of("minecraft:ice_crystal", ChunkerVanillaBlockType.ICE_CRYSTAL, BedrockStateGroups.FACING_TO_BLOCK_FACE));
+            register(BlockMapping.of("minecraft:disc_press", ChunkerVanillaBlockType.DISC_PRESS, BedrockStateGroups.CARDINAL_DIRECTION));
+        }
     }
 }

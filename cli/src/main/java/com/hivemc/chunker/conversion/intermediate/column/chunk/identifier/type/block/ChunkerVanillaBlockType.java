@@ -1311,6 +1311,9 @@ public enum ChunkerVanillaBlockType implements ChunkerBlockType {
     GREEN_CONCRETE_STAIRS(0x667f33, VanillaBlockStateGroups.STAIRS, false),
     RED_CONCRETE_STAIRS(0x993333, VanillaBlockStateGroups.STAIRS, false),
     BLACK_CONCRETE_STAIRS(0x191919, VanillaBlockStateGroups.STAIRS, false),
+    ICICLE(0xa0a0ff, Set.of(VanillaBlockStates.ATTACHED, VanillaBlockStates.DRIPSTONE_THICKNESS, VanillaBlockStates.VERTICAL_DIRECTION), false),
+    ICE_CRYSTAL(0xa0a0ff, VanillaBlockStateGroups.FACING_ALL, false),
+    DISC_PRESS(0xd87f33, Set.of(VanillaBlockStates.FACING_HORIZONTAL), false),
     ;
 
     private final int rgbColor;

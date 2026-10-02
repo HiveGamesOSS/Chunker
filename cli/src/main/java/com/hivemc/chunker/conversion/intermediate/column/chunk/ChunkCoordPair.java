@@ -18,6 +18,15 @@ public record ChunkCoordPair(int chunkX, int chunkZ) {
     }
 
     /**
+     * Pack the signed X/Z pair into a primitive long for memory-efficient sets and maps.
+     *
+     * @return the packed coordinate.
+     */
+    public long toLong() {
+        return ((long) chunkX << 32) | (chunkZ & 0xFFFFFFFFL);
+    }
+
+    /**
      * Get the region X co-ordinate for the region that holds this chunk.
      *
      * @return the region x co-ordinate.

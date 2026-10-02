@@ -5,7 +5,7 @@ import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.reader.LevelReader;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.BedrockReaderWriter;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.BedrockResolvers;
-import com.hivemc.chunker.conversion.encoding.bedrock.util.LevelDBChunkType;
+import com.hivemc.chunker.conversion.encoding.bedrock.util.BedrockChunkCoordinateSet;
 import com.hivemc.chunker.conversion.encoding.bedrock.util.LevelDBKey;
 import com.hivemc.chunker.conversion.handlers.LevelConversionHandler;
 import com.hivemc.chunker.conversion.handlers.WorldConversionHandler;
@@ -29,7 +29,6 @@ import com.hivemc.chunker.scheduling.task.Task;
 import com.hivemc.chunker.scheduling.task.TaskWeight;
 import it.unimi.dsi.fastutil.bytes.Byte2ObjectAVLTreeMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.iq80.leveldb.*;
 import org.iq80.leveldb.impl.Iq80DBFactory;
 import org.iq80.leveldb.table.BloomFilterPolicy;
@@ -38,8 +37,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.*;
 
 /**
@@ -133,67 +130,34 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
             Map<Dimension, Map<RegionCoordPair, Set<ChunkCoordPair>>> dimensionLookup = new HashMap<>();
             // Scan the database for valid chunks
             DimensionRegistry dimensionRegistry = converter.getDimensionRegistry();
-            try (DBIterator iterator = database.iterator()) {
+            try (DBIterator iterator = database.iterator(new ReadOptions().fillCache(false))) {
                 while (iterator.hasNext()) {
                     Map.Entry<byte[], byte[]> entry = iterator.next();
                     byte[] key = entry.getKey();
-                    int keyLength = key.length;
+                    if (!LevelDBKey.isColumnKey(key)) continue;
 
-                    // The keys we're looking for are (9, 10, 13, 14) depending on if they have sub chunk / dimension
-                    boolean containsSubChunk = keyLength == 14 || keyLength == 10;
-                    boolean containsDimension = keyLength == 14 || keyLength == 13;
-
-                    // If not 9 (both false) or any of the others then skip this entry
-                    if (keyLength != 9 && !containsSubChunk && !containsDimension) continue;
-
-                    // Skip local player
-                    if (Arrays.equals(key, LevelDBKey.LOCAL_PLAYER)) {
-                        continue;
-                    }
-
-                    // Use a buffer to parse the key
-                    ByteBuffer buffer = ByteBuffer.wrap(key).order(ByteOrder.LITTLE_ENDIAN);
-
-                    // Read co-ordinates
-                    int x = buffer.getInt();
-                    int z = buffer.getInt();
+                    int x = LevelDBKey.readLittleEndianInt(key, 0);
+                    int z = LevelDBKey.readLittleEndianInt(key, 4);
 
                     // Read dimension
                     Dimension dimension = Dimension.OVERWORLD;
-                    if (containsDimension) {
-                        int dimensionID = buffer.getInt();
+                    if (key.length >= 13) {
+                        int dimensionID = LevelDBKey.readLittleEndianInt(key, 8);
                         dimension = dimensionRegistry.fromBedrock(dimensionID, null);
 
-                        // If unknown report an issue
+                        // Non-chunk string keys can share a chunk-key length. Unknown dimensions are not usable here.
                         if (dimension == null) {
-                            converter.logNonFatalException(new Exception("Unknown dimension key " + dimensionID));
                             continue;
                         }
                     }
 
-                    // Read subChunk Y
-                    if (containsSubChunk) {
-                        buffer.get();
-                    }
-
-                    // Read type
-                    byte type = buffer.get();
-
-                    // Ensure the chunk either has: biome/height data, chunk data, block entity/entity data
-                    if (type != LevelDBChunkType.DATA_2D.getId() && type != LevelDBChunkType.DATA_3D.getId()
-                            && type != LevelDBChunkType.SUB_CHUNK_PREFIX.getId()
-                            && type != LevelDBChunkType.ENTITY.getId() && type != LevelDBChunkType.BLOCK_ENTITY.getId()) {
-                        continue;
-                    }
-
                     // Create the pairs used for adding to the lookup
-                    ChunkCoordPair chunkCoordPair = new ChunkCoordPair(x, z);
-                    RegionCoordPair regionCoordPair = chunkCoordPair.getRegion();
+                    RegionCoordPair regionCoordPair = new RegionCoordPair(x >> 5, z >> 5);
 
                     // Add to lookup
                     Map<RegionCoordPair, Set<ChunkCoordPair>> regionLookup = dimensionLookup.computeIfAbsent(dimension, (ignored) -> new Object2ObjectOpenHashMap<>());
-                    Set<ChunkCoordPair> columns = regionLookup.computeIfAbsent(regionCoordPair, (ignored) -> new ObjectOpenHashSet<>());
-                    columns.add(chunkCoordPair);
+                    BedrockChunkCoordinateSet columns = (BedrockChunkCoordinateSet) regionLookup.computeIfAbsent(regionCoordPair, BedrockChunkCoordinateSet::new);
+                    columns.add(x, z);
                 }
             }
 
@@ -283,6 +247,11 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
 
     @Override
     public @Nullable Object readCustomLevelSetting(@NotNull CompoundTag root, @NotNull ChunkerLevelSettings chunkerLevelSettings, @NotNull String targetName, @NotNull Class<?> type) {
+        // Check for WinterDrop2026 support
+        if (targetName.equals("WinterDrop2026")) {
+            return false;
+        }
+
         // Check for AutumnDrop2026 support
         if (targetName.equals("AutumnDrop2026")) {
             return false;
@@ -481,21 +450,20 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
             List<Task<ChunkerMap>> tasks = new ArrayList<>();
 
             // Iterate through the database for maps
-            try (DBIterator iterator = database.iterator()) {
+            try (DBIterator iterator = database.iterator(new ReadOptions().fillCache(false))) {
                 iterator.seek(LevelDBKey.MAP_PREFIX); // Skip to the key
 
                 while (iterator.hasNext()) {
                     Map.Entry<byte[], byte[]> entry = iterator.next();
 
                     // Ensure it starts with the map key
-                    if (!LevelDBKey.startsWith(entry.getKey(), LevelDBKey.MAP_PREFIX)) continue;
+                    if (!LevelDBKey.startsWith(entry.getKey(), LevelDBKey.MAP_PREFIX)) break;
 
                     // Attempt to parse the mapID from the key
                     try {
                         String suffix = LevelDBKey.extractSuffix(entry.getKey(), LevelDBKey.MAP_PREFIX);
                         long mapID = Long.parseLong(suffix);
 
-                        // Create the read task
                         tasks.add(Task.async("Parsing map", TaskWeight.NORMAL, () -> parseMap(mapID, entry.getValue())));
                     } catch (Exception e) {
                         converter.logNonFatalException(e);

@@ -132,7 +132,10 @@ public class JavaBasicItemResolverTests {
                     ChunkerVanillaEntityType.SULFUR_CUBE,
 
                     // Autumn Drop
-                    ChunkerVanillaEntityType.CUSHION
+                    ChunkerVanillaEntityType.CUSHION,
+
+                    // Bedrock only
+                    ChunkerVanillaEntityType.FROSTBITE
 
             ),
             ChunkerPotionType.class, Set.of(

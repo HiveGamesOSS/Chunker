@@ -199,6 +199,11 @@ public class JavaLevelWriter implements LevelWriter, JavaReaderWriter {
     @Override
     public void writeCustomLevelSetting(ChunkerLevelSettings chunkerLevelSettings, CompoundTag output, String targetName, Object value) {
         // Check for next update
+        if (targetName.equals("WinterDrop2026")) {
+            // Not supported
+            return;
+        }
+
         if (targetName.equals("AutumnDrop2026")) {
             // Not supported
             return;

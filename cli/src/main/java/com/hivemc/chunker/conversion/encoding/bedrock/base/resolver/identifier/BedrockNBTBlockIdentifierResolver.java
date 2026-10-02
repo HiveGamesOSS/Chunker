@@ -67,15 +67,13 @@ public class BedrockNBTBlockIdentifierResolver implements Resolver<BedrockBlockC
             output.put("version", stateVersion);
         }
 
-        // Write the states
-        if (!input.getStates().isEmpty()) {
-            CompoundTag states = new CompoundTag(input.getStates().size());
-            for (Map.Entry<String, StateValue<?>> entry : input.getStates().entrySet()) {
-                if (entry.getKey().equals("waterlogged")) continue;
-                states.put(entry.getKey(), entry.getValue().toNBT());
-            }
-            output.put("states", states);
+        // Write the states (always present on Bedrock, even if empty)
+        CompoundTag states = new CompoundTag(input.getStates().size());
+        for (Map.Entry<String, StateValue<?>> entry : input.getStates().entrySet()) {
+            if (entry.getKey().equals("waterlogged")) continue;
+            states.put(entry.getKey(), entry.getValue().toNBT());
         }
+        output.put("states", states);
 
         // Return the BedrockBlockCompoundTag, using waterlogged to indicate if it's waterlogged
         boolean waterlogged = input.getStates().getOrDefault("waterlogged", StateValueBoolean.FALSE) == StateValueBoolean.TRUE;

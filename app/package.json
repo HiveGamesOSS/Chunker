@@ -19,6 +19,6 @@
   "devDependencies": {
     "concurrently": "^10.0.5",
     "cross-env": "^10.1.0",
-    "wait-on": "^9.1.0"
+    "wait-on": "^9.4.1"
   }
 }

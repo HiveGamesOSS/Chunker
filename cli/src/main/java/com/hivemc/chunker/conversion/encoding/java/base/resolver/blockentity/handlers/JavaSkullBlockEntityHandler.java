@@ -117,7 +117,7 @@ public class JavaSkullBlockEntityHandler extends BlockEntityHandler<JavaResolver
             }
 
             // Add name tag if present
-            if (value.getOwnerName() != null && resolvers.dataVersion().getVersion().isGreaterThan(1, 12, 0)) {
+            if (value.getOwnerName() != null) {
                 owner.put(resolvers.dataVersion().getVersion().isGreaterThanOrEqual(1, 20, 5) ? "name" : "Name", value.getOwnerName());
             }
 

@@ -8,6 +8,7 @@ import com.hivemc.chunker.conversion.encoding.base.writer.WorldWriter;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.BedrockReaderWriter;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.reader.BedrockLevelReader;
 import com.hivemc.chunker.conversion.encoding.bedrock.base.resolver.BedrockResolvers;
+import com.hivemc.chunker.conversion.encoding.bedrock.util.BedrockChunkMetaData;
 import com.hivemc.chunker.conversion.encoding.bedrock.util.LevelDBKey;
 import com.hivemc.chunker.conversion.handlers.pretransform.manager.PreTransformManager;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
@@ -258,6 +259,12 @@ public class BedrockLevelWriter implements LevelWriter, BedrockReaderWriter {
 
                 database.put(LevelDBKey.DIMENSION_NAME_ID_TABLE, value);
             }
+        }
+
+        // Write the chunk metadata dictionary
+        BedrockChunkMetaData chunkMetaData = BedrockChunkMetaData.getMetaForVersion(version);
+        if (chunkMetaData != null) {
+            database.put(LevelDBKey.LEVEL_CHUNK_META_DATA_DICTIONARY, chunkMetaData.encodeDictionary());
         }
 
         // Create a new world writer with the created worldData

@@ -51,6 +51,16 @@ public interface Writer {
     }
 
     /**
+     * Create a Bedrock edition network based writer from a DataOutput.
+     *
+     * @param dataOutput the data output to use as the destination.
+     * @return a writer which wraps the DataOutput.
+     */
+    static Writer toBedrockNetworkWriter(DataOutput dataOutput) {
+        return new DataOutputWriterBedrockNetwork(dataOutput);
+    }
+
+    /**
      * Write a short-length based byte array to the buffer.
      *
      * @param value the value to write to the buffer

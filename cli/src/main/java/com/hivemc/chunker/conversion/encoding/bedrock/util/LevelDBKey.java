@@ -26,14 +26,14 @@ public class LevelDBKey {
     public static final byte[] POS_TRACK_DB_LAST_ID = "PositionTrackDB-LastId".getBytes(StandardCharsets.UTF_8);
 
     /**
-     * Check whether a database key identifies column data used during chunk discovery.
+     * Check if a key is the version key for a column, Bedrock only loads columns which have a version key.
      *
-     * @param key the database key.
-     * @return true if the key has a supported column type and layout.
+     * @param key the input key.
+     * @return true if the key is a Version (0x2C) or LegacyVersion (0x76) key.
      */
-    public static boolean isColumnKey(byte[] key) {
+    public static boolean isColumnVersionKey(byte[] key) {
         int length = key.length;
-        if (length != 9 && length != 10 && length != 13 && length != 14) return false;
+        if (length != 9 && length != 13) return false;
         if (LevelDBKey.startsWith(key, LevelDBKey.MAP_PREFIX)
                 || LevelDBKey.startsWith(key, LevelDBKey.ACTOR_PREFIX)
                 || LevelDBKey.startsWith(key, LevelDBKey.DIGP_PREFIX)
@@ -41,14 +41,8 @@ public class LevelDBKey {
             return false;
         }
 
-        boolean subChunk = length == 10 || length == 14;
-        byte type = key[subChunk ? length - 2 : length - 1];
-        if (subChunk) return type == LevelDBChunkType.SUB_CHUNK_PREFIX.getId();
-
-        return type == LevelDBChunkType.DATA_2D.getId()
-                || type == LevelDBChunkType.DATA_3D.getId()
-                || type == LevelDBChunkType.ENTITY.getId()
-                || type == LevelDBChunkType.BLOCK_ENTITY.getId();
+        byte type = key[length - 1];
+        return type == LevelDBChunkType.VERSION.getId() || type == LevelDBChunkType.LEGACY_VERSION.getId();
     }
 
     /**

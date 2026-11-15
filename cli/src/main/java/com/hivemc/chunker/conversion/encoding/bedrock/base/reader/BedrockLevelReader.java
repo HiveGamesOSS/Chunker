@@ -134,7 +134,7 @@ public class BedrockLevelReader implements LevelReader, BedrockReaderWriter {
                 while (iterator.hasNext()) {
                     Map.Entry<byte[], byte[]> entry = iterator.next();
                     byte[] key = entry.getKey();
-                    if (!LevelDBKey.isColumnKey(key)) continue;
+                    if (!LevelDBKey.isColumnVersionKey(key)) continue;
 
                     int x = LevelDBKey.readLittleEndianInt(key, 0);
                     int z = LevelDBKey.readLittleEndianInt(key, 4);

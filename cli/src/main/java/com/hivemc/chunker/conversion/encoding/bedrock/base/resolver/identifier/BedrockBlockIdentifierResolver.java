@@ -3228,7 +3228,45 @@ public class BedrockBlockIdentifierResolver extends ChunkerBlockIdentifierResolv
         if (version.isGreaterThanOrEqual(1, 26, 60)) {
             register(BlockMapping.of("minecraft:icicle", ChunkerVanillaBlockType.ICICLE, BedrockStateGroups.ICICLE));
             register(BlockMapping.of("minecraft:ice_crystal", ChunkerVanillaBlockType.ICE_CRYSTAL, BedrockStateGroups.FACING_TO_BLOCK_FACE));
-            register(BlockMapping.of("minecraft:disc_press", ChunkerVanillaBlockType.DISC_PRESS, BedrockStateGroups.CARDINAL_DIRECTION));
+        }
+
+        // R26U7
+        if (version.isGreaterThanOrEqual(1, 26, 70)) {
+            // New ice blocks
+            register(BlockMapping.of("minecraft:brittle_ice", ChunkerVanillaBlockType.BRITTLE_ICE, BedrockStateGroups.AGE_3));
+            register(BlockMapping.of("minecraft:packed_ice_bricks", ChunkerVanillaBlockType.PACKED_ICE_BRICKS));
+            register(BlockMapping.of("minecraft:chiseled_packed_ice", ChunkerVanillaBlockType.CHISELED_PACKED_ICE));
+            register(BlockMapping.of("minecraft:snow_bricks", ChunkerVanillaBlockType.SNOW_BRICKS));
+
+            // New calcite blocks
+            register(BlockMapping.of("minecraft:calcite_pillar", ChunkerVanillaBlockType.CALCITE_PILLAR, BedrockStateGroups.PILLAR_BLOCK));
+            register(BlockMapping.of("minecraft:polished_calcite", ChunkerVanillaBlockType.POLISHED_CALCITE));
+            register(BlockMapping.of("minecraft:polished_calcite_bricks", ChunkerVanillaBlockType.POLISHED_CALCITE_BRICKS));
+
+            // New slabs, stairs and walls
+            register(BlockMapping.of("minecraft:packed_ice_brick_slab", ChunkerVanillaBlockType.PACKED_ICE_BRICK_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:packed_ice_brick_double_slab", ChunkerVanillaBlockType.PACKED_ICE_BRICK_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:packed_ice_brick_stairs", ChunkerVanillaBlockType.PACKED_ICE_BRICK_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:packed_ice_brick_wall", ChunkerVanillaBlockType.PACKED_ICE_BRICK_WALL, BedrockStateGroups.WALL));
+            register(BlockMapping.of("minecraft:snow_brick_slab", ChunkerVanillaBlockType.SNOW_BRICK_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:snow_brick_double_slab", ChunkerVanillaBlockType.SNOW_BRICK_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:snow_brick_stairs", ChunkerVanillaBlockType.SNOW_BRICK_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:snow_brick_wall", ChunkerVanillaBlockType.SNOW_BRICK_WALL, BedrockStateGroups.WALL));
+            register(BlockMapping.of("minecraft:calcite_slab", ChunkerVanillaBlockType.CALCITE_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:calcite_double_slab", ChunkerVanillaBlockType.CALCITE_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:calcite_stairs", ChunkerVanillaBlockType.CALCITE_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:calcite_wall", ChunkerVanillaBlockType.CALCITE_WALL, BedrockStateGroups.WALL));
+            register(BlockMapping.of("minecraft:polished_calcite_slab", ChunkerVanillaBlockType.POLISHED_CALCITE_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:polished_calcite_double_slab", ChunkerVanillaBlockType.POLISHED_CALCITE_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:polished_calcite_stairs", ChunkerVanillaBlockType.POLISHED_CALCITE_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:polished_calcite_wall", ChunkerVanillaBlockType.POLISHED_CALCITE_WALL, BedrockStateGroups.WALL));
+            register(BlockMapping.of("minecraft:polished_calcite_brick_slab", ChunkerVanillaBlockType.POLISHED_CALCITE_BRICK_SLAB, BedrockStateGroups.SLAB_HALF));
+            register(BlockMapping.of("minecraft:polished_calcite_brick_double_slab", ChunkerVanillaBlockType.POLISHED_CALCITE_BRICK_SLAB, BedrockStateGroups.SLAB_DOUBLE, VanillaBlockStates.SLAB_TYPE, SlabType.DOUBLE));
+            register(BlockMapping.of("minecraft:polished_calcite_brick_stairs", ChunkerVanillaBlockType.POLISHED_CALCITE_BRICK_STAIRS, BedrockStateGroups.STAIRS));
+            register(BlockMapping.of("minecraft:polished_calcite_brick_wall", ChunkerVanillaBlockType.POLISHED_CALCITE_BRICK_WALL, BedrockStateGroups.WALL));
+
+            // New soulshale block
+            register(BlockMapping.of("minecraft:chiseled_soulshale", ChunkerVanillaBlockType.CHISELED_SOULSHALE));
         }
     }
 }

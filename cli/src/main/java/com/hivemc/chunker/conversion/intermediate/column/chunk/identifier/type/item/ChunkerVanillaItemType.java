@@ -371,6 +371,7 @@ public enum ChunkerVanillaItemType implements ChunkerItemType {
     MUSIC_DISC_TEARS,
     MUSIC_DISC_LAVA_CHICKEN,
     MUSIC_DISC_BOUNCE,
+    MUSIC_DISC_FLURRY,
     DISC_FRAGMENT_5,
     TRIDENT,
     PHANTOM_MEMBRANE,
@@ -482,6 +483,7 @@ public enum ChunkerVanillaItemType implements ChunkerItemType {
     GREEN_CUSHION,
     RED_CUSHION,
     BLACK_CUSHION,
+    ICE_BALL,
     ;
 
     private final Class<? extends BlockEntity> blockEntityClass;

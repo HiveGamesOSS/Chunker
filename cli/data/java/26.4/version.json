@@ -1,0 +1,18 @@
+{
+    "id": "26.4-snapshot-8",
+    "name": "26.4 Snapshot 8",
+    "world_version": 5128,
+    "series_id": "main",
+    "protocol_version": 1073742170,
+    "pack_version": {
+        "resource_major": 103,
+        "resource_minor": 0,
+        "data_major": 127,
+        "data_minor": 0
+    },
+    "build_time": "2026-11-10T14:17:55+00:00",
+    "java_component": "java-runtime-epsilon",
+    "java_version": 25,
+    "stable": false,
+    "use_editor": false
+}

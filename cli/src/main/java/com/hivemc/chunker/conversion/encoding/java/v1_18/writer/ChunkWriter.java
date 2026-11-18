@@ -89,6 +89,18 @@ public class ChunkWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
         boolean cavesAndCliffs = converter.level().map(level -> level.getSettings().CavesAndCliffs).orElse(false);
         Palette<ChunkerBiome> biomePalette = chunkerColumn.getBiomes().as4X4Palette(chunkerChunk.getY() + (cavesAndCliffs ? 4 : 0));
 
+        // Add the nbt
+        outputs.add(new TagWithName<>("biomes", writeBiomePalette(biomePalette, 4)));
+    }
+
+    /**
+     * Write a biome palette to NBT.
+     *
+     * @param biomePalette  the palette to write, may be empty.
+     * @param dimensionSize the dimension size of the palette, e.g. 4 for 4x4x4.
+     * @return the compound tag containing the palette and data.
+     */
+    protected CompoundTag writeBiomePalette(Palette<ChunkerBiome> biomePalette, int dimensionSize) {
         // Generate the palette to write
         CompoundTag biomes = new CompoundTag(2);
 
@@ -119,11 +131,9 @@ public class ChunkWriter extends com.hivemc.chunker.conversion.encoding.java.v1_
                 values = shortBasedPalette.getValues();
             }
             // Encode the values as a long then write them in 1.16 format
-            long[] encodedValues = PaletteUtil.writePaletteValues1_16(PaletteUtil.MINIMUM_BITS_PER_ENTRY_BIOMES, 4, keyCount, values);
+            long[] encodedValues = PaletteUtil.writePaletteValues1_16(PaletteUtil.MINIMUM_BITS_PER_ENTRY_BIOMES, dimensionSize, keyCount, values);
             biomes.put("data", new LongArrayTag(encodedValues));
         }
-
-        // Add the nbt
-        outputs.add(new TagWithName<>("biomes", biomes));
+        return biomes;
     }
 }

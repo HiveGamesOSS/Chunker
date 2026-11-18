@@ -70,8 +70,7 @@ public class JavaBasicComponentItemResolverTests {
                     ChunkerVanillaEntityType.ELDER_GUARDIAN_GHOST,
                     ChunkerVanillaEntityType.MOVING_BLOCK,
                     ChunkerVanillaEntityType.SHIELD,
-                    ChunkerVanillaEntityType.WITHER_SKULL_DANGEROUS,
-                    ChunkerVanillaEntityType.FROSTBITE // Bedrock only
+                    ChunkerVanillaEntityType.WITHER_SKULL_DANGEROUS
             ),
             ChunkerPotionType.class, Set.of(
                     ChunkerPotionType.EMPTY,

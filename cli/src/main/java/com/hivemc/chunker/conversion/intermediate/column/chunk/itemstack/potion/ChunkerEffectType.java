@@ -44,5 +44,6 @@ public enum ChunkerEffectType {
     OOZING,
     INFESTED,
     RAID_OMEN,
-    BREATH_OF_THE_NAUTILUS
+    BREATH_OF_THE_NAUTILUS,
+    FREEZING
 }

@@ -57,44 +57,60 @@ public class ChunkerClusterBasedBiomes implements ChunkerBiomes {
 
         // Loop through chunks 0-15
         for (int chunkY = 0; chunkY < 16; ++chunkY) {
-            // Create palette
-            ShortBasedPalette<ChunkerBiome> palette = new ShortBasedPalette<>(4, 16);
+            chunkPalettes.add(toPalette(chunkY));
+        }
 
-            // Convert each cluster to a per block palette form
-            for (int clusterX = 0; clusterX < 4; ++clusterX) {
-                for (int clusterY = 0; clusterY < 4; ++clusterY) {
-                    for (int clusterZ = 0; clusterZ < 4; ++clusterZ) {
-                        int x = clusterX << 2;
-                        int y = clusterY << 2;
-                        int z = clusterZ << 2;
-                        int oldIndex = chunkY << 6 | clusterY << 4 | clusterZ << 2 | clusterX;
+        // Return the palettes which were read
+        return chunkPalettes;
+    }
 
-                        ChunkerBiome biome = oldIndex < clusters.length ? clusters[oldIndex] : null;
+    @Override
+    public Palette<ChunkerBiome> asPalette(int chunkY) {
+        // Use the last chunk for extending
+        if (chunkY < 0) chunkY = 0;
+        if (chunkY > 15) chunkY = 15;
+        return toPalette(chunkY);
+    }
 
-                        // If the biome is null, fallback to the default biome for the palette - 0
-                        if (biome != null) {
-                            // Add to palette
-                            short paletteIndex = palette.getOrCreateKey(biome);
+    /**
+     * Convert the clusters of a single chunk to a per block palette.
+     *
+     * @param chunkY the chunkY index (0-15).
+     * @return the 16x16x16 palette.
+     */
+    private ShortBasedPalette<ChunkerBiome> toPalette(int chunkY) {
+        // Create palette
+        ShortBasedPalette<ChunkerBiome> palette = new ShortBasedPalette<>(4, 16);
 
-                            // Apply to the new palette
-                            for (int localX = 0; localX < 4; localX++) {
-                                for (int localY = 0; localY < 4; localY++) {
-                                    for (int localZ = 0; localZ < 4; localZ++) {
-                                        palette.setPaletteIndex(x + localX, y + localY, z + localZ, paletteIndex);
-                                    }
+        // Convert each cluster to a per block palette form
+        for (int clusterX = 0; clusterX < 4; ++clusterX) {
+            for (int clusterY = 0; clusterY < 4; ++clusterY) {
+                for (int clusterZ = 0; clusterZ < 4; ++clusterZ) {
+                    int x = clusterX << 2;
+                    int y = clusterY << 2;
+                    int z = clusterZ << 2;
+                    int oldIndex = chunkY << 6 | clusterY << 4 | clusterZ << 2 | clusterX;
+
+                    ChunkerBiome biome = oldIndex < clusters.length ? clusters[oldIndex] : null;
+
+                    // If the biome is null, fallback to the default biome for the palette - 0
+                    if (biome != null) {
+                        // Add to palette
+                        short paletteIndex = palette.getOrCreateKey(biome);
+
+                        // Apply to the new palette
+                        for (int localX = 0; localX < 4; localX++) {
+                            for (int localY = 0; localY < 4; localY++) {
+                                for (int localZ = 0; localZ < 4; localZ++) {
+                                    palette.setPaletteIndex(x + localX, y + localY, z + localZ, paletteIndex);
                                 }
                             }
                         }
                     }
                 }
             }
-
-            // Add to chunk list
-            chunkPalettes.add(palette);
         }
-
-        // Return the palettes which were read
-        return chunkPalettes;
+        return palette;
     }
 
     @Override

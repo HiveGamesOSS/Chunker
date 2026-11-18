@@ -84,47 +84,60 @@ public class ChunkerClusterPaletteBasedBiomes implements ChunkerBiomes {
 
         // Loop through valid chunks
         for (Palette<ChunkerBiome> oldPalette : chunks) {
-            if (oldPalette.isEmpty()) {
-                chunkPalettes.add(EmptyPalette.instance(16));
-            } else if (oldPalette.getKeyCount() == 1) {
-                chunkPalettes.add(new SingleValuePalette<>(16, oldPalette.getKey(0)));
-            } else {
-                // Create palette
-                WriteablePalette<ChunkerBiome> palette = new ShortBasedPalette<>(oldPalette.getKeyCount(), 16);
-
-                // Loop through each cluster and map it to a full palette
-                for (int clusterX = 0; clusterX < 4; ++clusterX) {
-                    for (int clusterY = 0; clusterY < 4; ++clusterY) {
-                        for (int clusterZ = 0; clusterZ < 4; ++clusterZ) {
-                            int x = clusterX << 2;
-                            int y = clusterY << 2;
-                            int z = clusterZ << 2;
-
-                            // Lookup the key
-                            ChunkerBiome biome = oldPalette.get(clusterX, clusterY, clusterZ);
-
-                            // Add to palette
-                            short paletteIndex = palette.getOrCreateKey(biome);
-
-                            // Apply to the new palette
-                            for (int localX = 0; localX < 4; localX++) {
-                                for (int localY = 0; localY < 4; localY++) {
-                                    for (int localZ = 0; localZ < 4; localZ++) {
-                                        palette.setPaletteIndex(x + localX, y + localY, z + localZ, paletteIndex);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Add to chunk list
-                chunkPalettes.add(palette);
-            }
+            chunkPalettes.add(toPalette(oldPalette));
         }
 
         // Return the palettes which were read
         return chunkPalettes;
+    }
+
+    @Override
+    public Palette<ChunkerBiome> asPalette(int chunkY) {
+        return toPalette(as4X4Palette(chunkY));
+    }
+
+    /**
+     * Convert a 4x4x4 cluster palette into a per block 16x16x16 palette.
+     *
+     * @param oldPalette the cluster palette.
+     * @return the per block palette.
+     */
+    public static Palette<ChunkerBiome> toPalette(Palette<ChunkerBiome> oldPalette) {
+        if (oldPalette.isEmpty()) {
+            return EmptyPalette.instance(16);
+        } else if (oldPalette.getKeyCount() == 1) {
+            return new SingleValuePalette<>(16, oldPalette.getKey(0));
+        }
+
+        // Create palette
+        WriteablePalette<ChunkerBiome> palette = new ShortBasedPalette<>(oldPalette.getKeyCount(), 16);
+
+        // Loop through each cluster and map it to a full palette
+        for (int clusterX = 0; clusterX < 4; ++clusterX) {
+            for (int clusterY = 0; clusterY < 4; ++clusterY) {
+                for (int clusterZ = 0; clusterZ < 4; ++clusterZ) {
+                    int x = clusterX << 2;
+                    int y = clusterY << 2;
+                    int z = clusterZ << 2;
+
+                    // Lookup the key
+                    ChunkerBiome biome = oldPalette.get(clusterX, clusterY, clusterZ);
+
+                    // Add to palette
+                    short paletteIndex = palette.getOrCreateKey(biome);
+
+                    // Apply to the new palette
+                    for (int localX = 0; localX < 4; localX++) {
+                        for (int localY = 0; localY < 4; localY++) {
+                            for (int localZ = 0; localZ < 4; localZ++) {
+                                palette.setPaletteIndex(x + localX, y + localY, z + localZ, paletteIndex);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return palette;
     }
 
     @Override

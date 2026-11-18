@@ -50,6 +50,7 @@ public class BedrockBlockIdentifierValidationTests {
             .put("minecraft:glow_frame", Map.of()) // Becomes a block entity
             .put("minecraft:frame", Map.of()) // Becomes a block entity
             .put("minecraft:jigsaw", Map.of()) // Not all rotations are converted
+            .put("minecraft:scaffolding", Map.of("stability_check", StateValueBoolean.TRUE)) // Pending stability check flag isn't kept from 1.26.70
             .build();
     public static final Set<String> UNSUPPORTED_BLOCKS = ImmutableSet.of(
             // Debug/Technical blocks
@@ -65,6 +66,7 @@ public class BedrockBlockIdentifierValidationTests {
             "minecraft:stonecutter",
             "minecraft:mysterious_frame",
             "minecraft:mysterious_frame_slot",
+            "minecraft:disc_press",
 
             // Education Blocks
             "minecraft:chalkboard",

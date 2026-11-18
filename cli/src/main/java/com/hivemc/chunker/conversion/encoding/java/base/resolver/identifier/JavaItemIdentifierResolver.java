@@ -798,5 +798,12 @@ public class JavaItemIdentifierResolver extends ChunkerItemIdentifierResolver {
             register(ItemMapping.of("minecraft:warm_ocean_ruins_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.WARM_OCEAN_RUINS));
             register(ItemMapping.of("minecraft:woodland_mansion_map", ChunkerVanillaItemType.FILLED_MAP, ChunkerItemProperty.EXPLORER_MAP, ChunkerExplorerMap.WOODLAND_MANSION));
         }
+
+        // 26.4
+        if (version.isGreaterThanOrEqual(26, 4, 0)) {
+            register(ItemMapping.of("minecraft:frostbite_spawn_egg", ChunkerVanillaItemType.SPAWN_EGG, ChunkerItemProperty.SPAWN_EGG_MOB, ChunkerVanillaEntityType.FROSTBITE));
+            register(ItemMapping.of("minecraft:ice_ball", ChunkerVanillaItemType.ICE_BALL));
+            register(ItemMapping.of("minecraft:music_disc_flurry", ChunkerVanillaItemType.MUSIC_DISC_FLURRY));
+        }
     }
 }

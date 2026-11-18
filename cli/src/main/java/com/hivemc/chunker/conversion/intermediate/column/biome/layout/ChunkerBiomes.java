@@ -34,6 +34,14 @@ public interface ChunkerBiomes {
     List<Palette<ChunkerBiome>> asPalette();
 
     /**
+     * Get the biomes as a per block palette for a single chunk.
+     *
+     * @param chunkYIndex the chunkY index to fetch (0 based).
+     * @return a palette of the biomes.
+     */
+    Palette<ChunkerBiome> asPalette(int chunkYIndex);
+
+    /**
      * Get the biomes as a palette of 4 x 4 block clusters.
      *
      * @param chunkYIndex the chunkY index to fetch (0 based).

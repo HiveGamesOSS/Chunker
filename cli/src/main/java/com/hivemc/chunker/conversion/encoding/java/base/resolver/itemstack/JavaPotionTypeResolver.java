@@ -86,6 +86,11 @@ public class JavaPotionTypeResolver implements Resolver<String, ChunkerPotionTyp
             mapping.put(ChunkerPotionType.OOZING, "minecraft:oozing");
             mapping.put(ChunkerPotionType.INFESTED, "minecraft:infested");
         }
+
+        if (javaVersion.isGreaterThanOrEqual(26, 4, 0)) {
+            mapping.put(ChunkerPotionType.FREEZING, "minecraft:freezing");
+            mapping.put(ChunkerPotionType.LONG_FREEZING, "minecraft:long_freezing");
+        }
     }
 
     @Override

@@ -264,13 +264,6 @@ public class BedrockNoteBlockPreTransformHandler implements BlockPreTransformHan
             .put(ChunkerVanillaBlockType.BEACON, NoteBlockInstrument.HAT)
             .put(ChunkerVanillaBlockType.COBBLESTONE_WALL, NoteBlockInstrument.BASEDRUM)
             .put(ChunkerVanillaBlockType.MOSSY_COBBLESTONE_WALL, NoteBlockInstrument.BASEDRUM)
-            .put(ChunkerVanillaBlockType.SKELETON_SKULL, NoteBlockInstrument.SKELETON)
-            .put(ChunkerVanillaBlockType.WITHER_SKELETON_SKULL, NoteBlockInstrument.WITHER_SKELETON)
-            .put(ChunkerVanillaBlockType.ZOMBIE_HEAD, NoteBlockInstrument.ZOMBIE)
-            .put(ChunkerVanillaBlockType.PLAYER_HEAD, NoteBlockInstrument.CUSTOM_HEAD)
-            .put(ChunkerVanillaBlockType.CREEPER_HEAD, NoteBlockInstrument.CREEPER)
-            .put(ChunkerVanillaBlockType.DRAGON_HEAD, NoteBlockInstrument.DRAGON)
-            .put(ChunkerVanillaBlockType.PIGLIN_HEAD, NoteBlockInstrument.PIGLIN)
             .put(ChunkerVanillaBlockType.TRAPPED_CHEST, NoteBlockInstrument.BASS)
             .put(ChunkerVanillaBlockType.DAYLIGHT_DETECTOR, NoteBlockInstrument.BASS)
             .put(ChunkerVanillaBlockType.NETHER_QUARTZ_ORE, NoteBlockInstrument.BASEDRUM)
@@ -815,6 +808,39 @@ public class BedrockNoteBlockPreTransformHandler implements BlockPreTransformHan
             .put(ChunkerVanillaBlockType.GREEN_CONCRETE_STAIRS, NoteBlockInstrument.BASEDRUM)
             .put(ChunkerVanillaBlockType.RED_CONCRETE_STAIRS, NoteBlockInstrument.BASEDRUM)
             .put(ChunkerVanillaBlockType.BLACK_CONCRETE_STAIRS, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.ICICLE, NoteBlockInstrument.CHIME)
+            .put(ChunkerVanillaBlockType.ICE_CRYSTAL, NoteBlockInstrument.CHIME)
+            .put(ChunkerVanillaBlockType.BRITTLE_ICE, NoteBlockInstrument.CHIME)
+            .put(ChunkerVanillaBlockType.PACKED_ICE_BRICKS, NoteBlockInstrument.CHIME)
+            .put(ChunkerVanillaBlockType.PACKED_ICE_BRICK_SLAB, NoteBlockInstrument.CHIME)
+            .put(ChunkerVanillaBlockType.PACKED_ICE_BRICK_STAIRS, NoteBlockInstrument.CHIME)
+            .put(ChunkerVanillaBlockType.PACKED_ICE_BRICK_WALL, NoteBlockInstrument.CHIME)
+            .put(ChunkerVanillaBlockType.CHISELED_PACKED_ICE, NoteBlockInstrument.CHIME)
+            .put(ChunkerVanillaBlockType.CALCITE_PILLAR, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.CALCITE_SLAB, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.CALCITE_STAIRS, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.CALCITE_WALL, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.POLISHED_CALCITE, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.POLISHED_CALCITE_SLAB, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.POLISHED_CALCITE_STAIRS, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.POLISHED_CALCITE_WALL, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.POLISHED_CALCITE_BRICKS, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.POLISHED_CALCITE_BRICK_SLAB, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.POLISHED_CALCITE_BRICK_STAIRS, NoteBlockInstrument.BASEDRUM)
+            .put(ChunkerVanillaBlockType.POLISHED_CALCITE_BRICK_WALL, NoteBlockInstrument.BASEDRUM)
+            .build();
+
+    /**
+     * Instruments used when a head is placed above the note block, matching Java (wall heads have no instrument).
+     */
+    public static final Map<ChunkerBlockType, NoteBlockInstrument> HEAD_INSTRUMENTS = ImmutableMap.<ChunkerBlockType, NoteBlockInstrument>builder()
+            .put(ChunkerVanillaBlockType.SKELETON_SKULL, NoteBlockInstrument.SKELETON)
+            .put(ChunkerVanillaBlockType.WITHER_SKELETON_SKULL, NoteBlockInstrument.WITHER_SKELETON)
+            .put(ChunkerVanillaBlockType.ZOMBIE_HEAD, NoteBlockInstrument.ZOMBIE)
+            .put(ChunkerVanillaBlockType.PLAYER_HEAD, NoteBlockInstrument.CUSTOM_HEAD)
+            .put(ChunkerVanillaBlockType.CREEPER_HEAD, NoteBlockInstrument.CREEPER)
+            .put(ChunkerVanillaBlockType.DRAGON_HEAD, NoteBlockInstrument.DRAGON)
+            .put(ChunkerVanillaBlockType.PIGLIN_HEAD, NoteBlockInstrument.PIGLIN)
             .build();
 
     @Override
@@ -824,9 +850,13 @@ public class BedrockNoteBlockPreTransformHandler implements BlockPreTransformHan
 
     @Override
     public ChunkerBlockIdentifier handle(ChunkerColumn column, Map<Edge, ChunkerColumn> neighbours, int x, int y, int z, ChunkerBlockIdentifier blockIdentifier) {
-        // Fetch the block below
-        ChunkerBlockIdentifier below = getRelative(column, neighbours, x, y, z, Direction.DOWN);
-        NoteBlockInstrument instrument = INSTRUMENTS.getOrDefault(below.getType(), NoteBlockInstrument.HARP);
+        // Mob heads above take priority, otherwise use the block below
+        ChunkerBlockIdentifier above = getRelative(column, neighbours, x, y, z, Direction.UP);
+        NoteBlockInstrument instrument = HEAD_INSTRUMENTS.get(above.getType());
+        if (instrument == null) {
+            ChunkerBlockIdentifier below = getRelative(column, neighbours, x, y, z, Direction.DOWN);
+            instrument = INSTRUMENTS.getOrDefault(below.getType(), NoteBlockInstrument.HARP);
+        }
 
         // Update with the instrument
         return blockIdentifier.copyWith(VanillaBlockStates.NOTE_BLOCK_INSTRUMENT, instrument);

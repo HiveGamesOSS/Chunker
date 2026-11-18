@@ -64,6 +64,7 @@ public enum ChunkerVanillaEntityType implements ChunkerEntityType {
     HOPPER_MINECART,
     HORSE(true),
     HUSK(true),
+    ICE_BALL,
     ILLUSIONER,
     INTERACTION,
     IRON_GOLEM(true),

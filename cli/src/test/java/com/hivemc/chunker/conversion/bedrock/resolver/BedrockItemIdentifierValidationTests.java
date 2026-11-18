@@ -86,6 +86,7 @@ public class BedrockItemIdentifierValidationTests {
 
             // Not Used
             "minecraft:firefly_spawn_egg",
+            "minecraft:disc_press",
 
             // EDU
             "minecraft:board",

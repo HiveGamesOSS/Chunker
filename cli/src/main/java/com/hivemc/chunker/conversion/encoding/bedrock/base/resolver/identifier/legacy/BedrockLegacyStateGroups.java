@@ -196,6 +196,7 @@ public class BedrockLegacyStateGroups {
             .build();
     public static final StateMappingGroup JUKEBOX = new StateMappingGroup.Builder()
             .defaultOutput(VanillaBlockStates.HAS_RECORD, Bool.FALSE)
+            .defaultOutput(VanillaBlockStates.PLAYLIST_MODE, Bool.FALSE)
             .build();
     public static final StateMappingGroup KELP = new StateMappingGroup.Builder()
             .state("data", VanillaBlockStates.AGE_25, BedrockLegacyStateTypes.AGE_15_TO_25)

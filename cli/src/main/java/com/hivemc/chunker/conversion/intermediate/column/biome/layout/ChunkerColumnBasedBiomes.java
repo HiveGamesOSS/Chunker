@@ -51,8 +51,14 @@ public class ChunkerColumnBasedBiomes implements ChunkerBiomes {
 
     @Override
     public List<Palette<ChunkerBiome>> asPalette() {
+        // Return single chunk
+        return new ArrayList<>(List.of(asPalette(0)));
+    }
+
+    @Override
+    public Palette<ChunkerBiome> asPalette(int chunkY) {
         // Loop through each block of biome data
-        // Convert the 256 values into XYZ
+        // Convert the 256 values into XYZ, every chunk uses the same palette
         WriteablePalette<ChunkerBiome> palette = new ShortBasedPalette<>(4, 16);
         for (int i = 0; i < columns.length; i++) {
             int x = i & 0xF;
@@ -67,9 +73,7 @@ public class ChunkerColumnBasedBiomes implements ChunkerBiomes {
                 palette.setPaletteIndex(x, y, z, paletteIndex);
             }
         }
-
-        // Return single chunk
-        return new ArrayList<>(List.of(palette));
+        return palette;
     }
 
     @Override

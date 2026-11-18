@@ -144,6 +144,10 @@ public class BedrockBiomeIDResolver extends ChunkerBiomeResolver<Integer> {
         if (bedrockVersion.isGreaterThanOrEqual(1, 26, 40)) {
             mapping.put(ChunkerBiome.ChunkerVanillaBiome.DAPPLED_FOREST, 195);
         }
+
+        if (bedrockVersion.isGreaterThanOrEqual(1, 26, 70)) {
+            mapping.put(ChunkerBiome.ChunkerVanillaBiome.ICE_CAVES, 196);
+        }
     }
 
     public void loadCustom(Map<Integer, String> biomes) {

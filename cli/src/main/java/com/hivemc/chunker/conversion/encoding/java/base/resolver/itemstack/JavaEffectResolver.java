@@ -72,6 +72,9 @@ public class JavaEffectResolver implements Resolver<String, ChunkerEffectType> {
         if (javaVersion.isGreaterThanOrEqual(1, 21, 11)) {
             mapping.put(ChunkerEffectType.BREATH_OF_THE_NAUTILUS, "minecraft:breath_of_the_nautilus");
         }
+        if (javaVersion.isGreaterThanOrEqual(26, 4, 0)) {
+            mapping.put(ChunkerEffectType.FREEZING, "minecraft:freezing");
+        }
     }
 
     @Override

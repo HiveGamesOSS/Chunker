@@ -35,6 +35,7 @@ public class JavaColumnReader implements ColumnReader {
             "empty",
             "structure_starts",
             "structure_references",
+            "noise_biomes",
             "biomes",
             "noise",
             "surface",
@@ -44,6 +45,7 @@ public class JavaColumnReader implements ColumnReader {
             "minecraft:empty",
             "minecraft:structure_starts",
             "minecraft:structure_references",
+            "minecraft:noise_biomes",
             "minecraft:biomes",
             "minecraft:noise",
             "minecraft:surface",
@@ -95,7 +97,9 @@ public class JavaColumnReader implements ColumnReader {
         }
 
         // Ensure the chunk isn't in a state where it's not populated
-        if (columnNBT.contains("Status") && UNFINISHED_STATUSES.contains(columnNBT.getString("Status"))) {
+        // 26.4 renamed "Status" to "status"
+        String statusKey = columnNBT.contains("status") ? "status" : "Status";
+        if (columnNBT.contains(statusKey) && UNFINISHED_STATUSES.contains(columnNBT.getString(statusKey))) {
             return;
         }
 

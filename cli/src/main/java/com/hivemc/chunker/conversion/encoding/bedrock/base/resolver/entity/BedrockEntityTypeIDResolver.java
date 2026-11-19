@@ -165,10 +165,10 @@ public class BedrockEntityTypeIDResolver implements Resolver<Integer, ChunkerEnt
             mapping.put(ChunkerVanillaEntityType.ALLAY, 134);
         }
         if (bedrockVersion.isGreaterThanOrEqual(1, 19, 0)) {
-            mapping.put(ChunkerVanillaEntityType.OAK_CHEST_BOAT, 136);
+            mapping.put(ChunkerVanillaEntityType.OAK_CHEST_BOAT, 218);
         }
         if (bedrockVersion.isGreaterThanOrEqual(1, 19, 10)) {
-            mapping.put(ChunkerVanillaEntityType.TRADER_LLAMA, 137);
+            mapping.put(ChunkerVanillaEntityType.TRADER_LLAMA, 157);
         }
         if (bedrockVersion.isGreaterThanOrEqual(1, 19, 50)) {
             mapping.put(ChunkerVanillaEntityType.CAMEL, 138);
@@ -211,6 +211,9 @@ public class BedrockEntityTypeIDResolver implements Resolver<Integer, ChunkerEnt
         }
         if (bedrockVersion.isGreaterThanOrEqual(1, 26, 60)) {
             mapping.put(ChunkerVanillaEntityType.FROSTBITE, 155);
+        }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 26, 70)) {
+            mapping.put(ChunkerVanillaEntityType.ICE_BALL, 156);
         }
     }
 

@@ -260,6 +260,11 @@ public class JavaEntityTypeResolver implements Resolver<String, ChunkerEntityTyp
             mapping.put(ChunkerVanillaEntityType.POPLAR_BOAT, "minecraft:poplar_boat");
             mapping.put(ChunkerVanillaEntityType.POPLAR_CHEST_BOAT, "minecraft:poplar_chest_boat");
         }
+
+        if (version.isGreaterThanOrEqual(26, 4, 0)) {
+            mapping.put(ChunkerVanillaEntityType.FROSTBITE, "minecraft:frostbite");
+            mapping.put(ChunkerVanillaEntityType.ICE_BALL, "minecraft:ice_ball");
+        }
     }
 
     @Override

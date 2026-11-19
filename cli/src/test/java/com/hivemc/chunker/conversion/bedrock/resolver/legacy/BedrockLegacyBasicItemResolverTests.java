@@ -146,7 +146,8 @@ public class BedrockLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.ZOMBIE_NAUTILUS,
                     ChunkerVanillaEntityType.SULFUR_CUBE,
                     ChunkerVanillaEntityType.CUSHION,
-                    ChunkerVanillaEntityType.FROSTBITE
+                    ChunkerVanillaEntityType.FROSTBITE,
+                    ChunkerVanillaEntityType.ICE_BALL
             )
     );
     // Mock converter with two mock maps

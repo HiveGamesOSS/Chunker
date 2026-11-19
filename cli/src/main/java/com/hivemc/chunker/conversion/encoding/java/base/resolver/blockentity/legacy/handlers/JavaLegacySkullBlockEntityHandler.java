@@ -15,11 +15,15 @@ import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.b
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.VanillaBlockStates;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.identifier.type.block.states.vanilla.types.Rotation;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.itemstack.ChunkerItemStack;
+import com.hivemc.chunker.nbt.TagType;
+import com.hivemc.chunker.nbt.tags.Tag;
 import com.hivemc.chunker.nbt.tags.collection.CompoundTag;
+import com.hivemc.chunker.nbt.tags.collection.ListTag;
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +43,29 @@ public class JavaLegacySkullBlockEntityHandler extends BlockEntityHandler<JavaRe
         if (input.contains("ExtraType")) {
             value.setOwnerName(input.getString("ExtraType", null));
         }
+
+        // Owner profile if present
+        if (input.contains("Owner")) {
+            CompoundTag profile = input.getCompound("Owner");
+
+            if (profile.contains("Id")) {
+                value.setOwnerId(profile.getString("Id"));
+            }
+            if (profile.contains("Name")) {
+                value.setOwnerName(profile.getString("Name"));
+            }
+
+            ListTag<CompoundTag, Map<String, Tag<?>>> textures = null;
+            if (profile.contains("Properties")) {
+                textures = profile.getCompound("Properties").getList("textures", CompoundTag.class, null);
+            }
+            if (textures != null && textures.size() > 0) {
+                CompoundTag texture = textures.get(0);
+
+                value.setTexture(texture.getString("Value", null));
+                value.setTextureSignature(texture.getString("Signature", null));
+            }
+        }
     }
 
     @Override
@@ -46,8 +73,33 @@ public class JavaLegacySkullBlockEntityHandler extends BlockEntityHandler<JavaRe
         output.put("SkullType", value.getSkullType());
         output.put("Rot", value.getRotation());
 
-        // Add name tag if present
-        if (value.getOwnerName() != null) {
+        if (value.getOwnerId() != null || value.getTexture() != null || value.getTextureSignature() != null) {
+            CompoundTag owner = new CompoundTag(3);
+
+            if (value.getOwnerId() != null) {
+                owner.put("Id", value.getOwnerId());
+            }
+            if (value.getOwnerName() != null) {
+                owner.put("Name", value.getOwnerName());
+            }
+
+            if (value.getTexture() != null || value.getTextureSignature() != null) {
+                CompoundTag textureEntry = new CompoundTag(2);
+
+                if (value.getTexture() != null) {
+                    textureEntry.put("Value", value.getTexture());
+                }
+                if (value.getTextureSignature() != null) {
+                    textureEntry.put("Signature", value.getTextureSignature());
+                }
+
+                ListTag<CompoundTag, Map<String, Tag<?>>> textures = new ListTag<>(TagType.COMPOUND, List.of(textureEntry));
+                owner.put("Properties", new CompoundTag(Map.of("textures", textures)));
+            }
+
+            output.put("Owner", owner);
+        } else if (value.getOwnerName() != null) {
+            // Unresolved owner name
             output.put("ExtraType", value.getOwnerName());
         }
     }

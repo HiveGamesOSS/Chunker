@@ -52,7 +52,9 @@ public enum ChunkerPotionType {
     WIND_CHARGED("wind_charged"),
     WEAVING("weaving"),
     OOZING("oozing"),
-    INFESTED("infested");
+    INFESTED("infested"),
+    FREEZING("freezing"),
+    LONG_FREEZING("long_freezing");
 
     private final String identifier;
 

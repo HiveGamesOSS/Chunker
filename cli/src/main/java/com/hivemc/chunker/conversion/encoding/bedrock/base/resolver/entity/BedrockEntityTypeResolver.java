@@ -220,6 +220,10 @@ public class BedrockEntityTypeResolver implements Resolver<String, ChunkerEntity
         if (bedrockVersion.isGreaterThanOrEqual(1, 26, 60)) {
             mapping.put(ChunkerVanillaEntityType.FROSTBITE, "minecraft:frostbite");
         }
+
+        if (bedrockVersion.isGreaterThanOrEqual(1, 26, 70)) {
+            mapping.put(ChunkerVanillaEntityType.ICE_BALL, "minecraft:ice_ball");
+        }
     }
 
     @Override

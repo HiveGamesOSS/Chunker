@@ -275,7 +275,12 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.BROWN_CONCRETE_STAIRS,
             ChunkerVanillaBlockType.GREEN_CONCRETE_STAIRS,
             ChunkerVanillaBlockType.RED_CONCRETE_STAIRS,
-            ChunkerVanillaBlockType.BLACK_CONCRETE_STAIRS
+            ChunkerVanillaBlockType.BLACK_CONCRETE_STAIRS,
+            ChunkerVanillaBlockType.PACKED_ICE_BRICK_STAIRS,
+            ChunkerVanillaBlockType.SNOW_BRICK_STAIRS,
+            ChunkerVanillaBlockType.CALCITE_STAIRS,
+            ChunkerVanillaBlockType.POLISHED_CALCITE_STAIRS,
+            ChunkerVanillaBlockType.POLISHED_CALCITE_BRICK_STAIRS
     );
     /**
      * Group of all the wall blocks.
@@ -312,7 +317,12 @@ public class ChunkerVanillaBlockGroups {
             ChunkerVanillaBlockType.CINNABAR_BRICK_WALL,
             ChunkerVanillaBlockType.SULFUR_WALL,
             ChunkerVanillaBlockType.POLISHED_SULFUR_WALL,
-            ChunkerVanillaBlockType.SULFUR_BRICK_WALL
+            ChunkerVanillaBlockType.SULFUR_BRICK_WALL,
+            ChunkerVanillaBlockType.PACKED_ICE_BRICK_WALL,
+            ChunkerVanillaBlockType.SNOW_BRICK_WALL,
+            ChunkerVanillaBlockType.CALCITE_WALL,
+            ChunkerVanillaBlockType.POLISHED_CALCITE_WALL,
+            ChunkerVanillaBlockType.POLISHED_CALCITE_BRICK_WALL
     );
     /**
      * Group of all the wooden fences (currently just excludes the nether brick fence).

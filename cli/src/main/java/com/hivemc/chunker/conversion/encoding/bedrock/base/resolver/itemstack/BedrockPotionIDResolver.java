@@ -91,6 +91,11 @@ public class BedrockPotionIDResolver implements Resolver<Integer, ChunkerPotionT
             mapping.put(ChunkerPotionType.OOZING, 45);
             mapping.put(ChunkerPotionType.INFESTED, 46);
         }
+
+        if (bedrockVersion.isGreaterThanOrEqual(1, 26, 70)) {
+            mapping.put(ChunkerPotionType.FREEZING, 47);
+            mapping.put(ChunkerPotionType.LONG_FREEZING, 48);
+        }
     }
 
     @Override

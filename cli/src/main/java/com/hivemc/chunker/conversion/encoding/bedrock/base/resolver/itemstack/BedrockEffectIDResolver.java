@@ -63,6 +63,9 @@ public class BedrockEffectIDResolver implements Resolver<Integer, ChunkerEffectT
         if (bedrockVersion.isGreaterThanOrEqual(1, 21, 130)) {
             mapping.put(ChunkerEffectType.BREATH_OF_THE_NAUTILUS, 37);
         }
+        if (bedrockVersion.isGreaterThanOrEqual(1, 26, 70)) {
+            mapping.put(ChunkerEffectType.FREEZING, 38);
+        }
     }
 
     @Override

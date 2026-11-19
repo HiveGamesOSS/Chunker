@@ -374,9 +374,23 @@ public class JavaStateGroups {
                     .state("orientation", VanillaBlockStates.ORIENTATION, JavaStateTypes.ORIENTATION)
                     .build()
             ).build();
-    public static final StateMappingGroup JUKEBOX = new StateMappingGroup.Builder()
-            .state("has_record", VanillaBlockStates.HAS_RECORD, JavaStateTypes.BOOL)
+    public static final StateMappingGroup ICICLE = new StateMappingGroup.Builder()
+            .state("attached", VanillaBlockStates.ATTACHED, JavaStateTypes.BOOL)
+            .state("thickness", VanillaBlockStates.DRIPSTONE_THICKNESS, JavaStateTypes.DRIPSTONE_THICKNESS)
+            .state("vertical_direction", VanillaBlockStates.VERTICAL_DIRECTION, JavaStateTypes.VERTICAL_DIRECTION)
+            .state("waterlogged", VanillaBlockStates.WATERLOGGED, JavaStateTypes.BOOL)
             .build();
+    public static final VersionedStateMappingGroup JUKEBOX = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("has_record", VanillaBlockStates.HAS_RECORD, JavaStateTypes.BOOL)
+                    .defaultOutput(VanillaBlockStates.PLAYLIST_MODE, Bool.FALSE)
+                    .build())
+            // 26.4 added playlist mode
+            .version(new Version(26, 4, 0), new StateMappingGroup.Builder()
+                    .state("has_record", VanillaBlockStates.HAS_RECORD, JavaStateTypes.BOOL)
+                    .state("playlist_mode", VanillaBlockStates.PLAYLIST_MODE, JavaStateTypes.BOOL)
+                    .build()
+            ).build();
     public static final StateMappingGroup KELP = new StateMappingGroup.Builder()
             .state("age", VanillaBlockStates.AGE_25, JavaStateTypes.AGE_25)
             .defaultOutput(VanillaBlockStates.WATERLOGGED, Bool.TRUE)

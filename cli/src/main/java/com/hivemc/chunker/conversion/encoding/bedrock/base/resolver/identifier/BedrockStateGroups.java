@@ -532,6 +532,7 @@ public class BedrockStateGroups {
             ).build();
     public static final StateMappingGroup JUKEBOX = new StateMappingGroup.Builder()
             .defaultOutput(VanillaBlockStates.HAS_RECORD, Bool.FALSE)
+            .defaultOutput(VanillaBlockStates.PLAYLIST_MODE, Bool.FALSE)
             .build();
     public static final VersionedStateMappingGroup KELP = new VersionedStateMappingGroup.Builder()
             .defaults(new StateMappingGroup.Builder()
@@ -786,6 +787,13 @@ public class BedrockStateGroups {
                     .state("repeater_delay", VanillaBlockStates.DELAY, BedrockStateTypes.DELAY)
                     .defaultOutput(VanillaBlockStates.LOCKED, Bool.FALSE)
                     .build()
+            )
+            // 1.26.70 added the locked state
+            .version(new Version(1, 26, 70), new StateMappingGroup.Builder()
+                    .state("minecraft:cardinal_direction", VanillaBlockStates.FACING_HORIZONTAL, BedrockStateTypes.CARDINAL_DIRECTION)
+                    .state("repeater_delay", VanillaBlockStates.DELAY, BedrockStateTypes.DELAY)
+                    .state("locked", VanillaBlockStates.LOCKED, BedrockStateTypes.BOOL)
+                    .build()
             ).build();
     public static final StateMappingGroup RESPAWN_ANCHOR = new StateMappingGroup.Builder()
             .state("respawn_anchor_charge", VanillaBlockStates.RESPAWN_ANCHOR_CHARGES, BedrockStateTypes.RESPAWN_ANCHOR_CHARGE)
@@ -793,10 +801,18 @@ public class BedrockStateGroups {
     public static final StateMappingGroup SAPLING = new StateMappingGroup.Builder()
             .state("age_bit", VanillaBlockStates.STAGE, BedrockStateTypes.STAGE)
             .build();
-    public static final StateMappingGroup SCAFFOLDING = new StateMappingGroup.Builder()
-            .state("stability_check", VanillaBlockStates.BOTTOM, BedrockStateTypes.BOOL)
-            .state("stability", VanillaBlockStates.STABILITY_DISTANCE, BedrockStateTypes.STABILITY_DISTANCE)
-            .build();
+    public static final VersionedStateMappingGroup SCAFFOLDING = new VersionedStateMappingGroup.Builder()
+            .defaults(new StateMappingGroup.Builder()
+                    .state("stability_check", VanillaBlockStates.BOTTOM, BedrockStateTypes.BOOL)
+                    .state("stability", VanillaBlockStates.STABILITY_DISTANCE, BedrockStateTypes.STABILITY_DISTANCE)
+                    .build())
+            // 1.26.70 added a dedicated bottom state
+            .version(new Version(1, 26, 70), new StateMappingGroup.Builder()
+                    .state("bottom", VanillaBlockStates.BOTTOM, BedrockStateTypes.BOOL)
+                    .state("stability", VanillaBlockStates.STABILITY_DISTANCE, BedrockStateTypes.STABILITY_DISTANCE)
+                    .defaultInput("stability_check", false)
+                    .build()
+            ).build();
     public static final VersionedStateMappingGroup SCULK_CATALYST = new VersionedStateMappingGroup.Builder()
             .defaults(new StateMappingGroup.Builder()
                     .defaultOutput(VanillaBlockStates.BLOOM, Bool.FALSE)

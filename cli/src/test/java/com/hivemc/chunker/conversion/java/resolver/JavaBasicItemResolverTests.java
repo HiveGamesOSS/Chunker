@@ -134,8 +134,9 @@ public class JavaBasicItemResolverTests {
                     // Autumn Drop
                     ChunkerVanillaEntityType.CUSHION,
 
-                    // Bedrock only
-                    ChunkerVanillaEntityType.FROSTBITE
+                    // Winter Drop 2026
+                    ChunkerVanillaEntityType.FROSTBITE,
+                    ChunkerVanillaEntityType.ICE_BALL
 
             ),
             ChunkerPotionType.class, Set.of(
@@ -145,7 +146,9 @@ public class JavaBasicItemResolverTests {
                     ChunkerPotionType.WIND_CHARGED,
                     ChunkerPotionType.WEAVING,
                     ChunkerPotionType.OOZING,
-                    ChunkerPotionType.INFESTED
+                    ChunkerPotionType.INFESTED,
+                    ChunkerPotionType.FREEZING,
+                    ChunkerPotionType.LONG_FREEZING
             ),
             ChunkerEnchantmentType.class, Set.of(
                     ChunkerEnchantmentType.WIND_BURST,
@@ -165,7 +168,8 @@ public class JavaBasicItemResolverTests {
                     ChunkerEffectType.OOZING,
                     ChunkerEffectType.INFESTED,
                     ChunkerEffectType.RAID_OMEN,
-                    ChunkerEffectType.BREATH_OF_THE_NAUTILUS
+                    ChunkerEffectType.BREATH_OF_THE_NAUTILUS,
+                    ChunkerEffectType.FREEZING
             ),
             ChunkerTrimMaterial.class, Set.of(
                     ChunkerTrimMaterial.RESIN

@@ -40,6 +40,7 @@ public class ChunkerVanillaBlockGroupsTests {
     public void testSnowyBlocks() {
         for (ChunkerVanillaBlockType type : ChunkerVanillaBlockType.values()) {
             if (type == ChunkerVanillaBlockType.POWDER_SNOW_CAULDRON) continue; // Cauldron is not a snow block
+            if (type.name().startsWith("SNOW_BRICK")) continue; // Snow bricks are not in the snow tag
             if (!type.name().contains("SNOW")) continue;
             assertTrue(ChunkerVanillaBlockGroups.SNOWY_BLOCKS.contains(type), () -> "Missing " + type + " in ChunkerVanillaBlockGroups.SNOWY_BLOCKS");
         }

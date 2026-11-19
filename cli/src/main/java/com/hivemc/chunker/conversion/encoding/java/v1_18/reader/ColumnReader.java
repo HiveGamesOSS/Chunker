@@ -38,35 +38,8 @@ public class ColumnReader extends com.hivemc.chunker.conversion.encoding.java.v1
             // Attempt to loop through each chunk
             for (CompoundTag section : sections) {
                 try {
-                    section = section.getCompound("biomes", section); // 1.18 nests the palette
-
-                    long[] values = section.getLongArray("data", null);
-                    List<String> keys = section.getListValues("palette", StringTag.class, null);
-
-                    // Use the empty palette if there are no keys/values
-                    if (keys == null || keys.isEmpty()) {
-                        chunks.add(EmptyPalette.instance(4));
-                        continue;
-                    }
-
-                    // Remap keys
-                    List<ChunkerBiome> biomeKeys = new ArrayList<>(keys.size());
-                    for (String key : keys) {
-                        biomeKeys.add(resolvers.readBiome(key, dimension));
-                    }
-
-                    // If the values is null or there is only 1 key, use a single value palette
-                    if (values == null || biomeKeys.size() == 1) {
-                        chunks.add(new SingleValuePalette<>(4, biomeKeys.get(0)));
-                        continue;
-                    }
-
-                    // Add the palette to the chunk
-                    chunks.add(new ShortBasedPalette<>(
-                            biomeKeys,
-                            PaletteUtil.readPaletteValues(PaletteUtil.MINIMUM_BITS_PER_ENTRY_BIOMES, 4, keys.size(), values)
-                    ));
-
+                    // 1.18 nests the palette
+                    chunks.add(readBiomePalette(section.getCompound("biomes", section), 4));
                 } catch (Exception e) {
                     converter.logNonFatalException(e);
 
@@ -82,6 +55,39 @@ public class ColumnReader extends com.hivemc.chunker.conversion.encoding.java.v1
 
         // Attempt to use legacy biome reading in the case this is an older chunk
         super.readBiomes(column);
+    }
+
+    /**
+     * Read a biome palette from a section.
+     *
+     * @param biomes        the compound tag containing the palette and data.
+     * @param dimensionSize the dimension size of the palette, e.g. 4 for 4x4x4.
+     * @return the palette which was read.
+     */
+    protected Palette<ChunkerBiome> readBiomePalette(CompoundTag biomes, int dimensionSize) {
+        long[] values = biomes.getLongArray("data", null);
+        List<String> keys = biomes.getListValues("palette", StringTag.class, null);
+
+        // Use the empty palette if there are no keys/values
+        if (keys == null || keys.isEmpty()) {
+            return EmptyPalette.instance(dimensionSize);
+        }
+
+        // Remap keys
+        List<ChunkerBiome> biomeKeys = new ArrayList<>(keys.size());
+        for (String key : keys) {
+            biomeKeys.add(resolvers.readBiome(key, dimension));
+        }
+
+        // If the values is null or there is only 1 key, use a single value palette
+        if (values == null || biomeKeys.size() == 1) {
+            return new SingleValuePalette<>(dimensionSize, biomeKeys.get(0));
+        }
+
+        return new ShortBasedPalette<>(
+                biomeKeys,
+                PaletteUtil.readPaletteValues(PaletteUtil.MINIMUM_BITS_PER_ENTRY_BIOMES, dimensionSize, keys.size(), values)
+        );
     }
 
     @Override

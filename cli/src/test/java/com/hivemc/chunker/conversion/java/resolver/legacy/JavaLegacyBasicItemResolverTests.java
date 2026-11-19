@@ -176,7 +176,8 @@ public class JavaLegacyBasicItemResolverTests {
                     ChunkerVanillaEntityType.ZOMBIE_NAUTILUS,
                     ChunkerVanillaEntityType.SULFUR_CUBE,
                     ChunkerVanillaEntityType.CUSHION,
-                    ChunkerVanillaEntityType.FROSTBITE
+                    ChunkerVanillaEntityType.FROSTBITE,
+                    ChunkerVanillaEntityType.ICE_BALL
             ),
             ChunkerPotionType.class, Set.of(
                     ChunkerPotionType.EMPTY,
@@ -185,7 +186,9 @@ public class JavaLegacyBasicItemResolverTests {
                     ChunkerPotionType.WIND_CHARGED,
                     ChunkerPotionType.WEAVING,
                     ChunkerPotionType.OOZING,
-                    ChunkerPotionType.INFESTED
+                    ChunkerPotionType.INFESTED,
+                    ChunkerPotionType.FREEZING,
+                    ChunkerPotionType.LONG_FREEZING
             ),
             ChunkerEnchantmentType.class, Set.of(
                     ChunkerEnchantmentType.SOUL_SPEED,

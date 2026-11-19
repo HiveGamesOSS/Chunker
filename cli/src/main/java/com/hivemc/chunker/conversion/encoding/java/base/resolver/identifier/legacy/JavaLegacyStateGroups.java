@@ -157,6 +157,7 @@ public class JavaLegacyStateGroups {
             .build();
     public static final StateMappingGroup JUKEBOX = new StateMappingGroup.Builder()
             .state("data", VanillaBlockStates.HAS_RECORD, JavaLegacyStateTypes.BOOL)
+            .defaultOutput(VanillaBlockStates.PLAYLIST_MODE, Bool.FALSE)
             .build();
     public static final StateMappingGroup LEAVES = new StateMappingGroup.Builder()
             .defaultOutput(VanillaBlockStates.DISTANCE, Distance._1)
